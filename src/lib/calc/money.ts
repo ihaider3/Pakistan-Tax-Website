@@ -84,6 +84,7 @@ export function formatRupees(
   options?: {
     prefix?: boolean;
     showPaisa?: boolean;
+    showPaisaIfDecimal?: boolean;
   }
 ): string {
   if (amount === null || amount === undefined || isNaN(amount)) {
@@ -91,10 +92,10 @@ export function formatRupees(
   }
 
   const prefix = options?.prefix === false ? "" : "Rs ";
+  const paisaVal = roundToPaisa(amount);
 
-  if (options?.showPaisa) {
+  if (options?.showPaisa || (options?.showPaisaIfDecimal && paisaVal % 1 !== 0)) {
     // Exact paisa formatted
-    const paisaVal = roundToPaisa(amount);
     const parts = paisaVal.toFixed(2).split(".");
     const integerPart = Number(parts[0]).toLocaleString("en-US");
     return `${prefix}${integerPart}.${parts[1]}`;

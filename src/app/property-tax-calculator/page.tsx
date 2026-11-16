@@ -36,8 +36,9 @@ export default function PropertyTaxCalculatorPage() {
     { value: "non-filer", label: "Non-Filer", badge: "Non-ATL" },
   ];
 
+  const isBlank = propertyValRaw.trim() === "";
   let result: PropertyTaxResult | null = null;
-  if (isValid && propertyValNum > 0) {
+  if (isValid && !isBlank && propertyValNum >= 0) {
     result = calculatePropertyTax(propertyValNum, transaction, filerStatus);
   }
 
@@ -213,7 +214,7 @@ export default function PropertyTaxCalculatorPage() {
       }
       secondaryResults={secondaryResults}
       copySummaryText={copySummaryText}
-      isEmpty={!result || propertyValNum <= 0}
+      isEmpty={isBlank || !isValid || !result}
       emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
       footnote="Finance Act 2026. Late-filer category was abolished in TY2027. Filers can adjust this advance tax in their annual return."
     />
@@ -231,14 +232,14 @@ export default function PropertyTaxCalculatorPage() {
       englishText={`You are ${isBuy ? "buying" : "selling"} a property worth Rs ${formatRupees(result.propertyValue, { prefix: false })} as a ${isFiler ? "Filer" : "Non-Filer"}. The ${result.sectionCode} rate for you is ${rateFormatted}%. Your advance tax is Rs ${formatRupees(result.propertyValue, { prefix: false })} × ${rateFormatted}% = Rs ${formatRupees(result.taxAmount, { prefix: false })}. ${isBuy ? `Your total cost is Rs ${formatRupees(result.propertyValue, { prefix: false })} + Rs ${formatRupees(result.taxAmount, { prefix: false })} = Rs ${formatRupees(result.totalForBuyer, { prefix: false })}.` : `You will receive Rs ${formatRupees(result.propertyValue, { prefix: false })} − Rs ${formatRupees(result.taxAmount, { prefix: false })} = Rs ${formatRupees(result.netForSeller, { prefix: false })}.`} As a Filer you save Rs ${formatRupees(result.savingsVsNonFiler, { prefix: false })} compared to a Non-Filer on this property.`}
       urduText={
         <>
-          آپ <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.propertyValue, { prefix: false })}</span> کی پراپرٹی {transactionUrdu} اور آپ {filerStatusUrdu} ہیں۔ آپ کے لیے {result.sectionCode} کا ریٹ <span dir="ltr" className="inline-block font-sans font-semibold">{rateFormatted}%</span> ہے۔ ایڈوانس ٹیکس <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.propertyValue, { prefix: false })} × {rateFormatted}% = روپے {formatRupees(result.taxAmount, { prefix: false })}</span> بنتا ہے۔ {isBuy ? (
-            <>خریداری پر: کل خرچہ <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalForBuyer, { prefix: false })}</span> ہوگا۔</>
+          آپ روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.propertyValue, { prefix: false })}</bdi> کی پراپرٹی {transactionUrdu} اور آپ {filerStatusUrdu} ہیں۔ آپ کے لیے {result.sectionCode} کا ریٹ <bdi dir="ltr" className="font-sans font-semibold">{rateFormatted}%</bdi> ہے۔ ایڈوانس ٹیکس روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.taxAmount, { prefix: false })}</bdi> بنتا ہے۔ {isBuy ? (
+            <>خریداری پر: کل خرچہ روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalForBuyer, { prefix: false })}</bdi> ہوگا۔</>
           ) : (
-            <>بیچنے پر: آپ کو <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.netForSeller, { prefix: false })}</span> ملیں گے۔</>
+            <>بیچنے پر: آپ کو روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.netForSeller, { prefix: false })}</bdi> ملیں گے۔</>
           )} {isFiler ? (
-            <>فائلر ہونے سے آپ کو اس پراپرٹی پر <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.savingsVsNonFiler, { prefix: false })}</span> کی بچت ہوتی ہے۔</>
+            <>فائلر ہونے سے آپ کو اس پراپرٹی پر روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.savingsVsNonFiler, { prefix: false })}</bdi> کی بچت ہوتی ہے۔</>
           ) : (
-            <>فائلر بن کر آپ اس پراپرٹی پر <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.savingsVsNonFiler, { prefix: false })}</span> کی بچت کر سکتے ہیں۔</>
+            <>فائلر بن کر آپ اس پراپرٹی پر روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.savingsVsNonFiler, { prefix: false })}</bdi> کی بچت کر سکتے ہیں۔</>
           )}
         </>
       }

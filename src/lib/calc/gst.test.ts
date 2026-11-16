@@ -152,5 +152,21 @@ describe("GST Calculator (18% & Custom Rate)", () => {
     expect(res.baseAmount).toBe(0);
     expect(res.gstAmount).toBe(100);
   });
+
+  // Test 21: Decimal input 99,999.99 at 18%
+  it("computes Base 99,999.99 add 18% -> GST 18,000.00, Total 117,999.99 with paisa precision", () => {
+    const res = calculateGst(99999.99, "add", 18);
+    expect(res.baseAmount).toBe(99999.99);
+    expect(res.gstAmount).toBe(18000);
+    expect(res.totalAmount).toBe(117999.99);
+  });
+
+  // Test 22: Zero input
+  it("computes Base 0 add 18% -> GST 0, Total 0", () => {
+    const res = calculateGst(0, "add", 18);
+    expect(res.baseAmount).toBe(0);
+    expect(res.gstAmount).toBe(0);
+    expect(res.totalAmount).toBe(0);
+  });
 });
 

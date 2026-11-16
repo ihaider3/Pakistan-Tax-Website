@@ -39,8 +39,9 @@ export default function GstCalculatorPage() {
 
   const effectiveRate = ratePreset === "18" ? 18 : customRateNum;
 
+  const isBlank = amountRaw.trim() === "";
   let result: GstCalculationResult | null = null;
-  if (isValid && amountNum > 0) {
+  if (isValid && !isBlank && amountNum >= 0) {
     result = calculateGst(amountNum, mode, effectiveRate);
   }
 
@@ -49,19 +50,19 @@ export default function GstCalculatorPage() {
     ? [
         {
           label: "Net Base Amount (Exclusive)",
-          value: formatRupees(result.baseAmount),
+          value: formatRupees(result.baseAmount, { showPaisaIfDecimal: true }),
           subtext: "Value of goods/services without tax",
           highlight: mode === "remove",
         },
         {
           label: `Sales Tax (${result.ratePercentage})`,
-          value: formatRupees(result.gstAmount),
+          value: formatRupees(result.gstAmount, { showPaisaIfDecimal: true }),
           subtext: "General Sales Tax payable to FBR",
           highlight: mode === "amount_only",
         },
         {
           label: "Total Gross Amount (Inclusive)",
-          value: formatRupees(result.totalAmount),
+          value: formatRupees(result.totalAmount, { showPaisaIfDecimal: true }),
           subtext: "Full invoice cost with tax",
           highlight: mode === "add",
         },
@@ -79,7 +80,7 @@ export default function GstCalculatorPage() {
     : [];
 
   const copySummaryText = result
-    ? `Base Price: ${formatRupees(result.baseAmount)} | GST (${result.ratePercentage}): ${formatRupees(result.gstAmount)} | Total Invoice: ${formatRupees(result.totalAmount)} — Pakistan Finance Calculators`
+    ? `Base Price: ${formatRupees(result.baseAmount, { showPaisaIfDecimal: true })} | GST (${result.ratePercentage}): ${formatRupees(result.gstAmount, { showPaisaIfDecimal: true })} | Total Invoice: ${formatRupees(result.totalAmount, { showPaisaIfDecimal: true })} — Pakistan Finance Calculators`
     : "";
 
   // Breakdown Table
@@ -108,7 +109,7 @@ export default function GstCalculatorPage() {
                   : "0%"}
               </span>
             ),
-            amount: formatRupees(result.baseAmount),
+            amount: formatRupees(result.baseAmount, { showPaisaIfDecimal: true }),
           },
         },
         {
@@ -130,7 +131,7 @@ export default function GstCalculatorPage() {
                   : "0%"}
               </span>
             ),
-            amount: formatRupees(result.gstAmount),
+            amount: formatRupees(result.gstAmount, { showPaisaIfDecimal: true }),
           },
         },
       ]
@@ -241,26 +242,27 @@ export default function GstCalculatorPage() {
                 ? result.totalAmount
                 : mode === "remove"
                 ? result.baseAmount
-                : result.totalAmount
+                : result.totalAmount,
+              { showPaisaIfDecimal: true }
             )
           : "Rs 0"
       }
       mainSubtext={
         result
-          ? `Includes ${formatRupees(result.gstAmount)} Sales Tax @ ${result.ratePercentage}`
+          ? `Includes ${formatRupees(result.gstAmount, { showPaisaIfDecimal: true })} Sales Tax @ ${result.ratePercentage}`
           : undefined
       }
       statusBadge={
         result
           ? {
-              text: `Sales Tax: ${formatRupees(result.gstAmount)}`,
+              text: `Sales Tax: ${formatRupees(result.gstAmount, { showPaisaIfDecimal: true })}`,
               variant: "warning",
             }
           : undefined
       }
       secondaryResults={secondaryResults}
       copySummaryText={copySummaryText}
-      isEmpty={!result || amountNum <= 0}
+      isEmpty={isBlank || !isValid || !result}
       emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
       footnote="Calculations apply standard mathematical rounding in integer paisa under the Sales Tax Act 1990."
     />
@@ -271,32 +273,32 @@ export default function GstCalculatorPage() {
       type="tax"
       englishText={
         mode === "add"
-          ? `You entered Rs ${formatRupees(result.baseAmount, { prefix: false })} in Add mode at ${result.ratePercentage}. GST is Rs ${formatRupees(result.baseAmount, { prefix: false })} × ${result.ratePercentage} = Rs ${formatRupees(result.gstAmount, { prefix: false })}. Total = Rs ${formatRupees(result.baseAmount, { prefix: false })} + Rs ${formatRupees(result.gstAmount, { prefix: false })} = Rs ${formatRupees(result.totalAmount, { prefix: false })}.`
+          ? `You entered Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} in Add mode at ${result.ratePercentage}. GST is Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} × ${result.ratePercentage} = Rs ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })}. Total = Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} + Rs ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })} = Rs ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })}.`
           : mode === "remove"
-          ? `You entered Rs ${formatRupees(result.totalAmount, { prefix: false })} in Remove mode at ${result.ratePercentage}. Base price is Rs ${formatRupees(result.totalAmount, { prefix: false })} ÷ ${(1 + effectiveRate / 100).toFixed(2).replace(/\.?0+$/, "")} = Rs ${formatRupees(result.baseAmount, { prefix: false })}. GST inside it is Rs ${formatRupees(result.totalAmount, { prefix: false })} − Rs ${formatRupees(result.baseAmount, { prefix: false })} = Rs ${formatRupees(result.gstAmount, { prefix: false })}.`
-          : `You entered Rs ${formatRupees(result.gstAmount, { prefix: false })} in GST Amount mode at ${result.ratePercentage}. Base price is Rs ${formatRupees(result.baseAmount, { prefix: false })}. Total = Rs ${formatRupees(result.baseAmount, { prefix: false })} + Rs ${formatRupees(result.gstAmount, { prefix: false })} = Rs ${formatRupees(result.totalAmount, { prefix: false })}.`
+          ? `You entered Rs ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} in Remove mode at ${result.ratePercentage}. Base price is Rs ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} ÷ ${(1 + effectiveRate / 100).toFixed(2).replace(/\.?0+$/, "")} = Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })}. GST inside it is Rs ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} − Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} = Rs ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })}.`
+          : `You entered Rs ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })} in GST Amount mode at ${result.ratePercentage}. Base price is Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })}. Total = Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} + Rs ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })} = Rs ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })}.`
       }
       urduText={
         mode === "add" ? (
           <>
-            آپ نے <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.baseAmount, { prefix: false })}</span> درج کیا (Add موڈ، <span dir="ltr" className="inline-block font-sans font-semibold">{result.ratePercentage}</span>)۔ GST <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.baseAmount, { prefix: false })} × {result.ratePercentage} = روپے {formatRupees(result.gstAmount, { prefix: false })}</span> بنتا ہے۔ کل بل <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalAmount, { prefix: false })}</span> ہوگا۔
+            آپ نے روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> درج کیا (Add موڈ، <bdi dir="ltr" className="font-sans font-semibold">{result.ratePercentage}</bdi>)۔ GST رقم روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> بنتی ہے۔ کل بل روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> ہوگا۔
           </>
         ) : mode === "remove" ? (
           <>
-            آپ نے <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalAmount, { prefix: false })}</span> درج کیا (Remove موڈ، <span dir="ltr" className="inline-block font-sans font-semibold">{result.ratePercentage}</span>)۔ اصل قیمت (بغیر ٹیکس) <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.baseAmount, { prefix: false })}</span> ہے اور GST <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalAmount, { prefix: false })} − روپے {formatRupees(result.baseAmount, { prefix: false })} = روپے {formatRupees(result.gstAmount, { prefix: false })}</span> ہے۔ کل بل <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalAmount, { prefix: false })}</span> تھا۔
+            آپ نے روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> درج کیا (Remove موڈ، <bdi dir="ltr" className="font-sans font-semibold">{result.ratePercentage}</bdi>)۔ اصل قیمت (بغیر ٹیکس) روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> ہے اور GST رقم روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> ہے۔ کل بل روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> تھا۔
           </>
         ) : (
           <>
-            آپ نے <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.gstAmount, { prefix: false })}</span> درج کیا (GST Amount موڈ، <span dir="ltr" className="inline-block font-sans font-semibold">{result.ratePercentage}</span>)۔ اصل قیمت <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.baseAmount, { prefix: false })}</span> اور کل بل <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalAmount, { prefix: false })}</span> ہوگا۔
+            آپ نے روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> درج کیا (GST Amount موڈ، <bdi dir="ltr" className="font-sans font-semibold">{result.ratePercentage}</bdi>)۔ اصل قیمت روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> اور کل بل روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> ہوگا۔
           </>
         )
       }
       urduTextPlain={
         mode === "add"
-          ? `آپ نے روپے ${formatRupees(result.baseAmount, { prefix: false })} درج کیا (Add موڈ، ${result.ratePercentage})۔ GST روپے ${formatRupees(result.baseAmount, { prefix: false })} × ${result.ratePercentage} = روپے ${formatRupees(result.gstAmount, { prefix: false })} بنتا ہے۔ کل بل روپے ${formatRupees(result.totalAmount, { prefix: false })} ہوگا۔`
+          ? `آپ نے روپے ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} درج کیا (Add موڈ، ${result.ratePercentage})۔ GST رقم روپے ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })} بنتی ہے۔ کل بل روپے ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} ہوگا۔`
           : mode === "remove"
-          ? `آپ نے روپے ${formatRupees(result.totalAmount, { prefix: false })} درج کیا (Remove موڈ، ${result.ratePercentage})۔ اصل قیمت (بغیر ٹیکس) روپے ${formatRupees(result.baseAmount, { prefix: false })} ہے اور GST روپے ${formatRupees(result.totalAmount, { prefix: false })} − روپے ${formatRupees(result.baseAmount, { prefix: false })} = روپے ${formatRupees(result.gstAmount, { prefix: false })} ہے۔ کل بل روپے ${formatRupees(result.totalAmount, { prefix: false })} تھا۔`
-          : `آپ نے روپے ${formatRupees(result.gstAmount, { prefix: false })} درج کیا (GST Amount موڈ، ${result.ratePercentage})۔ اصل قیمت روپے ${formatRupees(result.baseAmount, { prefix: false })} اور کل بل روپے ${formatRupees(result.totalAmount, { prefix: false })} ہوگا۔`
+          ? `آپ نے روپے ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} درج کیا (Remove موڈ، ${result.ratePercentage})۔ اصل قیمت (بغیر ٹیکس) روپے ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} ہے اور GST رقم روپے ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })} ہے۔ کل بل روپے ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} تھا۔`
+          : `آپ نے روپے ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })} درج کیا (GST Amount موڈ، ${result.ratePercentage})۔ اصل قیمت روپے ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} اور کل بل روپے ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} ہوگا۔`
       }
       referenceContent={
         <>

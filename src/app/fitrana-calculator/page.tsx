@@ -19,11 +19,12 @@ export default function FitranaCalculatorPage() {
   const [staple, setStaple] = useState<StapleType>("wheat");
   const [source, setSource] = useState<FitranaSourceKey>("muneeb");
 
+  const currentRates = fitranaRates2026.sources[source].rates;
   const stapleOptions: ToggleOption<StapleType>[] = [
-    { value: "wheat", label: "Wheat (Gandum)", badge: "Rs 300" },
-    { value: "barley", label: "Barley (Jau)", badge: "4 kg" },
-    { value: "dates", label: "Dates (Khajoor)", badge: "4 kg" },
-    { value: "raisins", label: "Raisins (Kishmish)", badge: "4 kg" },
+    { value: "wheat", label: "Wheat (Gandum)", badge: `Rs ${currentRates.wheat.amount.toLocaleString()}` },
+    { value: "barley", label: "Barley (Jau)", badge: `Rs ${currentRates.barley.amount.toLocaleString()}` },
+    { value: "dates", label: "Dates (Khajoor)", badge: `Rs ${currentRates.dates.amount.toLocaleString()}` },
+    { value: "raisins", label: "Raisins (Kishmish)", badge: `Rs ${currentRates.raisins.amount.toLocaleString()}` },
   ];
 
   const sourceOptions: ToggleOption<FitranaSourceKey>[] = [
@@ -73,14 +74,14 @@ export default function FitranaCalculatorPage() {
         },
         {
           label: "Total Family Members",
-          value: `${result.familyMembers} persons`,
+          value: `${result.familyMembers} ${result.familyMembers === 1 ? "person" : "persons"}`,
           subtext: "Self + all dependent family members",
         },
       ]
     : [];
 
   const copySummaryText = result
-    ? `Household Fitrana: ${formatRupees(result.totalFitrana)} (${result.familyMembers} persons × ${formatRupees(result.perPersonRate)} on ${result.stapleName} - ${result.sourceName}) — Pakistan Finance Calculators`
+    ? `Household Fitrana: ${formatRupees(result.totalFitrana)} (${result.familyMembers} ${result.familyMembers === 1 ? "person" : "persons"} × ${formatRupees(result.perPersonRate)} on ${result.stapleName} - ${result.sourceName}) — Pakistan Finance Calculators`
     : "";
 
   // Side-by-Side Rates Comparison Table
@@ -264,16 +265,18 @@ export default function FitranaCalculatorPage() {
       : "کشمش"
     : "";
 
+  const personPlural = result ? (result.familyMembers === 1 ? "person" : "persons") : "persons";
+
   const explanationBox = result ? (
     <ExplanationBox
       type="islamic"
-      englishText={`Fitrana is paid per person before the Eid prayer. Your family has ${result.familyMembers} persons. At Rs ${formatRupees(result.perPersonRate, { prefix: false })} per person (${result.stapleName}, ${result.sourceName}), your total Fitrana is ${result.familyMembers} × Rs ${formatRupees(result.perPersonRate, { prefix: false })} = Rs ${formatRupees(result.totalFitrana, { prefix: false })}.`}
+      englishText={`Fitrana is paid per person before the Eid prayer. Your family has ${result.familyMembers} ${personPlural}. At Rs ${formatRupees(result.perPersonRate, { prefix: false })} per person (${result.stapleName}, ${result.sourceName}), your total Fitrana is ${result.familyMembers} × Rs ${formatRupees(result.perPersonRate, { prefix: false })} = Rs ${formatRupees(result.totalFitrana, { prefix: false })}.`}
       urduText={
         <>
-          فطرانہ ہر فرد کے حساب سے عید کی نماز سے پہلے ادا کرنا ہوتا ہے۔ آپ کے گھرانے میں <span dir="ltr" className="inline-block font-sans font-semibold">{result.familyMembers}</span> افراد ہیں۔ <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.perPersonRate, { prefix: false })}</span> فی فرد ({stapleNameUrdu}، {result.sourceName}) کے حساب سے کل فطرانہ <span dir="ltr" className="inline-block font-sans font-semibold">{result.familyMembers} × روپے {formatRupees(result.perPersonRate, { prefix: false })} = روپے {formatRupees(result.totalFitrana, { prefix: false })}</span> بنتا ہے۔
+          فطرانہ ہر فرد کے حساب سے عید کی نماز سے پہلے ادا کرنا ہوتا ہے۔ آپ کے گھرانے میں <bdi dir="ltr" className="font-sans font-semibold">{result.familyMembers}</bdi> {result.familyMembers === 1 ? "فرد ہے" : "افراد ہیں"}۔ روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.perPersonRate, { prefix: false })}</bdi> فی فرد ({stapleNameUrdu}، {result.sourceName}) کے حساب سے کل فطرانہ روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalFitrana, { prefix: false })}</bdi> بنتا ہے۔
         </>
       }
-      urduTextPlain={`فطرانہ ہر فرد کے حساب سے عید کی نماز سے پہلے ادا کرنا ہوتا ہے۔ آپ کے گھرانے میں ${result.familyMembers} افراد ہیں۔ روپے ${formatRupees(result.perPersonRate, { prefix: false })} فی فرد (${stapleNameUrdu}، ${result.sourceName}) کے حساب سے کل فطرانہ ${result.familyMembers} × روپے ${formatRupees(result.perPersonRate, { prefix: false })} = روپے ${formatRupees(result.totalFitrana, { prefix: false })} بنتا ہے۔`}
+      urduTextPlain={`فطرانہ ہر فرد کے حساب سے عید کی نماز سے پہلے ادا کرنا ہوتا ہے۔ آپ کے گھرانے میں ${result.familyMembers} ${result.familyMembers === 1 ? "فرد ہے" : "افراد ہیں"}۔ روپے ${formatRupees(result.perPersonRate, { prefix: false })} فی فرد (${stapleNameUrdu}، ${result.sourceName}) کے حساب سے کل فطرانہ روپے ${formatRupees(result.totalFitrana, { prefix: false })} بنتا ہے۔`}
       extraBullets={fitranaBullets}
       referenceContent={
         <>
@@ -288,7 +291,7 @@ export default function FitranaCalculatorPage() {
               <strong>Note:</strong> Wheat Rs 300 per person is the agreed minimum (Mufti Muneeb + CII both). Barley, dates and raisins rates differ by source — the calculator already shows both.
             </p>
             <div dir="rtl" lang="ur" className="font-urdu text-right text-slate-800 pt-0.5">
-              <strong className="text-primary font-bold ml-1.5 font-sans">نوٹ:</strong> گندم <span dir="ltr" className="inline-block font-sans font-semibold">روپے 300</span> فی فرد متفقہ کم از کم رقم ہے (مفتی منیب + سی آئی آئی دونوں)۔ جو، کھجور اور کشمش کے نرخ ماخذ کے لحاظ سے مختلف ہیں — کیلکولیٹر دونوں دکھاتا ہے۔
+              <strong className="text-primary font-bold ml-1.5 font-sans">نوٹ:</strong> گندم روپے <bdi dir="ltr" className="font-sans font-semibold">300</bdi> فی فرد متفقہ کم از کم رقم ہے (مفتی منیب + سی آئی آئی دونوں)۔ جو، کھجور اور کشمش کے نرخ ماخذ کے لحاظ سے مختلف ہیں — کیلکولیٹر دونوں دکھاتا ہے۔
             </div>
           </div>
         </>

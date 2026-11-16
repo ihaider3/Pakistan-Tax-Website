@@ -18,6 +18,12 @@ describe("Money Utilities", () => {
     expect(formatRupees(1234.5, { showPaisa: true, prefix: true })).toBe("Rs 1,234.50");
   });
 
+  it("formats with paisa only if decimal exists when showPaisaIfDecimal is enabled", () => {
+    expect(formatRupees(99999.99, { showPaisaIfDecimal: true })).toBe("Rs 99,999.99");
+    expect(formatRupees(100000, { showPaisaIfDecimal: true })).toBe("Rs 100,000");
+    expect(formatRupees(117999.99, { showPaisaIfDecimal: true, prefix: false })).toBe("117,999.99");
+  });
+
   it("parses strings with commas and whitespace", () => {
     const res = parseMoneyInput(" 1,500,000 ");
     expect(res.isValid).toBe(true);

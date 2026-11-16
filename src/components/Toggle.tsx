@@ -69,16 +69,16 @@ export default function Toggle<T extends string>({
               role="radio"
               aria-checked={isSelected}
               onClick={() => onChange(opt.value)}
-              className={`min-h-[46px] px-3.5 sm:px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition-all duration-200 flex items-center justify-between gap-2.5 focus:outline-hidden focus:ring-2 focus:ring-accent whitespace-nowrap ${
+              className={`min-h-[48px] px-3 sm:px-4 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all duration-200 flex items-center justify-between gap-2 focus:outline-hidden focus:ring-2 focus:ring-accent text-left ${
                 isSelected
                   ? "bg-gradient-to-r from-primary to-primary-light text-white shadow-md shadow-primary/20 scale-[1.01]"
                   : "text-appText-muted hover:text-primary hover:bg-white/80"
               }`}
             >
-              <span className="truncate">{opt.label}</span>
+              <span className="leading-snug break-words">{opt.label}</span>
               {opt.badge && (
                 <span
-                  className={`text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full font-extrabold uppercase tracking-wider shrink-0 transition-colors ${
+                  className={`text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 rounded-full font-extrabold uppercase tracking-wider shrink-0 transition-colors ${
                     isSelected
                       ? "bg-accent text-white shadow-2xs"
                       : "bg-slate-200/90 text-appText-muted"

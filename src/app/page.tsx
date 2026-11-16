@@ -119,7 +119,7 @@ const calculators = [
     dotColor: "bg-emerald-600",
     topGradient: "from-emerald-600 via-teal-700 to-green-600",
     iconBg: "bg-gradient-to-br from-emerald-800 via-teal-900 to-[#0B3322] text-white shadow-emerald-900/25",
-    features: ["5 Islamic Commodities", "Household Total", "Mufti Muneeb Rates"],
+    features: ["4 Islamic Commodities", "Household Total", "Mufti Muneeb Rates"],
     buttonText: "Calculate Fitrana",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
