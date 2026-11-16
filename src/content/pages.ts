@@ -92,7 +92,7 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
       {
         question: "Surcharge khatam hua?",
         answer:
-          "Jee haan, Finance Act 2026 ke mutabiq salaried individuals par azafi income tax surcharge khatam kar diya gaya hai. TY2027 mein sirf standard 8 slabs lagu hain.",
+          "Jee haan, Finance Act 2026 ke mutabiq salaried individuals par izaafi income tax surcharge khatam kar diya gaya hai. TY2027 mein sirf standard 8 slabs lagu hain.",
       },
       {
         question: "Take-home kaise nikalein?",
@@ -178,7 +178,7 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
           "Hukumat-e-Pakistan ne Zakat Year 1446-47H (2026) ke liye bank auto-deduction threshold Rs 503,529 mukhtas kiya hai. Yeh sirf bank accounts se deduction ke liye hai, aap ka zaati Shariah nisab aaj ke chandi/sonay ke rate ke mutabiq tay hota hai.",
       },
       {
-        question: "Kia zewar jo rozmara istemal mein ho us par Zakat hai?",
+        question: "Kia zewar jo rozmarra istemal mein ho us par Zakat hai?",
         answer:
           "Hanafi maslak ke mutabiq har qism ke sonay chandi par zakat farz hai chahay woh pehna jaye ya na pehna jaye. Deegar aima ke nazdeek zaati istemal ke zewar par ikhtilaf hai. Tafseel ke liye kisi mustanad Mufti se rujoo karein.",
       },

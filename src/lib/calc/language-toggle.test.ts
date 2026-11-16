@@ -15,8 +15,8 @@ describe("Language Toggle & 21 Regression Numbers Audit", () => {
     expect(res.monthlyTakeHome).toBe(144000);
 
     // Verify explanation templates
-    const roman = `Aap ne mahana tankhwah Rs ${formatRupees(res.monthlySalary, { prefix: false })} likhi. Is se salana tankhwah Rs ${formatRupees(res.annualSalary, { prefix: false })} banti hai. Tax Year 2026–27 ke slab ${res.appliedSlabIndex + 1} ke mutabiq: ${res.appliedSlabDescription}. Kul salana tax Rs ${formatRupees(res.annualTax, { prefix: false })} banta hai, jo mahana Rs ${formatRupees(res.monthlyTax, { prefix: false })} hota hai. Is tarah aapki take-home tankhwah Rs ${formatRupees(res.monthlyTakeHome, { prefix: false })} mahana banti hai.`;
-    const english = `You entered a monthly salary of Rs ${formatRupees(res.monthlySalary, { prefix: false })}. That makes an annual salary of Rs ${formatRupees(res.annualSalary, { prefix: false })}. Under Tax Year 2026–27 slab ${res.appliedSlabIndex + 1}: ${res.appliedSlabDescription}. Total annual tax is Rs ${formatRupees(res.annualTax, { prefix: false })}, which is Rs ${formatRupees(res.monthlyTax, { prefix: false })} per month. Your take-home salary is therefore Rs ${formatRupees(res.monthlyTakeHome, { prefix: false })} per month.`;
+    const roman = `Aap ne mahana tankhwah Rs ${formatRupees(res.monthlySalary, { prefix: false })} likhi. Is se salana tankhwah Rs ${formatRupees(res.annualSalary, { prefix: false })} banti hai. Tax Year 2026–27 ke slab ${res.appliedSlabIndex} ke mutabiq: ${res.appliedSlabDescription}. Kul salana tax Rs ${formatRupees(res.annualTax, { prefix: false })} banta hai, jo mahana Rs ${formatRupees(res.monthlyTax, { prefix: false })} hota hai. Is tarah aapki take-home tankhwah Rs ${formatRupees(res.monthlyTakeHome, { prefix: false })} mahana banti hai.`;
+    const english = `You entered a monthly salary of Rs ${formatRupees(res.monthlySalary, { prefix: false })}. That makes an annual salary of Rs ${formatRupees(res.annualSalary, { prefix: false })}. Under Tax Year 2026–27 slab ${res.appliedSlabIndex}: ${res.appliedSlabDescription}. Total annual tax is Rs ${formatRupees(res.annualTax, { prefix: false })}, which is Rs ${formatRupees(res.monthlyTax, { prefix: false })} per month. Your take-home salary is therefore Rs ${formatRupees(res.monthlyTakeHome, { prefix: false })} per month.`;
 
     expect(roman).toContain("Rs 150,000");
     expect(roman).toContain("Rs 1,800,000");
@@ -57,7 +57,7 @@ describe("Language Toggle & 21 Regression Numbers Audit", () => {
     // Verify explanation templates
     const isAbove = res.nisabThreshold > 0 && res.netZakatableWealth >= res.nisabThreshold;
     const roman = `Aapke kul zakatable assets Rs ${formatRupees(res.totalGrossWealth, { prefix: false })} hain. Aapki eligible deductions (qarz) Rs ${formatRupees(res.totalDebts, { prefix: false })} hain. Is tarah aapki net zakatable wealth Rs ${formatRupees(res.netZakatableWealth, { prefix: false })} banti hai. Nisab (chandi, 52.5 tola) aaj ke rate par Rs ${formatRupees(res.nisabThreshold, { prefix: false })} hai. ${isAbove ? "Aapki wealth nisab se zyada hai, is liye Zakat farz hai." : "Aapki wealth nisab se kam hai, is liye is waqt Zakat farz nahi hai."} 2.5% ke hisab se aapki Zakat Rs ${formatRupees(res.zakatDue, { prefix: false })} banti hai.`;
-    const english = `Your total zakatable assets are Rs ${formatRupees(res.totalGrossWealth, { prefix: false })}. Your eligible deductions (debts) are Rs ${formatRupees(res.totalDebts, { prefix: false })}, giving net zakatable wealth of Rs ${formatRupees(res.netZakatableWealth, { prefix: false })}. The nisab (silver, 52.5 tola) at today's rate is Rs ${formatRupees(res.nisabThreshold, { prefix: false })}. ${isAbove ? "Your wealth is above the nisab, so Zakat is due." : "Your wealth is below the nisab, so no Zakat is due right now."} At 2.5%, your Zakat is Rs ${formatRupees(res.zakatDue, { prefix: false })}.`;
+    const english = `Your total zakatable assets are Rs ${formatRupees(res.totalGrossWealth, { prefix: false })}. Your eligible deductions (debts) are Rs ${formatRupees(res.totalDebts, { prefix: false })}, giving net zakatable wealth of Rs ${formatRupees(res.netZakatableWealth, { prefix: false })}. The nisab (silver, 52.5 tola) at today's rate is Rs ${formatRupees(res.nisabThreshold, { prefix: false })}. ${isAbove ? "Your wealth is above the nisab, so Zakat is due." : "Your wealth is below the nisab, so no Zakat is due right now."} At 2.5%, your Zakat due is Rs ${formatRupees(res.zakatDue, { prefix: false })}.`;
 
     expect(roman).toContain("Rs 1,300,000");
     expect(roman).toContain("Rs 100,000");
@@ -151,3 +151,4 @@ describe("Language Toggle & 21 Regression Numbers Audit", () => {
     );
   });
 });
+

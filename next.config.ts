@@ -7,6 +7,13 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
   },
+  redirects: async () => [
+    {
+      source: "/privacy",
+      destination: "/privacy-policy",
+      permanent: true,
+    },
+  ],
   headers: async () => [
     {
       source: "/_next/static/:path*",

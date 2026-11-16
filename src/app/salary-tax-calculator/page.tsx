@@ -182,7 +182,7 @@ export default function SalaryTaxCalculatorPage() {
 
   const resultPanel = (
     <ResultPanel
-      title={`Salary Tax (${taxYear})`}
+      title={`Salary Tax (${taxYear.replace("-", "\u2011")})`}
       mainLabel="Monthly Tax Deduction"
       mainValue={result ? formatRupees(result.monthlyTax) : "Rs 0"}
       mainSubtext={
@@ -211,8 +211,8 @@ export default function SalaryTaxCalculatorPage() {
   const explanationBox = result ? (
     <ExplanationBox
       type="tax"
-      romanUrduText={`Aap ne mahana tankhwah Rs ${formatRupees(result.monthlySalary, { prefix: false })} likhi. Is se salana tankhwah Rs ${formatRupees(result.annualSalary, { prefix: false })} banti hai. Tax Year 2026–27 ke slab ${result.appliedSlabIndex + 1} ke mutabiq: ${result.appliedSlabDescription}. Kul salana tax Rs ${formatRupees(result.annualTax, { prefix: false })} banta hai, jo mahana Rs ${formatRupees(result.monthlyTax, { prefix: false })} hota hai. Is tarah aapki take-home tankhwah Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} mahana banti hai.`}
-      englishText={`You entered a monthly salary of Rs ${formatRupees(result.monthlySalary, { prefix: false })}. That makes an annual salary of Rs ${formatRupees(result.annualSalary, { prefix: false })}. Under Tax Year 2026–27 slab ${result.appliedSlabIndex + 1}: ${result.appliedSlabDescription}. Total annual tax is Rs ${formatRupees(result.annualTax, { prefix: false })}, which is Rs ${formatRupees(result.monthlyTax, { prefix: false })} per month. Your take-home salary is therefore Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} per month.`}
+      romanUrduText={`Aap ne mahana tankhwah Rs ${formatRupees(result.monthlySalary, { prefix: false })} likhi. Is se salana tankhwah Rs ${formatRupees(result.annualSalary, { prefix: false })} banti hai. Tax Year 2026–27 ke slab ${result.appliedSlabIndex} ke mutabiq: ${result.appliedSlabDescription}. Kul salana tax Rs ${formatRupees(result.annualTax, { prefix: false })} banta hai, jo mahana Rs ${formatRupees(result.monthlyTax, { prefix: false })} hota hai. Is tarah aapki take-home tankhwah Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} mahana banti hai.`}
+      englishText={`You entered a monthly salary of Rs ${formatRupees(result.monthlySalary, { prefix: false })}. That makes an annual salary of Rs ${formatRupees(result.annualSalary, { prefix: false })}. Under Tax Year 2026–27 slab ${result.appliedSlabIndex}: ${result.appliedSlabDescription}. Total annual tax is Rs ${formatRupees(result.annualTax, { prefix: false })}, which is Rs ${formatRupees(result.monthlyTax, { prefix: false })} per month. Your take-home salary is therefore Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} per month.`}
       referenceContentEn={
         <p>
           <strong>Law:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. First Rs 600,000 annual (Rs 50,000/month) is 0%. Salaried surcharge is 0% in TY2027.

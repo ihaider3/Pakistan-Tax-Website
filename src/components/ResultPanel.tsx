@@ -77,7 +77,7 @@ export default function ResultPanel({
 
           {statusBadge && (
             <span
-              className={`text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider shadow-2xs ${
+              className={`text-xs px-3 py-1 rounded-full font-bold tracking-wider shadow-2xs ${
                 statusBadge.variant === "due" || statusBadge.variant === "warning"
                   ? "bg-amber-100 text-amber-950 border border-amber-300"
                   : statusBadge.variant === "not_due" || statusBadge.variant === "success"

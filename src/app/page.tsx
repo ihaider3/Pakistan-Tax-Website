@@ -114,7 +114,7 @@ const calculators = [
     subtitle: "Sadqat-ul-Fitr",
     description: "Calculate household Fitrana for Eid-ul-Fitr 2026. Compare Mufti Muneeb and Council of Islamic Ideology rates side-by-side.",
     href: "/fitrana-calculator",
-    badge: "WHEAT RS 300",
+    badge: "WHEAT Rs 300",
     badgeColor: "bg-emerald-50 text-emerald-950 border-emerald-300",
     dotColor: "bg-emerald-600",
     topGradient: "from-emerald-600 via-teal-700 to-green-600",
@@ -263,7 +263,7 @@ export default function HomePage() {
               Free Pakistan Calculators
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-primary tracking-tight">
-              Pakistan Financial &amp; Islamic Calculators
+              Choose a Calculator
             </h2>
             <p className="text-sm sm:text-base text-slate-700 font-medium mt-1">
               Choose a calculator below to view instant results and full line-by-line breakdown tables.

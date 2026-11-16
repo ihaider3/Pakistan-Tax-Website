@@ -90,7 +90,7 @@ export default function FitranaCalculatorPage() {
     { key: "weight", header: "Weight / Measure" },
     { key: "muneebRate", header: "Mufti Muneeb Rate", align: "right" },
     { key: "ciiRate", header: "CII Rate", align: "right" },
-    { key: "familyTotal", header: `Family Total (${result ? result.familyMembers : 1} pers)`, align: "right" },
+    { key: "familyTotal", header: `Family Total (${result ? result.familyMembers : 1} ${result && result.familyMembers > 1 ? "persons" : "person"})`, align: "right" },
   ];
 
   const breakdownRows: BreakdownRow[] = [
@@ -314,7 +314,7 @@ export default function FitranaCalculatorPage() {
           <strong>Note:</strong> Rates differ because market prices and quality differ by source. Wheat Rs 300 is agreed by both.
         </p>
         <div dir="rtl" lang="ur" className="font-urdu text-right text-slate-800 text-[14px] leading-[1.9]">
-          <strong className="text-primary font-bold ml-1.5 font-sans">وضاحت:</strong> ریٹس میں فرق مارکیٹ قیمت اور کوالٹی کے لحاظ سے ہے — گندم <span dir="ltr" className="inline-block font-sans font-semibold">روپے 300</span> پر دونوں کا اتفاق ہے۔
+          <strong className="text-primary font-bold ml-1.5 font-sans">وضاحت:</strong> ریٹس میں فرق مارکیٹ قیمت اور کوالٹی کے لحاظ سے ہے — گندم روپے 300 پر دونوں کا اتفاق ہے۔
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import VerificationBadge from "./VerificationBadge";
 import Faq from "./Faq";
 import RelatedTools from "./RelatedTools";
@@ -27,59 +27,93 @@ export default function CalculatorShell({
 }: CalculatorShellProps) {
   const { lang } = useExplanationLang();
 
+  // Mobile Accordion States (collapsed by default on mobile)
+  const [mobileContextOpen, setMobileContextOpen] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(false);
+  const [formulaOpen, setFormulaOpen] = useState(false);
+  const [caseStudyOpen, setCaseStudyOpen] = useState(false);
+
   return (
-    <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 py-8 sm:py-12 space-y-10 sm:space-y-14">
+    <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 py-6 sm:py-10 space-y-8 sm:space-y-12">
       {/* =========================================================================
-          BLOCK 1 & 2: H1, Short Intro, Bilingual Wazahat/Explanation Box & Verification Badge
+          HERO & HEADER BLOCK: Badge, H1, Trimmed/Full Intro & "Calculate Now ↓"
          ========================================================================= */}
-      <section className="space-y-5 print:hidden">
-        <div className="space-y-2.5">
+      <section className="space-y-4 print:hidden">
+        <div className="space-y-2">
           <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-accent uppercase tracking-widest bg-accent-soft px-3.5 py-1 rounded-full border border-accent/25 shadow-2xs">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
             Pakistan Official Calculator
           </span>
-          <h1 className="text-[26px] sm:text-[32px] lg:text-[36px] font-black text-primary tracking-tight leading-tight">
+          <h1 className="text-[24px] sm:text-[32px] lg:text-[36px] font-black text-primary tracking-tight leading-tight">
             {content.h1}
           </h1>
-          <p className="text-[15px] sm:text-base text-appText-muted max-w-3xl leading-relaxed font-normal">
+
+          {/* Desktop full intro paragraph */}
+          <p className="hidden md:block text-[15px] sm:text-base text-appText-muted max-w-3xl leading-relaxed font-normal">
+            {content.intro}
+          </p>
+
+          {/* Mobile trimmed intro line (max 2 lines) */}
+          <p className="md:hidden text-xs sm:text-sm text-appText-muted line-clamp-2 leading-relaxed font-normal">
             {content.intro}
           </p>
         </div>
 
-        {/* Intro Explanation Box (Bilingual with Language Toggle) */}
-        <div className="bg-gradient-to-r from-teal-50/70 via-white to-surface border-l-4 border-accent p-4 sm:p-5 rounded-r-xl text-xs sm:text-sm text-appText leading-relaxed shadow-xs border border-slate-200/60">
-          <div className="flex items-center justify-between gap-3 mb-2.5">
-            <span className="font-bold text-primary text-xs uppercase tracking-wider flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-accent"></span>
-              {lang === "roman" ? "Wazahat:" : "Explanation:"}
-            </span>
-            <ExplanationLangToggle />
-          </div>
-          <p className="text-slate-800 text-[14px] sm:text-[15px] leading-relaxed font-normal">
-            {lang === "roman" ? content.romanUrduIntro : content.englishIntro}
-          </p>
+        {/* "Calculate Now ↓" Button: Prominent Full-Width on Mobile, Brand Navy */}
+        <div>
+          <a
+            href="#calculator"
+            onClick={(e) => {
+              e.preventDefault();
+              const el = document.getElementById("calculator");
+              if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+            className="inline-flex items-center justify-center gap-2 w-full md:w-auto px-6 py-3.5 min-h-[48px] rounded-xl font-bold text-sm bg-primary hover:bg-[#071F36] active:scale-98 text-white shadow-md shadow-primary/20 transition-all cursor-pointer"
+          >
+            <span>Calculate Now</span>
+            <span className="text-base animate-bounce" aria-hidden="true">↓</span>
+          </a>
         </div>
 
-        {/* Verification Badge */}
-        <VerificationBadge
-          source={content.source}
-          sourceDocument={content.sourceDocument}
-          lastVerified={content.lastVerified}
-        />
+        {/* DESKTOP-ONLY: Wazahat Box + Verification Badge + Custom Top Section ABOVE calculator */}
+        <div className="hidden md:block space-y-4 pt-1">
+          {/* Intro Explanation Box (Bilingual with Language Toggle) */}
+          <div className="bg-gradient-to-r from-teal-50/70 via-white to-surface border-l-4 border-accent p-4 sm:p-5 rounded-r-xl text-xs sm:text-sm text-appText leading-relaxed shadow-xs border border-slate-200/60">
+            <div className="flex items-center justify-between gap-3 mb-2.5">
+              <span className="font-bold text-primary text-xs uppercase tracking-wider flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-accent"></span>
+                {lang === "roman" ? "Wazahat:" : "Explanation:"}
+              </span>
+              <ExplanationLangToggle />
+            </div>
+            <p className="text-slate-800 text-[14px] sm:text-[15px] leading-relaxed font-normal">
+              {lang === "roman" ? content.romanUrduIntro : content.englishIntro}
+            </p>
+          </div>
+
+          {/* Verification Badge */}
+          <VerificationBadge
+            source={content.source}
+            sourceDocument={content.sourceDocument}
+            lastVerified={content.lastVerified}
+          />
+
+          {customTopSection}
+        </div>
       </section>
 
-      {/* Optional Custom Top Section (e.g. Bank Nisab Info Box on Zakat page) */}
-      {customTopSection && <section className="print:hidden">{customTopSection}</section>}
-
       {/* =========================================================================
-          BLOCK 3 & 4: Interactive Calculator — Inputs (Left) & ResultPanel + ExplanationBox (Right)
+          INTERACTIVE CALCULATOR: Inputs (Left) & ResultPanel (Right)
          ========================================================================= */}
       <section
-        className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start"
+        id="calculator"
+        className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start scroll-mt-20 sm:scroll-mt-24"
         aria-label="Calculator workspace"
       >
         {/* Left Column: Inputs in an Elevated Card */}
-        <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-[0_12px_30px_-5px_rgba(11,42,74,0.07),0_4px_10px_-2px_rgba(11,42,74,0.03)] space-y-6 print:hidden">
+        <div className="lg:col-span-7 bg-white p-5 sm:p-8 rounded-2xl border border-slate-200/90 shadow-[0_12px_30px_-5px_rgba(11,42,74,0.07),0_4px_10px_-2px_rgba(11,42,74,0.03)] space-y-6 print:hidden">
           <div className="border-b border-slate-100 pb-3.5">
             <h2 className="text-xl font-extrabold text-primary tracking-tight">Enter Your Details</h2>
             <p className="text-xs text-appText-muted mt-0.5">
@@ -96,7 +130,7 @@ export default function CalculatorShell({
       </section>
 
       {/* =========================================================================
-          FULL-WIDTH EXPLANATION BOX (Spans full content width below calculator & results)
+          FULL-WIDTH EXPLANATION BOX (Immediately under results & inputs)
          ========================================================================= */}
       {explanationBox && (
         <section className="w-full print:hidden">
@@ -105,77 +139,169 @@ export default function CalculatorShell({
       )}
 
       {/* =========================================================================
-          BLOCK 5: Line-by-Line / Slab-by-Slab Breakdown Table
+          MOBILE-ONLY: Wazahat Box + Verification Badge (Moved Below Calculator on Mobile)
+         ========================================================================= */}
+      <div className="md:hidden print:hidden space-y-3">
+        <button
+          type="button"
+          onClick={() => setMobileContextOpen(!mobileContextOpen)}
+          className="w-full min-h-[48px] px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between font-bold text-xs text-primary shadow-2xs cursor-pointer hover:bg-slate-100 transition-colors"
+          aria-expanded={mobileContextOpen}
+        >
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-accent"></span>
+            <span>{lang === "roman" ? "Wazahat aur Sarkari Rates (Official Context)" : "Official Context & Statutory Rates"}</span>
+          </span>
+          <span className="text-slate-500 font-bold">{mobileContextOpen ? "▲" : "▼"}</span>
+        </button>
+
+        {mobileContextOpen && (
+          <div className="space-y-3 pt-1 animate-in fade-in duration-200">
+            {/* Wazahat Box */}
+            <div className="bg-gradient-to-r from-teal-50/70 via-white to-surface border-l-4 border-accent p-4 rounded-r-xl text-xs text-appText leading-relaxed shadow-xs border border-slate-200/60">
+              <div className="flex items-center justify-between gap-3 mb-2">
+                <span className="font-bold text-primary text-xs uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-accent"></span>
+                  {lang === "roman" ? "Wazahat:" : "Explanation:"}
+                </span>
+                <ExplanationLangToggle />
+              </div>
+              <p className="text-slate-800 text-xs sm:text-sm leading-relaxed font-normal">
+                {lang === "roman" ? content.romanUrduIntro : content.englishIntro}
+              </p>
+            </div>
+
+            {/* Verification Badge */}
+            <VerificationBadge
+              source={content.source}
+              sourceDocument={content.sourceDocument}
+              lastVerified={content.lastVerified}
+            />
+
+            {customTopSection}
+          </div>
+        )}
+      </div>
+
+      {/* =========================================================================
+          LINE-BY-LINE / SLAB BREAKDOWN TABLE
          ========================================================================= */}
       {breakdownTable && (
-        <section className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-[0_12px_30px_-5px_rgba(11,42,74,0.07)] print:p-0 print:border-none print:shadow-none">
+        <section className="bg-white p-5 sm:p-8 rounded-2xl border border-slate-200/90 shadow-[0_12px_30px_-5px_rgba(11,42,74,0.07)] print:p-0 print:border-none print:shadow-none">
           {breakdownTable}
         </section>
       )}
 
       {/* =========================================================================
-          BLOCK 6: How to Use — Numbered Steps (No Duplicate Numbers)
+          GUIDE / HOW TO USE (Collapsible Accordion on Mobile, Open on Desktop)
          ========================================================================= */}
-      <section className="bg-gradient-to-br from-surface to-slate-50 p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs print:hidden space-y-4">
-        <div>
-          <span className="text-xs font-bold text-accent uppercase tracking-wider">Guide</span>
-          <h2 className="text-xl font-extrabold text-primary tracking-tight">How to Use This Calculator</h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-appText">
-          {content.howToUseSteps.map((step, idx) => (
-            <div
-              key={idx}
-              className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-xs hover:shadow-sm hover:-translate-y-0.5 transition-all flex items-start gap-3.5"
-            >
-              <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-primary-light text-white flex items-center justify-center font-black text-xs shrink-0 mt-0.5 shadow-xs">
-                {idx + 1}
-              </span>
-              <span className="leading-snug text-appText font-medium text-xs sm:text-sm">{step}</span>
-            </div>
-          ))}
+      <section className="bg-gradient-to-br from-surface to-slate-50 rounded-2xl border border-slate-200/90 shadow-xs print:hidden overflow-hidden">
+        {/* Accordion trigger on mobile (<768px) */}
+        <button
+          type="button"
+          onClick={() => setGuideOpen(!guideOpen)}
+          className="md:hidden w-full min-h-[48px] p-4 sm:p-5 flex items-center justify-between font-extrabold text-sm text-primary text-left cursor-pointer hover:bg-slate-100/60 transition-colors"
+          aria-expanded={guideOpen}
+        >
+          <div>
+            <span className="text-[11px] font-bold text-accent uppercase tracking-wider block">Guide</span>
+            <span className="text-base font-extrabold text-primary">How to Use This Calculator</span>
+          </div>
+          <span className="text-slate-500 font-bold ml-2">{guideOpen ? "▲" : "▼"}</span>
+        </button>
+
+        {/* Content: Visible when guideOpen on mobile, always visible on desktop */}
+        <div className={`${guideOpen ? "block" : "hidden"} md:block p-5 sm:p-8 space-y-4 pt-0 md:pt-8`}>
+          <div className="hidden md:block">
+            <span className="text-xs font-bold text-accent uppercase tracking-wider">Guide</span>
+            <h2 className="text-xl font-extrabold text-primary tracking-tight">How to Use This Calculator</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 text-sm text-appText">
+            {content.howToUseSteps.map((step, idx) => (
+              <div
+                key={idx}
+                className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-xs hover:shadow-sm hover:-translate-y-0.5 transition-all flex items-start gap-3.5"
+              >
+                <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-primary-light text-white flex items-center justify-center font-black text-xs shrink-0 mt-0.5 shadow-xs">
+                  {idx + 1}
+                </span>
+                <span className="leading-snug text-appText font-medium text-xs sm:text-sm">{step}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* =========================================================================
-          BLOCK 7: Exact Formula in Plain Text
+          FORMULA SECTION (Collapsible Accordion on Mobile, Open on Desktop)
          ========================================================================= */}
-      <section className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-[0_8px_25px_-5px_rgba(11,42,74,0.05)] print:hidden space-y-3">
-        <div>
-          <span className="text-xs font-bold text-accent uppercase tracking-wider">Formula</span>
-          <h2 className="text-xl font-extrabold text-primary tracking-tight">{content.formulaTitle}</h2>
-        </div>
-        <div className="bg-slate-900 text-emerald-300 p-5 rounded-xl border border-slate-800 font-mono text-xs sm:text-sm leading-relaxed shadow-inner">
-          {content.formulaDescription}
+      <section className="bg-white rounded-2xl border border-slate-200/90 shadow-[0_8px_25px_-5px_rgba(11,42,74,0.05)] print:hidden overflow-hidden">
+        <button
+          type="button"
+          onClick={() => setFormulaOpen(!formulaOpen)}
+          className="md:hidden w-full min-h-[48px] p-4 sm:p-5 flex items-center justify-between font-extrabold text-sm text-primary text-left cursor-pointer hover:bg-slate-50 transition-colors"
+          aria-expanded={formulaOpen}
+        >
+          <div>
+            <span className="text-[11px] font-bold text-accent uppercase tracking-wider block">Formula</span>
+            <span className="text-sm font-extrabold text-primary">{content.formulaTitle}</span>
+          </div>
+          <span className="text-slate-500 font-bold ml-2">{formulaOpen ? "▲" : "▼"}</span>
+        </button>
+
+        <div className={`${formulaOpen ? "block" : "hidden"} md:block p-5 sm:p-8 space-y-3 pt-0 md:pt-8`}>
+          <div className="hidden md:block">
+            <span className="text-xs font-bold text-accent uppercase tracking-wider">Formula</span>
+            <h2 className="text-xl font-extrabold text-primary tracking-tight">{content.formulaTitle}</h2>
+          </div>
+          <div className="bg-slate-900 text-emerald-300 p-4 sm:p-5 rounded-xl border border-slate-800 font-mono text-xs sm:text-sm leading-relaxed shadow-inner">
+            {content.formulaDescription}
+          </div>
         </div>
       </section>
 
       {/* =========================================================================
-          BLOCK 8: Worked Example with Real Numbers
+          WORKED EXAMPLE / CASE STUDY (Collapsible Accordion on Mobile, Open on Desktop)
          ========================================================================= */}
-      <section className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-[0_8px_25px_-5px_rgba(11,42,74,0.05)] print:hidden space-y-3">
-        <div>
-          <span className="text-xs font-bold text-accent uppercase tracking-wider">Case Study</span>
-          <h2 className="text-xl font-extrabold text-primary tracking-tight">
-            {content.workedExample.title}
-          </h2>
-          <p className="text-sm text-appText-muted mt-1">
-            {content.workedExample.description}
-          </p>
+      <section className="bg-white rounded-2xl border border-slate-200/90 shadow-[0_8px_25px_-5px_rgba(11,42,74,0.05)] print:hidden overflow-hidden">
+        <button
+          type="button"
+          onClick={() => setCaseStudyOpen(!caseStudyOpen)}
+          className="md:hidden w-full min-h-[48px] p-4 sm:p-5 flex items-center justify-between font-extrabold text-sm text-primary text-left cursor-pointer hover:bg-slate-50 transition-colors"
+          aria-expanded={caseStudyOpen}
+        >
+          <div>
+            <span className="text-[11px] font-bold text-accent uppercase tracking-wider block">Case Study</span>
+            <span className="text-sm font-extrabold text-primary">{content.workedExample.title}</span>
+          </div>
+          <span className="text-slate-500 font-bold ml-2">{caseStudyOpen ? "▲" : "▼"}</span>
+        </button>
+
+        <div className={`${caseStudyOpen ? "block" : "hidden"} md:block p-5 sm:p-8 space-y-3 pt-0 md:pt-8`}>
+          <div className="hidden md:block">
+            <span className="text-xs font-bold text-accent uppercase tracking-wider">Case Study</span>
+            <h2 className="text-xl font-extrabold text-primary tracking-tight">
+              {content.workedExample.title}
+            </h2>
+            <p className="text-sm text-appText-muted mt-1">
+              {content.workedExample.description}
+            </p>
+          </div>
+          <ul className="space-y-2.5 text-xs sm:text-sm text-appText bg-surface p-4 sm:p-5 rounded-xl border border-slate-200/80">
+            {content.workedExample.bulletPoints.map((point, idx) => (
+              <li key={idx} className="flex items-start gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0"></span>
+                <span className="font-medium text-slate-800">{point}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul className="space-y-2.5 text-xs sm:text-sm text-appText bg-surface p-5 rounded-xl border border-slate-200/80">
-          {content.workedExample.bulletPoints.map((point, idx) => (
-            <li key={idx} className="flex items-start gap-2.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0"></span>
-              <span className="font-medium text-slate-800">{point}</span>
-            </li>
-          ))}
-        </ul>
       </section>
 
       {/* =========================================================================
-          BLOCK 9: FAQs, Related Tools & Legal Disclaimer Box
+          FAQS (ALWAYS VISIBLE & UNBURIED) → RELATED TOOLS → LEGAL NOTICE
          ========================================================================= */}
-      <section className="space-y-10 print:hidden">
+      <section className="space-y-8 sm:space-y-10 print:hidden">
         {/* FAQs Component */}
         <Faq items={content.faqs} />
 

@@ -20,9 +20,16 @@ export default function ZakatCalculatorPage() {
   const content = calculatorPages.zakat;
   const { lang } = useExplanationLang();
 
-  // Step 2 & 3 Collapsible visibility
+  // Step 2 & 3 Collapsible visibility — expanded by default on mobile (<768px), collapsed on desktop
   const [step2Open, setStep2Open] = useState<boolean>(false);
   const [step3Open, setStep3Open] = useState<boolean>(false);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      setStep2Open(true);
+      setStep3Open(true);
+    }
+  }, []);
 
   // Asset inputs state — all initialized to 0 per user requirement
   const [cashRaw, setCashRaw] = useState<string>("0");
@@ -355,7 +362,7 @@ export default function ZakatCalculatorPage() {
           </div>
         ) : (
           <p className="text-xs text-slate-500 font-medium">
-            Optional: Click &quot;+ Add Gold / Silver&quot; to declare jewellery, bars, or coins. (Current: {goldQtyNum} {goldUnit} gold, {silverQtyNum} {silverUnit} silver).
+            {"Optional: Click \"+ Add Gold / Silver\" to declare jewellery, bars, or coins. (Current: " + goldQtyNum + " " + goldUnit + " gold, " + silverQtyNum + " " + silverUnit + " silver, 2.5% Zakat Rate, 52.5 tola silver nisab)."}
           </p>
         )}
       </div>
@@ -492,7 +499,7 @@ export default function ZakatCalculatorPage() {
     <ExplanationBox
       type="islamic"
       romanUrduText={`Aapke kul zakatable assets Rs ${formatRupees(result.totalGrossWealth, { prefix: false })} hain. Aapki eligible deductions (qarz) Rs ${formatRupees(result.totalDebts, { prefix: false })} hain. Is tarah aapki net zakatable wealth Rs ${formatRupees(result.netZakatableWealth, { prefix: false })} banti hai. Nisab (${nisabLabelRoman}) aaj ke rate par Rs ${formatRupees(result.nisabThreshold, { prefix: false })} hai. ${isAbove ? "Aapki wealth nisab se zyada hai, is liye Zakat farz hai." : "Aapki wealth nisab se kam hai, is liye is waqt Zakat farz nahi hai."} 2.5% ke hisab se aapki Zakat Rs ${formatRupees(result.zakatDue, { prefix: false })} banti hai.`}
-      englishText={`Your total zakatable assets are Rs ${formatRupees(result.totalGrossWealth, { prefix: false })}. Your eligible deductions (debts) are Rs ${formatRupees(result.totalDebts, { prefix: false })}, giving net zakatable wealth of Rs ${formatRupees(result.netZakatableWealth, { prefix: false })}. The nisab (${nisabLabelEn}) at today's rate is Rs ${formatRupees(result.nisabThreshold, { prefix: false })}. ${isAbove ? "Your wealth is above the nisab, so Zakat is due." : "Your wealth is below the nisab, so no Zakat is due right now."} At 2.5%, your Zakat is Rs ${formatRupees(result.zakatDue, { prefix: false })}.`}
+      englishText={`Your total zakatable assets are Rs ${formatRupees(result.totalGrossWealth, { prefix: false })}. Your eligible deductions (debts) are Rs ${formatRupees(result.totalDebts, { prefix: false })}, giving net zakatable wealth of Rs ${formatRupees(result.netZakatableWealth, { prefix: false })}. The nisab (${nisabLabelEn}) at today's rate is Rs ${formatRupees(result.nisabThreshold, { prefix: false })}. ${isAbove ? "Your wealth is above the nisab, so Zakat is due." : "Your wealth is below the nisab, so no Zakat is due right now."} At 2.5%, your Zakat due is Rs ${formatRupees(result.zakatDue, { prefix: false })}.`}
       extraBullets={[
         {
           en: "Zakat is due from every adult Muslim who owns wealth at or above nisab for one full lunar year (Hawl).",

@@ -78,7 +78,7 @@ export default function Toggle<T extends string>({
               <span className="leading-snug break-words">{opt.label}</span>
               {opt.badge && (
                 <span
-                  className={`text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 rounded-full font-extrabold uppercase tracking-wider shrink-0 transition-colors ${
+                  className={`text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 rounded-full font-extrabold tracking-wider shrink-0 transition-colors ${
                     isSelected
                       ? "bg-accent text-white shadow-2xs"
                       : "bg-slate-200/90 text-appText-muted"
