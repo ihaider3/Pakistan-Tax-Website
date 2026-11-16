@@ -491,7 +491,7 @@ export default function ZakatCalculatorPage() {
       totalLabel="Net Zakatable Wealth"
       totalValue={formatRupees(result.netZakatableWealth)}
     />
-  );
+  ) : null;
 
   return (
     <CalculatorShell
