@@ -79,6 +79,23 @@ export default function PrivacyPolicyPage() {
             .
           </p>
         </section>
+
+        <section className="space-y-2">
+          <h2 className="text-xl font-bold text-primary">5. User Feedback &amp; Defect Reports</h2>
+          <p>
+            When you voluntarily submit a bug report, feedback, or feature suggestion using our on-site feedback button, we collect your selected category, calculator context, message, optional rating, optional name, optional email address, optional screenshot, and submission date. This information is collected solely to fix technical defects, verify statutory tax calculations, and improve the website.
+          </p>
+          <p>
+            Feedback submissions are never published publicly and are accessible exclusively to the website administrator in a password-protected dashboard. Screenshots are stored in private cloud storage and never exposed to the public. Providing your name or email is completely optional; if provided, your email is never shared, sold, or used for marketing. You can request permanent deletion of any feedback you submitted at any time by emailing us at{" "}
+            <a href="mailto:contact@pakfinancecalc.org" className="text-accent font-semibold hover:underline">
+              contact@pakfinancecalc.org
+            </a>
+            .
+          </p>
+          <p className="text-xs sm:text-sm text-appText-muted italic bg-surface p-3 rounded-lg border border-appBorder">
+            <strong>Roman Urdu:</strong> Aapka feedback, suggestion ya screenshot sirf website ko behtar banane aur masail hal karne ke liye istemal hota hai, kabhi public nahi kiya jata, aur aap contact@pakfinancecalc.org par email kar ke apna data delete karwa sakte hain.
+          </p>
+        </section>
       </div>
     </div>
   );

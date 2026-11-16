@@ -3,6 +3,7 @@ import { Inter, Noto_Nastaliq_Urdu } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FloatingFeedbackButton from "@/components/FloatingFeedbackButton";
 import { LanguageProvider } from "@/components/LanguageContext";
 
 const inter = Inter({
@@ -96,6 +97,7 @@ export default function RootLayout({
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
+          <FloatingFeedbackButton />
         </LanguageProvider>
       </body>
     </html>
