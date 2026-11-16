@@ -5,6 +5,7 @@ import CalculatorShell from "@/components/CalculatorShell";
 import MoneyInput from "@/components/MoneyInput";
 import Toggle, { ToggleOption } from "@/components/Toggle";
 import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
+import ExplanationBox from "@/components/ExplanationBox";
 import BreakdownTable, { BreakdownColumn, BreakdownRow } from "@/components/BreakdownTable";
 import { calculatorPages } from "@/content/pages";
 import { calculateSalaryTax, SalaryTaxResult } from "@/lib/calc/salary";
@@ -148,11 +149,15 @@ export default function SalaryTaxCalculatorPage() {
       {/* Salary Money Input */}
       <MoneyInput
         id="salary-input"
-        label={frequency === "monthly" ? "Monthly Gross Salary" : "Annual Taxable Salary"}
+        label={
+          frequency === "monthly"
+            ? "Monthly Gross Salary — Mahana kul salary (tax se pehle)"
+            : "Annual Taxable Salary — Salana kul salary (tax se pehle)"
+        }
         value={salaryRaw}
         onChange={handleSalaryChange}
         placeholder={frequency === "monthly" ? "e.g. 150,000" : "e.g. 1,800,000"}
-        hint="Enter gross taxable salary before tax deductions or provident fund"
+        hint="Enter gross taxable salary before tax deductions or provident fund — Mahana kul aamdani tax katne se pehle"
         unitLabel="PKR"
         required
       />
@@ -189,7 +194,7 @@ export default function SalaryTaxCalculatorPage() {
       statusBadge={
         result
           ? {
-              text: result.annualTax === 0 ? "Tax-Exempt Slab" : `Tax Payable: ${result.effectiveTaxRate}%`,
+              text: result.annualTax === 0 ? "Tax-Exempt Slab" : `Effective Tax Rate: ${result.effectiveTaxRate}%`,
               variant: result.annualTax === 0 ? "success" : "warning",
             }
           : undefined
@@ -197,10 +202,24 @@ export default function SalaryTaxCalculatorPage() {
       secondaryResults={secondaryResults}
       copySummaryText={copySummaryText}
       isEmpty={!result || salaryNum <= 0}
-      emptyPrompt="Enter your salary to calculate tax"
+      emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
       footnote="Calculations follow Finance Act 2026 progressive slabs. Salaried surcharge is 0% in TY2027."
     />
   );
+
+  const explanationBox = result ? (
+    <ExplanationBox
+      type="tax"
+      englishText={`Your monthly salary is Rs ${formatRupees(result.monthlySalary, { prefix: false })}. Your annual salary is Rs ${formatRupees(result.annualSalary, { prefix: false })}. Tax is charged slab by slab — only the income inside each slab is taxed at that slab's rate. Your annual tax is Rs ${formatRupees(result.annualTax, { prefix: false })}, so your monthly tax is Rs ${formatRupees(result.annualTax, { prefix: false })} ÷ 12 = Rs ${formatRupees(result.monthlyTax, { prefix: false })}. Your take-home pay is Rs ${formatRupees(result.monthlySalary, { prefix: false })} − Rs ${formatRupees(result.monthlyTax, { prefix: false })} = Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} per month.`}
+      romanUrduText={`Aap ki mahana salary Rs ${formatRupees(result.monthlySalary, { prefix: false })} hai, salana Rs ${formatRupees(result.annualSalary, { prefix: false })} banti hai. Tax slab ke hisab se lagta hai — har slab mein sirf us slab ki aamdani par us slab ka rate lagta hai. Aap ka salana tax Rs ${formatRupees(result.annualTax, { prefix: false })} hai, is liye mahana tax Rs ${formatRupees(result.monthlyTax, { prefix: false })} katega. Aap ko har mahinay Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} take-home milega.`}
+      referenceContent={
+        <>
+          <p><strong>Law:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. First Rs 600,000 annual (Rs 50,000/month) is 0%. Salaried surcharge is 0% in TY2027.</p>
+          <p><strong>Roman Urdu:</strong> Qanoon: Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026. Pehle Rs 600,000 salana par koi tax nahi.</p>
+        </>
+      }
+    />
+  ) : null;
 
   const breakdownSection = result ? (
     <BreakdownTable
@@ -213,27 +232,13 @@ export default function SalaryTaxCalculatorPage() {
     />
   ) : null;
 
-  const romanUrduSummary = result ? (
-    <div className="bg-surface p-3.5 rounded-lg border border-appBorder">
-      <span className="font-semibold text-primary block text-xs uppercase mb-1">
-        Roman Urdu Khulasa:
-      </span>
-      <p className="text-xs sm:text-sm text-appText">
-        Aap ki mahana salary <strong>{formatRupees(result.monthlySalary)}</strong> par mahana tax{" "}
-        <strong>{formatRupees(result.monthlyTax)}</strong> katega. Aap ko har mahinay net{" "}
-        <strong>{formatRupees(result.monthlyTakeHome)}</strong> take-home salary milegi. Saal ka kul tax{" "}
-        <strong>{formatRupees(result.annualTax)}</strong> banta hai (Effective rate: {result.effectiveTaxRate}%).
-      </p>
-    </div>
-  ) : null;
-
   return (
     <CalculatorShell
       content={content}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}
+      explanationBox={explanationBox}
       breakdownTable={breakdownSection}
-      romanUrduSummary={romanUrduSummary}
     />
   );
 }

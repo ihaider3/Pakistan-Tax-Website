@@ -1,6 +1,6 @@
 import { salaryRates2026_27, SalaryTaxSlab } from "../rates/salary-2026-27";
 import { salaryRates2025_26 } from "../rates/salary-2025-26";
-import { roundToPaisa } from "./money";
+import { roundToPaisa, formatPercentage } from "./money";
 
 export interface SlabBreakdownItem {
   slabIndex: number;
@@ -63,7 +63,7 @@ export function calculateSalaryTax(
         description: slab.description,
         taxableAmountInSlab: roundToPaisa(taxableInThisSlab),
         rate: slab.rate,
-        rateLabel: `${slab.rate * 100}%`,
+        rateLabel: formatPercentage(slab.rate),
         taxForSlab: roundToPaisa(taxInThisSlab),
         cumulativeTax: roundToPaisa(totalTaxPaisa / 100),
       });
@@ -74,7 +74,7 @@ export function calculateSalaryTax(
         description: slab.description,
         taxableAmountInSlab: 0,
         rate: slab.rate,
-        rateLabel: `${slab.rate * 100}%`,
+        rateLabel: formatPercentage(slab.rate),
         taxForSlab: 0,
         cumulativeTax: roundToPaisa(totalTaxPaisa / 100),
       });

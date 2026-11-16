@@ -26,21 +26,21 @@ describe("Money Utilities", () => {
   });
 
   it("handles empty or null inputs gracefully with prompt error", () => {
-    expect(parseMoneyInput("").error).toBe("Enter an amount to see your result");
-    expect(parseMoneyInput("   ").error).toBe("Enter an amount to see your result");
-    expect(parseMoneyInput(undefined).error).toBe("Enter an amount to see your result");
+    expect(parseMoneyInput("").error).toContain("Enter an amount above to see your result");
+    expect(parseMoneyInput("   ").error).toContain("Enter an amount above to see your result");
+    expect(parseMoneyInput(undefined).error).toContain("Enter an amount above to see your result");
   });
 
   it("rejects negative numbers with a friendly error", () => {
     const res = parseMoneyInput("-50000");
     expect(res.isValid).toBe(false);
-    expect(res.error).toBe("Amount cannot be negative");
+    expect(res.error).toBe("Please enter a positive number — Sirf positive number likhein.");
   });
 
   it("rejects non-numeric characters with inline error", () => {
     const res = parseMoneyInput("50000abc");
     expect(res.isValid).toBe(false);
-    expect(res.error).toBe("Please enter a valid numeric amount");
+    expect(res.error).toBe("Please enter a positive number — Sirf positive number likhein.");
   });
 
   it("enforces maximum limit Rs 999,999,999", () => {
@@ -57,6 +57,7 @@ describe("Money Utilities", () => {
 
   it("formats percentages correctly", () => {
     expect(formatPercentage(0.18)).toBe("18%");
+    expect(formatPercentage(0.29)).toBe("29%");
     expect(formatPercentage(0.0125)).toBe("1.25%");
     expect(formatPercentage(0.025)).toBe("2.5%");
     expect(formatPercentage(0.145)).toBe("14.5%");

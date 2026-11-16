@@ -312,7 +312,7 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
       {
         question: "Services par GST kyun alag hai?",
         answer:
-          "Federal hukumat (FBR) ashya (Goods) par 18% standard sales tax leti hai, jabke khidmat (Services) soobon ke ikhtiyar mein hain (PRA Punjab, SRB Sindh, KPRA KPK, BRA Balochistan) jahan rates service ki qism ke mutabiq 13% se 16% hotay hain.",
+          "Services rates are set by provinces and vary by service — confirm with PRA / SRB / KPRA / BRA. Do not use 13–16% as an exact rate.",
       },
       {
         question: "Exempt goods par kitna tax hai?",

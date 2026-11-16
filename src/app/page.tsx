@@ -80,7 +80,7 @@ const calculators = [
     dotColor: "bg-amber-500",
     topGradient: "from-amber-500 via-orange-600 to-rose-600",
     iconBg: "bg-gradient-to-br from-amber-600 via-orange-700 to-stone-900 text-white shadow-amber-900/25",
-    features: ["Add or Extract GST", "Provincial Rates", "Integer Paisa Math"],
+    features: ["Add or Extract GST", "Custom Rate %", "Integer Paisa Math"],
     buttonText: "Calculate GST",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -235,7 +235,7 @@ export default function HomePage() {
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-black text-accent uppercase tracking-widest bg-accent-soft px-3 py-1 rounded-full border border-accent/25 mb-1.5 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-              Core Statutory Suite
+              Free Pakistan Calculators
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-primary tracking-tight">
               Pakistan Financial &amp; Islamic Calculators
@@ -337,7 +337,7 @@ export default function HomePage() {
           <div className="relative text-center max-w-2xl mx-auto space-y-2.5">
             <div className="inline-flex items-center gap-2 text-xs font-black text-accent uppercase tracking-widest bg-white px-4 py-1.5 rounded-full border-2 border-accent/30 shadow-xs">
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-              Verified 3-Step Execution
+              How It Works — 3 Easy Steps
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-primary tracking-tight">
               How It Works
@@ -423,7 +423,7 @@ export default function HomePage() {
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-black text-accent uppercase tracking-widest bg-accent-soft px-3 py-1 rounded-full border border-accent/25 mb-1.5 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-              Knowledge &amp; Statutory Basis
+              Common Questions
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-primary tracking-tight">
               Common Questions

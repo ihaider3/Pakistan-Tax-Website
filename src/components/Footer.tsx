@@ -15,7 +15,7 @@ export default function Footer() {
     { name: "Salary Tax Calculator", href: "/salary-tax-calculator", badge: "2026–27", badgeColor: "bg-blue-500/20 text-blue-300 border-blue-400/30" },
     { name: "Complete Zakat Calculator", href: "/zakat-calculator", badge: "2.5%", badgeColor: "bg-teal-500/20 text-teal-300 border-teal-400/30" },
     { name: "Property Tax (236C + 236K)", href: "/property-tax-calculator", badge: "Advance Tax", badgeColor: "bg-indigo-500/20 text-indigo-300 border-indigo-400/30" },
-    { name: "GST Calculator (18%)", href: "/gst-calculator", badge: "Federal/Prov", badgeColor: "bg-amber-500/20 text-amber-300 border-amber-400/30" },
+    { name: "GST Calculator (18%)", href: "/gst-calculator", badge: "Goods 18%", badgeColor: "bg-amber-500/20 text-amber-300 border-amber-400/30" },
     { name: "Fitrana Calculator 2026", href: "/fitrana-calculator", badge: "Eid 2026", badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-400/30" },
   ];
 

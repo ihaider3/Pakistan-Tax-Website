@@ -6,6 +6,7 @@ import MoneyInput from "@/components/MoneyInput";
 import Toggle, { ToggleOption } from "@/components/Toggle";
 import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
 import BreakdownTable, { BreakdownColumn, BreakdownRow } from "@/components/BreakdownTable";
+import ExplanationBox from "@/components/ExplanationBox";
 import { calculatorPages } from "@/content/pages";
 import { calculateGst, GstCalculationResult, GstMode } from "@/lib/calc/gst";
 import { formatRupees } from "@/lib/calc/money";
@@ -164,10 +165,10 @@ export default function GstCalculatorPage() {
         placeholder={mode === "add" ? "e.g. 100,000" : "e.g. 118,000"}
         hint={
           mode === "add"
-            ? "Tax will be added on top of this base price"
+            ? "Tax will be added on top of this base price — Asal qeemat par tax shamil hoga"
             : mode === "remove"
-            ? "Tax will be subtracted to reveal the pre-tax base price"
-            : "Base price and total invoice will be calculated from this tax"
+            ? "Tax will be subtracted to reveal the pre-tax base price — Kul bill se tax alag kiya jayega"
+            : "Base price and total invoice will be calculated from this tax — Tax se asal qeemat aur kul bill maloom hoga"
         }
         unitLabel="PKR"
         required
@@ -260,10 +261,40 @@ export default function GstCalculatorPage() {
       secondaryResults={secondaryResults}
       copySummaryText={copySummaryText}
       isEmpty={!result || amountNum <= 0}
-      emptyPrompt="Enter an amount to see base, tax & total"
+      emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
       footnote="Calculations apply standard mathematical rounding in integer paisa under the Sales Tax Act 1990."
     />
   );
+
+  const explanationBox = result ? (
+    <ExplanationBox
+      type="tax"
+      englishText={
+        mode === "add"
+          ? `You entered Rs ${formatRupees(result.baseAmount, { prefix: false })} in Add mode at ${result.ratePercentage}. GST is Rs ${formatRupees(result.baseAmount, { prefix: false })} × ${result.ratePercentage} = Rs ${formatRupees(result.gstAmount, { prefix: false })}. Total = Rs ${formatRupees(result.baseAmount, { prefix: false })} + Rs ${formatRupees(result.gstAmount, { prefix: false })} = Rs ${formatRupees(result.totalAmount, { prefix: false })}.`
+          : mode === "remove"
+          ? `You entered Rs ${formatRupees(result.totalAmount, { prefix: false })} in Remove mode at ${result.ratePercentage}. Base price is Rs ${formatRupees(result.totalAmount, { prefix: false })} ÷ ${(1 + effectiveRate / 100).toFixed(2).replace(/\.?0+$/, "")} = Rs ${formatRupees(result.baseAmount, { prefix: false })}. GST inside it is Rs ${formatRupees(result.totalAmount, { prefix: false })} − Rs ${formatRupees(result.baseAmount, { prefix: false })} = Rs ${formatRupees(result.gstAmount, { prefix: false })}.`
+          : `You entered Rs ${formatRupees(result.gstAmount, { prefix: false })} in GST Amount mode at ${result.ratePercentage}. Base price is Rs ${formatRupees(result.baseAmount, { prefix: false })}. Total = Rs ${formatRupees(result.baseAmount, { prefix: false })} + Rs ${formatRupees(result.gstAmount, { prefix: false })} = Rs ${formatRupees(result.totalAmount, { prefix: false })}.`
+      }
+      romanUrduText={
+        mode === "add"
+          ? `Aap ne Rs ${formatRupees(result.baseAmount, { prefix: false })} darj kiya (Add mode, ${result.ratePercentage}). GST Rs ${formatRupees(result.baseAmount, { prefix: false })} × ${result.ratePercentage} = Rs ${formatRupees(result.gstAmount, { prefix: false })} banta hai. Kul bill Rs ${formatRupees(result.totalAmount, { prefix: false })} hoga.`
+          : mode === "remove"
+          ? `Aap ne Rs ${formatRupees(result.totalAmount, { prefix: false })} darj kiya (Remove mode, ${result.ratePercentage}). Asal qeemat Rs ${formatRupees(result.baseAmount, { prefix: false })} hai aur us mein shamil GST Rs ${formatRupees(result.gstAmount, { prefix: false })} hai.`
+          : `Aap ne Rs ${formatRupees(result.gstAmount, { prefix: false })} darj kiya (GST Amount mode, ${result.ratePercentage}). Asal qeemat Rs ${formatRupees(result.baseAmount, { prefix: false })} aur kul bill Rs ${formatRupees(result.totalAmount, { prefix: false })} hoga.`
+      }
+      referenceContent={
+        <>
+          <p>
+            <strong>Law:</strong> Sales Tax Act 1990, standard rate 18% on goods. Services rates are provincial and vary — confirm with PRA / SRB / KPRA / BRA for your service.
+          </p>
+          <p>
+            <strong>Roman Urdu:</strong> Qanoon: Sales Tax Act 1990, goods par standard rate 18%. Services par rate soobay ke mutabiq alag hota hai.
+          </p>
+        </>
+      }
+    />
+  ) : null;
 
   const breakdownSection = result ? (
     <BreakdownTable
@@ -276,26 +307,13 @@ export default function GstCalculatorPage() {
     />
   ) : null;
 
-  const romanUrduSummary = result ? (
-    <div className="bg-surface p-3.5 rounded-lg border border-appBorder">
-      <span className="font-semibold text-primary block text-xs uppercase mb-1">
-        Roman Urdu Khulasa:
-      </span>
-      <p className="text-xs sm:text-sm text-appText">
-        Asal base price <strong>{formatRupees(result.baseAmount)}</strong> par {result.ratePercentage} GST tax{" "}
-        <strong>{formatRupees(result.gstAmount)}</strong> banta hai. Kul invoice bill{" "}
-        <strong>{formatRupees(result.totalAmount)}</strong> ada karna hoga.
-      </p>
-    </div>
-  ) : null;
-
   return (
     <CalculatorShell
       content={content}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}
+      explanationBox={explanationBox}
       breakdownTable={breakdownSection}
-      romanUrduSummary={romanUrduSummary}
     />
   );
 }

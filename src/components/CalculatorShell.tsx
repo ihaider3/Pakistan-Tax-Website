@@ -10,8 +10,8 @@ interface CalculatorShellProps {
   content: CalculatorPageContent;
   calculatorInputs: React.ReactNode;
   resultPanel: React.ReactNode;
+  explanationBox?: React.ReactNode;
   breakdownTable?: React.ReactNode;
-  romanUrduSummary?: React.ReactNode;
   customTopSection?: React.ReactNode;
 }
 
@@ -19,8 +19,8 @@ export default function CalculatorShell({
   content,
   calculatorInputs,
   resultPanel,
+  explanationBox,
   breakdownTable,
-  romanUrduSummary,
   customTopSection,
 }: CalculatorShellProps) {
   return (
@@ -63,7 +63,7 @@ export default function CalculatorShell({
       {customTopSection && <section className="print:hidden">{customTopSection}</section>}
 
       {/* =========================================================================
-          BLOCK 3 & 4: Interactive Calculator — Inputs (Left) & ResultPanel (Right)
+          BLOCK 3 & 4: Interactive Calculator — Inputs (Left) & ResultPanel + ExplanationBox (Right)
          ========================================================================= */}
       <section
         className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start"
@@ -80,9 +80,10 @@ export default function CalculatorShell({
           {calculatorInputs}
         </div>
 
-        {/* Right Column: Live Result Panel */}
-        <div className="lg:col-span-5 lg:sticky lg:top-24">
+        {/* Right Column: Live Result Panel & ExplanationBox Directly Under Result */}
+        <div className="lg:col-span-5 lg:sticky lg:top-24 space-y-4">
           {resultPanel}
+          {explanationBox}
         </div>
       </section>
 
@@ -92,25 +93,20 @@ export default function CalculatorShell({
       {breakdownTable && (
         <section className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-[0_12px_30px_-5px_rgba(11,42,74,0.07)] print:p-0 print:border-none print:shadow-none">
           {breakdownTable}
-          {romanUrduSummary && (
-            <div className="mt-5 pt-5 border-t border-slate-100 text-xs sm:text-sm text-appText-muted">
-              {romanUrduSummary}
-            </div>
-          )}
         </section>
       )}
 
       {/* =========================================================================
-          BLOCK 6: How to Use — Numbered Steps
+          BLOCK 6: How to Use — Numbered Steps (No Duplicate Numbers)
          ========================================================================= */}
       <section className="bg-gradient-to-br from-surface to-slate-50 p-6 sm:p-8 rounded-2xl border border-slate-200/90 shadow-xs print:hidden space-y-4">
         <div>
           <span className="text-xs font-bold text-accent uppercase tracking-wider">Guide</span>
           <h2 className="text-xl font-extrabold text-primary tracking-tight">How to Use This Calculator</h2>
         </div>
-        <ol className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-appText">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-appText">
           {content.howToUseSteps.map((step, idx) => (
-            <li
+            <div
               key={idx}
               className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-xs hover:shadow-sm hover:-translate-y-0.5 transition-all flex items-start gap-3.5"
             >
@@ -118,9 +114,9 @@ export default function CalculatorShell({
                 {idx + 1}
               </span>
               <span className="leading-snug text-appText font-medium text-xs sm:text-sm">{step}</span>
-            </li>
+            </div>
           ))}
-        </ol>
+        </div>
       </section>
 
       {/* =========================================================================
@@ -160,34 +156,26 @@ export default function CalculatorShell({
       </section>
 
       {/* =========================================================================
-          BLOCK 9: FAQs, Related Tools, and Official Disclaimer Box
+          BLOCK 9: FAQs, Related Tools & Legal Disclaimer Box
          ========================================================================= */}
-      <section className="space-y-12 print:hidden">
-        {/* FAQs */}
+      <section className="space-y-10 print:hidden">
+        {/* FAQs Component */}
         <Faq items={content.faqs} />
 
-        {/* Related Tools */}
+        {/* Related Tools Links */}
         <RelatedTools currentSlug={content.slug} />
 
-        {/* Disclaimer Box with Rich Styling */}
-        <div className="bg-gradient-to-r from-amber-50/90 via-amber-50 to-orange-50/60 border-2 border-amber-300 rounded-2xl p-6 text-amber-950 text-xs sm:text-sm leading-relaxed shadow-sm">
-          <div className="flex items-start gap-3.5">
-            <div className="w-8 h-8 rounded-xl bg-amber-100 border border-amber-300 flex items-center justify-center shrink-0 mt-0.5 text-amber-700">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <div>
-              <span className="font-extrabold text-amber-950 block mb-1 text-sm">
-                Official Estimate Disclaimer:
-              </span>
-              <p className="text-amber-900 leading-relaxed font-medium">{content.disclaimer}</p>
-            </div>
+        {/* Disclaimer Callout Box */}
+        <div className="p-5 sm:p-6 bg-gradient-to-r from-amber-50/70 via-slate-50 to-amber-50/40 border-l-4 border-amber-500 rounded-r-2xl border border-slate-200/80 text-xs sm:text-sm text-appText-muted space-y-2 shadow-2xs">
+          <div className="flex items-center gap-2 text-amber-900 font-bold uppercase tracking-wider text-xs">
+            <svg className="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+            <span>Legal &amp; Regulatory Notice</span>
           </div>
+          <p className="leading-relaxed">
+            {content.disclaimer}
+          </p>
         </div>
       </section>
     </div>

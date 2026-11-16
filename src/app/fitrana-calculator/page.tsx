@@ -5,6 +5,7 @@ import CalculatorShell from "@/components/CalculatorShell";
 import Toggle, { ToggleOption } from "@/components/Toggle";
 import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
 import BreakdownTable, { BreakdownColumn, BreakdownRow } from "@/components/BreakdownTable";
+import ExplanationBox from "@/components/ExplanationBox";
 import { calculatorPages } from "@/content/pages";
 import { calculateFitrana, FitranaCalculationResult } from "@/lib/calc/fitrana";
 import { formatRupees } from "@/lib/calc/money";
@@ -159,7 +160,7 @@ export default function FitranaCalculatorPage() {
       {/* Family Members Count */}
       <div className="space-y-2">
         <label htmlFor="members-input" className="block text-sm font-bold text-primary tracking-tight">
-          Number of Family Members &amp; Dependents <span className="text-red-500">*</span>
+          Number of Family Members &amp; Dependents — Gharane ke afrad <span className="text-red-500">*</span>
         </label>
         <div className="relative rounded-xl shadow-xs focus-within:shadow-[0_8px_20px_-3px_rgba(15,118,110,0.15)] transition-all">
           <input
@@ -180,7 +181,7 @@ export default function FitranaCalculatorPage() {
           <p className="text-xs text-red-600 font-bold">{inputError}</p>
         )}
         <p className="text-xs text-appText-muted font-medium">
-          Count yourself, spouse, minor children, and any other household dependents.
+          Count yourself, spouse, minor children, and any other household dependents — Apne aap ko, shareek-e-hayat, bachay aur zer-e-kafalat afrad shamil karein.
         </p>
       </div>
 
@@ -234,10 +235,43 @@ export default function FitranaCalculatorPage() {
       secondaryResults={secondaryResults}
       copySummaryText={copySummaryText}
       isEmpty={!result || members < 1}
-      emptyPrompt="Enter number of family members to calculate Fitrana"
+      emptyPrompt="Enter number of family members above to see your result — Afrad ki tadaad likhein, result foran nazar aayega."
       footnote={fitranaRates2026.disclaimerText}
     />
   );
+
+  const fitranaBullets = [
+    {
+      en: "Fitrana is due from every Muslim who has food in excess of their needs on Eid day — paid for oneself and all dependents (including children).",
+      ru: "Fitrana har us Musalman par wajib hai jis ke paas Eid ke din apni zaroorat se zyada anaaj ho — yeh apni taraf se aur apne tamam zer-e-kafalat afrad (bachon samet) ki taraf se ada kiya jata hai.",
+    },
+    {
+      en: "Must be paid before the Eid-ul-Fitr prayer so the poor can celebrate Eid.",
+      ru: "Eid ki namaz se pehle ada karna zaroori hai taakay ghareeb log bhi Eid ki khushiyon mein shareek ho sakein.",
+    },
+  ];
+
+  const explanationBox = result ? (
+    <ExplanationBox
+      type="islamic"
+      englishText={`Fitrana is paid per person before the Eid prayer. Your family has ${result.familyMembers} persons. At Rs ${formatRupees(result.perPersonRate, { prefix: false })} per person (${result.stapleName}, ${result.sourceName}), your total Fitrana is ${result.familyMembers} × Rs ${formatRupees(result.perPersonRate, { prefix: false })} = Rs ${formatRupees(result.totalFitrana, { prefix: false })}.`}
+      romanUrduText={`Fitrana har fard ke hisab se Eid ki namaz se pehle ada karna hota hai. Aap ke gharane mein ${result.familyMembers} afrad hain. Rs ${formatRupees(result.perPersonRate, { prefix: false })} fi fard (${result.stapleName}, ${result.sourceName}) ke hisab se kul Fitrana ${result.familyMembers} × Rs ${formatRupees(result.perPersonRate, { prefix: false })} = Rs ${formatRupees(result.totalFitrana, { prefix: false })} banta hai.`}
+      extraBullets={fitranaBullets}
+      referenceContent={
+        <>
+          <p>
+            <strong>Hadith:</strong> &ldquo;Allah&apos;s Messenger (ﷺ) enjoined the payment of one Sa&apos; of dates or one Sa&apos; of barley as Zakat-ul-Fitr on every Muslim, slave or free, male or female, young or old, and he ordered that it be paid before the people went out to offer the &apos;Id prayer.&rdquo; — Sahih al-Bukhari 1503; Sahih Muslim 984.
+          </p>
+          <p>
+            <strong>Roman Urdu:</strong> &ldquo;Rasool Allah ﷺ ne har Musalman par, aazad ho ya ghulam, mard ho ya aurat, chhota ho ya bara, ek Sa&apos; khajoor ya ek Sa&apos; jau ke barabar Sadqa-e-Fitr farz farmaya, aur hukm diya ke ye Eid ki namaz se pehle ada kiya jaye.&rdquo; — Sahih al-Bukhari 1503.
+          </p>
+          <p className="text-xs pt-1 border-t border-[#C9A227]/30 text-slate-700">
+            <strong>Note:</strong> Wheat Rs 300 per person is the agreed minimum (Mufti Muneeb + CII both). Barley, dates and raisins rates differ by source — the calculator already shows both.
+          </p>
+        </>
+      }
+    />
+  ) : null;
 
   const breakdownSection = (
     <BreakdownTable
@@ -250,25 +284,13 @@ export default function FitranaCalculatorPage() {
     />
   );
 
-  const romanUrduSummary = result ? (
-    <div className="bg-surface p-3.5 rounded-lg border border-appBorder">
-      <span className="font-semibold text-primary block text-xs uppercase mb-1">
-        Roman Urdu Khulasa:
-      </span>
-      <p className="text-xs sm:text-sm text-appText">
-        Aap ke gharane ke {result.familyMembers} afrad ka {result.stapleName} ke hisab se kul Sadqa-e-Fitr (Fitrana){" "}
-        <strong>{formatRupees(result.totalFitrana)}</strong> banta hai ({formatRupees(result.perPersonRate)} fi fard ba mutabiq {result.sourceName}). Yeh raqam Eid ki namaz se pehle ada karna wajib hai.
-      </p>
-    </div>
-  ) : null;
-
   return (
     <CalculatorShell
       content={content}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}
+      explanationBox={explanationBox}
       breakdownTable={breakdownSection}
-      romanUrduSummary={romanUrduSummary}
     />
   );
 }

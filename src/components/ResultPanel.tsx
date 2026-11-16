@@ -35,7 +35,7 @@ export default function ResultPanel({
   secondaryResults,
   copySummaryText,
   isEmpty = false,
-  emptyPrompt = "Enter an amount to see your result",
+  emptyPrompt = "Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega.",
   footnote,
   className = "",
 }: ResultPanelProps) {

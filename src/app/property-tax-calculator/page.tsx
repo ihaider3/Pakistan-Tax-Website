@@ -5,6 +5,7 @@ import CalculatorShell from "@/components/CalculatorShell";
 import MoneyInput from "@/components/MoneyInput";
 import Toggle, { ToggleOption } from "@/components/Toggle";
 import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
+import ExplanationBox from "@/components/ExplanationBox";
 import BreakdownTable, { BreakdownColumn, BreakdownRow } from "@/components/BreakdownTable";
 import { calculatorPages } from "@/content/pages";
 import {
@@ -155,7 +156,7 @@ export default function PropertyTaxCalculatorPage() {
       {/* Property Value Input */}
       <MoneyInput
         id="property-value-input"
-        label="FBR value / sale consideration (PKR)"
+        label="Property Value / Consideration (PKR) — FBR ki tay shuda ya actual qeemat"
         value={propertyValRaw}
         onChange={(r, v, valid) => {
           setPropertyValRaw(r);
@@ -163,7 +164,7 @@ export default function PropertyTaxCalculatorPage() {
           setIsValid(valid);
         }}
         placeholder="e.g. 10,000,000"
-        hint="Enter the higher of actual sale price or official FBR notified valuation"
+        hint="Enter the higher of actual sale price or official FBR notified valuation — FBR rate ya asal qeemat"
         unitLabel="PKR"
         required
       />
@@ -210,10 +211,27 @@ export default function PropertyTaxCalculatorPage() {
       secondaryResults={secondaryResults}
       copySummaryText={copySummaryText}
       isEmpty={!result || propertyValNum <= 0}
-      emptyPrompt="Enter property value to calculate advance tax"
+      emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
       footnote="Finance Act 2026. Late-filer category was abolished in TY2027. Filers can adjust this advance tax in their annual return."
     />
   );
+
+  const isBuy = result?.transaction === "buy";
+  const isFiler = result?.filerStatus === "filer";
+
+  const explanationBox = result ? (
+    <ExplanationBox
+      type="tax"
+      englishText={`You are ${isBuy ? "buying" : "selling"} a property worth Rs ${formatRupees(result.propertyValue, { prefix: false })} as a ${isFiler ? "Filer" : "Non-Filer"}. The ${result.sectionCode} rate for you is ${(result.rate * 100).toFixed(2).replace(/\.00$/, "")}%. Your advance tax is Rs ${formatRupees(result.propertyValue, { prefix: false })} × ${(result.rate * 100).toFixed(2).replace(/\.00$/, "")}% = Rs ${formatRupees(result.taxAmount, { prefix: false })}. ${isBuy ? `Your total cost is Rs ${formatRupees(result.propertyValue, { prefix: false })} + Rs ${formatRupees(result.taxAmount, { prefix: false })} = Rs ${formatRupees(result.totalForBuyer, { prefix: false })}.` : `You will receive Rs ${formatRupees(result.propertyValue, { prefix: false })} − Rs ${formatRupees(result.taxAmount, { prefix: false })} = Rs ${formatRupees(result.netForSeller, { prefix: false })}.`} As a Filer you save Rs ${formatRupees(result.savingsVsNonFiler, { prefix: false })} compared to a Non-Filer on this property.`}
+      romanUrduText={`Aap Rs ${formatRupees(result.propertyValue, { prefix: false })} ki property ${isBuy ? "khareed rahe hain" : "bech rahe hain"} aur aap ${isFiler ? "Filer" : "Non-Filer"} hain. Aap ke liye ${result.sectionCode} ka rate ${(result.rate * 100).toFixed(2).replace(/\.00$/, "")}% hai. Advance tax Rs ${formatRupees(result.propertyValue, { prefix: false })} × ${(result.rate * 100).toFixed(2).replace(/\.00$/, "")}% = Rs ${formatRupees(result.taxAmount, { prefix: false })} banta hai. ${isBuy ? `Khareedne par: Kul kharcha Rs ${formatRupees(result.totalForBuyer, { prefix: false })} hoga.` : `Bechne par: Aap ko Rs ${formatRupees(result.netForSeller, { prefix: false })} milenge.`} Filer hone se aap ko is property par Rs ${formatRupees(result.savingsVsNonFiler, { prefix: false })} ki bachat hoti hai.`}
+      referenceContent={
+        <>
+          <p><strong>Law:</strong> Income Tax Ordinance 2001, Sections 236C (Seller) and 236K (Buyer). Finance Act 2026. Filer buyer 1.25%, filer seller 2.75%. Late-filer category abolished in TY2027.</p>
+          <p><strong>Roman Urdu:</strong> Qanoon: Income Tax Ordinance 2001, Section 236C (Seller) aur 236K (Buyer). Finance Act 2026.</p>
+        </>
+      }
+    />
+  ) : null;
 
   const breakdownSection = result ? (
     <BreakdownTable
@@ -226,24 +244,13 @@ export default function PropertyTaxCalculatorPage() {
     />
   ) : null;
 
-  const romanUrduSummary = result ? (
-    <div className="bg-surface p-3.5 rounded-lg border border-appBorder">
-      <span className="font-semibold text-primary block text-xs uppercase mb-1">
-        Roman Urdu Khulasa:
-      </span>
-      <p className="text-xs sm:text-sm text-appText">
-        {result.propertyValue.toLocaleString()} rupay ki property {result.transaction === "buy" ? "khareedne (236K)" : "bechne (236C)"} par {result.filerStatus === "filer" ? "Filer" : "Non-Filer"} hone ki hesiyat se aap par <strong>{formatRupees(result.taxAmount)}</strong> ({result.ratePercentage}) advance tax lagta hai. Filer hone ki wajah se aap non-filer ke muqablay mein <strong>{formatRupees(result.savingsVsNonFiler)}</strong> bacha rahay hain.
-      </p>
-    </div>
-  ) : null;
-
   return (
     <CalculatorShell
       content={content}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}
+      explanationBox={explanationBox}
       breakdownTable={breakdownSection}
-      romanUrduSummary={romanUrduSummary}
     />
   );
 }
