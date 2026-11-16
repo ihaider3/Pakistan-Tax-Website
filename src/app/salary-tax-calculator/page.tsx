@@ -210,8 +210,6 @@ export default function SalaryTaxCalculatorPage() {
   const explanationBox = result ? (
     <ExplanationBox
       type="tax"
-      imageSrc="/images/explanation/salary-tax.webp"
-      imageAlt="Professional calculating monthly salary"
       englishText={`Your monthly salary is Rs ${formatRupees(result.monthlySalary, { prefix: false })}. Your annual salary is Rs ${formatRupees(result.annualSalary, { prefix: false })}. Tax is charged slab by slab — only the income inside each slab is taxed at that slab's rate. Your annual tax is Rs ${formatRupees(result.annualTax, { prefix: false })}, so your monthly tax is Rs ${formatRupees(result.annualTax, { prefix: false })} ÷ 12 = Rs ${formatRupees(result.monthlyTax, { prefix: false })}. Your take-home pay is Rs ${formatRupees(result.monthlySalary, { prefix: false })} − Rs ${formatRupees(result.monthlyTax, { prefix: false })} = Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} per month.`}
       urduText={
         <>

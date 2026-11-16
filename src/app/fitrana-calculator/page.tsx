@@ -267,8 +267,6 @@ export default function FitranaCalculatorPage() {
   const explanationBox = result ? (
     <ExplanationBox
       type="islamic"
-      imageSrc="/images/explanation/fitrana.webp"
-      imageAlt="Dates and wheat for Fitrana before Eid"
       englishText={`Fitrana is paid per person before the Eid prayer. Your family has ${result.familyMembers} persons. At Rs ${formatRupees(result.perPersonRate, { prefix: false })} per person (${result.stapleName}, ${result.sourceName}), your total Fitrana is ${result.familyMembers} × Rs ${formatRupees(result.perPersonRate, { prefix: false })} = Rs ${formatRupees(result.totalFitrana, { prefix: false })}.`}
       urduText={
         <>

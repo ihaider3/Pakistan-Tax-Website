@@ -228,8 +228,6 @@ export default function PropertyTaxCalculatorPage() {
   const explanationBox = result ? (
     <ExplanationBox
       type="tax"
-      imageSrc="/images/explanation/property-tax.webp"
-      imageAlt="Modern house and keys for property purchase"
       englishText={`You are ${isBuy ? "buying" : "selling"} a property worth Rs ${formatRupees(result.propertyValue, { prefix: false })} as a ${isFiler ? "Filer" : "Non-Filer"}. The ${result.sectionCode} rate for you is ${rateFormatted}%. Your advance tax is Rs ${formatRupees(result.propertyValue, { prefix: false })} × ${rateFormatted}% = Rs ${formatRupees(result.taxAmount, { prefix: false })}. ${isBuy ? `Your total cost is Rs ${formatRupees(result.propertyValue, { prefix: false })} + Rs ${formatRupees(result.taxAmount, { prefix: false })} = Rs ${formatRupees(result.totalForBuyer, { prefix: false })}.` : `You will receive Rs ${formatRupees(result.propertyValue, { prefix: false })} − Rs ${formatRupees(result.taxAmount, { prefix: false })} = Rs ${formatRupees(result.netForSeller, { prefix: false })}.`} As a Filer you save Rs ${formatRupees(result.savingsVsNonFiler, { prefix: false })} compared to a Non-Filer on this property.`}
       urduText={
         <>

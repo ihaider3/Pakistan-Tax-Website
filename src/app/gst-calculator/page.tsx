@@ -269,8 +269,6 @@ export default function GstCalculatorPage() {
   const explanationBox = result ? (
     <ExplanationBox
       type="tax"
-      imageSrc="/images/explanation/gst.webp"
-      imageAlt="Shopkeeper calculating GST on a bill"
       englishText={
         mode === "add"
           ? `You entered Rs ${formatRupees(result.baseAmount, { prefix: false })} in Add mode at ${result.ratePercentage}. GST is Rs ${formatRupees(result.baseAmount, { prefix: false })} × ${result.ratePercentage} = Rs ${formatRupees(result.gstAmount, { prefix: false })}. Total = Rs ${formatRupees(result.baseAmount, { prefix: false })} + Rs ${formatRupees(result.gstAmount, { prefix: false })} = Rs ${formatRupees(result.totalAmount, { prefix: false })}.`

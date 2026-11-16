@@ -82,12 +82,20 @@ export default function CalculatorShell({
           {calculatorInputs}
         </div>
 
-        {/* Right Column: Live Result Panel & ExplanationBox Directly Under Result */}
+        {/* Right Column: Live Result Panel */}
         <div className="lg:col-span-5 lg:sticky lg:top-24 space-y-4">
           {resultPanel}
-          {explanationBox}
         </div>
       </section>
+
+      {/* =========================================================================
+          FULL-WIDTH EXPLANATION BOX (Spans full content width below calculator & results)
+         ========================================================================= */}
+      {explanationBox && (
+        <section className="w-full print:hidden">
+          {explanationBox}
+        </section>
+      )}
 
       {/* =========================================================================
           BLOCK 5: Line-by-Line / Slab-by-Slab Breakdown Table

@@ -488,8 +488,6 @@ export default function ZakatCalculatorPage() {
   const explanationBox = (
     <ExplanationBox
       type="islamic"
-      imageSrc="/images/explanation/zakat.webp"
-      imageAlt="Giving Zakat charity with gold coins"
       englishText={`Zakat is 2.5% of your net zakatable wealth. Your net wealth is Rs ${formatRupees(result.netZakatableWealth, { prefix: false })} (total assets Rs ${formatRupees(result.totalGrossWealth, { prefix: false })} minus debts Rs ${formatRupees(result.totalDebts, { prefix: false })}). Your nisab is Rs ${formatRupees(result.nisabThreshold, { prefix: false })} (${result.nisabUsed === "gold" ? "Gold standard" : "Silver standard"}, ${result.nisabUsed === "gold" ? "7.5" : "52.5"} tola). Because Rs ${formatRupees(result.netZakatableWealth, { prefix: false })} is ${isAbove ? "above" : "below"} the nisab, your Zakat is Rs ${formatRupees(result.zakatDue, { prefix: false })} (2.5% of Rs ${formatRupees(result.netZakatableWealth, { prefix: false })}). If you already paid Rs ${formatRupees(result.alreadyPaid, { prefix: false })}, the remaining amount is Rs ${formatRupees(result.remainingDue, { prefix: false })}.`}
       urduText={
         <>
