@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
-import { calculatorPages } from "@/content/pages";
-
-const page = calculatorPages.zakat;
 
 export const metadata: Metadata = {
-  title: "Zakat Calculator Pakistan 2026 | Gold, Silver & Cash Nisab",
+  title: "Zakat Calculator Pakistan 2026 | Gold, Silver, Cash",
   description:
     "Calculate 2.5% Zakat on cash, gold, silver and business assets with live Hanafi Nisab verification in Pakistan. 100% private, free, and instant breakdown.",
   alternates: {
     canonical: "https://pak-tax-cal.vercel.app/zakat-calculator",
   },
   openGraph: {
-    title: "Zakat Calculator Pakistan 2026 | Gold, Silver & Cash Nisab",
+    title: "Zakat Calculator Pakistan 2026 | Gold, Silver, Cash",
     description:
       "Calculate 2.5% Zakat on cash, gold, silver and business assets with live Hanafi Nisab verification in Pakistan. 100% private, free, and instant breakdown.",
     url: "https://pak-tax-cal.vercel.app/zakat-calculator",
@@ -20,26 +17,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zakat Calculator Pakistan 2026 | Gold, Silver & Cash Nisab",
+    title: "Zakat Calculator Pakistan 2026 | Gold, Silver, Cash",
     description:
       "Calculate 2.5% Zakat on cash, gold, silver and business assets with live Hanafi Nisab verification in Pakistan. 100% private, free, and instant breakdown.",
   },
 };
 
 export default function ZakatLayout({ children }: { children: React.ReactNode }) {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: page.faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
-  };
-
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -53,7 +37,7 @@ export default function ZakatLayout({ children }: { children: React.ReactNode })
       {
         "@type": "ListItem",
         position: 2,
-        name: "Complete Zakat Calculator",
+        name: "Zakat Calculator",
         item: "https://pak-tax-cal.vercel.app/zakat-calculator",
       },
     ],
@@ -64,10 +48,6 @@ export default function ZakatLayout({ children }: { children: React.ReactNode })
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       {children}
     </>

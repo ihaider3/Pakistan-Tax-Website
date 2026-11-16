@@ -1,7 +1,4 @@
 import type { Metadata } from "next";
-import { calculatorPages } from "@/content/pages";
-
-const page = calculatorPages.fitrana;
 
 export const metadata: Metadata = {
   title: "Fitrana Calculator 2026 Pakistan | Per Person Rate",
@@ -27,19 +24,6 @@ export const metadata: Metadata = {
 };
 
 export default function FitranaLayout({ children }: { children: React.ReactNode }) {
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: page.faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
-  };
-
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -64,10 +48,6 @@ export default function FitranaLayout({ children }: { children: React.ReactNode 
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       {children}
     </>

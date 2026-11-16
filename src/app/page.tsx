@@ -4,14 +4,14 @@ import type { Metadata } from "next";
 import SearchBox from "@/components/SearchBox";
 
 export const metadata: Metadata = {
-  title: "Pakistan Finance Calculators | Tax, Zakat & GST Tools",
+  title: "Pakistan Finance Calculators | Tax, Zakat & GST",
   description:
     "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
   alternates: {
     canonical: "https://pak-tax-cal.vercel.app",
   },
   openGraph: {
-    title: "Pakistan Finance Calculators | Tax, Zakat & GST Tools",
+    title: "Pakistan Finance Calculators | Tax, Zakat & GST",
     description:
       "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
     url: "https://pak-tax-cal.vercel.app",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pakistan Finance Calculators | Tax, Zakat & GST Tools",
+    title: "Pakistan Finance Calculators | Tax, Zakat & GST",
     description:
       "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
   },
