@@ -47,7 +47,6 @@ export default function ResultPanel({
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
-      // Fallback
       setCopied(false);
     }
   };
@@ -60,24 +59,30 @@ export default function ResultPanel({
 
   return (
     <div
-      className={`bg-surface border-2 border-appBorder rounded-xl p-5 sm:p-6 shadow-sm flex flex-col justify-between min-h-[380px] transition-all print:border-none print:p-0 print:shadow-none ${className}`}
+      className={`bg-gradient-to-b from-white via-[#FAFBFD] to-surface border border-slate-200/90 rounded-2xl p-5 sm:p-7 shadow-[0_20px_50px_-12px_rgba(11,42,74,0.14),0_0_0_1px_rgba(11,42,74,0.03)] flex flex-col justify-between min-h-[420px] transition-all print:border-none print:p-0 print:shadow-none ${className}`}
       aria-live="polite"
     >
       <div>
         {/* Panel Header */}
-        <div className="flex items-center justify-between pb-3 mb-4 border-b border-appBorder">
-          <h2 className="font-bold text-primary text-base sm:text-lg flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse"></span>
-            {title}
-          </h2>
+        <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-slate-200/80">
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+            </span>
+            <h2 className="font-extrabold text-primary text-base sm:text-lg tracking-tight">
+              {title}
+            </h2>
+          </div>
+
           {statusBadge && (
             <span
-              className={`text-xs px-2.5 py-1 rounded-full font-bold uppercase tracking-wide ${
+              className={`text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider shadow-2xs ${
                 statusBadge.variant === "due" || statusBadge.variant === "warning"
-                  ? "bg-amber-100 text-amber-900 border border-amber-300"
+                  ? "bg-amber-100 text-amber-950 border border-amber-300"
                   : statusBadge.variant === "not_due" || statusBadge.variant === "success"
-                  ? "bg-emerald-100 text-emerald-900 border border-emerald-300"
-                  : "bg-surface-hover text-appText"
+                  ? "bg-emerald-100 text-emerald-950 border border-emerald-300"
+                  : "bg-surface-hover text-appText border border-slate-200"
               }`}
             >
               {statusBadge.text}
@@ -87,56 +92,64 @@ export default function ResultPanel({
 
         {/* Main Result Display */}
         {isEmpty ? (
-          <div className="py-12 text-center text-appText-muted flex flex-col items-center justify-center space-y-2">
-            <svg
-              className="w-10 h-10 text-appText-subtle"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-              />
-            </svg>
-            <p className="text-base font-medium text-appText">{emptyPrompt}</p>
-            <p className="text-xs text-appText-muted">Live calculations update instantly as you type.</p>
+          <div className="py-14 text-center text-appText-muted flex flex-col items-center justify-center space-y-3">
+            <div className="w-14 h-14 rounded-2xl bg-surface flex items-center justify-center text-appText-subtle shadow-inner">
+              <svg
+                className="w-7 h-7"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+            <p className="text-base font-bold text-primary">{emptyPrompt}</p>
+            <p className="text-xs text-appText-muted max-w-xs">Live calculation updates instantly with zero server roundtrips.</p>
           </div>
         ) : (
-          <div>
-            <div className="bg-white p-4 sm:p-5 rounded-lg border border-appBorder mb-4 shadow-xs">
-              <span className="block text-xs font-semibold text-appText-muted uppercase tracking-wider mb-1">
+          <div className="space-y-4">
+            {/* Cinematic Main Result Hero Card */}
+            <div className="bg-gradient-to-br from-primary via-[#0E355E] to-primary-light text-white p-5 sm:p-6 rounded-xl shadow-xl shadow-primary/25 ring-1 ring-white/15 relative overflow-hidden">
+              <div className="absolute top-0 right-0 -mr-6 -mt-6 w-32 h-32 bg-accent/20 rounded-full blur-2xl pointer-events-none" />
+              
+              <span className="block text-xs font-bold text-emerald-300 uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                 {mainLabel}
               </span>
-              <div className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white drop-shadow-xs">
                 {mainValue}
               </div>
               {mainSubtext && (
-                <p className="text-xs text-appText-muted mt-1 font-medium">{mainSubtext}</p>
+                <p className="text-xs sm:text-sm text-slate-200 mt-2 font-medium leading-relaxed">
+                  {mainSubtext}
+                </p>
               )}
             </div>
 
-            {/* Secondary Results Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+            {/* Secondary Results Grid with Soft Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {secondaryResults.map((item, idx) => (
                 <div
                   key={idx}
-                  className={`p-3 rounded-lg border transition-colors ${
+                  className={`p-3.5 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 ${
                     item.highlight
-                      ? "bg-accent-soft border-accent/30"
-                      : "bg-white border-appBorder"
+                      ? "bg-accent-soft/90 border-accent/40 shadow-xs"
+                      : "bg-white border-slate-200/90 shadow-[0_2px_8px_rgba(0,0,0,0.03)]"
                   }`}
                 >
-                  <span className="block text-xs text-appText-muted mb-0.5">
+                  <span className="block text-[11px] font-bold text-appText-muted uppercase tracking-wider mb-0.5">
                     {item.label}
                   </span>
-                  <span className="text-lg font-bold text-primary block">
+                  <span className="text-lg font-black text-primary block tracking-tight">
                     {item.value}
                   </span>
                   {item.subtext && (
-                    <span className="text-[11px] text-appText-subtle block mt-0.5">
+                    <span className="text-[11px] text-appText-subtle block mt-0.5 font-medium">
                       {item.subtext}
                     </span>
                   )}
@@ -148,19 +161,19 @@ export default function ResultPanel({
       </div>
 
       {/* Action Buttons & Footnote */}
-      <div className="pt-4 border-t border-appBorder space-y-3">
+      <div className="pt-5 border-t border-slate-200/80 space-y-3 mt-4">
         {!isEmpty && (
-          <div className="flex flex-wrap items-center gap-2 print:hidden">
+          <div className="flex flex-wrap items-center gap-2.5 print:hidden">
             <button
               type="button"
               onClick={handleCopy}
-              className="flex-1 min-h-[44px] px-4 py-2 text-sm font-semibold rounded-md bg-primary text-white hover:bg-primary-light active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 focus:outline-hidden focus:ring-2 focus:ring-accent"
+              className="flex-1 min-h-[46px] px-4 py-2.5 text-sm font-bold rounded-xl bg-gradient-to-r from-primary to-primary-light text-white hover:from-primary-light hover:to-primary active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-primary/20 hover:shadow-lg focus:outline-hidden focus:ring-2 focus:ring-accent"
               aria-label="Copy summary to clipboard"
             >
               {copied ? (
                 <>
                   <svg className="w-4 h-4 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
                   <span>Copied to Clipboard!</span>
                 </>
@@ -177,7 +190,7 @@ export default function ResultPanel({
             <button
               type="button"
               onClick={handlePrint}
-              className="min-h-[44px] px-4 py-2 text-sm font-semibold rounded-md border border-appBorder bg-white text-appText hover:bg-surface active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 focus:outline-hidden focus:ring-2 focus:ring-accent"
+              className="min-h-[46px] px-4 py-2.5 text-sm font-bold rounded-xl border border-slate-200 bg-white text-appText hover:bg-surface hover:text-primary active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 shadow-xs hover:shadow-md focus:outline-hidden focus:ring-2 focus:ring-accent"
               aria-label="Print or save as PDF"
             >
               <svg className="w-4 h-4 text-appText-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -189,7 +202,7 @@ export default function ResultPanel({
         )}
 
         {footnote && (
-          <p className="text-[11px] text-appText-muted leading-relaxed italic">
+          <p className="text-[11px] text-appText-muted leading-relaxed italic pt-1">
             {footnote}
           </p>
         )}

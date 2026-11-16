@@ -404,3 +404,4 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
       "Guidance only, not a fatwa. Rates reflect official public announcements for Ramadan 2026. Wheat Rs 300 is the minimum standard; those with greater means are encouraged to pay according to barley, dates, or raisins. Consult a qualified scholar.",
   },
 };
+

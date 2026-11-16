@@ -34,28 +34,33 @@ export default function BreakdownTable({
   className = "",
 }: BreakdownTableProps) {
   return (
-    <div className={`space-y-3 ${className}`}>
+    <div className={`space-y-4 ${className}`}>
       {(title || subtitle) && (
-        <div className="border-b border-appBorder pb-2">
-          {title && <h3 className="text-base font-bold text-primary">{title}</h3>}
-          {subtitle && <p className="text-xs text-appText-muted">{subtitle}</p>}
+        <div className="border-b border-slate-200/80 pb-3 flex flex-col sm:flex-row sm:items-end justify-between gap-1">
+          <div>
+            {title && <h3 className="text-lg font-black text-primary tracking-tight">{title}</h3>}
+            {subtitle && <p className="text-xs text-appText-muted mt-0.5">{subtitle}</p>}
+          </div>
+          <span className="text-[11px] font-bold text-accent bg-accent-soft px-2.5 py-0.5 rounded-full border border-accent/20 self-start sm:self-auto">
+            Line-by-Line Math
+          </span>
         </div>
       )}
 
       {rows.length === 0 ? (
-        <div className="p-4 bg-surface rounded-md text-sm text-appText-muted text-center">
+        <div className="p-6 bg-surface rounded-xl text-sm text-appText-muted text-center font-medium border border-slate-200/80">
           {emptyMessage}
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-appBorder bg-white shadow-xs">
+        <div className="overflow-x-auto rounded-2xl border border-slate-200/90 bg-white shadow-[0_8px_25px_-5px_rgba(11,42,74,0.05)]">
           <table className="w-full text-left text-sm border-collapse">
-            <thead className="bg-surface text-appText font-semibold border-b border-appBorder text-xs uppercase tracking-wider">
+            <thead className="bg-gradient-to-r from-surface via-slate-100 to-surface text-primary font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
               <tr>
                 {columns.map((col) => (
                   <th
                     key={col.key}
                     scope="col"
-                    className={`py-3 px-3 sm:px-4 ${
+                    className={`py-3.5 px-4 sm:px-5 ${
                       col.align === "right"
                         ? "text-right"
                         : col.align === "center"
@@ -68,22 +73,22 @@ export default function BreakdownTable({
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-appBorder">
+            <tbody className="divide-y divide-slate-100">
               {rows.map((row) => (
                 <tr
                   key={row.id}
-                  className={`transition-colors ${
+                  className={`transition-colors duration-150 ${
                     row.isHighlighted
-                      ? "bg-accent-soft/60 font-medium"
-                      : "hover:bg-surface/50"
+                      ? "bg-teal-50/70 font-semibold"
+                      : "hover:bg-slate-50/70"
                   }`}
                 >
                   {columns.map((col) => (
                     <td
                       key={col.key}
-                      className={`py-2.5 px-3 sm:px-4 text-xs sm:text-sm text-appText ${
+                      className={`py-3 px-4 sm:px-5 text-xs sm:text-sm text-appText ${
                         col.align === "right"
-                          ? "text-right font-mono"
+                          ? "text-right font-mono font-medium"
                           : col.align === "center"
                           ? "text-center"
                           : "text-left"
@@ -96,15 +101,15 @@ export default function BreakdownTable({
               ))}
             </tbody>
             {totalValue && (
-              <tfoot className="bg-surface font-bold text-primary border-t-2 border-appBorder">
+              <tfoot className="bg-gradient-to-r from-surface via-slate-100/90 to-surface font-black text-primary border-t-2 border-slate-200">
                 <tr>
                   <td
                     colSpan={Math.max(1, columns.length - 1)}
-                    className="py-3 px-3 sm:px-4 text-left text-xs sm:text-sm uppercase tracking-wider"
+                    className="py-4 px-4 sm:px-5 text-left text-xs sm:text-sm uppercase tracking-wider font-extrabold text-primary"
                   >
                     {totalLabel || "Total"}
                   </td>
-                  <td className="py-3 px-3 sm:px-4 text-right font-mono text-sm sm:text-base text-accent">
+                  <td className="py-4 px-4 sm:px-5 text-right font-mono text-base sm:text-lg text-accent font-black">
                     {totalValue}
                   </td>
                 </tr>

@@ -141,3 +141,4 @@ export function calculateZakat(inputs: ZakatInputs): ZakatCalculationResult {
     assetBreakdown,
   };
 }
+

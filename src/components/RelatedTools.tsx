@@ -10,7 +10,8 @@ const allTools = [
   {
     slug: "salary-tax-calculator",
     name: "Salary Tax Calculator",
-    description: "Calculate monthly income tax & take-home pay under FBR TY2027 slabs.",
+    badge: "TY 2026–27",
+    description: "Calculate monthly income tax & take-home pay under FBR Section 149 slabs.",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -20,6 +21,7 @@ const allTools = [
   {
     slug: "zakat-calculator",
     name: "Complete Zakat Calculator",
+    badge: "2.5% Rate",
     description: "2.5% Zakat on cash, gold, silver & trade inventory with Hanafi Nisab.",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -29,7 +31,8 @@ const allTools = [
   },
   {
     slug: "property-tax-calculator",
-    name: "Property Transfer Tax (236C / 236K)",
+    name: "Property Transfer Tax",
+    badge: "236C & 236K",
     description: "Calculate advance tax on buying (236K) or selling (236C) real estate.",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -40,6 +43,7 @@ const allTools = [
   {
     slug: "gst-calculator",
     name: "GST Calculator (18%)",
+    badge: "Sales Tax",
     description: "Add or remove 18% sales tax or custom rates from any invoice.",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -50,6 +54,7 @@ const allTools = [
   {
     slug: "fitrana-calculator",
     name: "Fitrana Calculator 2026",
+    badge: "Ramadan 2026",
     description: "Household Sadqa-e-Fitr based on Mufti Muneeb and CII 2026 rates.",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,36 +68,42 @@ export default function RelatedTools({ currentSlug, className = "" }: RelatedToo
   const tools = allTools.filter((t) => t.slug !== currentSlug);
 
   return (
-    <section className={`space-y-4 ${className}`} aria-labelledby="related-tools-heading">
-      <div className="border-b border-appBorder pb-2">
-        <h2 id="related-tools-heading" className="text-xl font-bold text-primary">
-          Other Pakistan Calculators
-        </h2>
-        <p className="text-xs text-appText-muted">
-          Fast, accurate, and private calculators for taxes, property, and Islamic obligations.
-        </p>
+    <section className={`space-y-5 ${className}`} aria-labelledby="related-tools-heading">
+      <div className="border-b border-slate-200/80 pb-3 flex items-center justify-between">
+        <div>
+          <span className="text-xs font-bold text-accent uppercase tracking-wider">Explore More</span>
+          <h2 id="related-tools-heading" className="text-xl font-extrabold text-primary tracking-tight">
+            Other Pakistan Calculators
+          </h2>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {tools.map((tool) => (
           <Link
             key={tool.slug}
             href={`/${tool.slug}`}
-            className="group p-4 bg-white rounded-lg border border-appBorder hover:border-accent hover:shadow-md transition-all flex flex-col justify-between"
+            className="group p-5 bg-white rounded-2xl border border-slate-200/90 hover:border-accent/50 shadow-[0_4px_16px_-2px_rgba(11,42,74,0.04)] hover:shadow-[0_15px_30px_-5px_rgba(11,42,74,0.12)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
           >
             <div>
-              <div className="w-9 h-9 rounded-md bg-surface text-primary group-hover:bg-accent-soft group-hover:text-accent flex items-center justify-center mb-3 transition-colors">
-                {tool.icon}
+              <div className="flex items-center justify-between mb-3.5">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-surface to-slate-100 text-primary group-hover:from-accent-soft group-hover:to-teal-100/60 group-hover:text-accent flex items-center justify-center transition-all duration-300 shadow-xs ring-1 ring-slate-200/70 group-hover:scale-105">
+                  {tool.icon}
+                </div>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-appText-muted group-hover:bg-accent-soft group-hover:text-accent transition-colors">
+                  {tool.badge}
+                </span>
               </div>
-              <h3 className="font-bold text-sm text-primary group-hover:text-accent transition-colors mb-1">
+              <h3 className="font-extrabold text-base text-primary group-hover:text-accent transition-colors mb-1.5">
                 {tool.name}
               </h3>
-              <p className="text-xs text-appText-muted line-clamp-2">
+              <p className="text-xs text-appText-muted line-clamp-2 leading-relaxed">
                 {tool.description}
               </p>
             </div>
-            <span className="text-xs font-semibold text-accent mt-3 inline-flex items-center gap-1 group-hover:gap-1.5 transition-all">
-              Calculate now →
+            <span className="text-xs font-bold text-accent mt-4 inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+              <span>Calculate now</span>
+              <span>→</span>
             </span>
           </Link>
         ))}

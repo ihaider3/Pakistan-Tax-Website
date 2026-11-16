@@ -85,3 +85,4 @@ export const salaryRates2026_27 = {
     notes: "Abolished in Finance Act 2026 for salaried taxpayers.",
   },
 };
+

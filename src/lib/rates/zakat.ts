@@ -23,3 +23,4 @@ export const zakatRates = {
   },
   disclaimerText: "Zakat is due only if wealth stayed at or above nisab for one full lunar year (Hawl). This tool calculates the amount, not the date. It is guidance only, not a fatwa. For complex cases (partnerships, mixed assets, jewellery in regular use, agricultural Ushr, livestock), please consult a qualified Mufti or Islamic scholar.",
 };
+

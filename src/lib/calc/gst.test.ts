@@ -153,3 +153,4 @@ describe("GST Calculator (18% & Custom Rate)", () => {
     expect(res.gstAmount).toBe(100);
   });
 });
+

@@ -60,3 +60,4 @@ export const salaryRates2025_26 = {
     notes: "Surcharge: check FBR rate card. Not applied silently in this calculator.",
   },
 };
+

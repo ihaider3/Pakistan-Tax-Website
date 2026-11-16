@@ -171,3 +171,4 @@ describe("Salary Tax Calculator TY2027 (Finance Act 2026)", () => {
     expect(res.breakdown[3].taxableAmountInSlab).toBe(0);
   });
 });
+

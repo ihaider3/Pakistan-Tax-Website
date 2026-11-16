@@ -272,3 +272,4 @@ describe("Complete Zakat Calculator (Hanafi standard)", () => {
     expect(res.zakatDue).toBe(8333.33);
   });
 });
+

@@ -11,3 +11,4 @@ export const gstRates = {
   standardGoodsLabel: "18% Standard (Goods)",
   provincialNotice: "Services rates are set by provinces (Punjab PRA, Sindh SRB, KP KPRA, Balochistan BRA) and change across service categories — confirm with the respective provincial revenue authority for your service.",
 };
+

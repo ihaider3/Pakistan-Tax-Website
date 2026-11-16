@@ -4,57 +4,60 @@ import { siteConfig } from "@/content/pages";
 
 export default function Footer() {
   return (
-    <footer className="bg-surface border-t border-appBorder mt-16 print:hidden">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+    <footer className="bg-gradient-to-b from-surface via-[#F0F3F7] to-slate-100 border-t border-slate-200/90 mt-20 print:hidden">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
           {/* Column 1: Brand & Privacy Claim */}
-          <div className="md:col-span-2 space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="w-7 h-7 rounded-sm bg-primary text-white flex items-center justify-center font-bold text-xs">
+          <div className="md:col-span-2 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-accent text-white flex items-center justify-center font-black text-xs shadow-md shadow-primary/20">
                 PK
-              </span>
-              <span className="font-bold text-primary text-base">
+              </div>
+              <span className="font-extrabold text-primary text-lg tracking-tight">
                 {siteConfig.brandName}
               </span>
             </div>
-            <p className="text-sm text-appText-muted max-w-md">
+            <p className="text-sm text-appText-muted max-w-md leading-relaxed">
               Free, verified, and completely private calculation utilities for Pakistan.
-              All calculations run 100% locally in your web browser.
+              All calculations run 100% locally in your web browser with zero server data storage.
             </p>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-accent-soft text-accent text-xs font-medium">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-              <span>{siteConfig.privacyClaim} No server storage or tracking.</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white text-accent text-xs font-bold border border-slate-200 shadow-xs">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+              </span>
+              <span>{siteConfig.privacyClaim} No server tracking.</span>
             </div>
           </div>
 
           {/* Column 2: Calculators */}
           <div>
-            <h4 className="font-semibold text-primary text-sm mb-3">Calculators</h4>
-            <ul className="space-y-2 text-sm text-appText-muted">
+            <h4 className="font-extrabold text-primary text-sm uppercase tracking-wider mb-4">
+              Calculators
+            </h4>
+            <ul className="space-y-2.5 text-sm text-appText-muted font-medium">
               <li>
-                <Link href="/salary-tax-calculator" className="hover:text-primary transition-colors">
+                <Link href="/salary-tax-calculator" className="hover:text-accent transition-colors">
                   Salary Tax 2026-27
                 </Link>
               </li>
               <li>
-                <Link href="/zakat-calculator" className="hover:text-primary transition-colors">
-                  Complete Zakat
+                <Link href="/zakat-calculator" className="hover:text-accent transition-colors">
+                  Complete Zakat (2.5%)
                 </Link>
               </li>
               <li>
-                <Link href="/property-tax-calculator" className="hover:text-primary transition-colors">
+                <Link href="/property-tax-calculator" className="hover:text-accent transition-colors">
                   Property Tax (236C / 236K)
                 </Link>
               </li>
               <li>
-                <Link href="/gst-calculator" className="hover:text-primary transition-colors">
+                <Link href="/gst-calculator" className="hover:text-accent transition-colors">
                   GST Calculator (18%)
                 </Link>
               </li>
               <li>
-                <Link href="/fitrana-calculator" className="hover:text-primary transition-colors">
+                <Link href="/fitrana-calculator" className="hover:text-accent transition-colors">
                   Fitrana 2026
                 </Link>
               </li>
@@ -63,31 +66,33 @@ export default function Footer() {
 
           {/* Column 3: Platform Info & Legal */}
           <div>
-            <h4 className="font-semibold text-primary text-sm mb-3">Platform & Legal</h4>
-            <ul className="space-y-2 text-sm text-appText-muted">
+            <h4 className="font-extrabold text-primary text-sm uppercase tracking-wider mb-4">
+              Platform &amp; Legal
+            </h4>
+            <ul className="space-y-2.5 text-sm text-appText-muted font-medium">
               <li>
-                <Link href="/about" className="hover:text-primary transition-colors">
+                <Link href="/about" className="hover:text-accent transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/methodology" className="hover:text-primary transition-colors">
-                  Methodology & Sources
+                <Link href="/methodology" className="hover:text-accent transition-colors">
+                  Methodology &amp; Sources
                 </Link>
               </li>
               <li>
-                <Link href="/privacy-policy" className="hover:text-primary transition-colors">
+                <Link href="/privacy-policy" className="hover:text-accent transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/disclaimer" className="hover:text-primary transition-colors">
+                <Link href="/disclaimer" className="hover:text-accent transition-colors">
                   Disclaimer
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-primary transition-colors">
-                  Contact
+                <Link href="/contact" className="hover:text-accent transition-colors">
+                  Contact &amp; Feedback
                 </Link>
               </li>
             </ul>
@@ -95,11 +100,11 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-appBorder flex flex-col sm:flex-row items-center justify-between text-xs text-appText-muted gap-3">
-          <p>
+        <div className="pt-8 border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between text-xs text-appText-muted gap-3">
+          <p className="font-medium">
             © {siteConfig.copyrightYear} {siteConfig.brandName}. All rights reserved.
           </p>
-          <p className="font-medium text-appText text-center sm:text-right">
+          <p className="font-bold text-primary text-center sm:text-right">
             Estimates only — not tax, legal, or religious advice.
           </p>
         </div>

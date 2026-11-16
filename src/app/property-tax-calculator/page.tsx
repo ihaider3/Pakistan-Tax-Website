@@ -177,11 +177,12 @@ export default function PropertyTaxCalculatorPage() {
       />
 
       {/* Provincial Notice Box */}
-      <div className="p-3.5 bg-surface border border-appBorder rounded-lg text-xs text-appText-muted space-y-1">
-        <span className="font-semibold text-appText block">
-          Provincial Fees & Capital Gains Tax Note:
+      <div className="p-4 bg-gradient-to-r from-surface via-slate-50 to-surface border border-slate-200/90 rounded-xl text-xs text-appText-muted space-y-1 shadow-2xs">
+        <span className="font-bold text-primary block text-xs uppercase tracking-wider flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
+          Provincial Fees &amp; Capital Gains Tax Note:
         </span>
-        <p>
+        <p className="leading-relaxed">
           Provincial stamp duty, registration fees, and Capital Value Tax (CVT) vary by province (Punjab, Sindh, KP, Balochistan) and are NOT included in this tool. Confirm local levies with your sub-registrar office. Capital Gains Tax (CGT) under Section 37 is also calculated separately.
         </p>
       </div>
@@ -246,3 +247,4 @@ export default function PropertyTaxCalculatorPage() {
     />
   );
 }
+

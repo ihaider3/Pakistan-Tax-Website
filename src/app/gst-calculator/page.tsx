@@ -183,8 +183,8 @@ export default function GstCalculatorPage() {
 
       {/* Custom Rate Input */}
       {ratePreset === "custom" && (
-        <div className="p-4 bg-surface rounded-lg border border-appBorder space-y-2">
-          <label htmlFor="custom-rate-input" className="block text-sm font-semibold text-appText">
+        <div className="p-4 sm:p-5 bg-gradient-to-r from-surface via-slate-50 to-surface rounded-xl border border-slate-200/90 space-y-2.5 shadow-2xs">
+          <label htmlFor="custom-rate-input" className="block text-sm font-bold text-primary">
             Enter Custom GST Rate (%)
           </label>
           <div className="relative">
@@ -199,23 +199,26 @@ export default function GstCalculatorPage() {
                 setCustomRateRaw(e.target.value);
                 setCustomRateNum(parseFloat(e.target.value) || 0);
               }}
-              className="w-full px-3 py-2.5 min-h-[44px] rounded-md border border-appBorder text-base bg-white"
+              className="w-full pl-4 pr-10 py-3 min-h-[48px] rounded-xl border border-slate-200 text-base font-bold bg-white focus:outline-hidden focus:ring-2 focus:ring-accent"
               placeholder="e.g. 5, 13, 16, 17"
             />
-            <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-appText-muted font-bold">
+            <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-accent font-black text-sm">
               %
             </div>
           </div>
-          <p className="text-xs text-appText-muted">
+          <p className="text-xs text-appText-muted font-medium">
             Common Pakistani rates: 0% (exempt foods/medicines), 5% (concessional), 13% (Sindh SRB services), 16% (Punjab PRA services).
           </p>
         </div>
       )}
 
       {/* Provincial Services Scope Warning */}
-      <div className="p-3 bg-surface border border-appBorder rounded-lg text-xs text-appText-muted space-y-1">
-        <span className="font-semibold text-appText block">Services Tax Notice:</span>
-        <p>{gstRates.provincialNotice}</p>
+      <div className="p-4 bg-gradient-to-r from-surface via-slate-50 to-surface border border-slate-200/90 rounded-xl text-xs text-appText-muted space-y-1 shadow-2xs">
+        <span className="font-bold text-primary block text-xs uppercase tracking-wider flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
+          Services Tax Notice:
+        </span>
+        <p className="leading-relaxed">{gstRates.provincialNotice}</p>
       </div>
     </div>
   );
@@ -296,3 +299,4 @@ export default function GstCalculatorPage() {
     />
   );
 }
+

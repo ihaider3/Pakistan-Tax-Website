@@ -149,3 +149,4 @@ describe("Fitrana Calculator (2026 - Mufti Muneeb & CII Rates)", () => {
     expect(res.weightDescription).toBe("2 kg");
   });
 });
+

@@ -157,11 +157,11 @@ export default function FitranaCalculatorPage() {
   const calculatorInputs = (
     <div className="space-y-6">
       {/* Family Members Count */}
-      <div className="space-y-1.5">
-        <label htmlFor="members-input" className="block text-sm font-semibold text-appText">
-          Number of Family Members & Dependents <span className="text-red-500">*</span>
+      <div className="space-y-2">
+        <label htmlFor="members-input" className="block text-sm font-bold text-primary tracking-tight">
+          Number of Family Members &amp; Dependents <span className="text-red-500">*</span>
         </label>
-        <div className="relative">
+        <div className="relative rounded-xl shadow-xs focus-within:shadow-[0_8px_20px_-3px_rgba(15,118,110,0.15)] transition-all">
           <input
             id="members-input"
             type="number"
@@ -169,17 +169,17 @@ export default function FitranaCalculatorPage() {
             max="50"
             value={membersRaw}
             onChange={handleMembersChange}
-            className={`block w-full px-4 py-3 min-h-[44px] text-base rounded-md border text-appText bg-white transition-colors ${
-              inputError ? "border-red-500 focus:ring-red-500/20" : "border-appBorder focus:border-accent"
+            className={`block w-full px-4 py-3 min-h-[48px] text-base font-bold rounded-xl border text-appText bg-white transition-all ${
+              inputError ? "border-red-400 focus:ring-red-400/20" : "border-slate-200/90 focus:border-accent focus:ring-2 focus:ring-accent/20"
             }`}
             placeholder="e.g. 5"
             required
           />
         </div>
         {inputError && (
-          <p className="text-xs text-red-600 font-medium">{inputError}</p>
+          <p className="text-xs text-red-600 font-bold">{inputError}</p>
         )}
-        <p className="text-xs text-appText-muted">
+        <p className="text-xs text-appText-muted font-medium">
           Count yourself, spouse, minor children, and any other household dependents.
         </p>
       </div>
@@ -201,8 +201,11 @@ export default function FitranaCalculatorPage() {
       />
 
       {/* Scholarly Difference Explanation */}
-      <div className="p-3.5 bg-surface border border-appBorder rounded-lg text-xs text-appText-muted space-y-1">
-        <span className="font-semibold text-primary block">Consensus vs Discrepancy Note:</span>
+      <div className="p-4 bg-gradient-to-r from-surface via-slate-50 to-surface border border-slate-200/90 rounded-xl text-xs text-appText-muted space-y-1 shadow-2xs">
+        <span className="font-bold text-primary block text-xs uppercase tracking-wider flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
+          Consensus vs Discrepancy Note:
+        </span>
         <p>
           Both scholars unanimously agree on <strong>Rs 300 per person</strong> for standard 2 kg Wheat (Gandum). Rates for barley, dates, and raisins vary based on quality grading and regional market surveys.
         </p>
@@ -269,3 +272,4 @@ export default function FitranaCalculatorPage() {
     />
   );
 }
+

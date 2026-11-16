@@ -44,3 +44,4 @@ export const propertyRates2026_27 = {
     nonFilerRate: 0.115, // 11.5% flat
   },
 };
+

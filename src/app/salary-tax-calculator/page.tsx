@@ -126,12 +126,14 @@ export default function SalaryTaxCalculatorPage() {
   const calculatorInputs = (
     <div className="space-y-5">
       {/* Scope Disclaimer Banner */}
-      <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg text-xs text-blue-900 flex items-start gap-2">
-        <svg className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <p>
-          <strong>Salaried Individuals Scope:</strong> Applicable only to individuals where salary income exceeds 75% of total taxable income (Section 149). Not for freelancers, sole proprietors, or corporate directors.
+      <div className="p-4 bg-gradient-to-r from-blue-50 via-slate-50 to-blue-50/50 border border-blue-200/80 rounded-xl text-xs text-blue-950 flex items-start gap-3 shadow-2xs">
+        <div className="p-1.5 rounded-lg bg-blue-100/80 text-blue-700 shrink-0 mt-0.5">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p className="leading-relaxed">
+          <strong className="font-bold text-blue-900">Salaried Individuals Scope:</strong> Applicable only to individuals where salary income exceeds 75% of total taxable income (Section 149). Not for freelancers, sole proprietors, or corporate directors.
         </p>
       </div>
 
@@ -235,3 +237,4 @@ export default function SalaryTaxCalculatorPage() {
     />
   );
 }
+

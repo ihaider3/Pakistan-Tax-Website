@@ -137,16 +137,16 @@ export default function ZakatCalculatorPage() {
 
   // Custom Top Section: Government Bank Auto-Deduction Box
   const customTopSection = (
-    <div className="bg-amber-50/70 border border-amber-300 rounded-xl p-4 sm:p-5 text-xs sm:text-sm text-amber-950 space-y-1.5 shadow-xs">
-      <div className="flex items-center gap-2">
-        <span className="px-2 py-0.5 rounded-full bg-amber-200 text-amber-900 font-bold text-xs uppercase tracking-wider">
+    <div className="bg-gradient-to-r from-amber-50 via-white to-amber-50/50 border border-amber-300 rounded-2xl p-5 sm:p-6 text-xs sm:text-sm text-amber-950 space-y-2 shadow-[0_4px_20px_-2px_rgba(217,119,6,0.08)]">
+      <div className="flex flex-wrap items-center gap-2.5">
+        <span className="px-3 py-1 rounded-full bg-amber-200 text-amber-950 font-black text-xs uppercase tracking-wider shadow-2xs">
           Official Notification
         </span>
-        <span className="font-bold text-primary">
+        <span className="font-extrabold text-primary text-sm sm:text-base">
           Government Bank Deduction Nisab 2026: {formatRupees(zakatRates.governmentBankNisab2026.amount)}
         </span>
       </div>
-      <p className="text-amber-900 leading-relaxed">
+      <p className="text-amber-900 leading-relaxed font-medium">
         {zakatRates.governmentBankNisab2026.explanation} Notified by the Ministry of Poverty Alleviation & SBP ({zakatRates.governmentBankNisab2026.circular}).
       </p>
     </div>
@@ -405,3 +405,4 @@ export default function ZakatCalculatorPage() {
     />
   );
 }
+

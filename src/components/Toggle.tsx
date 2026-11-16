@@ -24,16 +24,16 @@ export default function Toggle<T extends string>({
   className = "",
 }: ToggleProps<T>) {
   return (
-    <div className={`space-y-1.5 ${className}`}>
+    <div className={`space-y-2 ${className}`}>
       {label && (
-        <span className="block text-sm font-semibold text-appText">
+        <span className="block text-sm font-bold text-primary tracking-tight">
           {label}
         </span>
       )}
       <div
         role="radiogroup"
         aria-label={label || "Selection options"}
-        className="inline-flex w-full bg-surface p-1 rounded-lg border border-appBorder"
+        className="inline-flex w-full bg-slate-100/90 p-1.5 rounded-xl border border-slate-200/80 shadow-inner-soft gap-1"
       >
         {options.map((opt) => {
           const isSelected = opt.value === value;
@@ -44,19 +44,19 @@ export default function Toggle<T extends string>({
               role="radio"
               aria-checked={isSelected}
               onClick={() => onChange(opt.value)}
-              className={`flex-1 min-h-[44px] px-3 py-2 text-sm font-medium rounded-md transition-all flex items-center justify-center gap-1.5 focus:outline-hidden focus:ring-2 focus:ring-accent ${
+              className={`flex-1 min-h-[44px] px-3.5 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 focus:outline-hidden focus:ring-2 focus:ring-accent ${
                 isSelected
-                  ? "bg-primary text-white shadow-xs font-semibold"
-                  : "text-appText hover:text-primary hover:bg-surface-hover"
+                  ? "bg-gradient-to-r from-primary to-primary-light text-white shadow-md shadow-primary/20 scale-[1.01]"
+                  : "text-appText-muted hover:text-primary hover:bg-white/80"
               }`}
             >
               <span>{opt.label}</span>
               {opt.badge && (
                 <span
-                  className={`text-[11px] px-1.5 py-0.2 rounded-full font-bold uppercase ${
+                  className={`text-[10px] px-2 py-0.5 rounded-full font-extrabold uppercase tracking-wider transition-colors ${
                     isSelected
-                      ? "bg-accent text-white"
-                      : "bg-appBorder text-appText-muted"
+                      ? "bg-accent text-white shadow-2xs"
+                      : "bg-slate-200 text-appText-muted"
                   }`}
                 >
                   {opt.badge}

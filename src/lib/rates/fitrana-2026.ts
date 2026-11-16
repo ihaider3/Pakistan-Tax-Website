@@ -45,3 +45,4 @@ export const fitranaRates2026 = {
   consensusWheatRate: 300,
   disclaimerText: "Fitrana (Zakat al-Fitr) is obligatory per person for every self-sufficient Muslim and dependents before Eid prayer. These are minimum recommended amounts — you may pay higher amounts (barley, dates, raisins) according to your financial means. Fidya and Kaffara are not included.",
 };
+
