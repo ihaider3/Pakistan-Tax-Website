@@ -210,12 +210,21 @@ export default function SalaryTaxCalculatorPage() {
   const explanationBox = result ? (
     <ExplanationBox
       type="tax"
+      imageSrc="/images/explanation/salary-tax.webp"
+      imageAlt="Professional calculating monthly salary"
       englishText={`Your monthly salary is Rs ${formatRupees(result.monthlySalary, { prefix: false })}. Your annual salary is Rs ${formatRupees(result.annualSalary, { prefix: false })}. Tax is charged slab by slab — only the income inside each slab is taxed at that slab's rate. Your annual tax is Rs ${formatRupees(result.annualTax, { prefix: false })}, so your monthly tax is Rs ${formatRupees(result.annualTax, { prefix: false })} ÷ 12 = Rs ${formatRupees(result.monthlyTax, { prefix: false })}. Your take-home pay is Rs ${formatRupees(result.monthlySalary, { prefix: false })} − Rs ${formatRupees(result.monthlyTax, { prefix: false })} = Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} per month.`}
-      romanUrduText={`Aap ki mahana salary Rs ${formatRupees(result.monthlySalary, { prefix: false })} hai, salana Rs ${formatRupees(result.annualSalary, { prefix: false })} banti hai. Tax slab ke hisab se lagta hai — har slab mein sirf us slab ki aamdani par us slab ka rate lagta hai. Aap ka salana tax Rs ${formatRupees(result.annualTax, { prefix: false })} hai, is liye mahana tax Rs ${formatRupees(result.monthlyTax, { prefix: false })} katega. Aap ko har mahinay Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} take-home milega.`}
+      urduText={
+        <>
+          آپ کی ماہانہ تنخواہ <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.monthlySalary, { prefix: false })}</span> ہے، سالانہ <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.annualSalary, { prefix: false })}</span> بنتی ہے۔ ٹیکس سلیب کے حساب سے لگتا ہے — ہر سلیب میں صرف اس سلیب کی آمدنی پر اس سلیب کا ریٹ لگتا ہے۔ آپ کا سالانہ ٹیکس <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.annualTax, { prefix: false })}</span> ہے، اس لیے ماہانہ ٹیکس <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.monthlyTax, { prefix: false })}</span> کٹے گا۔ آپ کو ہر مہینے <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.monthlyTakeHome, { prefix: false })}</span> ٹیک ہوم ملے گا۔
+        </>
+      }
+      urduTextPlain={`آپ کی ماہانہ تنخواہ روپے ${formatRupees(result.monthlySalary, { prefix: false })} ہے، سالانہ روپے ${formatRupees(result.annualSalary, { prefix: false })} بنتی ہے۔ ٹیکس سلیب کے حساب سے لگتا ہے — ہر سلیب میں صرف اس سلیب کی آمدنی پر اس سلیب کا ریٹ لگتا ہے۔ آپ کا سالانہ ٹیکس روپے ${formatRupees(result.annualTax, { prefix: false })} ہے، اس لیے ماہانہ ٹیکس روپے ${formatRupees(result.monthlyTax, { prefix: false })} کٹے گا۔ آپ کو ہر مہینے روپے ${formatRupees(result.monthlyTakeHome, { prefix: false })} ٹیک ہوم ملے گا۔`}
       referenceContent={
         <>
           <p><strong>Law:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. First Rs 600,000 annual (Rs 50,000/month) is 0%. Salaried surcharge is 0% in TY2027.</p>
-          <p><strong>Roman Urdu:</strong> Qanoon: Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026. Pehle Rs 600,000 salana par koi tax nahi.</p>
+          <div dir="rtl" lang="ur" className="font-urdu text-right pt-1 text-slate-800">
+            <strong className="text-primary font-bold ml-1.5 font-sans">قانون:</strong> انکم ٹیکس آرڈیننس 2001، سیکشن 149 — تنخواہ۔ فنانس ایکٹ 2026۔ پہلے <span dir="ltr" className="inline-block font-sans font-semibold">روپے 600,000</span> سالانہ پر کوئی ٹیکس نہیں۔
+          </div>
         </>
       }
     />

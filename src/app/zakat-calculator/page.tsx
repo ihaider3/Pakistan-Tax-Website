@@ -439,26 +439,44 @@ export default function ZakatCalculatorPage() {
   const explanationBox = hasAnyInput ? (
     <ExplanationBox
       type="islamic"
+      imageSrc="/images/explanation/zakat.webp"
+      imageAlt="Giving Zakat charity with gold coins"
       englishText={`Zakat is 2.5% of your net zakatable wealth. Your net wealth is Rs ${formatRupees(result.netZakatableWealth, { prefix: false })} (total assets Rs ${formatRupees(result.totalGrossWealth, { prefix: false })} minus debts Rs ${formatRupees(result.totalDebts, { prefix: false })}). Your nisab is Rs ${formatRupees(result.nisabThreshold, { prefix: false })} (${result.nisabUsed === "gold" ? "Gold standard" : "Silver standard"}, ${result.nisabUsed === "gold" ? "7.5" : "52.5"} tola). Because Rs ${formatRupees(result.netZakatableWealth, { prefix: false })} is ${isAbove ? "above" : "below"} the nisab, your Zakat is Rs ${formatRupees(result.zakatDue, { prefix: false })} (2.5% of Rs ${formatRupees(result.netZakatableWealth, { prefix: false })}). If you already paid Rs ${formatRupees(result.alreadyPaid, { prefix: false })}, the remaining amount is Rs ${formatRupees(result.remainingDue, { prefix: false })}.`}
-      romanUrduText={`Zakat aap ki kul qabil-e-zakat dolat ka 2.5% hoti hai. Aap ki net dolat Rs ${formatRupees(result.netZakatableWealth, { prefix: false })} hai (kul assets Rs ${formatRupees(result.totalGrossWealth, { prefix: false })} minus qarz Rs ${formatRupees(result.totalDebts, { prefix: false })}). Aap ka nisab Rs ${formatRupees(result.nisabThreshold, { prefix: false })} hai (${result.nisabUsed === "gold" ? "Sona standard, 7.5 tola" : "Chandi standard, 52.5 tola"}). Chunkay aap ki dolat nisab se ${isAbove ? "zyada" : "kam"} hai, is liye aap par Zakat Rs ${formatRupees(result.zakatDue, { prefix: false })} banti hai. Agar aap ne Rs ${formatRupees(result.alreadyPaid, { prefix: false })} ada kar di hai to baqi Rs ${formatRupees(result.remainingDue, { prefix: false })} reh jati hai.`}
+      urduText={
+        <>
+          زکوٰۃ آپ کی کل قابلِ زکوٰۃ دولت کا <span dir="ltr" className="inline-block font-sans font-semibold">2.5%</span> ہوتی ہے۔ آپ کی نیٹ دولت <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.netZakatableWealth, { prefix: false })}</span> ہے (کل اثاثے <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalGrossWealth, { prefix: false })}</span> منفی قرض <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalDebts, { prefix: false })}</span>)۔ آپ کا نصاب <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.nisabThreshold, { prefix: false })}</span> ہے ({result.nisabUsed === "gold" ? "سونا اسٹینڈرڈ، 7.5 تولہ" : "چاندی اسٹینڈرڈ، 52.5 تولہ"})۔ چونکہ آپ کی دولت نصاب سے {isAbove ? "زیادہ" : "کم"} ہے، اس لیے آپ پر زکوٰۃ <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.zakatDue, { prefix: false })}</span> بنتی ہے (<span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.netZakatableWealth, { prefix: false })} کا 2.5%</span>)۔ اگر آپ نے <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.alreadyPaid, { prefix: false })}</span> ادا کر دیے ہیں تو باقی <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.remainingDue, { prefix: false })}</span> رہ جاتے ہیں۔
+        </>
+      }
+      urduTextPlain={`زکوٰۃ آپ کی کل قابلِ زکوٰۃ دولت کا 2.5 فیصد ہوتی ہے۔ آپ کی نیٹ دولت روپے ${formatRupees(result.netZakatableWealth, { prefix: false })} ہے (کل اثاثے روپے ${formatRupees(result.totalGrossWealth, { prefix: false })} منفی قرض روپے ${formatRupees(result.totalDebts, { prefix: false })})۔ آپ کا نصاب روپے ${formatRupees(result.nisabThreshold, { prefix: false })} ہے (${result.nisabUsed === "gold" ? "سونا اسٹینڈرڈ، 7.5 تولہ" : "چاندی اسٹینڈرڈ، 52.5 تولہ"})۔ چونکہ آپ کی دولت نصاب سے ${isAbove ? "زیادہ" : "کم"} ہے، اس لیے آپ پر زکوٰۃ روپے ${formatRupees(result.zakatDue, { prefix: false })} بنتی ہے (روپے ${formatRupees(result.netZakatableWealth, { prefix: false })} کا 2.5 فیصد)۔ اگر آپ نے روپے ${formatRupees(result.alreadyPaid, { prefix: false })} ادا کر دیے ہیں تو باقی روپے ${formatRupees(result.remainingDue, { prefix: false })} رہ جاتے ہیں۔`}
       extraBullets={[
         {
           en: "Zakat is due from every adult Muslim who owns wealth at or above nisab for one full lunar year (Hawl).",
-          ru: "Zakat har us baligh Musalman par farz hai jis ki dolat nisab ke barabar ya zyada ho aur us par pura ek qamri saal (Hawl) guzar chuka ho.",
+          urdu: "زکوٰۃ ہر اس بالغ مسلمان پر فرض ہے جس کی دولت نصاب کے برابر یا زیادہ ہو اور اس پر پورا ایک قمری سال (حول) گزر چکا ہو۔",
+          urduTextPlain: "زکوٰۃ ہر اس بالغ مسلمان پر فرض ہے جس کی دولت نصاب کے برابر یا زیادہ ہو اور اس پر پورا ایک قمری سال (حول) گزر چکا ہو۔",
         },
         {
           en: "Zakat goes to the poor, the needy, and the other groups named in the Quran (9:60) — not to build mosques or pay salaries.",
-          ru: "Zakat ghareebon, miskeenon aur Quran (9:60) mein bataye gaye mustahiq logon ko di jati hai — masjid banane ya tankhwah dene ke liye nahi.",
+          urdu: "زکوٰۃ غریبوں، مسکینوں اور قرآن (9:60) میں بتائے گئے مستحق لوگوں کو دی جاتی ہے — مسجد بنانے یا تنخواہ دینے کے لیے نہیں۔",
+          urduTextPlain: "زکوٰۃ غریبوں، مسکینوں اور قرآن (9:60) میں بتائے گئے مستحق لوگوں کو دی جاتی ہے — مسجد بنانے یا تنخواہ دینے کے لیے نہیں۔",
         },
       ]}
       referenceContent={
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           <p>• <strong>Quran 9:103</strong> — &quot;Take from their wealth a charity by which you purify them and cause them increase.&quot; (Sahih International translation)</p>
           <p>• <strong>Quran 9:60</strong> — Zakat is for the poor, the needy, and the other eligible groups named in this verse.</p>
           <p>• <strong>Quran 2:43</strong> — &quot;Establish prayer and give Zakat.&quot;</p>
           <p>• <strong>Hadith:</strong> &quot;Islam is built upon five [pillars]… and giving Zakat.&quot; — Sahih al-Bukhari 8; Sahih Muslim 16.</p>
+          <div dir="rtl" lang="ur" className="font-urdu text-right text-slate-800 pr-2">
+            • &quot;اسلام پانچ [ستونوں] پر قائم ہے… اور زکوٰۃ دینا۔&quot; — صحیح البخاری 8؛ صحیح مسلم 16 (Sahih al-Bukhari 8; Sahih Muslim 16)
+          </div>
           <p>• <strong>Nisab:</strong> 87.48g gold (7.5 tola) or 612.36g silver (52.5 tola). Hanafi rule in Pakistan: silver nisab for mixed wealth.</p>
+          <div dir="rtl" lang="ur" className="font-urdu text-right text-slate-800 pr-2">
+            • نصاب: 87.48 گرام سونا (7.5 تولہ) یا 612.36 گرام چاندی (52.5 تولہ)۔ پاکستان میں حنفی اصول: ملی جلی دولت کے لیے چاندی کا نصاب۔
+          </div>
           <p>• <strong>Government bank nisab 2026 (Rs 503,529)</strong> is for bank auto-deduction only — do not mix it with personal nisab.</p>
+          <div dir="rtl" lang="ur" className="font-urdu text-right text-slate-800 pr-2">
+            • حکومتی بینک نصاب 2026 (<span dir="ltr" className="inline-block font-sans font-semibold">روپے 503,529</span>) صرف بینک کی خودکار کٹوتی کے لیے ہے — اسے ذاتی نصاب سے نہ ملائیں۔
+          </div>
         </div>
       }
     />

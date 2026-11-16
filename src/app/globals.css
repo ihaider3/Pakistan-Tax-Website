@@ -32,7 +32,7 @@
   }
 
   .font-urdu {
-    font-family: var(--font-urdu), 'Noto Nastaliq Urdu', Tahoma, Arial, sans-serif;
+    font-family: var(--font-urdu), 'Noto Nastaliq Urdu', 'Noto Naskh Arabic', serif, Tahoma, Arial, sans-serif;
   }
 }
 

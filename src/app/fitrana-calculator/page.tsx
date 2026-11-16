@@ -244,31 +244,55 @@ export default function FitranaCalculatorPage() {
   const fitranaBullets = [
     {
       en: "Fitrana is due from every Muslim who has food in excess of their needs on Eid day — paid for oneself and all dependents (including children).",
-      ru: "Fitrana har us Musalman par wajib hai jis ke paas Eid ke din apni zaroorat se zyada anaaj ho — yeh apni taraf se aur apne tamam zer-e-kafalat afrad (bachon samet) ki taraf se ada kiya jata hai.",
+      urdu: "فطرانہ ہر اس مسلمان پر واجب ہے جس کے پاس عید کے دن اپنی ضرورت سے زیادہ اناج ہو — یہ اپنی طرف سے اور تمام زیرِ کفالت افراد (بچوں سمیت) کی طرف سے ادا کیا جاتا ہے۔",
+      urduTextPlain: "فطرانہ ہر اس مسلمان پر واجب ہے جس کے پاس عید کے دن اپنی ضرورت سے زیادہ اناج ہو — یہ اپنی طرف سے اور تمام زیرِ کفالت افراد (بچوں سمیت) کی طرف سے ادا کیا جاتا ہے۔",
     },
     {
       en: "Must be paid before the Eid-ul-Fitr prayer so the poor can celebrate Eid.",
-      ru: "Eid ki namaz se pehle ada karna zaroori hai taakay ghareeb log bhi Eid ki khushiyon mein shareek ho sakein.",
+      urdu: "عید الفطر کی نماز سے پہلے ادا کرنا ضروری ہے تاکہ غریب لوگ بھی عید کی خوشیوں میں شریک ہو سکیں۔",
+      urduTextPlain: "عید الفطر کی نماز سے پہلے ادا کرنا ضروری ہے تاکہ غریب لوگ بھی عید کی خوشیوں میں شریک ہو سکیں۔",
     },
   ];
+
+  const stapleNameUrdu = result
+    ? result.stapleName === "Wheat"
+      ? "گندم"
+      : result.stapleName === "Barley"
+      ? "جو"
+      : result.stapleName === "Dates"
+      ? "کھجور"
+      : "کشمش"
+    : "";
 
   const explanationBox = result ? (
     <ExplanationBox
       type="islamic"
+      imageSrc="/images/explanation/fitrana.webp"
+      imageAlt="Dates and wheat for Fitrana before Eid"
       englishText={`Fitrana is paid per person before the Eid prayer. Your family has ${result.familyMembers} persons. At Rs ${formatRupees(result.perPersonRate, { prefix: false })} per person (${result.stapleName}, ${result.sourceName}), your total Fitrana is ${result.familyMembers} × Rs ${formatRupees(result.perPersonRate, { prefix: false })} = Rs ${formatRupees(result.totalFitrana, { prefix: false })}.`}
-      romanUrduText={`Fitrana har fard ke hisab se Eid ki namaz se pehle ada karna hota hai. Aap ke gharane mein ${result.familyMembers} afrad hain. Rs ${formatRupees(result.perPersonRate, { prefix: false })} fi fard (${result.stapleName}, ${result.sourceName}) ke hisab se kul Fitrana ${result.familyMembers} × Rs ${formatRupees(result.perPersonRate, { prefix: false })} = Rs ${formatRupees(result.totalFitrana, { prefix: false })} banta hai.`}
+      urduText={
+        <>
+          فطرانہ ہر فرد کے حساب سے عید کی نماز سے پہلے ادا کرنا ہوتا ہے۔ آپ کے گھرانے میں <span dir="ltr" className="inline-block font-sans font-semibold">{result.familyMembers}</span> افراد ہیں۔ <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.perPersonRate, { prefix: false })}</span> فی فرد ({stapleNameUrdu}، {result.sourceName}) کے حساب سے کل فطرانہ <span dir="ltr" className="inline-block font-sans font-semibold">{result.familyMembers} × روپے {formatRupees(result.perPersonRate, { prefix: false })} = روپے {formatRupees(result.totalFitrana, { prefix: false })}</span> بنتا ہے۔
+        </>
+      }
+      urduTextPlain={`فطرانہ ہر فرد کے حساب سے عید کی نماز سے پہلے ادا کرنا ہوتا ہے۔ آپ کے گھرانے میں ${result.familyMembers} افراد ہیں۔ روپے ${formatRupees(result.perPersonRate, { prefix: false })} فی فرد (${stapleNameUrdu}، ${result.sourceName}) کے حساب سے کل فطرانہ ${result.familyMembers} × روپے ${formatRupees(result.perPersonRate, { prefix: false })} = روپے ${formatRupees(result.totalFitrana, { prefix: false })} بنتا ہے۔`}
       extraBullets={fitranaBullets}
       referenceContent={
         <>
           <p>
             <strong>Hadith:</strong> &ldquo;Allah&apos;s Messenger (ﷺ) enjoined the payment of one Sa&apos; of dates or one Sa&apos; of barley as Zakat-ul-Fitr on every Muslim, slave or free, male or female, young or old, and he ordered that it be paid before the people went out to offer the &apos;Id prayer.&rdquo; — Sahih al-Bukhari 1503; Sahih Muslim 984.
           </p>
-          <p>
-            <strong>Roman Urdu:</strong> &ldquo;Rasool Allah ﷺ ne har Musalman par, aazad ho ya ghulam, mard ho ya aurat, chhota ho ya bara, ek Sa&apos; khajoor ya ek Sa&apos; jau ke barabar Sadqa-e-Fitr farz farmaya, aur hukm diya ke ye Eid ki namaz se pehle ada kiya jaye.&rdquo; — Sahih al-Bukhari 1503.
-          </p>
-          <p className="text-xs pt-1 border-t border-[#C9A227]/30 text-slate-700">
-            <strong>Note:</strong> Wheat Rs 300 per person is the agreed minimum (Mufti Muneeb + CII both). Barley, dates and raisins rates differ by source — the calculator already shows both.
-          </p>
+          <div dir="rtl" lang="ur" className="font-urdu text-right pt-1 text-slate-800">
+            &ldquo;رسول اللہ ﷺ نے ہر مسلمان پر، آزاد ہو یا غلام، مرد ہو یا عورت، چھوٹا ہو یا بڑا، ایک صاع کھجور یا ایک صاع جو کے برابر صدقۂ فطر فرض فرمایا، اور حکم دیا کہ یہ عید کی نماز سے پہلے ادا کیا جائے۔&rdquo; — صحیح البخاری 1503 (Sahih al-Bukhari 1503; Sahih Muslim 984)
+          </div>
+          <div className="pt-1.5 border-t border-[#C9A227]/30 text-xs space-y-1">
+            <p className="text-slate-700">
+              <strong>Note:</strong> Wheat Rs 300 per person is the agreed minimum (Mufti Muneeb + CII both). Barley, dates and raisins rates differ by source — the calculator already shows both.
+            </p>
+            <div dir="rtl" lang="ur" className="font-urdu text-right text-slate-800 pt-0.5">
+              <strong className="text-primary font-bold ml-1.5 font-sans">نوٹ:</strong> گندم <span dir="ltr" className="inline-block font-sans font-semibold">روپے 300</span> فی فرد متفقہ کم از کم رقم ہے (مفتی منیب + سی آئی آئی دونوں)۔ جو، کھجور اور کشمش کے نرخ ماخذ کے لحاظ سے مختلف ہیں — کیلکولیٹر دونوں دکھاتا ہے۔
+            </div>
+          </div>
         </>
       }
     />
@@ -284,13 +308,13 @@ export default function FitranaCalculatorPage() {
         totalLabel={result ? `Selected: ${result.stapleName} (${result.sourceName})` : "Total"}
         totalValue={result ? formatRupees(result.totalFitrana) : undefined}
       />
-      <div className="p-3.5 bg-gradient-to-r from-amber-50/80 via-white to-amber-50/50 border border-amber-200/80 rounded-xl text-xs text-amber-950 space-y-1 shadow-2xs">
+      <div className="p-3.5 bg-gradient-to-r from-amber-50/80 via-white to-amber-50/50 border border-amber-200/80 rounded-xl text-xs text-amber-950 space-y-1.5 shadow-2xs">
         <p className="font-semibold text-slate-900">
           <strong>Note:</strong> Rates differ because market prices and quality differ by source. Wheat Rs 300 is agreed by both.
         </p>
-        <p className="text-slate-800">
-          <strong>Wazahat:</strong> Rates mein farq market qeemat aur quality ki wajah se hai. Gandum Rs 300 par dono ka ittefaq hai.
-        </p>
+        <div dir="rtl" lang="ur" className="font-urdu text-right text-slate-800 text-[14px] leading-[1.9]">
+          <strong className="text-primary font-bold ml-1.5 font-sans">وضاحت:</strong> ریٹس میں فرق مارکیٹ قیمت اور کوالٹی کے لحاظ سے ہے — گندم <span dir="ltr" className="inline-block font-sans font-semibold">روپے 300</span> پر دونوں کا اتفاق ہے۔
+        </div>
       </div>
     </div>
   );

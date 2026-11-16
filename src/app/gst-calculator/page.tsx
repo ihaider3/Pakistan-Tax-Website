@@ -269,6 +269,8 @@ export default function GstCalculatorPage() {
   const explanationBox = result ? (
     <ExplanationBox
       type="tax"
+      imageSrc="/images/explanation/gst.webp"
+      imageAlt="Shopkeeper calculating GST on a bill"
       englishText={
         mode === "add"
           ? `You entered Rs ${formatRupees(result.baseAmount, { prefix: false })} in Add mode at ${result.ratePercentage}. GST is Rs ${formatRupees(result.baseAmount, { prefix: false })} × ${result.ratePercentage} = Rs ${formatRupees(result.gstAmount, { prefix: false })}. Total = Rs ${formatRupees(result.baseAmount, { prefix: false })} + Rs ${formatRupees(result.gstAmount, { prefix: false })} = Rs ${formatRupees(result.totalAmount, { prefix: false })}.`
@@ -276,21 +278,36 @@ export default function GstCalculatorPage() {
           ? `You entered Rs ${formatRupees(result.totalAmount, { prefix: false })} in Remove mode at ${result.ratePercentage}. Base price is Rs ${formatRupees(result.totalAmount, { prefix: false })} ÷ ${(1 + effectiveRate / 100).toFixed(2).replace(/\.?0+$/, "")} = Rs ${formatRupees(result.baseAmount, { prefix: false })}. GST inside it is Rs ${formatRupees(result.totalAmount, { prefix: false })} − Rs ${formatRupees(result.baseAmount, { prefix: false })} = Rs ${formatRupees(result.gstAmount, { prefix: false })}.`
           : `You entered Rs ${formatRupees(result.gstAmount, { prefix: false })} in GST Amount mode at ${result.ratePercentage}. Base price is Rs ${formatRupees(result.baseAmount, { prefix: false })}. Total = Rs ${formatRupees(result.baseAmount, { prefix: false })} + Rs ${formatRupees(result.gstAmount, { prefix: false })} = Rs ${formatRupees(result.totalAmount, { prefix: false })}.`
       }
-      romanUrduText={
+      urduText={
+        mode === "add" ? (
+          <>
+            آپ نے <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.baseAmount, { prefix: false })}</span> درج کیا (Add موڈ، <span dir="ltr" className="inline-block font-sans font-semibold">{result.ratePercentage}</span>)۔ GST <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.baseAmount, { prefix: false })} × {result.ratePercentage} = روپے {formatRupees(result.gstAmount, { prefix: false })}</span> بنتا ہے۔ کل بل <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalAmount, { prefix: false })}</span> ہوگا۔
+          </>
+        ) : mode === "remove" ? (
+          <>
+            آپ نے <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalAmount, { prefix: false })}</span> درج کیا (Remove موڈ، <span dir="ltr" className="inline-block font-sans font-semibold">{result.ratePercentage}</span>)۔ اصل قیمت (بغیر ٹیکس) <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.baseAmount, { prefix: false })}</span> ہے اور GST <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalAmount, { prefix: false })} − روپے {formatRupees(result.baseAmount, { prefix: false })} = روپے {formatRupees(result.gstAmount, { prefix: false })}</span> ہے۔ کل بل <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalAmount, { prefix: false })}</span> تھا۔
+          </>
+        ) : (
+          <>
+            آپ نے <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.gstAmount, { prefix: false })}</span> درج کیا (GST Amount موڈ، <span dir="ltr" className="inline-block font-sans font-semibold">{result.ratePercentage}</span>)۔ اصل قیمت <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.baseAmount, { prefix: false })}</span> اور کل بل <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalAmount, { prefix: false })}</span> ہوگا۔
+          </>
+        )
+      }
+      urduTextPlain={
         mode === "add"
-          ? `Aap ne Rs ${formatRupees(result.baseAmount, { prefix: false })} darj kiya (Add mode, ${result.ratePercentage}). GST Rs ${formatRupees(result.baseAmount, { prefix: false })} × ${result.ratePercentage} = Rs ${formatRupees(result.gstAmount, { prefix: false })} banta hai. Kul bill Rs ${formatRupees(result.totalAmount, { prefix: false })} hoga.`
+          ? `آپ نے روپے ${formatRupees(result.baseAmount, { prefix: false })} درج کیا (Add موڈ، ${result.ratePercentage})۔ GST روپے ${formatRupees(result.baseAmount, { prefix: false })} × ${result.ratePercentage} = روپے ${formatRupees(result.gstAmount, { prefix: false })} بنتا ہے۔ کل بل روپے ${formatRupees(result.totalAmount, { prefix: false })} ہوگا۔`
           : mode === "remove"
-          ? `Aap ne Rs ${formatRupees(result.totalAmount, { prefix: false })} darj kiya (Remove mode, ${result.ratePercentage}). Asal qeemat Rs ${formatRupees(result.baseAmount, { prefix: false })} hai aur us mein shamil GST Rs ${formatRupees(result.gstAmount, { prefix: false })} hai.`
-          : `Aap ne Rs ${formatRupees(result.gstAmount, { prefix: false })} darj kiya (GST Amount mode, ${result.ratePercentage}). Asal qeemat Rs ${formatRupees(result.baseAmount, { prefix: false })} aur kul bill Rs ${formatRupees(result.totalAmount, { prefix: false })} hoga.`
+          ? `آپ نے روپے ${formatRupees(result.totalAmount, { prefix: false })} درج کیا (Remove موڈ، ${result.ratePercentage})۔ اصل قیمت (بغیر ٹیکس) روپے ${formatRupees(result.baseAmount, { prefix: false })} ہے اور GST روپے ${formatRupees(result.totalAmount, { prefix: false })} − روپے ${formatRupees(result.baseAmount, { prefix: false })} = روپے ${formatRupees(result.gstAmount, { prefix: false })} ہے۔ کل بل روپے ${formatRupees(result.totalAmount, { prefix: false })} تھا۔`
+          : `آپ نے روپے ${formatRupees(result.gstAmount, { prefix: false })} درج کیا (GST Amount موڈ، ${result.ratePercentage})۔ اصل قیمت روپے ${formatRupees(result.baseAmount, { prefix: false })} اور کل بل روپے ${formatRupees(result.totalAmount, { prefix: false })} ہوگا۔`
       }
       referenceContent={
         <>
           <p>
             <strong>Law:</strong> Sales Tax Act 1990, standard rate 18% on goods. Services rates are provincial and vary — confirm with PRA / SRB / KPRA / BRA for your service.
           </p>
-          <p>
-            <strong>Roman Urdu:</strong> Qanoon: Sales Tax Act 1990, goods par standard rate 18%. Services par rate soobay ke mutabiq alag hota hai.
-          </p>
+          <div dir="rtl" lang="ur" className="font-urdu text-right pt-1 text-slate-800">
+            <strong className="text-primary font-bold ml-1.5 font-sans">قانون:</strong> سیلز ٹیکس ایکٹ 1990، اشیا پر معیاری ریٹ 18 فیصد۔ خدمات پر ریٹ صوبائی ہے اور مختلف ہوتا ہے — اپنی سروس کے لیے PRA / SRB / KPRA / BRA سے تصدیق کریں۔
+          </div>
         </>
       }
     />

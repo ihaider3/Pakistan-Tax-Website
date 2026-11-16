@@ -42,13 +42,15 @@ export default function CalculatorShell({
           </p>
         </div>
 
-        {/* Roman Urdu Explanation Block with Depth */}
+        {/* Urdu Explanation Block */}
         <div className="bg-gradient-to-r from-teal-50/70 via-white to-surface border-l-4 border-accent p-4 sm:p-5 rounded-r-xl text-xs sm:text-sm text-appText leading-relaxed shadow-xs border border-slate-200/60">
-          <span className="font-bold text-primary block mb-1 text-xs uppercase tracking-wider flex items-center gap-1.5">
+          <span className="font-bold text-primary block mb-1.5 text-xs uppercase tracking-wider flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-accent"></span>
-            Roman Urdu Wazahat:
+            اردو وضاحت:
           </span>
-          <p className="text-slate-700">{content.romanUrduIntro}</p>
+          <p dir="rtl" lang="ur" className="font-urdu text-right text-slate-800 text-[15px] sm:text-[16px] leading-[2.0]">
+            {content.romanUrduIntro}
+          </p>
         </div>
 
         {/* Verification Badge */}

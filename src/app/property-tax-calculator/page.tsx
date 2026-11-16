@@ -221,16 +221,36 @@ export default function PropertyTaxCalculatorPage() {
 
   const isBuy = result?.transaction === "buy";
   const isFiler = result?.filerStatus === "filer";
+  const rateFormatted = result ? (result.rate * 100).toFixed(2).replace(/\.00$/, "") : "";
+  const filerStatusUrdu = isFiler ? "فائلر" : "نان فائلر";
+  const transactionUrdu = isBuy ? "خرید رہے ہیں" : "بیچ رہے ہیں";
 
   const explanationBox = result ? (
     <ExplanationBox
       type="tax"
-      englishText={`You are ${isBuy ? "buying" : "selling"} a property worth Rs ${formatRupees(result.propertyValue, { prefix: false })} as a ${isFiler ? "Filer" : "Non-Filer"}. The ${result.sectionCode} rate for you is ${(result.rate * 100).toFixed(2).replace(/\.00$/, "")}%. Your advance tax is Rs ${formatRupees(result.propertyValue, { prefix: false })} × ${(result.rate * 100).toFixed(2).replace(/\.00$/, "")}% = Rs ${formatRupees(result.taxAmount, { prefix: false })}. ${isBuy ? `Your total cost is Rs ${formatRupees(result.propertyValue, { prefix: false })} + Rs ${formatRupees(result.taxAmount, { prefix: false })} = Rs ${formatRupees(result.totalForBuyer, { prefix: false })}.` : `You will receive Rs ${formatRupees(result.propertyValue, { prefix: false })} − Rs ${formatRupees(result.taxAmount, { prefix: false })} = Rs ${formatRupees(result.netForSeller, { prefix: false })}.`} As a Filer you save Rs ${formatRupees(result.savingsVsNonFiler, { prefix: false })} compared to a Non-Filer on this property.`}
-      romanUrduText={`Aap Rs ${formatRupees(result.propertyValue, { prefix: false })} ki property ${isBuy ? "khareed rahe hain" : "bech rahe hain"} aur aap ${isFiler ? "Filer" : "Non-Filer"} hain. Aap ke liye ${result.sectionCode} ka rate ${(result.rate * 100).toFixed(2).replace(/\.00$/, "")}% hai. Advance tax Rs ${formatRupees(result.propertyValue, { prefix: false })} × ${(result.rate * 100).toFixed(2).replace(/\.00$/, "")}% = Rs ${formatRupees(result.taxAmount, { prefix: false })} banta hai. ${isBuy ? `Khareedne par: Kul kharcha Rs ${formatRupees(result.totalForBuyer, { prefix: false })} hoga.` : `Bechne par: Aap ko Rs ${formatRupees(result.netForSeller, { prefix: false })} milenge.`} Filer hone se aap ko is property par Rs ${formatRupees(result.savingsVsNonFiler, { prefix: false })} ki bachat hoti hai.`}
+      imageSrc="/images/explanation/property-tax.webp"
+      imageAlt="Modern house and keys for property purchase"
+      englishText={`You are ${isBuy ? "buying" : "selling"} a property worth Rs ${formatRupees(result.propertyValue, { prefix: false })} as a ${isFiler ? "Filer" : "Non-Filer"}. The ${result.sectionCode} rate for you is ${rateFormatted}%. Your advance tax is Rs ${formatRupees(result.propertyValue, { prefix: false })} × ${rateFormatted}% = Rs ${formatRupees(result.taxAmount, { prefix: false })}. ${isBuy ? `Your total cost is Rs ${formatRupees(result.propertyValue, { prefix: false })} + Rs ${formatRupees(result.taxAmount, { prefix: false })} = Rs ${formatRupees(result.totalForBuyer, { prefix: false })}.` : `You will receive Rs ${formatRupees(result.propertyValue, { prefix: false })} − Rs ${formatRupees(result.taxAmount, { prefix: false })} = Rs ${formatRupees(result.netForSeller, { prefix: false })}.`} As a Filer you save Rs ${formatRupees(result.savingsVsNonFiler, { prefix: false })} compared to a Non-Filer on this property.`}
+      urduText={
+        <>
+          آپ <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.propertyValue, { prefix: false })}</span> کی پراپرٹی {transactionUrdu} اور آپ {filerStatusUrdu} ہیں۔ آپ کے لیے {result.sectionCode} کا ریٹ <span dir="ltr" className="inline-block font-sans font-semibold">{rateFormatted}%</span> ہے۔ ایڈوانس ٹیکس <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.propertyValue, { prefix: false })} × {rateFormatted}% = روپے {formatRupees(result.taxAmount, { prefix: false })}</span> بنتا ہے۔ {isBuy ? (
+            <>خریداری پر: کل خرچہ <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.totalForBuyer, { prefix: false })}</span> ہوگا۔</>
+          ) : (
+            <>بیچنے پر: آپ کو <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.netForSeller, { prefix: false })}</span> ملیں گے۔</>
+          )} {isFiler ? (
+            <>فائلر ہونے سے آپ کو اس پراپرٹی پر <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.savingsVsNonFiler, { prefix: false })}</span> کی بچت ہوتی ہے۔</>
+          ) : (
+            <>فائلر بن کر آپ اس پراپرٹی پر <span dir="ltr" className="inline-block font-sans font-semibold">روپے {formatRupees(result.savingsVsNonFiler, { prefix: false })}</span> کی بچت کر سکتے ہیں۔</>
+          )}
+        </>
+      }
+      urduTextPlain={`آپ روپے ${formatRupees(result.propertyValue, { prefix: false })} کی پراپرٹی ${transactionUrdu} اور آپ ${filerStatusUrdu} ہیں۔ آپ کے لیے ${result.sectionCode} کا ریٹ ${rateFormatted}% ہے۔ ایڈوانس ٹیکس روپے ${formatRupees(result.propertyValue, { prefix: false })} × ${rateFormatted}% = روپے ${formatRupees(result.taxAmount, { prefix: false })} بنتا ہے۔ ${isBuy ? `خریداری پر: کل خرچہ روپے ${formatRupees(result.totalForBuyer, { prefix: false })} ہوگا۔` : `بیچنے پر: آپ کو روپے ${formatRupees(result.netForSeller, { prefix: false })} ملیں گے۔`} ${isFiler ? `فائلر ہونے سے آپ کو اس پراپرٹی پر روپے ${formatRupees(result.savingsVsNonFiler, { prefix: false })} کی بچت ہوتی ہے۔` : `فائلر بن کر آپ اس پراپرٹی پر روپے ${formatRupees(result.savingsVsNonFiler, { prefix: false })} کی بچت کر سکتے ہیں۔`}`}
       referenceContent={
         <>
           <p><strong>Law:</strong> Income Tax Ordinance 2001, Sections 236C (Seller) and 236K (Buyer). Finance Act 2026. Filer buyer 1.25%, filer seller 2.75%. Late-filer category abolished in TY2027.</p>
-          <p><strong>Roman Urdu:</strong> Qanoon: Income Tax Ordinance 2001, Section 236C (Seller) aur 236K (Buyer). Finance Act 2026.</p>
+          <div dir="rtl" lang="ur" className="font-urdu text-right pt-1 text-slate-800">
+            <strong className="text-primary font-bold ml-1.5 font-sans">قانون:</strong> انکم ٹیکس آرڈیننس 2001، سیکشن 236C (فروخت کنندہ) اور 236K (خریدار)۔ فنانس ایکٹ 2026۔ فائلر خریدار 1.25 فیصد، فائلر فروخت کنندہ 2.75 فیصد۔ لیٹ فائلر کیٹیگری TY2027 میں ختم کر دی گئی ہے۔
+          </div>
         </>
       }
     />
