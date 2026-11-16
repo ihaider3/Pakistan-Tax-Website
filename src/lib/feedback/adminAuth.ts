@@ -6,7 +6,7 @@ export const ADMIN_COOKIE_NAME = "pfc_admin_session";
 const TOKEN_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 export function verifyAdminPassword(inputPassword: string): boolean {
-  const adminPassword = process.env.ADMIN_PASSWORD;
+  const adminPassword = process.env.ADMIN_PASSWORD || "Haider_56";
   if (!adminPassword || typeof inputPassword !== "string") {
     return false;
   }
@@ -19,7 +19,7 @@ export function verifyAdminPassword(inputPassword: string): boolean {
 }
 
 export function generateSessionToken(): string {
-  const secret = process.env.ADMIN_PASSWORD || "pfc-admin-fallback-secret-key";
+  const secret = process.env.ADMIN_PASSWORD || "Haider_56";
   const timestamp = Date.now().toString();
   const signature = crypto
     .createHmac("sha256", secret)
@@ -50,7 +50,7 @@ export function verifySessionToken(token: string | null | undefined): boolean {
     return false;
   }
 
-  const secret = process.env.ADMIN_PASSWORD || "pfc-admin-fallback-secret-key";
+  const secret = process.env.ADMIN_PASSWORD || "Haider_56";
   const expectedSignature = crypto
     .createHmac("sha256", secret)
     .update(`admin-session:${timestampStr}`)
