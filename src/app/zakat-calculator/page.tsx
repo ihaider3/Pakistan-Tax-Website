@@ -436,7 +436,7 @@ export default function ZakatCalculatorPage() {
 
   const isAbove = result.nisabThreshold > 0 && result.netZakatableWealth >= result.nisabThreshold;
 
-  const explanationBox = hasAnyInput ? (
+  const explanationBox = (
     <ExplanationBox
       type="islamic"
       imageSrc="/images/explanation/zakat.webp"
@@ -480,7 +480,7 @@ export default function ZakatCalculatorPage() {
         </div>
       }
     />
-  ) : null;
+  );
 
   const breakdownSection = hasAnyInput ? (
     <BreakdownTable
@@ -491,7 +491,7 @@ export default function ZakatCalculatorPage() {
       totalLabel="Net Zakatable Wealth"
       totalValue={formatRupees(result.netZakatableWealth)}
     />
-  ) : null;
+  );
 
   return (
     <CalculatorShell
