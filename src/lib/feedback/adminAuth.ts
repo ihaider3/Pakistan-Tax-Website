@@ -5,9 +5,95 @@ import { NextRequest } from "next/server";
 export const ADMIN_COOKIE_NAME = "pfc_admin_session";
 const TOKEN_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
+// IP Rate Limiting for Admin Login:
+// Max 5 failed password attempts per IP per 15 minutes, then a 15-minute lockout.
+interface LoginAttemptRecord {
+  failedTimestamps: number[];
+  lockedUntil?: number;
+}
+
+const loginAttemptsByIp = new Map<string, LoginAttemptRecord>();
+const FIFTEEN_MINUTES_MS = 15 * 60 * 1000;
+const MAX_FAILED_ATTEMPTS = 5;
+
+// Clean up stale entries periodically
+function cleanupOldLoginAttempts() {
+  const now = Date.now();
+  for (const [ip, record] of loginAttemptsByIp.entries()) {
+    record.failedTimestamps = record.failedTimestamps.filter(
+      (t) => now - t < FIFTEEN_MINUTES_MS
+    );
+    if (record.failedTimestamps.length === 0 && (!record.lockedUntil || now >= record.lockedUntil)) {
+      loginAttemptsByIp.delete(ip);
+    }
+  }
+}
+
+export function checkLoginRateLimit(ip: string): { allowed: boolean; error?: string } {
+  cleanupOldLoginAttempts();
+  const now = Date.now();
+  const record = loginAttemptsByIp.get(ip);
+  if (!record) {
+    return { allowed: true };
+  }
+
+  // Actively locked out
+  if (record.lockedUntil && now < record.lockedUntil) {
+    return {
+      allowed: false,
+      error: "Too many attempts, please try again later",
+    };
+  }
+
+  // Filter attempts in sliding 15-min window
+  record.failedTimestamps = record.failedTimestamps.filter(
+    (t) => now - t < FIFTEEN_MINUTES_MS
+  );
+
+  if (record.failedTimestamps.length >= MAX_FAILED_ATTEMPTS) {
+    record.lockedUntil = now + FIFTEEN_MINUTES_MS;
+    return {
+      allowed: false,
+      error: "Too many attempts, please try again later",
+    };
+  }
+
+  return { allowed: true };
+}
+
+export function recordFailedLogin(ip: string): void {
+  cleanupOldLoginAttempts();
+  const now = Date.now();
+  const record = loginAttemptsByIp.get(ip) || { failedTimestamps: [] };
+
+  record.failedTimestamps = record.failedTimestamps.filter(
+    (t) => now - t < FIFTEEN_MINUTES_MS
+  );
+  record.failedTimestamps.push(now);
+
+  if (record.failedTimestamps.length >= MAX_FAILED_ATTEMPTS) {
+    record.lockedUntil = now + FIFTEEN_MINUTES_MS;
+  }
+
+  loginAttemptsByIp.set(ip, record);
+}
+
+export function recordSuccessfulLogin(ip: string): void {
+  loginAttemptsByIp.delete(ip);
+}
+
+// Reset rate limits (useful for testing)
+export function resetLoginRateLimits(): void {
+  loginAttemptsByIp.clear();
+}
+
+/**
+ * Verifies admin password strictly from ADMIN_PASSWORD environment variable.
+ * If the environment variable is missing, all logins are refused.
+ */
 export function verifyAdminPassword(inputPassword: string): boolean {
-  const adminPassword = process.env.ADMIN_PASSWORD || "Haider_56";
-  if (!adminPassword || typeof inputPassword !== "string") {
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (!adminPassword || typeof inputPassword !== "string" || !inputPassword) {
     return false;
   }
 
@@ -19,7 +105,7 @@ export function verifyAdminPassword(inputPassword: string): boolean {
 }
 
 export function generateSessionToken(): string {
-  const secret = process.env.ADMIN_PASSWORD || "Haider_56";
+  const secret = process.env.ADMIN_PASSWORD || "pfc_session_secret_fallback_key";
   const timestamp = Date.now().toString();
   const signature = crypto
     .createHmac("sha256", secret)
@@ -50,7 +136,7 @@ export function verifySessionToken(token: string | null | undefined): boolean {
     return false;
   }
 
-  const secret = process.env.ADMIN_PASSWORD || "Haider_56";
+  const secret = process.env.ADMIN_PASSWORD || "pfc_session_secret_fallback_key";
   const expectedSignature = crypto
     .createHmac("sha256", secret)
     .update(`admin-session:${timestampStr}`)
@@ -84,4 +170,3 @@ export async function isAuthenticatedAdmin(request?: NextRequest): Promise<boole
 
   return verifySessionToken(token);
 }
-

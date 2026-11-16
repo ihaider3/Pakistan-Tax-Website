@@ -7,6 +7,17 @@ import RelatedTools from "./RelatedTools";
 import { CalculatorPageContent } from "@/content/pages";
 import { useExplanationLang } from "./LanguageContext";
 import ExplanationLangToggle from "./ExplanationLangToggle";
+import { trackToolUse } from "@/lib/analytics/beacon";
+import { CalculatorType } from "@/lib/analytics/types";
+
+function getCalculatorKey(slug: string): CalculatorType {
+  if (slug.includes("salary")) return "salary";
+  if (slug.includes("zakat")) return "zakat";
+  if (slug.includes("property")) return "property";
+  if (slug.includes("gst")) return "gst";
+  if (slug.includes("fitrana")) return "fitrana";
+  return "salary";
+}
 
 interface CalculatorShellProps {
   content: CalculatorPageContent;
@@ -32,6 +43,14 @@ export default function CalculatorShell({
   const [guideOpen, setGuideOpen] = useState(false);
   const [formulaOpen, setFormulaOpen] = useState(false);
   const [caseStudyOpen, setCaseStudyOpen] = useState(false);
+  const hasTrackedFormUse = React.useRef(false);
+
+  const handleFormInteraction = () => {
+    if (!hasTrackedFormUse.current) {
+      hasTrackedFormUse.current = true;
+      trackToolUse(getCalculatorKey(content.slug));
+    }
+  };
 
   return (
     <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 py-6 sm:py-10 space-y-8 sm:space-y-12">
@@ -65,6 +84,8 @@ export default function CalculatorShell({
             href="#calculator"
             onClick={(e) => {
               e.preventDefault();
+              const calcKey = getCalculatorKey(content.slug);
+              trackToolUse(calcKey);
               const el = document.getElementById("calculator");
               if (el) {
                 el.scrollIntoView({ behavior: "smooth" });
@@ -109,6 +130,8 @@ export default function CalculatorShell({
          ========================================================================= */}
       <section
         id="calculator"
+        onInput={handleFormInteraction}
+        onChange={handleFormInteraction}
         className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start scroll-mt-20 sm:scroll-mt-24"
         aria-label="Calculator workspace"
       >

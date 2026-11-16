@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingFeedbackButton from "@/components/FloatingFeedbackButton";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { LanguageProvider } from "@/components/LanguageContext";
 
 const inter = Inter({
@@ -94,6 +95,7 @@ export default function RootLayout({
     <html lang="en" className={`overflow-x-hidden ${inter.variable} ${notoNastaliq.variable}`}>
       <body className="min-h-screen flex flex-col bg-white text-appText font-sans selection:bg-accent-soft selection:text-accent overflow-x-hidden w-full">
         <LanguageProvider>
+          <AnalyticsTracker />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

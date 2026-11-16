@@ -65,7 +65,10 @@ export default function PrivacyPolicyPage() {
         <section className="space-y-2">
           <h2 className="text-xl font-bold text-primary">3. Analytics &amp; Cookies</h2>
           <p>
-            In the MVP version of this platform, we do not deploy invasive marketing trackers, advertising cookies, or third-party behavioral fingerprinting. Standard anonymous server access logs (IP address, browser user agent) are handled securely by our hosting provider (Vercel) solely to serve website files over HTTPS.
+            The site counts visits and calculator uses to improve the website. It records only the page visited, the tool used, the device type, and the referrer domain. It uses no cookies, stores no IP address, name, or email for analytics, and never records the numbers entered into a calculator.
+          </p>
+          <p className="text-xs sm:text-sm text-appText-muted italic bg-surface p-3 rounded-lg border border-appBorder">
+            <strong>Roman Urdu:</strong> Website par sirf visit count aur calculator istemal ka record rakha jata hai taa ke service behtar ki ja sake; koi zaati maloomat, IP address ya calculator mein likhi gayi raqam kabhi save nahi ki jati.
           </p>
         </section>
 

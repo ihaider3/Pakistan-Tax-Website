@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import type { Metadata } from "next";
 import SearchBox from "@/components/SearchBox";
+import { getSiteContent } from "@/lib/content/contentServer";
 
 export const metadata: Metadata = {
   title: "Pakistan Finance Calculators | Tax, Zakat & GST",
@@ -137,7 +138,37 @@ const mostSearched = [
   { label: "Fitrana per person", href: "/fitrana-calculator" },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const content = await getSiteContent();
+
+  const dynamicCalculators = [
+    {
+      ...calculators[0],
+      title: content.home_card_salary_title || calculators[0].title,
+      description: content.home_card_salary_desc || calculators[0].description,
+    },
+    {
+      ...calculators[1],
+      title: content.home_card_zakat_title || calculators[1].title,
+      description: content.home_card_zakat_desc || calculators[1].description,
+    },
+    {
+      ...calculators[2],
+      title: content.home_card_property_title || calculators[2].title,
+      description: content.home_card_property_desc || calculators[2].description,
+    },
+    {
+      ...calculators[3],
+      title: content.home_card_gst_title || calculators[3].title,
+      description: content.home_card_gst_desc || calculators[3].description,
+    },
+    {
+      ...calculators[4],
+      title: content.home_card_fitrana_title || calculators[4].title,
+      description: content.home_card_fitrana_desc || calculators[4].description,
+    },
+  ];
+
   return (
     <div className="space-y-12 sm:space-y-16 pb-20">
       <script
@@ -159,20 +190,24 @@ export default function HomePage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent"></span>
             </span>
-            <span>VERIFIED AGAINST OFFICIAL 2026–27 NOTIFICATIONS</span>
+            <span>{content.home_hero_badge || "VERIFIED AGAINST OFFICIAL 2026–27 NOTIFICATIONS"}</span>
           </div>
 
           {/* High-Impact Main Heading */}
           <div className="space-y-3">
             <h1 className="text-[26px] sm:text-4xl lg:text-5xl font-black text-primary tracking-tight max-w-4xl mx-auto leading-[1.2] sm:leading-[1.25]">
-              Pakistan Financial &amp; Islamic Calculators{" "}
-              <span className="block mt-1 sm:mt-2 pb-2 sm:pb-3 leading-normal bg-gradient-to-r from-primary via-[#0F5A9E] to-accent bg-clip-text text-transparent">
-                — Free, Accurate, No Login
-              </span>
+              {content.home_hero_title || (
+                <>
+                  Pakistan Financial &amp; Islamic Calculators{" "}
+                  <span className="block mt-1 sm:mt-2 pb-2 sm:pb-3 leading-normal bg-gradient-to-r from-primary via-[#0F5A9E] to-accent bg-clip-text text-transparent">
+                    — Free, Accurate, No Login
+                  </span>
+                </>
+              )}
             </h1>
 
             <p className="text-[15px] sm:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium pt-1">
-              Instant, private calculations for salary tax, Zakat, property advance tax (236C/236K), GST 18%, and Fitrana. All numbers stay in your browser.
+              {content.home_hero_subtitle || "Instant, private calculations for salary tax, Zakat, property advance tax (236C/236K), GST 18%, and Fitrana. All numbers stay in your browser."}
             </p>
           </div>
 
@@ -280,7 +315,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {calculators.map((calc, idx) => (
+          {dynamicCalculators.map((calc, idx) => (
             <div
               key={idx}
               className="group relative bg-white rounded-3xl border-2 border-slate-200/90 hover:border-accent/60 p-6 sm:p-7 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2 transition-all duration-300 ease-out flex flex-col justify-between overflow-hidden"
