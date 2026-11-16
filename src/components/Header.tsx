@@ -75,16 +75,16 @@ export default function Header() {
         }`}
       >
         <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 flex items-center justify-between gap-4">
-          {/* Brand Logo & Name (Strictly 1 Line, No Wrapping) */}
+          {/* Brand Logo & Name (Responsive on 360px mobile + tablet + desktop) */}
           <Link
             href="/"
-            className="group flex items-center gap-2.5 shrink-0 focus:outline-hidden whitespace-nowrap"
+            className="group flex items-center gap-2 sm:gap-2.5 shrink-0 focus:outline-hidden"
           >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary via-[#0C3259] to-accent text-white flex items-center justify-center font-black text-sm tracking-tight shadow-md shadow-primary/20 ring-1 ring-slate-200/80 group-hover:scale-105 transition-all duration-200">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary via-[#0C3259] to-accent text-white flex items-center justify-center font-black text-sm tracking-tight shadow-md shadow-primary/20 ring-1 ring-slate-200/80 group-hover:scale-105 transition-all duration-200 shrink-0">
               PK
             </div>
-            <span className="text-base sm:text-lg font-extrabold tracking-tight text-primary whitespace-nowrap">
-              Pakistan Finance <span className="text-accent">Calculators</span>
+            <span className="text-sm sm:text-lg font-extrabold tracking-tight text-primary whitespace-nowrap">
+              Pakistan Finance <span className="hidden sm:inline text-accent">Calculators</span>
             </span>
           </Link>
 
@@ -108,12 +108,12 @@ export default function Header() {
             })}
           </nav>
 
-          {/* Mobile menu trigger button */}
-          <div className="flex md:hidden items-center">
+          {/* Mobile menu trigger button (Clean 44px tap target on 360px mobile) */}
+          <div className="flex md:hidden items-center shrink-0">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl bg-slate-100 text-primary hover:bg-slate-200 focus:outline-hidden focus:ring-2 focus:ring-accent transition-colors shadow-2xs border border-slate-200/80"
+              className="p-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl bg-slate-100 text-primary hover:bg-slate-200 focus:outline-hidden focus:ring-2 focus:ring-accent transition-colors shadow-2xs border border-slate-200/80 cursor-pointer"
               aria-label="Toggle navigation menu"
               aria-expanded={mobileMenuOpen}
             >
