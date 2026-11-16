@@ -21,24 +21,24 @@ export default function ZakatCalculatorPage() {
   const [step2Open, setStep2Open] = useState<boolean>(false);
   const [step3Open, setStep3Open] = useState<boolean>(false);
 
-  // Asset inputs state
-  const [cashRaw, setCashRaw] = useState<string>("500000"); // Preloaded with Blueprint worked example
-  const [cashNum, setCashNum] = useState<number>(500000);
+  // Asset inputs state — all initialized to 0 per user requirement
+  const [cashRaw, setCashRaw] = useState<string>("0");
+  const [cashNum, setCashNum] = useState<number>(0);
 
   const [bankRaw, setBankRaw] = useState<string>("0");
   const [bankNum, setBankNum] = useState<number>(0);
 
   const [goldUnit, setGoldUnit] = useState<MetalUnit>("tola");
-  const [goldQtyRaw, setGoldQtyRaw] = useState<string>("2");
-  const [goldQtyNum, setGoldQtyNum] = useState<number>(2);
-  const [goldRateRaw, setGoldRateRaw] = useState<string>("400000"); // Example rate
-  const [goldRateNum, setGoldRateNum] = useState<number>(400000);
+  const [goldQtyRaw, setGoldQtyRaw] = useState<string>("0");
+  const [goldQtyNum, setGoldQtyNum] = useState<number>(0);
+  const [goldRateRaw, setGoldRateRaw] = useState<string>("0");
+  const [goldRateNum, setGoldRateNum] = useState<number>(0);
 
   const [silverUnit, setSilverUnit] = useState<MetalUnit>("tola");
   const [silverQtyRaw, setSilverQtyRaw] = useState<string>("0");
   const [silverQtyNum, setSilverQtyNum] = useState<number>(0);
-  const [silverRateRaw, setSilverRateRaw] = useState<string>("5500"); // Example rate
-  const [silverRateNum, setSilverRateNum] = useState<number>(5500);
+  const [silverRateRaw, setSilverRateRaw] = useState<string>("0");
+  const [silverRateNum, setSilverRateNum] = useState<number>(0);
 
   const [businessRaw, setBusinessRaw] = useState<string>("0");
   const [businessNum, setBusinessNum] = useState<number>(0);
@@ -46,8 +46,8 @@ export default function ZakatCalculatorPage() {
   const [investmentsRaw, setInvestmentsRaw] = useState<string>("0");
   const [investmentsNum, setInvestmentsNum] = useState<number>(0);
 
-  const [debtsRaw, setDebtsRaw] = useState<string>("100000");
-  const [debtsNum, setDebtsNum] = useState<number>(100000);
+  const [debtsRaw, setDebtsRaw] = useState<string>("0");
+  const [debtsNum, setDebtsNum] = useState<number>(0);
 
   const [alreadyPaidRaw, setAlreadyPaidRaw] = useState<string>("0");
   const [alreadyPaidNum, setAlreadyPaidNum] = useState<number>(0);
@@ -230,6 +230,9 @@ export default function ZakatCalculatorPage() {
                     min="0"
                     step="any"
                     value={goldQtyRaw}
+                    onFocus={(e) => {
+                      if (e.target.value === "0") e.target.select();
+                    }}
                     onChange={(e) => {
                       setGoldQtyRaw(e.target.value);
                       setGoldQtyNum(parseFloat(e.target.value) || 0);
@@ -253,13 +256,16 @@ export default function ZakatCalculatorPage() {
                     id="gold-rate-per-tola"
                     type="text"
                     value={goldRateRaw}
+                    onFocus={(e) => {
+                      if (e.target.value === "0") e.target.select();
+                    }}
                     onChange={(e) => {
                       const cleaned = e.target.value.replace(/[, \s]/g, "");
                       setGoldRateRaw(e.target.value);
                       setGoldRateNum(parseFloat(cleaned) || 0);
                     }}
                     className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-slate-200 text-base font-semibold bg-white focus:ring-2 focus:ring-accent"
-                    placeholder="400,000"
+                    placeholder="e.g. 400,000"
                   />
                 </div>
               </div>
@@ -281,6 +287,9 @@ export default function ZakatCalculatorPage() {
                     min="0"
                     step="any"
                     value={silverQtyRaw}
+                    onFocus={(e) => {
+                      if (e.target.value === "0") e.target.select();
+                    }}
                     onChange={(e) => {
                       setSilverQtyRaw(e.target.value);
                       setSilverQtyNum(parseFloat(e.target.value) || 0);
@@ -304,13 +313,16 @@ export default function ZakatCalculatorPage() {
                     id="silver-rate-per-tola"
                     type="text"
                     value={silverRateRaw}
+                    onFocus={(e) => {
+                      if (e.target.value === "0") e.target.select();
+                    }}
                     onChange={(e) => {
                       const cleaned = e.target.value.replace(/[, \s]/g, "");
                       setSilverRateRaw(e.target.value);
                       setSilverRateNum(parseFloat(cleaned) || 0);
                     }}
                     className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-slate-200 text-base font-semibold bg-white focus:ring-2 focus:ring-accent"
-                    placeholder="5,500"
+                    placeholder="e.g. 5,500"
                   />
                 </div>
               </div>
@@ -422,7 +434,7 @@ export default function ZakatCalculatorPage() {
     />
   );
 
-  const isAbove = result.netZakatableWealth >= result.nisabThreshold;
+  const isAbove = result.nisabThreshold > 0 && result.netZakatableWealth >= result.nisabThreshold;
 
   const explanationBox = hasAnyInput ? (
     <ExplanationBox

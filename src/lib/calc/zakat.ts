@@ -99,7 +99,11 @@ export function calculateZakat(inputs: ZakatInputs): ZakatCalculationResult {
     nisabUsed = "silver";
     // If silver rate not entered, fallback to 0 until entered
     nisabThreshold = roundToPaisa(zakatRates.silverNisabTola * silverRatePerTola);
-    nisabExplanation = `Silver Nisab (52.5 tola / 612.36g @ Rs ${silverRatePerTola.toLocaleString()}/tola) applied as per Hanafi jurisprudence for mixed or liquid wealth.`;
+    if (silverRatePerTola > 0) {
+      nisabExplanation = `Silver Nisab (52.5 tola / 612.36g @ Rs ${silverRatePerTola.toLocaleString()}/tola) applied as per Hanafi jurisprudence for mixed or liquid wealth.`;
+    } else {
+      nisabExplanation = `Silver Nisab (52.5 tola / 612.36g) — enter today's Sarafa silver rate in Step 2 to establish your Nisab threshold.`;
+    }
   }
 
   const isZakatDue = nisabThreshold > 0 && netZakatableWealth >= nisabThreshold;

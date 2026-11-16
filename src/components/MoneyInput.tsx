@@ -92,6 +92,11 @@ export default function MoneyInput({
           name={id}
           value={value}
           onChange={handleChange}
+          onFocus={(e) => {
+            if (e.target.value === "0") {
+              e.target.select();
+            }
+          }}
           onBlur={handleBlur}
           placeholder={placeholder}
           disabled={disabled}
