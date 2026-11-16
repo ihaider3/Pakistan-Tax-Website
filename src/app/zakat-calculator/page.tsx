@@ -11,12 +11,14 @@ import { calculatorPages } from "@/content/pages";
 import { calculateZakat, ZakatCalculationResult } from "@/lib/calc/zakat";
 import { formatRupees } from "@/lib/calc/money";
 import { zakatRates } from "@/lib/rates/zakat";
+import { useExplanationLang } from "@/components/LanguageContext";
 import ratesData from "@/data/rates.json";
 
 type MetalUnit = "tola" | "grams";
 
 export default function ZakatCalculatorPage() {
   const content = calculatorPages.zakat;
+  const { lang } = useExplanationLang();
 
   // Step 2 & 3 Collapsible visibility
   const [step2Open, setStep2Open] = useState<boolean>(false);
@@ -281,12 +283,11 @@ export default function ZakatCalculatorPage() {
                   />
                 </div>
               </div>
-              <div className="text-[11px] text-amber-900 font-medium bg-amber-50/90 p-2.5 rounded-lg border border-amber-200/80 space-y-1">
+              <div className="text-[11px] text-amber-900 font-medium bg-amber-50/90 p-2.5 rounded-lg border border-amber-200/80">
                 <p>
-                  Live rate — updated {ratesData.lastUpdatedLabel}. Calculated from international spot prices — may slightly differ from official local Sarafa rates. You can type today&apos;s Sarafa rate here.
-                </p>
-                <p dir="rtl" lang="ur" className="font-urdu text-right text-xs leading-relaxed text-amber-950">
-                  لائیو ریٹ — اپ ڈیٹ شدہ: <bdi dir="ltr" className="inline-block font-sans font-semibold px-1">{ratesData.lastUpdatedLabel}</bdi>۔ انٹرنیشنل اسپاٹ پرائس کے مطابق — صرافہ کے سرکاری ریٹ سے تھوڑا فرق ہو سکتا ہے۔ آپ اپنا صرافہ ریٹ یہاں لکھ سکتے ہیں۔
+                  {lang === "roman"
+                    ? `Live rate — updated ${ratesData.lastUpdatedLabel}. Ye international spot price se hisab hai — Sarafa official rate se thoda farq ho sakta hai.`
+                    : `Live rate — updated ${ratesData.lastUpdatedLabel}. This is calculated from the international spot price — it may differ slightly from the Sarafa official rate.`}
                 </p>
               </div>
             </div>
@@ -343,12 +344,11 @@ export default function ZakatCalculatorPage() {
                   />
                 </div>
               </div>
-              <div className="text-[11px] text-amber-900 font-medium bg-amber-50/90 p-2.5 rounded-lg border border-amber-200/80 space-y-1">
+              <div className="text-[11px] text-amber-900 font-medium bg-amber-50/90 p-2.5 rounded-lg border border-amber-200/80">
                 <p>
-                  Live rate — updated {ratesData.lastUpdatedLabel}. Calculated from international spot prices — may slightly differ from official local Sarafa rates. You can type today&apos;s Sarafa rate here.
-                </p>
-                <p dir="rtl" lang="ur" className="font-urdu text-right text-xs leading-relaxed text-amber-950">
-                  لائیو ریٹ — اپ ڈیٹ شدہ: <bdi dir="ltr" className="inline-block font-sans font-semibold px-1">{ratesData.lastUpdatedLabel}</bdi>۔ انٹرنیشنل اسپاٹ پرائس کے مطابق — صرافہ کے سرکاری ریٹ سے تھوڑا فرق ہو سکتا ہے۔ آپ اپنا صرافہ ریٹ یہاں لکھ سکتے ہیں۔
+                  {lang === "roman"
+                    ? `Live rate — updated ${ratesData.lastUpdatedLabel}. Ye international spot price se hisab hai — Sarafa official rate se thoda farq ho sakta hai.`
+                    : `Live rate — updated ${ratesData.lastUpdatedLabel}. This is calculated from the international spot price — it may differ slightly from the Sarafa official rate.`}
                 </p>
               </div>
             </div>
@@ -461,10 +461,11 @@ export default function ZakatCalculatorPage() {
         <div className="p-3 rounded-xl bg-amber-50 border border-amber-300 text-xs text-amber-900 space-y-1 shadow-2xs">
           <div className="flex items-center gap-1.5 font-bold text-amber-900">
             <span className="text-amber-600">⚠️</span>
-            <span>Rates are over 48 hours old — please enter today&apos;s local Sarafa rate manually.</span>
-          </div>
-          <div dir="rtl" lang="ur" className="font-urdu text-right text-xs text-amber-950 pr-4">
-            ریٹ 2 دن پرانا ہے — آج کا صرافہ ریٹ خود لکھیں۔
+            <span>
+              {lang === "roman"
+                ? "Rates 48 ghante se purane hain — barah-e-karam aaj ka Sarafa rate khud darj karein."
+                : "Rates are over 48 hours old — please enter today's local Sarafa rate manually."}
+            </span>
           </div>
         </div>
       ) : (
@@ -484,46 +485,44 @@ export default function ZakatCalculatorPage() {
   );
 
   const isAbove = result.nisabThreshold > 0 && result.netZakatableWealth >= result.nisabThreshold;
+  const nisabLabelEn = result.nisabUsed === "gold" ? "gold, 7.5 tola" : "silver, 52.5 tola";
+  const nisabLabelRoman = result.nisabUsed === "gold" ? "sona, 7.5 tola" : "chandi, 52.5 tola";
 
   const explanationBox = (
     <ExplanationBox
       type="islamic"
-      englishText={`Zakat is 2.5% of your net zakatable wealth. Your net wealth is Rs ${formatRupees(result.netZakatableWealth, { prefix: false })} (total assets Rs ${formatRupees(result.totalGrossWealth, { prefix: false })} minus debts Rs ${formatRupees(result.totalDebts, { prefix: false })}). Your nisab is Rs ${formatRupees(result.nisabThreshold, { prefix: false })} (${result.nisabUsed === "gold" ? "Gold standard" : "Silver standard"}, ${result.nisabUsed === "gold" ? "7.5" : "52.5"} tola). Because Rs ${formatRupees(result.netZakatableWealth, { prefix: false })} is ${isAbove ? "above" : "below"} the nisab, your Zakat is Rs ${formatRupees(result.zakatDue, { prefix: false })} (2.5% of Rs ${formatRupees(result.netZakatableWealth, { prefix: false })}). If you already paid Rs ${formatRupees(result.alreadyPaid, { prefix: false })}, the remaining amount is Rs ${formatRupees(result.remainingDue, { prefix: false })}.`}
-      urduText={
-        <>
-          زکوٰۃ آپ کی کل قابلِ زکوٰۃ دولت کا <bdi dir="ltr" className="font-sans font-semibold">2.5%</bdi> ہوتی ہے۔ آپ کی نیٹ دولت روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.netZakatableWealth, { prefix: false })}</bdi> ہے (کل اثاثے روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalGrossWealth, { prefix: false })}</bdi> منفی قرض روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalDebts, { prefix: false })}</bdi>)۔ آپ کا نصاب روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.nisabThreshold, { prefix: false })}</bdi> ہے ({result.nisabUsed === "gold" ? "سونا اسٹینڈرڈ، 7.5 تولہ" : "چاندی اسٹینڈرڈ، 52.5 تولہ"})۔ چونکہ آپ کی دولت نصاب سے {isAbove ? "زیادہ" : "کم"} ہے، اس لیے آپ پر زکوٰۃ روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.zakatDue, { prefix: false })}</bdi> بنتی ہے (روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.netZakatableWealth, { prefix: false })}</bdi> کا 2.5%)۔ اگر آپ نے روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.alreadyPaid, { prefix: false })}</bdi> ادا کر دیے ہیں تو باقی روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.remainingDue, { prefix: false })}</bdi> رہ جاتے ہیں۔
-        </>
-      }
-      urduTextPlain={`زکوٰۃ آپ کی کل قابلِ زکوٰۃ دولت کا 2.5 فیصد ہوتی ہے۔ آپ کی نیٹ دولت روپے ${formatRupees(result.netZakatableWealth, { prefix: false })} ہے (کل اثاثے روپے ${formatRupees(result.totalGrossWealth, { prefix: false })} منفی قرض روپے ${formatRupees(result.totalDebts, { prefix: false })})۔ آپ کا نصاب روپے ${formatRupees(result.nisabThreshold, { prefix: false })} ہے (${result.nisabUsed === "gold" ? "سونا اسٹینڈرڈ، 7.5 تولہ" : "چاندی اسٹینڈرڈ، 52.5 تولہ"})۔ چونکہ آپ کی دولت نصاب سے ${isAbove ? "زیادہ" : "کم"} ہے، اس لیے آپ پر زکوٰۃ روپے ${formatRupees(result.zakatDue, { prefix: false })} بنتی ہے (روپے ${formatRupees(result.netZakatableWealth, { prefix: false })} کا 2.5 فیصد)۔ اگر آپ نے روپے ${formatRupees(result.alreadyPaid, { prefix: false })} ادا کر دیے ہیں تو باقی روپے ${formatRupees(result.remainingDue, { prefix: false })} رہ جاتے ہیں۔`}
+      romanUrduText={`Aapke kul zakatable assets Rs ${formatRupees(result.totalGrossWealth, { prefix: false })} hain. Aapki eligible deductions (qarz) Rs ${formatRupees(result.totalDebts, { prefix: false })} hain. Is tarah aapki net zakatable wealth Rs ${formatRupees(result.netZakatableWealth, { prefix: false })} banti hai. Nisab (${nisabLabelRoman}) aaj ke rate par Rs ${formatRupees(result.nisabThreshold, { prefix: false })} hai. ${isAbove ? "Aapki wealth nisab se zyada hai, is liye Zakat farz hai." : "Aapki wealth nisab se kam hai, is liye is waqt Zakat farz nahi hai."} 2.5% ke hisab se aapki Zakat Rs ${formatRupees(result.zakatDue, { prefix: false })} banti hai.`}
+      englishText={`Your total zakatable assets are Rs ${formatRupees(result.totalGrossWealth, { prefix: false })}. Your eligible deductions (debts) are Rs ${formatRupees(result.totalDebts, { prefix: false })}, giving net zakatable wealth of Rs ${formatRupees(result.netZakatableWealth, { prefix: false })}. The nisab (${nisabLabelEn}) at today's rate is Rs ${formatRupees(result.nisabThreshold, { prefix: false })}. ${isAbove ? "Your wealth is above the nisab, so Zakat is due." : "Your wealth is below the nisab, so no Zakat is due right now."} At 2.5%, your Zakat is Rs ${formatRupees(result.zakatDue, { prefix: false })}.`}
       extraBullets={[
         {
           en: "Zakat is due from every adult Muslim who owns wealth at or above nisab for one full lunar year (Hawl).",
-          urdu: "زکوٰۃ ہر اس بالغ مسلمان پر فرض ہے جس کی دولت نصاب کے برابر یا زیادہ ہو اور اس پر پورا ایک قمری سال (حول) گزر چکا ہو۔",
-          urduTextPlain: "زکوٰۃ ہر اس بالغ مسلمان پر فرض ہے جس کی دولت نصاب کے برابر یا زیادہ ہو اور اس پر پورا ایک قمری سال (حول) گزر چکا ہو۔",
+          romanUrdu:
+            "Zakat har us baligh Musalman par farz hai jis ki daulat nisab ke barabar ya zyada ho aur us par poora ek qamri saal (hawl) guzar chuka ho.",
         },
         {
           en: "Zakat goes to the poor, the needy, and the other groups named in the Quran (9:60) — not to build mosques or pay salaries.",
-          urdu: "زکوٰۃ غریبوں، مسکینوں اور قرآن (9:60) میں بتائے گئے مستحق لوگوں کو دی جاتی ہے — مسجد بنانے یا تنخواہ دینے کے لیے نہیں۔",
-          urduTextPlain: "زکوٰۃ غریبوں، مسکینوں اور قرآن (9:60) میں بتائے گئے مستحق لوگوں کو دی جاتی ہے — مسجد بنانے یا تنخواہ دینے کے لیے نہیں۔",
+          romanUrdu:
+            "Zakat ghareebon, miskeeno aur Quran (9:60) mein bayan kiye gaye deegar mustahqeen ko di jati hai — masjid banane ya tankhwah dene ke liye nahi.",
         },
       ]}
-      referenceContent={
+      referenceContentEn={
         <div className="space-y-1.5">
           <p>• <strong>Quran 9:103</strong> — &quot;Take from their wealth a charity by which you purify them and cause them increase.&quot; (Sahih International translation)</p>
           <p>• <strong>Quran 9:60</strong> — Zakat is for the poor, the needy, and the other eligible groups named in this verse.</p>
           <p>• <strong>Quran 2:43</strong> — &quot;Establish prayer and give Zakat.&quot;</p>
           <p>• <strong>Hadith:</strong> &quot;Islam is built upon five [pillars]… and giving Zakat.&quot; — Sahih al-Bukhari 8; Sahih Muslim 16.</p>
-          <div dir="rtl" lang="ur" className="font-urdu text-right text-slate-800 pr-2">
-            • &quot;اسلام پانچ [ستونوں] پر قائم ہے… اور زکوٰۃ دینا۔&quot; — صحیح البخاری 8؛ صحیح مسلم 16 (Sahih al-Bukhari 8; Sahih Muslim 16)
-          </div>
           <p>• <strong>Nisab:</strong> 87.48g gold (7.5 tola) or 612.36g silver (52.5 tola). Hanafi rule in Pakistan: silver nisab for mixed wealth.</p>
-          <div dir="rtl" lang="ur" className="font-urdu text-right text-slate-800 pr-2">
-            • نصاب: 87.48 گرام سونا (7.5 تولہ) یا 612.36 گرام چاندی (52.5 تولہ)۔ پاکستان میں حنفی اصول: ملی جلی دولت کے لیے چاندی کا نصاب۔
-          </div>
           <p>• <strong>Government bank nisab 2026 (Rs 503,529)</strong> is for bank auto-deduction only — do not mix it with personal nisab.</p>
-          <div dir="rtl" lang="ur" className="font-urdu text-right text-slate-800 pr-2">
-            • حکومتی بینک نصاب 2026 (روپے <bdi dir="ltr" className="font-sans font-semibold">503,529</bdi>) صرف بینک کی خودکار کٹوتی کے لیے ہے — اسے ذاتی نصاب سے نہ ملائیں۔
-          </div>
+        </div>
+      }
+      referenceContentRoman={
+        <div className="space-y-1.5">
+          <p>• <strong>Quran 9:103</strong> — &quot;In ke amwaal mein se sadqa (zakat) wasool karein jis se aap inhein paak karein aur barkat dein.&quot; (Surah At-Tawbah)</p>
+          <p>• <strong>Quran 9:60</strong> — Zakat ghareebon, miskeeno aur aayat mein bayan kiye gaye deegar mustahqeen ke liye hai.</p>
+          <p>• <strong>Quran 2:43</strong> — &quot;Namaz qaim karo aur zakat ada karo.&quot;</p>
+          <p>• <strong>Hadith:</strong> &quot;Islam ki bunyad paanch sutoonon par hai... aur zakat ada karna.&quot; — Sahih al-Bukhari 8; Sahih Muslim 16.</p>
+          <p>• <strong>Nisab:</strong> 87.48g sona (7.5 tola) ya 612.36g chandi (52.5 tola). Pakistan mein Hanafi qanoon: mili juli daulat ke liye chandi ka nisab lagta hai.</p>
+          <p>• <strong>Hukoomati bank nisab 2026 (Rs 503,529)</strong> sirf bank ki auto-deduction ke liye hai — zaati nisab se mix na karein.</p>
         </div>
       }
     />

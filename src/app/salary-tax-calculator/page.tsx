@@ -211,20 +211,17 @@ export default function SalaryTaxCalculatorPage() {
   const explanationBox = result ? (
     <ExplanationBox
       type="tax"
-      englishText={`Your monthly salary is Rs ${formatRupees(result.monthlySalary, { prefix: false })}. Your annual salary is Rs ${formatRupees(result.annualSalary, { prefix: false })}. Tax is charged slab by slab — only the income inside each slab is taxed at that slab's rate. Your annual tax is Rs ${formatRupees(result.annualTax, { prefix: false })}, so your monthly tax is Rs ${formatRupees(result.annualTax, { prefix: false })} ÷ 12 = Rs ${formatRupees(result.monthlyTax, { prefix: false })}. Your take-home pay is Rs ${formatRupees(result.monthlySalary, { prefix: false })} − Rs ${formatRupees(result.monthlyTax, { prefix: false })} = Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} per month.`}
-      urduText={
-        <>
-          آپ کی ماہانہ تنخواہ روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.monthlySalary, { prefix: false })}</bdi> ہے، سالانہ روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.annualSalary, { prefix: false })}</bdi> بنتی ہے۔ ٹیکس سلیب کے حساب سے لگتا ہے — ہر سلیب میں صرف اس سلیب کی آمدنی پر اس سلیب کا ریٹ لگتا ہے۔ آپ کا سالانہ ٹیکس روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.annualTax, { prefix: false })}</bdi> ہے، اس لیے ماہانہ ٹیکس روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.monthlyTax, { prefix: false })}</bdi> کٹے گا۔ آپ کو ہر مہینے روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.monthlyTakeHome, { prefix: false })}</bdi> ٹیک ہوم ملے گا۔
-        </>
+      romanUrduText={`Aap ne mahana tankhwah Rs ${formatRupees(result.monthlySalary, { prefix: false })} likhi. Is se salana tankhwah Rs ${formatRupees(result.annualSalary, { prefix: false })} banti hai. Tax Year 2026–27 ke slab ${result.appliedSlabIndex + 1} ke mutabiq: ${result.appliedSlabDescription}. Kul salana tax Rs ${formatRupees(result.annualTax, { prefix: false })} banta hai, jo mahana Rs ${formatRupees(result.monthlyTax, { prefix: false })} hota hai. Is tarah aapki take-home tankhwah Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} mahana banti hai.`}
+      englishText={`You entered a monthly salary of Rs ${formatRupees(result.monthlySalary, { prefix: false })}. That makes an annual salary of Rs ${formatRupees(result.annualSalary, { prefix: false })}. Under Tax Year 2026–27 slab ${result.appliedSlabIndex + 1}: ${result.appliedSlabDescription}. Total annual tax is Rs ${formatRupees(result.annualTax, { prefix: false })}, which is Rs ${formatRupees(result.monthlyTax, { prefix: false })} per month. Your take-home salary is therefore Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} per month.`}
+      referenceContentEn={
+        <p>
+          <strong>Law:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. First Rs 600,000 annual (Rs 50,000/month) is 0%. Salaried surcharge is 0% in TY2027.
+        </p>
       }
-      urduTextPlain={`آپ کی ماہانہ تنخواہ روپے ${formatRupees(result.monthlySalary, { prefix: false })} ہے، سالانہ روپے ${formatRupees(result.annualSalary, { prefix: false })} بنتی ہے۔ ٹیکس سلیب کے حساب سے لگتا ہے — ہر سلیب میں صرف اس سلیب کی آمدنی پر اس سلیب کا ریٹ لگتا ہے۔ آپ کا سالانہ ٹیکس روپے ${formatRupees(result.annualTax, { prefix: false })} ہے، اس لیے ماہانہ ٹیکس روپے ${formatRupees(result.monthlyTax, { prefix: false })} کٹے گا۔ آپ کو ہر مہینے روپے ${formatRupees(result.monthlyTakeHome, { prefix: false })} ٹیک ہوم ملے گا۔`}
-      referenceContent={
-        <>
-          <p><strong>Law:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. First Rs 600,000 annual (Rs 50,000/month) is 0%. Salaried surcharge is 0% in TY2027.</p>
-          <div dir="rtl" lang="ur" className="font-urdu text-right pt-1 text-slate-800">
-            <strong className="text-primary font-bold ml-1.5 font-sans">قانون:</strong> انکم ٹیکس آرڈیننس 2001، سیکشن 149 — تنخواہ۔ فنانس ایکٹ 2026۔ پہلے روپے <bdi dir="ltr" className="font-sans font-semibold">600,000</bdi> سالانہ پر کوئی ٹیکس نہیں۔
-          </div>
-        </>
+      referenceContentRoman={
+        <p>
+          <strong>Qanoon:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. Pehla Rs 600,000 salana (Rs 50,000/mahana) 0% hai. Salaried surcharge TY2027 mein 0% hai.
+        </p>
       }
     />
   ) : null;

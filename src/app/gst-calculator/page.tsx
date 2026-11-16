@@ -268,47 +268,37 @@ export default function GstCalculatorPage() {
     />
   );
 
+  const baseFormatted = result ? formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true }) : "0";
+  const gstFormatted = result ? formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true }) : "0";
+  const totalFormatted = result ? formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true }) : "0";
+  const rateLabel = result ? (result.ratePercentage === "18%" ? "18%" : result.ratePercentage) : "18%";
+
   const explanationBox = result ? (
     <ExplanationBox
       type="tax"
+      romanUrduText={
+        mode === "add"
+          ? `Aap ne raqam Rs ${baseFormatted} likhi. Add mode mein ${rateLabel} GST Rs ${gstFormatted} banta hai. Kul raqam Rs ${baseFormatted} + Rs ${gstFormatted} = Rs ${totalFormatted} banti hai.`
+          : mode === "remove"
+          ? `Aap ne kul raqam Rs ${totalFormatted} likhi. Is mein se ${rateLabel} GST nikaalne par asal raqam Rs ${baseFormatted} aur GST Rs ${gstFormatted} banta hai.`
+          : `Aap ne raqam Rs ${baseFormatted} likhi. Is par ${rateLabel} GST Rs ${gstFormatted} banta hai.`
+      }
       englishText={
         mode === "add"
-          ? `You entered Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} in Add mode at ${result.ratePercentage}. GST is Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} × ${result.ratePercentage} = Rs ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })}. Total = Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} + Rs ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })} = Rs ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })}.`
+          ? `You entered Rs ${baseFormatted}. In Add mode, ${rateLabel} GST is Rs ${gstFormatted}. Total = Rs ${baseFormatted} + Rs ${gstFormatted} = Rs ${totalFormatted}.`
           : mode === "remove"
-          ? `You entered Rs ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} in Remove mode at ${result.ratePercentage}. Base price is Rs ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} ÷ ${(1 + effectiveRate / 100).toFixed(2).replace(/\.?0+$/, "")} = Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })}. GST inside it is Rs ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} − Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} = Rs ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })}.`
-          : `You entered Rs ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })} in GST Amount mode at ${result.ratePercentage}. Base price is Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })}. Total = Rs ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} + Rs ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })} = Rs ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })}.`
+          ? `You entered a total of Rs ${totalFormatted}. Removing ${rateLabel} GST gives a base amount of Rs ${baseFormatted} and GST of Rs ${gstFormatted}.`
+          : `You entered Rs ${baseFormatted}. GST at ${rateLabel} on this amount is Rs ${gstFormatted}.`
       }
-      urduText={
-        mode === "add" ? (
-          <>
-            آپ نے روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> درج کیا (Add موڈ، <bdi dir="ltr" className="font-sans font-semibold">{result.ratePercentage}</bdi>)۔ GST رقم روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> بنتی ہے۔ کل بل روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> ہوگا۔
-          </>
-        ) : mode === "remove" ? (
-          <>
-            آپ نے روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> درج کیا (Remove موڈ، <bdi dir="ltr" className="font-sans font-semibold">{result.ratePercentage}</bdi>)۔ اصل قیمت (بغیر ٹیکس) روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> ہے اور GST رقم روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> ہے۔ کل بل روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> تھا۔
-          </>
-        ) : (
-          <>
-            آپ نے روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> درج کیا (GST Amount موڈ، <bdi dir="ltr" className="font-sans font-semibold">{result.ratePercentage}</bdi>)۔ اصل قیمت روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> اور کل بل روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })}</bdi> ہوگا۔
-          </>
-        )
+      referenceContentEn={
+        <p>
+          <strong>Law:</strong> Sales Tax Act 1990, standard rate 18% on goods. Services rates are provincial and vary — confirm with PRA / SRB / KPRA / BRA for your service.
+        </p>
       }
-      urduTextPlain={
-        mode === "add"
-          ? `آپ نے روپے ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} درج کیا (Add موڈ، ${result.ratePercentage})۔ GST رقم روپے ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })} بنتی ہے۔ کل بل روپے ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} ہوگا۔`
-          : mode === "remove"
-          ? `آپ نے روپے ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} درج کیا (Remove موڈ، ${result.ratePercentage})۔ اصل قیمت (بغیر ٹیکس) روپے ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} ہے اور GST رقم روپے ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })} ہے۔ کل بل روپے ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} تھا۔`
-          : `آپ نے روپے ${formatRupees(result.gstAmount, { prefix: false, showPaisaIfDecimal: true })} درج کیا (GST Amount موڈ، ${result.ratePercentage})۔ اصل قیمت روپے ${formatRupees(result.baseAmount, { prefix: false, showPaisaIfDecimal: true })} اور کل بل روپے ${formatRupees(result.totalAmount, { prefix: false, showPaisaIfDecimal: true })} ہوگا۔`
-      }
-      referenceContent={
-        <>
-          <p>
-            <strong>Law:</strong> Sales Tax Act 1990, standard rate 18% on goods. Services rates are provincial and vary — confirm with PRA / SRB / KPRA / BRA for your service.
-          </p>
-          <div dir="rtl" lang="ur" className="font-urdu text-right pt-1 text-slate-800">
-            <strong className="text-primary font-bold ml-1.5 font-sans">قانون:</strong> سیلز ٹیکس ایکٹ 1990، اشیا پر معیاری ریٹ 18 فیصد۔ خدمات پر ریٹ صوبائی ہے اور مختلف ہوتا ہے — اپنی سروس کے لیے PRA / SRB / KPRA / BRA سے تصدیق کریں۔
-          </div>
-        </>
+      referenceContentRoman={
+        <p>
+          <strong>Qanoon:</strong> Sales Tax Act 1990, goods par standard rate 18%. Services par rate soobay ke mutabiq alag hota hai — apni service ke liye PRA / SRB / KPRA / BRA se tasdeeq karein.
+        </p>
       }
     />
   ) : null;
@@ -320,7 +310,7 @@ export default function GstCalculatorPage() {
       columns={breakdownColumns}
       rows={breakdownRows}
       totalLabel="Total Payable Invoice Amount"
-      totalValue={formatRupees(result.totalAmount)}
+      totalValue={formatRupees(result.totalAmount, { showPaisaIfDecimal: true })}
     />
   ) : null;
 

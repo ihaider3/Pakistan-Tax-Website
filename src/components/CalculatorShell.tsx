@@ -5,6 +5,8 @@ import VerificationBadge from "./VerificationBadge";
 import Faq from "./Faq";
 import RelatedTools from "./RelatedTools";
 import { CalculatorPageContent } from "@/content/pages";
+import { useExplanationLang } from "./LanguageContext";
+import ExplanationLangToggle from "./ExplanationLangToggle";
 
 interface CalculatorShellProps {
   content: CalculatorPageContent;
@@ -23,10 +25,12 @@ export default function CalculatorShell({
   breakdownTable,
   customTopSection,
 }: CalculatorShellProps) {
+  const { lang } = useExplanationLang();
+
   return (
     <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 py-8 sm:py-12 space-y-10 sm:space-y-14">
       {/* =========================================================================
-          BLOCK 1 & 2: H1, Short Intro, Roman Urdu Box & Verification Badge
+          BLOCK 1 & 2: H1, Short Intro, Bilingual Wazahat/Explanation Box & Verification Badge
          ========================================================================= */}
       <section className="space-y-5 print:hidden">
         <div className="space-y-2.5">
@@ -42,14 +46,17 @@ export default function CalculatorShell({
           </p>
         </div>
 
-        {/* Urdu Explanation Block */}
+        {/* Intro Explanation Box (Bilingual with Language Toggle) */}
         <div className="bg-gradient-to-r from-teal-50/70 via-white to-surface border-l-4 border-accent p-4 sm:p-5 rounded-r-xl text-xs sm:text-sm text-appText leading-relaxed shadow-xs border border-slate-200/60">
-          <span className="font-bold text-primary block mb-1.5 text-xs uppercase tracking-wider flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-accent"></span>
-            اردو وضاحت:
-          </span>
-          <p dir="rtl" lang="ur" className="font-urdu text-right text-slate-800 text-[15px] sm:text-[16px] leading-[2.0]">
-            {content.romanUrduIntro}
+          <div className="flex items-center justify-between gap-3 mb-2.5">
+            <span className="font-bold text-primary text-xs uppercase tracking-wider flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-accent"></span>
+              {lang === "roman" ? "Wazahat:" : "Explanation:"}
+            </span>
+            <ExplanationLangToggle />
+          </div>
+          <p className="text-slate-800 text-[14px] sm:text-[15px] leading-relaxed font-normal">
+            {lang === "roman" ? content.romanUrduIntro : content.englishIntro}
           </p>
         </div>
 

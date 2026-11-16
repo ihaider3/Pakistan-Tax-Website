@@ -11,6 +11,7 @@ export interface CalculatorPageContent {
   keywords: string[];
   intro: string;
   romanUrduIntro: string;
+  englishIntro: string;
   howToUseSteps: string[];
   formulaTitle: string;
   formulaDescription: string;
@@ -52,7 +53,9 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
     intro:
       "Calculate your monthly tax withholding and take-home salary in Pakistan for Tax Year 2026-27 (1 July 2026 to 30 June 2027) based on official FBR progressive income tax slabs under Section 149.",
     romanUrduIntro:
-      "یہ کیلکولیٹر آپ کی ماہانہ یا سالانہ تنخواہ پر FBR کے نئے ٹیکس سال 2026-27 سلیبس کے مطابق ٹیکس کا حساب کرتا ہے۔ روپے 50,000 ماہانہ (روپے 600,000 سالانہ) تک کوئی ٹیکس نہیں ہے۔ ٹیکس سلیب کے حساب سے لگتا ہے اور آپ کی نیٹ ٹیک ہوم تنخواہ فوراً سامنے آ جاتی ہے۔",
+      "Ye calculator aapki mahana tankhwah par FBR ke Tax Year 2026–27 ke slabs ke mutabiq tax nikalta hai. Agar aapki salana tankhwah Rs 600,000 se kam hai, to koi tax nahi lagta. Tax slab ke hisab se lagta hai aur aapki take-home tankhwah foran samne aa jati hai.",
+    englishIntro:
+      "This calculator works out the tax on your monthly salary using FBR's Tax Year 2026–27 slabs. If your annual salary is below Rs 600,000, no tax applies. Tax is charged slab by slab, and your take-home salary appears instantly.",
     howToUseSteps: [
       "Choose whether you want to enter your Monthly Gross Salary or Annual Taxable Salary.",
       "Select the Tax Year (2026-27 is current; 2025-26 is available for prior year review).",
@@ -127,7 +130,9 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
     intro:
       "Accurately calculate your annual Zakat (2.5%) on cash, gold, silver, bank accounts, trade stock, and shares in Pakistani Rupees. Includes automatic Nisab evaluation under Hanafi jurisprudence.",
     romanUrduIntro:
-      "یہ زکوٰۃ کیلکولیٹر آپ کے کیش، بینک بیلنس، سونے، چاندی، اور کاروباری مال پر 2.5 فیصد زکوٰۃ کا حساب کرتا ہے۔ حنفی فقہ کے مطابق اگر ملا جلا مال ہو تو چاندی کا نصاب (52.5 تولہ) لاگو ہوتا ہے۔ زکوٰۃ صرف اس وقت فرض ہوتی ہے جب مال پر پورا ایک سال (حول) گزر چکا ہو۔",
+      "Ye Zakat calculator aapke cash, bank balance, sone, chandi aur karobar ke maal par 2.5% Zakat nikalta hai. Hanafi fiqh ke mutabiq, agar aapka maal nisab (chandi ka nisab 52.5 tola) tak pohanch jaye to Zakat farz ho jati hai. Zakat sirf us waqt farz hoti hai jab maal par poora ek saal (hawl) guzar chuka ho.",
+    englishIntro:
+      "This Zakat calculator works out 2.5% Zakat on your cash, bank balance, gold, silver and business stock. Under Hanafi jurisprudence, Zakat becomes obligatory once your wealth reaches the nisab (the silver nisab of 52.5 tola). It is only due once a full lunar year (hawl) has passed over the wealth.",
     howToUseSteps: [
       "Enter your cash, bank balances, business trade goods, and investment valuations.",
       "Enter your gold and silver weight in Tola or Grams, and input today's Sarafa market rates per tola.",
@@ -202,7 +207,9 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
     intro:
       "Calculate FBR Advance Withholding Tax on real estate transactions in Pakistan for Tax Year 2026-27. Features Section 236K for buyers and Section 236C for sellers with side-by-side Filer vs Non-Filer comparisons.",
     romanUrduIntro:
-      "یہ ٹول FBR کے سیکشن 236K (خریدار) اور 236C (فروخت کنندہ) کے ایڈوانس انکم ٹیکس کا حساب کرتا ہے۔ ٹیکس سال 2026-27 کے مطابق خریدار فائلر پر 1.25 فیصد اور فروخت کنندہ فائلر پر 2.75 فیصد ٹیکس ہے۔ فائلر بن کر آپ لاکھوں روپے ایڈوانس ٹیکس میں بچا سکتے ہیں۔",
+      "Ye tool FBR ke Section 236K (kharidar) aur Section 236C (farokht kaninda) ke advance income tax ka hisab karta hai. Tax Year 2026–27 ke mutabiq, filer kharidar 1.25% aur filer farokht kaninda 2.75% tax deta hai. Filer aur non-filer ke darmiyan farq bhi yahan saaf nazar aa jata hai.",
+    englishIntro:
+      "This tool calculates FBR advance income tax under Section 236K (buyer) and Section 236C (seller). For Tax Year 2026–27, a filer buyer pays 1.25% and a filer seller pays 2.75%. The difference between filer and non-filer rates is shown clearly side by side.",
     howToUseSteps: [
       "Enter the official FBR notified valuation or actual gross sale consideration in PKR.",
       "Select your transaction type: Buy (Section 236K) or Sell (Section 236C).",
@@ -276,7 +283,9 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
     intro:
       "Quickly compute Pakistan General Sales Tax (GST). Add 18% sales tax to net figures, remove tax from total invoice amounts, or calculate base values from tax amounts with instant integer paisa accuracy.",
     romanUrduIntro:
-      "اس ٹول سے آپ کسی بھی رقم میں 18 فیصد جنرل سیلز ٹیکس (GST) شامل یا منہا کر سکتے ہیں۔ اگر آپ کو انوائس کی کل رقم معلوم ہے تو Remove GST منتخب کریں تاکہ اصل قیمت اور ٹیکس الگ الگ نظر آ سکیں۔",
+      "Is tool se aap kisi bhi raqam par 18% General Sales Tax (GST) shamil ya nikaal sakte hain. Agar aapko invoice ki kul raqam maloom hai, to 'Remove GST' select kar ke asal qeemat aur tax alag alag dekh sakte hain.",
+    englishIntro:
+      "With this tool you can add or remove 18% General Sales Tax (GST) from any amount. If you know the total invoice amount, choose 'Remove GST' to see the base price and the tax separately.",
     howToUseSteps: [
       "Enter the amount in Pakistani Rupees.",
       "Select your calculation mode: Add GST (from base price), Remove GST (from total gross invoice), or GST Amount Only.",
@@ -348,7 +357,9 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
     intro:
       "Calculate obligatory Sadqat-ul-Fitr (Fitrana) for your household in Pakistan for Ramadan / Eid-ul-Fitr 2026. Features the agreed consensus minimum rate of Rs 300 (Wheat) with side-by-side comparison between Mufti Muneeb-ur-Rehman and the Council of Islamic Ideology (CII).",
     romanUrduIntro:
-      "یہ کیلکولیٹر صدقۂ فطر (فطرانہ) کا حساب کرتا ہے۔ گندم پر روپے 300 فی فرد دونوں علمائے کرام (مفتی منیب اور اسلامی نظریاتی کونسل) کے مطابق متفقہ رقم ہے۔ جو لوگ صاحبِ استطاعت ہیں وہ جو، کھجور یا کشمش کے حساب سے ادا کریں۔",
+      "Ye calculator Sadqa-e-Fitr (Fitrana) ka hisab karta hai. Gandum ke hisab se kam se kam Rs 300 per shakhs banta hai. Ye raqam Mufti Muneeb-ur-Rehman aur Council of Islamic Ideology (CII) ke elan ke mutabiq hai. Jo log sahab-e-istetaat hain, wo zyada raqam se bhi ada kar sakte hain.",
+    englishIntro:
+      "This calculator works out Sadqa-e-Fitr (Fitrana) for your household. The minimum is Rs 300 per person, based on wheat. This rate follows the announcements of Mufti Muneeb-ur-Rehman and the Council of Islamic Ideology (CII). Those who can afford more may pay a higher amount.",
     howToUseSteps: [
       "Enter the number of family members and dependent individuals in your household (1 to 50).",
       "Choose the staple category: Wheat (consensus minimum), Barley, Dates, or Raisins.",

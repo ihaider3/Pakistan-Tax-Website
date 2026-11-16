@@ -226,31 +226,33 @@ export default function PropertyTaxCalculatorPage() {
   const filerStatusUrdu = isFiler ? "فائلر" : "نان فائلر";
   const transactionUrdu = isBuy ? "خرید رہے ہیں" : "بیچ رہے ہیں";
 
+  const rateClean = rateFormatted;
+  const buyerOrSellerEn = isBuy ? "buyer" : "seller";
+  const buyerOrSellerRoman = isBuy ? "kharidar" : "farokht kaninda";
+  const filerOrNonFiler = isFiler ? "filer" : "non-filer";
+
   const explanationBox = result ? (
     <ExplanationBox
       type="tax"
-      englishText={`You are ${isBuy ? "buying" : "selling"} a property worth Rs ${formatRupees(result.propertyValue, { prefix: false })} as a ${isFiler ? "Filer" : "Non-Filer"}. The ${result.sectionCode} rate for you is ${rateFormatted}%. Your advance tax is Rs ${formatRupees(result.propertyValue, { prefix: false })} × ${rateFormatted}% = Rs ${formatRupees(result.taxAmount, { prefix: false })}. ${isBuy ? `Your total cost is Rs ${formatRupees(result.propertyValue, { prefix: false })} + Rs ${formatRupees(result.taxAmount, { prefix: false })} = Rs ${formatRupees(result.totalForBuyer, { prefix: false })}.` : `You will receive Rs ${formatRupees(result.propertyValue, { prefix: false })} − Rs ${formatRupees(result.taxAmount, { prefix: false })} = Rs ${formatRupees(result.netForSeller, { prefix: false })}.`} As a Filer you save Rs ${formatRupees(result.savingsVsNonFiler, { prefix: false })} compared to a Non-Filer on this property.`}
-      urduText={
-        <>
-          آپ روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.propertyValue, { prefix: false })}</bdi> کی پراپرٹی {transactionUrdu} اور آپ {filerStatusUrdu} ہیں۔ آپ کے لیے {result.sectionCode} کا ریٹ <bdi dir="ltr" className="font-sans font-semibold">{rateFormatted}%</bdi> ہے۔ ایڈوانس ٹیکس روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.taxAmount, { prefix: false })}</bdi> بنتا ہے۔ {isBuy ? (
-            <>خریداری پر: کل خرچہ روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalForBuyer, { prefix: false })}</bdi> ہوگا۔</>
-          ) : (
-            <>بیچنے پر: آپ کو روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.netForSeller, { prefix: false })}</bdi> ملیں گے۔</>
-          )} {isFiler ? (
-            <>فائلر ہونے سے آپ کو اس پراپرٹی پر روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.savingsVsNonFiler, { prefix: false })}</bdi> کی بچت ہوتی ہے۔</>
-          ) : (
-            <>فائلر بن کر آپ اس پراپرٹی پر روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.savingsVsNonFiler, { prefix: false })}</bdi> کی بچت کر سکتے ہیں۔</>
-          )}
-        </>
+      romanUrduText={`Property ki qeemat Rs ${formatRupees(result.propertyValue, { prefix: false })} hai. Aap ${buyerOrSellerRoman} hain aur aapki category ${filerOrNonFiler} hai. Section ${result.sectionCode} ke mutabiq ${rateClean}% ki sharah lagti hai. Is tarah withholding tax Rs ${formatRupees(result.taxAmount, { prefix: false })} banta hai. ${
+        isFiler
+          ? `Non-filer hone par yehi tax Rs ${formatRupees(result.oppositeFilerTax, { prefix: false })} banta — filer hone se aapko Rs ${formatRupees(result.savingsVsNonFiler, { prefix: false })} ki bachat hui.`
+          : `Filer hone par yehi tax sirf Rs ${formatRupees(result.oppositeFilerTax, { prefix: false })} banta.`
+      }`}
+      englishText={`The property value is Rs ${formatRupees(result.propertyValue, { prefix: false })}. You are the ${buyerOrSellerEn} and your category is ${filerOrNonFiler}. Under Section ${result.sectionCode} a rate of ${rateClean}% applies. The withholding tax is therefore Rs ${formatRupees(result.taxAmount, { prefix: false })}. ${
+        isFiler
+          ? `As a non-filer this same tax would be Rs ${formatRupees(result.oppositeFilerTax, { prefix: false })} — being a filer saves you Rs ${formatRupees(result.savingsVsNonFiler, { prefix: false })}.`
+          : `As a filer this same tax would be only Rs ${formatRupees(result.oppositeFilerTax, { prefix: false })}.`
+      }`}
+      referenceContentEn={
+        <p>
+          <strong>Law:</strong> Income Tax Ordinance 2001, Sections 236C (Seller) and 236K (Buyer). Finance Act 2026. Filer buyer 1.25%, filer seller 2.75%. Late-filer category abolished in TY2027.
+        </p>
       }
-      urduTextPlain={`آپ روپے ${formatRupees(result.propertyValue, { prefix: false })} کی پراپرٹی ${transactionUrdu} اور آپ ${filerStatusUrdu} ہیں۔ آپ کے لیے ${result.sectionCode} کا ریٹ ${rateFormatted}% ہے۔ ایڈوانس ٹیکس روپے ${formatRupees(result.propertyValue, { prefix: false })} × ${rateFormatted}% = روپے ${formatRupees(result.taxAmount, { prefix: false })} بنتا ہے۔ ${isBuy ? `خریداری پر: کل خرچہ روپے ${formatRupees(result.totalForBuyer, { prefix: false })} ہوگا۔` : `بیچنے پر: آپ کو روپے ${formatRupees(result.netForSeller, { prefix: false })} ملیں گے۔`} ${isFiler ? `فائلر ہونے سے آپ کو اس پراپرٹی پر روپے ${formatRupees(result.savingsVsNonFiler, { prefix: false })} کی بچت ہوتی ہے۔` : `فائلر بن کر آپ اس پراپرٹی پر روپے ${formatRupees(result.savingsVsNonFiler, { prefix: false })} کی بچت کر سکتے ہیں۔`}`}
-      referenceContent={
-        <>
-          <p><strong>Law:</strong> Income Tax Ordinance 2001, Sections 236C (Seller) and 236K (Buyer). Finance Act 2026. Filer buyer 1.25%, filer seller 2.75%. Late-filer category abolished in TY2027.</p>
-          <div dir="rtl" lang="ur" className="font-urdu text-right pt-1 text-slate-800">
-            <strong className="text-primary font-bold ml-1.5 font-sans">قانون:</strong> انکم ٹیکس آرڈیننس 2001، سیکشن 236C (فروخت کنندہ) اور 236K (خریدار)۔ فنانس ایکٹ 2026۔ فائلر خریدار 1.25 فیصد، فائلر فروخت کنندہ 2.75 فیصد۔ لیٹ فائلر کیٹیگری TY2027 میں ختم کر دی گئی ہے۔
-          </div>
-        </>
+      referenceContentRoman={
+        <p>
+          <strong>Qanoon:</strong> Income Tax Ordinance 2001, Sections 236C (Farokht kaninda) aur 236K (Kharidar). Finance Act 2026. Filer kharidar 1.25%, filer farokht kaninda 2.75%. Late-filer category TY2027 mein khatam kar di gayi hai.
+        </p>
       }
     />
   ) : null;

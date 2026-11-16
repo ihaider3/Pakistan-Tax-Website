@@ -223,7 +223,7 @@ export default function FitranaCalculatorPage() {
       mainValue={result ? formatRupees(result.totalFitrana) : "Rs 0"}
       mainSubtext={
         result
-          ? `${result.familyMembers} persons × ${formatRupees(result.perPersonRate)} (${result.sourceName})`
+          ? `${result.familyMembers} ${result.familyMembers === 1 ? "person" : "persons"} × ${formatRupees(result.perPersonRate)} (${result.sourceName})`
           : undefined
       }
       statusBadge={
@@ -245,56 +245,56 @@ export default function FitranaCalculatorPage() {
   const fitranaBullets = [
     {
       en: "Fitrana is due from every Muslim who has food in excess of their needs on Eid day — paid for oneself and all dependents (including children).",
-      urdu: "فطرانہ ہر اس مسلمان پر واجب ہے جس کے پاس عید کے دن اپنی ضرورت سے زیادہ اناج ہو — یہ اپنی طرف سے اور تمام زیرِ کفالت افراد (بچوں سمیت) کی طرف سے ادا کیا جاتا ہے۔",
-      urduTextPlain: "فطرانہ ہر اس مسلمان پر واجب ہے جس کے پاس عید کے دن اپنی ضرورت سے زیادہ اناج ہو — یہ اپنی طرف سے اور تمام زیرِ کفالت افراد (بچوں سمیت) کی طرف سے ادا کیا جاتا ہے۔",
+      romanUrdu:
+        "Fitrana har us Musalman par wajib hai jis ke paas Eid ke din apni zaroorat se zyada anaaj ho — yeh apni taraf se aur apne tamam zer-e-kafalat afraad (bachon samet) ki taraf se ada kiya jata hai.",
     },
     {
       en: "Must be paid before the Eid-ul-Fitr prayer so the poor can celebrate Eid.",
-      urdu: "عید الفطر کی نماز سے پہلے ادا کرنا ضروری ہے تاکہ غریب لوگ بھی عید کی خوشیوں میں شریک ہو سکیں۔",
-      urduTextPlain: "عید الفطر کی نماز سے پہلے ادا کرنا ضروری ہے تاکہ غریب لوگ بھی عید کی خوشیوں میں شریک ہو سکیں۔",
+      romanUrdu:
+        "Eid ki namaz se pehle ada karna zaroori hai taakay ghareeb log bhi Eid ki khushiyon mein shareek ho sakein.",
     },
   ];
 
-  const stapleNameUrdu = result
-    ? result.stapleName === "Wheat"
-      ? "گندم"
-      : result.stapleName === "Barley"
-      ? "جو"
-      : result.stapleName === "Dates"
-      ? "کھجور"
-      : "کشمش"
-    : "";
-
-  const personPlural = result ? (result.familyMembers === 1 ? "person" : "persons") : "persons";
+  const personWordEn = result ? (result.familyMembers === 1 ? "person" : "persons") : "persons";
+  const personWordRoman = result ? (result.familyMembers === 1 ? "shakhs" : "afraad") : "afraad";
 
   const explanationBox = result ? (
     <ExplanationBox
       type="islamic"
-      englishText={`Fitrana is paid per person before the Eid prayer. Your family has ${result.familyMembers} ${personPlural}. At Rs ${formatRupees(result.perPersonRate, { prefix: false })} per person (${result.stapleName}, ${result.sourceName}), your total Fitrana is ${result.familyMembers} × Rs ${formatRupees(result.perPersonRate, { prefix: false })} = Rs ${formatRupees(result.totalFitrana, { prefix: false })}.`}
-      urduText={
-        <>
-          فطرانہ ہر فرد کے حساب سے عید کی نماز سے پہلے ادا کرنا ہوتا ہے۔ آپ کے گھرانے میں <bdi dir="ltr" className="font-sans font-semibold">{result.familyMembers}</bdi> {result.familyMembers === 1 ? "فرد ہے" : "افراد ہیں"}۔ روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.perPersonRate, { prefix: false })}</bdi> فی فرد ({stapleNameUrdu}، {result.sourceName}) کے حساب سے کل فطرانہ روپے <bdi dir="ltr" className="font-sans font-semibold">{formatRupees(result.totalFitrana, { prefix: false })}</bdi> بنتا ہے۔
-        </>
-      }
-      urduTextPlain={`فطرانہ ہر فرد کے حساب سے عید کی نماز سے پہلے ادا کرنا ہوتا ہے۔ آپ کے گھرانے میں ${result.familyMembers} ${result.familyMembers === 1 ? "فرد ہے" : "افراد ہیں"}۔ روپے ${formatRupees(result.perPersonRate, { prefix: false })} فی فرد (${stapleNameUrdu}، ${result.sourceName}) کے حساب سے کل فطرانہ روپے ${formatRupees(result.totalFitrana, { prefix: false })} بنتا ہے۔`}
+      romanUrduText={`Aap ne ${result.familyMembers} ${personWordRoman} aur ${result.stapleName} muntakhib kiya. Fi shakhs raqam Rs ${formatRupees(result.perPersonRate, { prefix: false })} hai (${result.sourceName}). Kul Fitrana ${result.familyMembers} × Rs ${formatRupees(result.perPersonRate, { prefix: false })} = Rs ${formatRupees(result.totalFitrana, { prefix: false })} banta hai.${
+        staple !== "wheat"
+          ? ` CII ke mutabiq is ki alternate raqam Rs ${formatRupees(result.alternateSourcePerPerson, { prefix: false })} per shakhs hai.`
+          : ""
+      }`}
+      englishText={`You selected ${result.familyMembers} ${personWordEn} and ${result.stapleName}. The rate per person is Rs ${formatRupees(result.perPersonRate, { prefix: false })} (${result.sourceName}). Total Fitrana = ${result.familyMembers} × Rs ${formatRupees(result.perPersonRate, { prefix: false })} = Rs ${formatRupees(result.totalFitrana, { prefix: false })}.${
+        staple !== "wheat"
+          ? ` The CII alternate rate for this staple is Rs ${formatRupees(result.alternateSourcePerPerson, { prefix: false })} per person.`
+          : ""
+      }`}
       extraBullets={fitranaBullets}
-      referenceContent={
-        <>
+      referenceContentEn={
+        <div className="space-y-1.5">
           <p>
             <strong>Hadith:</strong> &ldquo;Allah&apos;s Messenger (ﷺ) enjoined the payment of one Sa&apos; of dates or one Sa&apos; of barley as Zakat-ul-Fitr on every Muslim, slave or free, male or female, young or old, and he ordered that it be paid before the people went out to offer the &apos;Id prayer.&rdquo; — Sahih al-Bukhari 1503; Sahih Muslim 984.
           </p>
-          <div dir="rtl" lang="ur" className="font-urdu text-right pt-1 text-slate-800">
-            &ldquo;رسول اللہ ﷺ نے ہر مسلمان پر، آزاد ہو یا غلام، مرد ہو یا عورت، چھوٹا ہو یا بڑا، ایک صاع کھجور یا ایک صاع جو کے برابر صدقۂ فطر فرض فرمایا، اور حکم دیا کہ یہ عید کی نماز سے پہلے ادا کیا جائے۔&rdquo; — صحیح البخاری 1503 (Sahih al-Bukhari 1503; Sahih Muslim 984)
-          </div>
-          <div className="pt-1.5 border-t border-[#C9A227]/30 text-xs space-y-1">
+          <div className="pt-1.5 border-t border-[#C9A227]/30 text-xs">
             <p className="text-slate-700">
               <strong>Note:</strong> Wheat Rs 300 per person is the agreed minimum (Mufti Muneeb + CII both). Barley, dates and raisins rates differ by source — the calculator already shows both.
             </p>
-            <div dir="rtl" lang="ur" className="font-urdu text-right text-slate-800 pt-0.5">
-              <strong className="text-primary font-bold ml-1.5 font-sans">نوٹ:</strong> گندم روپے <bdi dir="ltr" className="font-sans font-semibold">300</bdi> فی فرد متفقہ کم از کم رقم ہے (مفتی منیب + سی آئی آئی دونوں)۔ جو، کھجور اور کشمش کے نرخ ماخذ کے لحاظ سے مختلف ہیں — کیلکولیٹر دونوں دکھاتا ہے۔
-            </div>
           </div>
-        </>
+        </div>
+      }
+      referenceContentRoman={
+        <div className="space-y-1.5">
+          <p>
+            <strong>Hadith:</strong> Hazrat Abdullah bin Umar (R.A) se riwayat hai ke Rasool Allah (ﷺ) ne Sadqa-e-Fitr har ghulam, azaad, mard, aurat, chhotay aur baray Musalman par khajoor ya jau ka ek saa farz farmaya, aur logon ke namaz ke liye nikalne se pehle ada karne ka hukm diya. — Sahih al-Bukhari 1503; Sahih Muslim 984.
+          </p>
+          <div className="pt-1.5 border-t border-[#C9A227]/30 text-xs">
+            <p className="text-slate-700">
+              <strong>Note:</strong> Gandum Rs 300 fi shakhs متفقہ (agreed) kam az kam raqam hai (Mufti Muneeb aur CII dono). Jau, khajoor aur kishmish ke rates mein dono ka thoda farq hai jo calculator mein wazeh dikhaya gaya hai.
+            </p>
+          </div>
+        </div>
       }
     />
   ) : null;
