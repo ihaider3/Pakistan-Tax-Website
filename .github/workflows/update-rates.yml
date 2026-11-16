@@ -1,0 +1,34 @@
+name: Update gold & silver rates
+
+on:
+  schedule:
+    - cron: "0 7 * * *"   # 07:00 UTC = 12:00 PKT, once daily
+  workflow_dispatch:      # manual "Run workflow" button in GitHub Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-rates
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Update gold and silver rates
+        run: node scripts/update-rates.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name "rates-bot"
+          git config user.email "rates-bot@users.noreply.github.com"
+          git add src/data/rates.json
+          git diff --cached --quiet || git commit -m "chore: update gold/silver rates $(date -u +%F)"
+          git push

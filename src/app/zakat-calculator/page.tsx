@@ -11,6 +11,7 @@ import { calculatorPages } from "@/content/pages";
 import { calculateZakat, ZakatCalculationResult } from "@/lib/calc/zakat";
 import { formatRupees } from "@/lib/calc/money";
 import { zakatRates } from "@/lib/rates/zakat";
+import ratesData from "@/data/rates.json";
 
 type MetalUnit = "tola" | "grams";
 
@@ -31,14 +32,14 @@ export default function ZakatCalculatorPage() {
   const [goldUnit, setGoldUnit] = useState<MetalUnit>("tola");
   const [goldQtyRaw, setGoldQtyRaw] = useState<string>("0");
   const [goldQtyNum, setGoldQtyNum] = useState<number>(0);
-  const [goldRateRaw, setGoldRateRaw] = useState<string>("0");
-  const [goldRateNum, setGoldRateNum] = useState<number>(0);
+  const [goldRateRaw, setGoldRateRaw] = useState<string>(ratesData.goldPerTolaPKR.toLocaleString());
+  const [goldRateNum, setGoldRateNum] = useState<number>(ratesData.goldPerTolaPKR);
 
   const [silverUnit, setSilverUnit] = useState<MetalUnit>("tola");
   const [silverQtyRaw, setSilverQtyRaw] = useState<string>("0");
   const [silverQtyNum, setSilverQtyNum] = useState<number>(0);
-  const [silverRateRaw, setSilverRateRaw] = useState<string>("0");
-  const [silverRateNum, setSilverRateNum] = useState<number>(0);
+  const [silverRateRaw, setSilverRateRaw] = useState<string>(ratesData.silverPerTolaPKR.toLocaleString());
+  const [silverRateNum, setSilverRateNum] = useState<number>(ratesData.silverPerTolaPKR);
 
   const [businessRaw, setBusinessRaw] = useState<string>("0");
   const [businessNum, setBusinessNum] = useState<number>(0);
@@ -52,12 +53,22 @@ export default function ZakatCalculatorPage() {
   const [alreadyPaidRaw, setAlreadyPaidRaw] = useState<string>("0");
   const [alreadyPaidNum, setAlreadyPaidNum] = useState<number>(0);
 
+  const isStale = React.useMemo(() => {
+    try {
+      const updatedMs = new Date(ratesData.lastUpdated).getTime();
+      return Date.now() - updatedMs > 48 * 3600 * 1000;
+    } catch {
+      return false;
+    }
+  }, []);
+
   const unitOptions: ToggleOption<MetalUnit>[] = [
     { value: "tola", label: "Tola" },
     { value: "grams", label: "Grams" },
   ];
 
   // Perform live calculation
+  const isDefaultSilverRate = silverRateNum === ratesData.silverPerTolaPKR;
   const result: ZakatCalculationResult = calculateZakat({
     cashInHand: cashNum,
     bankSavings: bankNum,
@@ -67,6 +78,7 @@ export default function ZakatCalculatorPage() {
     silverUnit,
     silverQuantity: silverQtyNum,
     silverRatePerTola: silverRateNum,
+    customSilverNisab: isDefaultSilverRate ? ratesData.nisabSilverPKR : undefined,
     businessStock: businessNum,
     investments: investmentsNum,
     debtsToDeduct: debtsNum,
@@ -269,9 +281,14 @@ export default function ZakatCalculatorPage() {
                   />
                 </div>
               </div>
-              <p className="text-[11px] text-amber-800 font-medium bg-amber-50 px-2.5 py-1 rounded border border-amber-200/70">
-                Example rate — enter today&apos;s Sarafa rate / Misal rate hai — aaj ka Sarafa rate likhein.
-              </p>
+              <div className="text-[11px] text-amber-900 font-medium bg-amber-50/90 p-2.5 rounded-lg border border-amber-200/80 space-y-1">
+                <p>
+                  Live rate — updated {ratesData.lastUpdatedLabel}. Calculated from international spot prices — may slightly differ from official local Sarafa rates. You can type today&apos;s Sarafa rate here.
+                </p>
+                <p dir="rtl" lang="ur" className="font-urdu text-right text-xs leading-relaxed text-amber-950">
+                  لائیو ریٹ — اپ ڈیٹ شدہ: {ratesData.lastUpdatedLabel}۔ انٹرنیشنل اسپاٹ پرائس کے مطابق — صرافہ کے سرکاری ریٹ سے تھوڑا فرق ہو سکتا ہے۔ آپ اپنا صرافہ ریٹ یہاں لکھ سکتے ہیں۔
+                </p>
+              </div>
             </div>
 
             {/* Silver Input */}
@@ -326,9 +343,14 @@ export default function ZakatCalculatorPage() {
                   />
                 </div>
               </div>
-              <p className="text-[11px] text-amber-800 font-medium bg-amber-50 px-2.5 py-1 rounded border border-amber-200/70">
-                Example rate — enter today&apos;s Sarafa rate / Misal rate hai — aaj ka Sarafa rate likhein.
-              </p>
+              <div className="text-[11px] text-amber-900 font-medium bg-amber-50/90 p-2.5 rounded-lg border border-amber-200/80 space-y-1">
+                <p>
+                  Live rate — updated {ratesData.lastUpdatedLabel}. Calculated from international spot prices — may slightly differ from official local Sarafa rates. You can type today&apos;s Sarafa rate here.
+                </p>
+                <p dir="rtl" lang="ur" className="font-urdu text-right text-xs leading-relaxed text-amber-950">
+                  لائیو ریٹ — اپ ڈیٹ شدہ: {ratesData.lastUpdatedLabel}۔ انٹرنیشنل اسپاٹ پرائس کے مطابق — صرافہ کے سرکاری ریٹ سے تھوڑا فرق ہو سکتا ہے۔ آپ اپنا صرافہ ریٹ یہاں لکھ سکتے ہیں۔
+                </p>
+              </div>
             </div>
           </div>
         ) : (
@@ -417,21 +439,48 @@ export default function ZakatCalculatorPage() {
   );
 
   const resultPanel = (
-    <ResultPanel
-      title="Zakat Result (2.5%)"
-      mainLabel="Total Zakat Due (Annual)"
-      mainValue={formatRupees(result.zakatDue)}
-      mainSubtext={result.nisabExplanation}
-      statusBadge={{
-        text: result.statusLabel,
-        variant: result.isZakatDue ? "due" : "not_due",
-      }}
-      secondaryResults={secondaryResults}
-      copySummaryText={copySummaryText}
-      isEmpty={!hasAnyInput}
-      emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
-      footnote={zakatRates.disclaimerText}
-    />
+    <div className="space-y-3">
+      <ResultPanel
+        title="Zakat Result (2.5%)"
+        mainLabel="Total Zakat Due (Annual)"
+        mainValue={formatRupees(result.zakatDue)}
+        mainSubtext={result.nisabExplanation}
+        statusBadge={{
+          text: result.statusLabel,
+          variant: result.isZakatDue ? "due" : "not_due",
+        }}
+        secondaryResults={secondaryResults}
+        copySummaryText={copySummaryText}
+        isEmpty={!hasAnyInput}
+        emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
+        footnote={zakatRates.disclaimerText}
+      />
+
+      {/* Live Rate Timestamp / 48-Hour Stale Warning */}
+      {isStale ? (
+        <div className="p-3 rounded-xl bg-amber-50 border border-amber-300 text-xs text-amber-900 space-y-1 shadow-2xs">
+          <div className="flex items-center gap-1.5 font-bold text-amber-900">
+            <span className="text-amber-600">⚠️</span>
+            <span>Rates are over 48 hours old — please enter today&apos;s local Sarafa rate manually.</span>
+          </div>
+          <div dir="rtl" lang="ur" className="font-urdu text-right text-xs text-amber-950 pr-4">
+            ریٹ 2 دن پرانا ہے — آج کا صرافہ ریٹ خود لکھیں۔
+          </div>
+        </div>
+      ) : (
+        <div className="px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200/90 text-xs text-slate-600 flex flex-wrap items-center justify-between gap-2 shadow-2xs">
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>
+              <strong className="text-slate-800">Rates updated:</strong> {ratesData.lastUpdatedLabel}
+            </span>
+          </span>
+          <span className="text-[11px] text-slate-500 font-medium">
+            Source: gold-api.com + open.er-api.com
+          </span>
+        </div>
+      )}
+    </div>
   );
 
   const isAbove = result.nisabThreshold > 0 && result.netZakatableWealth >= result.nisabThreshold;
