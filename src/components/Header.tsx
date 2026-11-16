@@ -22,6 +22,7 @@ export default function Header() {
   }, []);
 
   const navLinks = [
+    { name: "Home", href: "/" },
     { name: "Salary Tax", href: "/salary-tax-calculator" },
     { name: "Zakat", href: "/zakat-calculator" },
     { name: "Property Tax", href: "/property-tax-calculator" },
@@ -150,7 +151,7 @@ export default function Header() {
       {mobileMenuOpen && (
         <div className="md:hidden border-b border-slate-200 backdrop-blur-xl bg-white/98 px-4 pt-3 pb-5 space-y-1.5 shadow-xl animate-in slide-in-from-top-2 duration-200">
           <div className="text-[11px] font-bold uppercase tracking-wider text-accent px-3 py-1">
-            Calculators
+            Navigation &amp; Calculators
           </div>
 
           {navLinks.map((link) => {

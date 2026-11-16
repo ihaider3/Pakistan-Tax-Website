@@ -139,9 +139,9 @@ export default function HomePage() {
 
           {/* High-Impact Main Heading */}
           <div className="space-y-3">
-            <h1 className="text-[26px] sm:text-4xl lg:text-5xl font-black text-primary tracking-tight max-w-4xl mx-auto leading-[1.15]">
+            <h1 className="text-[26px] sm:text-4xl lg:text-5xl font-black text-primary tracking-tight max-w-4xl mx-auto leading-[1.2] sm:leading-[1.25]">
               Pakistan Financial &amp; Islamic Calculators{" "}
-              <span className="block mt-1 sm:mt-2 bg-gradient-to-r from-primary via-[#0F5A9E] to-accent bg-clip-text text-transparent">
+              <span className="block mt-1 sm:mt-2 pb-2 sm:pb-3 leading-normal bg-gradient-to-r from-primary via-[#0F5A9E] to-accent bg-clip-text text-transparent">
                 — Free, Accurate, No Login
               </span>
             </h1>
@@ -176,52 +176,52 @@ export default function HomePage() {
           ELEVATED HARDCOOKED TRUST STRIP (FLOATING CAPSULE WITH DEEP SHADOWS)
          ========================================================================= */}
       <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 -mt-8 sm:-mt-12 relative z-20">
-        <div className="backdrop-blur-2xl bg-white rounded-3xl p-5 sm:p-7 border-2 border-slate-200/95 shadow-[0_22px_50px_-12px_rgba(11,42,74,0.14),0_6px_20px_rgba(0,0,0,0.04)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 divide-y sm:divide-y-0 lg:divide-x divide-slate-100">
-          <div className="flex items-center gap-3.5 p-2">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/25 ring-2 ring-emerald-100">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="backdrop-blur-2xl bg-white rounded-3xl p-4 sm:p-6 lg:p-7 border-2 border-slate-200/95 shadow-[0_22px_50px_-12px_rgba(11,42,74,0.14),0_6px_20px_rgba(0,0,0,0.04)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:divide-x lg:divide-slate-100">
+          <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/25 ring-2 ring-emerald-100">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
-            <div>
-              <span className="block font-black text-xs sm:text-base text-primary tracking-tight">No Login Required</span>
-              <span className="text-xs font-bold text-slate-600">Open access, no signups</span>
+            <div className="min-w-0 flex-1">
+              <span className="block font-black text-sm sm:text-base text-primary tracking-tight">No Login Required</span>
+              <span className="text-xs font-semibold text-slate-600">Open access, no signups</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5 p-2 pt-4 lg:pt-2">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-800 text-white flex items-center justify-center shrink-0 shadow-md shadow-teal-600/25 ring-2 ring-teal-100">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-800 text-white flex items-center justify-center shrink-0 shadow-md shadow-teal-600/25 ring-2 ring-teal-100">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
             </div>
-            <div>
-              <span className="block font-black text-xs sm:text-base text-primary tracking-tight">100% Client-Side</span>
-              <span className="text-xs font-bold text-slate-600">Numbers never leave phone</span>
+            <div className="min-w-0 flex-1">
+              <span className="block font-black text-sm sm:text-base text-primary tracking-tight">100% Client-Side</span>
+              <span className="text-xs font-semibold text-slate-600">Numbers never leave phone</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5 p-2 pt-4 lg:pt-2">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-800 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-600/25 ring-2 ring-blue-100">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-800 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-600/25 ring-2 ring-blue-100">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <div>
-              <span className="block font-black text-xs sm:text-base text-primary tracking-tight">FBR &amp; SBP Checked</span>
-              <span className="text-xs font-bold text-slate-600">Rates checked against FBR / SBP announcements — last verified 14 Nov 2026</span>
+            <div className="min-w-0 flex-1">
+              <span className="block font-black text-sm sm:text-base text-primary tracking-tight">FBR &amp; SBP Checked</span>
+              <span className="text-xs font-semibold text-slate-600">Finance Act 2026 Tables</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5 p-2 pt-4 lg:pt-2">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-600 to-primary text-white flex items-center justify-center shrink-0 shadow-md shadow-indigo-600/25 ring-2 ring-indigo-100">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-indigo-600 to-primary text-white flex items-center justify-center shrink-0 shadow-md shadow-indigo-600/25 ring-2 ring-indigo-100">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <div>
-              <span className="block font-black text-xs sm:text-base text-primary tracking-tight">Last Verified</span>
-              <span className="text-xs font-bold text-slate-600">14 Nov 2026 (Live Audit)</span>
+            <div className="min-w-0 flex-1">
+              <span className="block font-black text-sm sm:text-base text-primary tracking-tight">Last Verified</span>
+              <span className="text-xs font-semibold text-slate-600">14 Nov 2026 (Live Audit)</span>
             </div>
           </div>
         </div>
