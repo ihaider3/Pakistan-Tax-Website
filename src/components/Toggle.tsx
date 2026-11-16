@@ -33,10 +33,17 @@ export default function Toggle<T extends string>({
       <div
         role="radiogroup"
         aria-label={label || "Selection options"}
-        className="inline-flex w-full bg-slate-100/90 p-1.5 rounded-xl border border-slate-200/80 shadow-inner-soft gap-1"
+        className={`w-full bg-slate-100/90 p-1.5 rounded-xl border border-slate-200/80 shadow-inner-soft gap-2 ${
+          options.length <= 2
+            ? "grid grid-cols-2"
+            : options.length === 3
+            ? "grid grid-cols-2 sm:flex sm:flex-row"
+            : "grid grid-cols-2 sm:grid-cols-4"
+        }`}
       >
-        {options.map((opt) => {
+        {options.map((opt, idx) => {
           const isSelected = opt.value === value;
+          const isSpanningThird = options.length === 3 && idx === 2;
           return (
             <button
               key={opt.value}
@@ -45,6 +52,8 @@ export default function Toggle<T extends string>({
               aria-checked={isSelected}
               onClick={() => onChange(opt.value)}
               className={`flex-1 min-h-[44px] px-3.5 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 focus:outline-hidden focus:ring-2 focus:ring-accent ${
+                isSpanningThird ? "col-span-2 sm:col-span-1" : ""
+              } ${
                 isSelected
                   ? "bg-gradient-to-r from-primary to-primary-light text-white shadow-md shadow-primary/20 scale-[1.01]"
                   : "text-appText-muted hover:text-primary hover:bg-white/80"

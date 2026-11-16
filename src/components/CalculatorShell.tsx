@@ -24,7 +24,7 @@ export default function CalculatorShell({
   customTopSection,
 }: CalculatorShellProps) {
   return (
-    <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-10 sm:space-y-14">
+    <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 py-8 sm:py-12 space-y-10 sm:space-y-14">
       {/* =========================================================================
           BLOCK 1 & 2: H1, Short Intro, Roman Urdu Box & Verification Badge
          ========================================================================= */}
@@ -34,10 +34,10 @@ export default function CalculatorShell({
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
             Pakistan Official Calculator
           </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary tracking-tight leading-tight">
+          <h1 className="text-[26px] sm:text-[32px] lg:text-[36px] font-black text-primary tracking-tight leading-tight">
             {content.h1}
           </h1>
-          <p className="text-base sm:text-lg text-appText-muted max-w-3xl leading-relaxed font-normal">
+          <p className="text-[15px] sm:text-base text-appText-muted max-w-3xl leading-relaxed font-normal">
             {content.intro}
           </p>
         </div>

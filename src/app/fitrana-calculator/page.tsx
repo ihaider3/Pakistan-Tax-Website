@@ -274,14 +274,24 @@ export default function FitranaCalculatorPage() {
   ) : null;
 
   const breakdownSection = (
-    <BreakdownTable
-      title="Official 2026 Fitrana Rates Comparison"
-      subtitle="Side-by-side comparison between Mufti Muneeb-ur-Rehman and the Council of Islamic Ideology."
-      columns={breakdownColumns}
-      rows={breakdownRows}
-      totalLabel={result ? `Selected: ${result.stapleName} (${result.sourceName})` : "Total"}
-      totalValue={result ? formatRupees(result.totalFitrana) : undefined}
-    />
+    <div className="space-y-3">
+      <BreakdownTable
+        title="Official 2026 Fitrana Rates Comparison"
+        subtitle="Side-by-side comparison between Mufti Muneeb-ur-Rehman and the Council of Islamic Ideology."
+        columns={breakdownColumns}
+        rows={breakdownRows}
+        totalLabel={result ? `Selected: ${result.stapleName} (${result.sourceName})` : "Total"}
+        totalValue={result ? formatRupees(result.totalFitrana) : undefined}
+      />
+      <div className="p-3.5 bg-gradient-to-r from-amber-50/80 via-white to-amber-50/50 border border-amber-200/80 rounded-xl text-xs text-amber-950 space-y-1 shadow-2xs">
+        <p className="font-semibold text-slate-900">
+          <strong>Note:</strong> Rates differ because market prices and quality differ by source. Wheat Rs 300 is agreed by both.
+        </p>
+        <p className="text-slate-800">
+          <strong>Wazahat:</strong> Rates mein farq market qeemat aur quality ki wajah se hai. Gandum Rs 300 par dono ka ittefaq hai.
+        </p>
+      </div>
+    </div>
   );
 
   return (

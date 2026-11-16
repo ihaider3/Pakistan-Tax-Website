@@ -73,7 +73,7 @@ const calculators = [
   {
     title: "GST Calculator (18%)",
     subtitle: "Sales Tax Act 1990",
-    description: "Add or remove 18% federal sales tax from any amount, or calculate custom provincial rates with integer paisa precision.",
+    description: "Add or remove 18% federal sales tax from any amount, or calculate custom rates with integer paisa precision.",
     href: "/gst-calculator",
     badge: "18% STANDARD",
     badgeColor: "bg-amber-50 text-amber-950 border-amber-300",
@@ -127,7 +127,7 @@ export default function HomePage() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-96 bg-[radial-gradient(ellipse_at_top,_rgba(15,118,110,0.14),transparent_70%)] pointer-events-none" />
         <div className="absolute inset-0 bg-dot-mesh pointer-events-none opacity-60" />
 
-        <div className="relative max-w-[1200px] mx-auto text-center space-y-6 sm:space-y-8">
+        <div className="relative max-w-[1150px] mx-auto text-center space-y-6 sm:space-y-8">
           {/* Glowing Pill Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-accent text-xs font-black uppercase tracking-widest border border-accent/30 shadow-[0_4px_16px_rgba(15,118,110,0.18)] hover:scale-105 transition-all duration-300">
             <span className="relative flex h-2.5 w-2.5">
@@ -139,14 +139,14 @@ export default function HomePage() {
 
           {/* High-Impact Main Heading */}
           <div className="space-y-3">
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-primary tracking-tight max-w-4xl mx-auto leading-[1.12]">
+            <h1 className="text-[26px] sm:text-4xl lg:text-5xl font-black text-primary tracking-tight max-w-4xl mx-auto leading-[1.15]">
               Pakistan Financial &amp; Islamic Calculators{" "}
-              <span className="block mt-2 bg-gradient-to-r from-primary via-[#0F5A9E] to-accent bg-clip-text text-transparent">
+              <span className="block mt-1 sm:mt-2 bg-gradient-to-r from-primary via-[#0F5A9E] to-accent bg-clip-text text-transparent">
                 — Free, Accurate, No Login
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium pt-1">
+            <p className="text-[15px] sm:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium pt-1">
               Instant, private calculations for salary tax, Zakat, property advance tax (236C/236K), GST 18%, and Fitrana. All numbers stay in your browser.
             </p>
           </div>
@@ -175,8 +175,8 @@ export default function HomePage() {
       {/* =========================================================================
           ELEVATED HARDCOOKED TRUST STRIP (FLOATING CAPSULE WITH DEEP SHADOWS)
          ========================================================================= */}
-      <section className="max-w-[1200px] mx-auto px-4 sm:px-6 -mt-8 sm:-mt-12 relative z-20">
-        <div className="backdrop-blur-2xl bg-white rounded-3xl p-5 sm:p-7 border-2 border-slate-200/95 shadow-[0_22px_50px_-12px_rgba(11,42,74,0.14),0_6px_20px_rgba(0,0,0,0.04)] grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 divide-y lg:divide-y-0 lg:divide-x divide-slate-100">
+      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 -mt-8 sm:-mt-12 relative z-20">
+        <div className="backdrop-blur-2xl bg-white rounded-3xl p-5 sm:p-7 border-2 border-slate-200/95 shadow-[0_22px_50px_-12px_rgba(11,42,74,0.14),0_6px_20px_rgba(0,0,0,0.04)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 divide-y sm:divide-y-0 lg:divide-x divide-slate-100">
           <div className="flex items-center gap-3.5 p-2">
             <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/25 ring-2 ring-emerald-100">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -208,8 +208,8 @@ export default function HomePage() {
               </svg>
             </div>
             <div>
-              <span className="block font-black text-xs sm:text-base text-primary tracking-tight">FBR &amp; SBP Verified</span>
-              <span className="text-xs font-bold text-slate-600">Finance Act 2026 Tables</span>
+              <span className="block font-black text-xs sm:text-base text-primary tracking-tight">FBR &amp; SBP Checked</span>
+              <span className="text-xs font-bold text-slate-600">Rates checked against FBR / SBP announcements — last verified 14 Nov 2026</span>
             </div>
           </div>
 
@@ -230,7 +230,7 @@ export default function HomePage() {
       {/* =========================================================================
           THE 5 CALCULATOR CARDS (HARDCOOKED WITH TOP ACCENTS, PROMINENT TEXT & SHADOWS)
          ========================================================================= */}
-      <section className="max-w-[1200px] mx-auto px-4 sm:px-6 space-y-8">
+      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-slate-200/90 pb-5">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-black text-accent uppercase tracking-widest bg-accent-soft px-3 py-1 rounded-full border border-accent/25 mb-1.5 shadow-2xs">
@@ -327,7 +327,7 @@ export default function HomePage() {
       {/* =========================================================================
           HOW IT WORKS (HARDCOOKED 3-STEP ENGINE WITH CINEMATIC DEPTH & GLOW)
          ========================================================================= */}
-      <section className="max-w-[1200px] mx-auto px-4 sm:px-6">
+      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6">
         <div className="relative overflow-hidden bg-gradient-to-br from-[#F4F7FB] via-white to-[#EEF4F9] rounded-3xl p-6 sm:p-12 border-2 border-slate-200/95 shadow-[0_25px_60px_-15px_rgba(11,42,74,0.12),0_4px_20px_rgba(0,0,0,0.03)] space-y-10 ring-1 ring-slate-900/5">
           {/* Ambient Radial Spotlight inside container */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-[radial-gradient(ellipse_at_top,_rgba(15,118,110,0.12),transparent_70%)] pointer-events-none" />
@@ -357,7 +357,7 @@ export default function HomePage() {
                   1
                 </div>
                 <h3 className="font-black text-xl text-primary group-hover:text-accent transition-colors mb-2">
-                  1. Enter Your Amount
+                  Enter Your Amount
                 </h3>
                 <p className="text-sm text-slate-800 font-medium leading-relaxed">
                   Type your salary, property value, asset balances, or family size. Number formatting handles commas and ignores spaces automatically.
@@ -378,7 +378,7 @@ export default function HomePage() {
                   2
                 </div>
                 <h3 className="font-black text-xl text-primary group-hover:text-accent transition-colors mb-2">
-                  2. Instant Result &amp; Breakdown
+                  Instant Result &amp; Breakdown
                 </h3>
                 <p className="text-sm text-slate-800 font-medium leading-relaxed">
                   Results calculate live in your browser as you type. Review the detailed slab-by-slab breakdown table to verify every single rupee.
@@ -399,7 +399,7 @@ export default function HomePage() {
                   3
                 </div>
                 <h3 className="font-black text-xl text-primary group-hover:text-accent transition-colors mb-2">
-                  3. Copy or Print to PDF
+                  Copy or Print to PDF
                 </h3>
                 <p className="text-sm text-slate-800 font-medium leading-relaxed">
                   Copy a clean two-line summary for WhatsApp/email or use Print to save a clean PDF of your calculation summary.
@@ -418,7 +418,7 @@ export default function HomePage() {
       {/* =========================================================================
           FAQ TEASER SECTION (HARDCOOKED CARDS WITH TOP ACCENTS & SHADOWS)
          ========================================================================= */}
-      <section className="max-w-[1200px] mx-auto px-4 sm:px-6 space-y-8">
+      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-slate-200/90 pb-5">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-black text-accent uppercase tracking-widest bg-accent-soft px-3 py-1 rounded-full border border-accent/25 mb-1.5 shadow-2xs">

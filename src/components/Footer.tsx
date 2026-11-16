@@ -39,7 +39,7 @@ export default function Footer() {
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-[radial-gradient(circle,_rgba(15,118,110,0.18),transparent_70%)] pointer-events-none" />
       <div className="absolute bottom-0 left-10 w-96 h-96 bg-[radial-gradient(circle,_rgba(20,61,105,0.25),transparent_70%)] pointer-events-none" />
 
-      <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 pt-16 pb-12">
+      <div className="relative max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 pt-16 pb-12">
         {/* =========================================================================
             MAIN 3-COLUMN HARDCOOKED GRID
            ========================================================================= */}
@@ -154,18 +154,18 @@ export default function Footer() {
         {/* =========================================================================
             BOTTOM BAR (STATUTORY DISCLAIMER & COPYRIGHT)
            ========================================================================= */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-[13px] text-slate-300 gap-4">
           <div className="space-y-1 text-center md:text-left">
-            <p className="font-semibold text-slate-300">
+            <p className="font-semibold text-slate-200">
               © {siteConfig.copyrightYear} {siteConfig.brandName}. All rights reserved.
             </p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[13px] text-slate-400">
               Finance Act 2026 • FBR Withholding Tax Rate Card TY2027 • SBP Zakat Notifications
             </p>
           </div>
 
           {/* Hardcooked Disclaimer Pill */}
-          <div className="px-4 py-2 rounded-full bg-white/5 border border-white/15 text-slate-200 text-center shadow-xs">
+          <div className="px-4 py-2 rounded-full bg-white/5 border border-white/15 text-slate-200 text-center shadow-xs text-[13px]">
             <span className="font-black text-amber-300 mr-1.5">Notice:</span>
             <span className="font-semibold">Estimates only — not tax, legal, or religious advice.</span>
           </div>

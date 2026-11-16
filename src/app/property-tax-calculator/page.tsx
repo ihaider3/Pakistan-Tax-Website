@@ -203,7 +203,10 @@ export default function PropertyTaxCalculatorPage() {
       statusBadge={
         result
           ? {
-              text: result.filerStatus === "filer" ? "Active Filer (1.25% - 2.75%)" : "Non-Filer (Higher Slab)",
+              text:
+                result.filerStatus === "filer"
+                  ? `Filer ${result.ratePercentage}`
+                  : `Non-Filer ${result.ratePercentage}`,
               variant: result.filerStatus === "filer" ? "success" : "warning",
             }
           : undefined

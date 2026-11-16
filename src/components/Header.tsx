@@ -35,7 +35,7 @@ export default function Header() {
           TOP AMBIENT STATUS BAR (1-LINE CLIENT-SIDE PRIVACY & AUDIT TICKER)
          ========================================================================= */}
       <div className="bg-gradient-to-r from-[#071B30] via-primary to-[#0A335C] text-white text-[11px] sm:text-xs py-1.5 px-4 border-b border-accent/25 shadow-xs">
-        <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-4">
+        <div className="max-w-[1150px] mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 whitespace-nowrap overflow-hidden text-ellipsis">
             <span className="relative flex h-2 w-2 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -74,7 +74,7 @@ export default function Header() {
             : "backdrop-blur-md bg-white/98 border-b border-slate-200/80 shadow-xs py-3.5"
         }`}
       >
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
+        <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 flex items-center justify-between gap-4">
           {/* Brand Logo & Name (Strictly 1 Line, No Wrapping) */}
           <Link
             href="/"
