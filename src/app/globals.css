@@ -47,17 +47,51 @@
 
 /* Glassmorphism Card Utility */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
 }
 
 .glass-panel-dark {
-  background: rgba(11, 42, 74, 0.95);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(11, 42, 74, 0.96);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Hardcooked Card Effects */
+.card-hardcooked {
+  position: relative;
+  background: #FFFFFF;
+  border-radius: 1.25rem;
+  border: 1.5px solid rgba(226, 232, 240, 0.95);
+  box-shadow: 
+    0 10px 25px -5px rgba(11, 42, 74, 0.07),
+    0 4px 10px -2px rgba(11, 42, 74, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-hardcooked:hover {
+  transform: translateY(-6px);
+  border-color: rgba(15, 118, 110, 0.55);
+  box-shadow: 
+    0 26px 50px -12px rgba(11, 42, 74, 0.18),
+    0 0 30px -4px rgba(15, 118, 110, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.card-hardcooked::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 1.25rem 1.25rem 0 0;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
 }
 
 /* Shimmer Highlight */
