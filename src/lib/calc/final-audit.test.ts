@@ -26,6 +26,15 @@ describe("Final Pre-Launch Audit Verification", () => {
     expect(header).toBe("Family Total (1 person)");
   });
 
+  it("Text Fix 3: Homepage Fitrana card badge is exactly 'Wheat Rs 300'", () => {
+    const fs = require("fs");
+    const path = require("path");
+    const homeContent = fs.readFileSync(path.resolve(__dirname, "../../app/page.tsx"), "utf-8");
+    expect(homeContent).toContain('badge: "Wheat Rs 300"');
+    expect(homeContent).not.toContain('badge: "WHEAT RS 300"');
+    expect(homeContent).not.toContain('badge: "WHEAT Rs 300"');
+  });
+
   it("Text Fix 4 & 5: Zakat rozmarra and Salary izaafi in FAQs", () => {
     const zakatFaq = calculatorPages.zakat.faqs.find((f) => f.question.includes("zewar"));
     expect(zakatFaq?.question).toContain("rozmarra");

@@ -13,3 +13,4 @@ export const metadata: Metadata = {
 export default function AdminFeedbackPage() {
   return <AdminFeedbackClient />;
 }
+

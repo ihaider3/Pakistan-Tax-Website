@@ -21,3 +21,4 @@ export function getInMemorySubmissions(): StoredFeedbackItem[] {
 export function addInMemorySubmission(item: StoredFeedbackItem): void {
   inMemorySubmissions.unshift(item);
 }
+

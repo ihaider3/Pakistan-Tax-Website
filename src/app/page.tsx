@@ -114,7 +114,7 @@ const calculators = [
     subtitle: "Sadqat-ul-Fitr",
     description: "Calculate household Fitrana for Eid-ul-Fitr 2026. Compare Mufti Muneeb and Council of Islamic Ideology rates side-by-side.",
     href: "/fitrana-calculator",
-    badge: "WHEAT Rs 300",
+    badge: "Wheat Rs 300",
     badgeColor: "bg-emerald-50 text-emerald-950 border-emerald-300",
     dotColor: "bg-emerald-600",
     topGradient: "from-emerald-600 via-teal-700 to-green-600",
@@ -299,7 +299,7 @@ export default function HomePage() {
                     {calc.icon}
                   </div>
                   <span
-                    className={`text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full border-2 shadow-xs flex items-center gap-1.5 ${calc.badgeColor}`}
+                    className={`text-[11px] font-black tracking-wider px-3 py-1 rounded-full border-2 shadow-xs flex items-center gap-1.5 ${calc.badgeColor}`}
                   >
                     <span className={`w-2 h-2 rounded-full ${calc.dotColor} animate-pulse`}></span>
                     {calc.badge}

@@ -70,3 +70,4 @@ export function checkSpamAndRateLimit(
 
   return { allowed: true, isHoneypot: false };
 }
+

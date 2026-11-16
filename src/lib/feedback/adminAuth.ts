@@ -84,3 +84,4 @@ export async function isAuthenticatedAdmin(request?: NextRequest): Promise<boole
 
   return verifySessionToken(token);
 }
+
