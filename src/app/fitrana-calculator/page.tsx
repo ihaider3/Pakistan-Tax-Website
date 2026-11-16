@@ -20,7 +20,7 @@ export default function FitranaCalculatorPage() {
   const [source, setSource] = useState<FitranaSourceKey>("muneeb");
 
   const stapleOptions: ToggleOption<StapleType>[] = [
-    { value: "wheat", label: "Wheat (Gandum)", badge: "Consensus Rs 300" },
+    { value: "wheat", label: "Wheat (Gandum)", badge: "Rs 300" },
     { value: "barley", label: "Barley (Jau)", badge: "4 kg" },
     { value: "dates", label: "Dates (Khajoor)", badge: "4 kg" },
     { value: "raisins", label: "Raisins (Kishmish)", badge: "4 kg" },
@@ -199,6 +199,7 @@ export default function FitranaCalculatorPage() {
         options={sourceOptions}
         value={source}
         onChange={(src) => setSource(src)}
+        columns={1}
       />
 
       {/* Scholarly Difference Explanation */}
