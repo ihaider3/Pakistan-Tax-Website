@@ -30,6 +30,10 @@
   input, select, textarea {
     font-size: 16px;
   }
+
+  .font-urdu {
+    font-family: var(--font-urdu), 'Noto Nastaliq Urdu', Tahoma, Arial, sans-serif;
+  }
 }
 
 /* Ambient Subtle Grid Pattern Utility */

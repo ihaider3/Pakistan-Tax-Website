@@ -1,10 +1,28 @@
 import React from "react";
+import type { Metadata } from "next";
 import { siteConfig } from "@/content/pages";
 
-export const metadata = {
-  title: "Disclaimer — Pakistan Financial & Islamic Calculators",
+export const metadata: Metadata = {
+  title: "Legal & Religious Disclaimer | Pakistan Finance Calc",
   description:
-    "Estimates only disclaimer for Pakistan Finance Calculators. Calculations are provided for informational guidance and do not constitute legal, tax, or religious rulings.",
+    "Review our official legal and religious disclaimer for Pakistan Finance Calculators. All calculation estimates are provided for general guidance only.",
+  alternates: {
+    canonical: "https://pak-tax-cal.vercel.app/disclaimer",
+  },
+  openGraph: {
+    title: "Legal & Religious Disclaimer | Pakistan Finance Calc",
+    description:
+      "Review our official legal and religious disclaimer for Pakistan Finance Calculators. All calculation estimates are provided for general guidance only.",
+    url: "https://pak-tax-cal.vercel.app/disclaimer",
+    type: "website",
+    siteName: "Pakistan Finance Calculators",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Legal & Religious Disclaimer | Pakistan Finance Calc",
+    description:
+      "Review our official legal and religious disclaimer for Pakistan Finance Calculators. All calculation estimates are provided for general guidance only.",
+  },
 };
 
 export default function DisclaimerPage() {

@@ -1,18 +1,39 @@
 import React from "react";
 import Link from "next/link";
+import type { Metadata } from "next";
 import SearchBox from "@/components/SearchBox";
 
-export const metadata = {
-  title: "Pakistan Financial & Islamic Calculators — Free Salary Tax, Zakat, GST & Property Calculators",
+export const metadata: Metadata = {
+  title: "Pakistan Finance Calculators | Tax, Zakat & GST Tools",
   description:
-    "Free, accurate Pakistan calculators for salary tax 2026-27, Zakat, property tax 236C/236K, GST 18% and Fitrana. No login. Instant result with full breakdown in English + Roman Urdu.",
-  keywords: [
-    "pakistan tax calculator",
-    "salary tax calculator pakistan",
-    "zakat calculator pakistan",
-    "gst calculator pakistan",
-    "property tax calculator pakistan",
-  ],
+    "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
+  alternates: {
+    canonical: "https://pak-tax-cal.vercel.app",
+  },
+  openGraph: {
+    title: "Pakistan Finance Calculators | Tax, Zakat & GST Tools",
+    description:
+      "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
+    url: "https://pak-tax-cal.vercel.app",
+    type: "website",
+    siteName: "Pakistan Finance Calculators",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pakistan Finance Calculators | Tax, Zakat & GST Tools",
+    description:
+      "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
+  },
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Pakistan Finance Calculators",
+  url: "https://pak-tax-cal.vercel.app",
+  description:
+    "Free, accurate Pakistan calculators for salary tax, Zakat, property tax, GST, and Fitrana. 100% client-side privacy.",
+  inLanguage: "en-PK",
 };
 
 const calculators = [
@@ -119,6 +140,10 @@ const mostSearched = [
 export default function HomePage() {
   return (
     <div className="space-y-12 sm:space-y-16 pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
       {/* =========================================================================
           HERO SECTION WITH AMBIENT ILLUMINATION & CINEMATIC DEPTH
          ========================================================================= */}

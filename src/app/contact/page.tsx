@@ -1,10 +1,28 @@
 import React from "react";
+import type { Metadata } from "next";
 import { siteConfig } from "@/content/pages";
 
-export const metadata = {
-  title: "Contact Us — Pakistan Financial & Islamic Calculators",
+export const metadata: Metadata = {
+  title: "Contact Us | Pakistan Financial & Islamic Calculators",
   description:
-    "Get in touch with the team behind Pakistan Financial & Islamic Calculators. Report rate changes, suggest enhancements, or send feedback.",
+    "Get in touch with the Pakistan Finance Calculators team to report statutory rate updates, submit feedback, or request new financial calculation tools.",
+  alternates: {
+    canonical: "https://pak-tax-cal.vercel.app/contact",
+  },
+  openGraph: {
+    title: "Contact Us | Pakistan Financial & Islamic Calculators",
+    description:
+      "Get in touch with the Pakistan Finance Calculators team to report statutory rate updates, submit feedback, or request new financial calculation tools.",
+    url: "https://pak-tax-cal.vercel.app/contact",
+    type: "website",
+    siteName: "Pakistan Finance Calculators",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Us | Pakistan Financial & Islamic Calculators",
+    description:
+      "Get in touch with the Pakistan Finance Calculators team to report statutory rate updates, submit feedback, or request new financial calculation tools.",
+  },
 };
 
 export default function ContactPage() {

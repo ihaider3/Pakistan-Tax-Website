@@ -1,11 +1,29 @@
 import React from "react";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { siteConfig } from "@/content/pages";
 
-export const metadata = {
-  title: "About Us — Pakistan Financial & Islamic Calculators",
+export const metadata: Metadata = {
+  title: "About Us | Pakistan Financial & Islamic Calculators",
   description:
-    "Learn about the Pakistan Financial & Islamic Calculators platform. Dedicated to 100% private, verified, and free calculation tools for Pakistani citizens.",
+    "Learn about Pakistan Financial & Islamic Calculators. Providing free, transparent, and completely private calculation tools with zero server tracking.",
+  alternates: {
+    canonical: "https://pak-tax-cal.vercel.app/about",
+  },
+  openGraph: {
+    title: "About Us | Pakistan Financial & Islamic Calculators",
+    description:
+      "Learn about Pakistan Financial & Islamic Calculators. Providing free, transparent, and completely private calculation tools with zero server tracking.",
+    url: "https://pak-tax-cal.vercel.app/about",
+    type: "website",
+    siteName: "Pakistan Finance Calculators",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us | Pakistan Financial & Islamic Calculators",
+    description:
+      "Learn about Pakistan Financial & Islamic Calculators. Providing free, transparent, and completely private calculation tools with zero server tracking.",
+  },
 };
 
 export default function AboutPage() {

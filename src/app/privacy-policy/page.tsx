@@ -1,10 +1,28 @@
 import React from "react";
+import type { Metadata } from "next";
 import { siteConfig } from "@/content/pages";
 
-export const metadata = {
-  title: "Privacy Policy — Pakistan Financial & Islamic Calculators",
+export const metadata: Metadata = {
+  title: "Privacy Policy | 100% Client-Side Private Calculators",
   description:
-    "100% Client-Side Privacy Policy. Your numbers never leave your phone. No backend, no database, no server-side storage of any user input.",
+    "Read our 100% client-side privacy policy. Your financial numbers never leave your phone or browser. Zero server storage, no database, and no cookies.",
+  alternates: {
+    canonical: "https://pak-tax-cal.vercel.app/privacy-policy",
+  },
+  openGraph: {
+    title: "Privacy Policy | 100% Client-Side Private Calculators",
+    description:
+      "Read our 100% client-side privacy policy. Your financial numbers never leave your phone or browser. Zero server storage, no database, and no cookies.",
+    url: "https://pak-tax-cal.vercel.app/privacy-policy",
+    type: "website",
+    siteName: "Pakistan Finance Calculators",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Policy | 100% Client-Side Private Calculators",
+    description:
+      "Read our 100% client-side privacy policy. Your financial numbers never leave your phone or browser. Zero server storage, no database, and no cookies.",
+  },
 };
 
 export default function PrivacyPolicyPage() {

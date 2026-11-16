@@ -1,15 +1,33 @@
 import React from "react";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { salaryRates2026_27 } from "@/lib/rates/salary-2026-27";
 import { propertyRates2026_27 } from "@/lib/rates/property-2026-27";
 import { gstRates } from "@/lib/rates/gst";
 import { zakatRates } from "@/lib/rates/zakat";
 import { fitranaRates2026 } from "@/lib/rates/fitrana-2026";
 
-export const metadata = {
-  title: "Methodology & Verified Sources — Pakistan Financial Calculators",
+export const metadata: Metadata = {
+  title: "Methodology & Statutory Sources | Pakistan Finance Calc",
   description:
-    "Complete technical and statutory methodology for salary tax, Zakat, property advance tax (236C/236K), GST, and Fitrana calculations in Pakistan.",
+    "Read official statutory methodology and legal references for Pakistan salary tax, Zakat, 236C/236K property tax, GST, and Fitrana calculation rules.",
+  alternates: {
+    canonical: "https://pak-tax-cal.vercel.app/methodology",
+  },
+  openGraph: {
+    title: "Methodology & Statutory Sources | Pakistan Finance Calc",
+    description:
+      "Read official statutory methodology and legal references for Pakistan salary tax, Zakat, 236C/236K property tax, GST, and Fitrana calculation rules.",
+    url: "https://pak-tax-cal.vercel.app/methodology",
+    type: "website",
+    siteName: "Pakistan Finance Calculators",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Methodology & Statutory Sources | Pakistan Finance Calc",
+    description:
+      "Read official statutory methodology and legal references for Pakistan salary tax, Zakat, 236C/236K property tax, GST, and Fitrana calculation rules.",
+  },
 };
 
 export default function MethodologyPage() {
