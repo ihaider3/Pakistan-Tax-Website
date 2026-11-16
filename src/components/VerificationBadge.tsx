@@ -20,8 +20,8 @@ export default function VerificationBadge({
       className={`bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-5 text-xs sm:text-sm text-appText-muted shadow-[0_4px_16px_-2px_rgba(11,42,74,0.05)] transition-all ${className}`}
     >
       <div className="flex flex-wrap items-center justify-between gap-3 mb-2.5">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-white font-extrabold text-[11px] tracking-wider uppercase shadow-xs">
+        <div className="flex flex-wrap items-center gap-2 min-w-0">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-white font-extrabold text-[11px] tracking-wider uppercase shadow-xs shrink-0">
             <svg
               className="w-3.5 h-3.5"
               fill="none"
@@ -37,7 +37,7 @@ export default function VerificationBadge({
             </svg>
             Verified Statutory Table
           </span>
-          <span className="font-bold text-primary text-xs sm:text-sm">
+          <span className="font-bold text-primary text-xs sm:text-sm break-words">
             {source}
           </span>
         </div>

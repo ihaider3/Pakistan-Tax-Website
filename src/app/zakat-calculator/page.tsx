@@ -143,11 +143,11 @@ export default function ZakatCalculatorPage() {
   // Custom Top Section: Government Bank Auto-Deduction Box
   const customTopSection = (
     <div className="bg-gradient-to-r from-amber-50 via-white to-amber-50/50 border border-amber-300 rounded-2xl p-5 sm:p-6 text-xs sm:text-sm text-amber-950 space-y-2 shadow-[0_4px_20px_-2px_rgba(217,119,6,0.08)]">
-      <div className="flex flex-wrap items-center gap-2.5">
-        <span className="px-3 py-1 rounded-full bg-amber-200 text-amber-950 font-black text-xs uppercase tracking-wider shadow-2xs">
+      <div className="flex flex-wrap items-center gap-2.5 min-w-0">
+        <span className="px-3 py-1 rounded-full bg-amber-200 text-amber-950 font-black text-xs uppercase tracking-wider shadow-2xs shrink-0">
           Official Notification
         </span>
-        <span className="font-extrabold text-primary text-sm sm:text-base">
+        <span className="font-extrabold text-primary text-sm sm:text-base break-words">
           Government Bank Deduction Nisab 2026: {formatRupees(zakatRates.governmentBankNisab2026.amount)}
         </span>
       </div>

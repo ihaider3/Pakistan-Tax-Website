@@ -34,14 +34,14 @@ export default function Header() {
       {/* =========================================================================
           TOP AMBIENT STATUS BAR (1-LINE CLIENT-SIDE PRIVACY & AUDIT TICKER)
          ========================================================================= */}
-      <div className="bg-gradient-to-r from-[#071B30] via-primary to-[#0A335C] text-white text-[11px] sm:text-xs py-1.5 px-4 border-b border-accent/25 shadow-xs">
-        <div className="max-w-[1150px] mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 whitespace-nowrap overflow-hidden text-ellipsis">
+      <div className="bg-gradient-to-r from-[#071B30] via-primary to-[#0A335C] text-white text-[11px] sm:text-xs py-1.5 px-4 border-b border-accent/25 shadow-xs overflow-hidden">
+        <div className="max-w-[1150px] w-full mx-auto flex items-center justify-between gap-3 min-w-0">
+          <div className="flex items-center gap-2 overflow-hidden text-ellipsis min-w-0 flex-1">
             <span className="relative flex h-2 w-2 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
             </span>
-            <span className="font-semibold text-slate-100 text-xs truncate">
+            <span className="font-semibold text-slate-100 text-[11px] sm:text-xs truncate min-w-0">
               100% Client-Side Privacy: <span className="text-emerald-300 font-bold">Your numbers never leave your phone.</span>
             </span>
           </div>
