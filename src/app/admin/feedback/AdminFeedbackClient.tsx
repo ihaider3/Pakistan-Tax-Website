@@ -23,8 +23,14 @@ interface Counts {
   resolved: number;
 }
 
-export default function AdminFeedbackClient() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+interface AdminFeedbackClientProps {
+  initialAuth?: boolean;
+}
+
+export default function AdminFeedbackClient({ initialAuth }: AdminFeedbackClientProps) {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
+    typeof initialAuth === "boolean" ? initialAuth : null
+  );
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState<string | null>(null);
   const [loginLoading, setLoginLoading] = useState(false);
@@ -92,8 +98,10 @@ export default function AdminFeedbackClient() {
   }, [categoryFilter, calculatorFilter, statusFilter, appliedSearch, page]);
 
   useEffect(() => {
-    fetchFeedback();
-  }, [fetchFeedback]);
+    if (isAuthenticated === true || isAuthenticated === null) {
+      fetchFeedback();
+    }
+  }, [isAuthenticated, fetchFeedback]);
 
   // Handle Login
   const handleLogin = async (e: React.FormEvent) => {
@@ -273,8 +281,19 @@ export default function AdminFeedbackClient() {
     }
   };
 
-  // IF NOT AUTHENTICATED: Show Login Screen
-  if (isAuthenticated === false || (isAuthenticated === null && !loading && items.length === 0)) {
+  // 1. NEUTRAL LOADING STATE (while session is being verified):
+  // Renders a simple, neutral spinner with header/footer — NEVER the dashboard shell!
+  if (isAuthenticated === null) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 py-12">
+        <div className="w-10 h-10 border-3 border-accent/20 border-t-accent rounded-full animate-spin mb-4" />
+        <p className="text-xs font-semibold text-appText-muted">Verifying administrator session...</p>
+      </div>
+    );
+  }
+
+  // 2. UNAUTHENTICATED: Show ONLY the Login Screen (password form)
+  if (!isAuthenticated) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-elevated border border-appBorder space-y-6">
