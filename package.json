@@ -2,6 +2,9 @@
   "name": "pakistan-financial-islamic-calculators",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0 <=24.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
