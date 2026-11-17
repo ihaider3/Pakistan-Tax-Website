@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, createContext, useContext } from "react";
-import { useExplanationLang } from "./LanguageContext";
 import { sendTrackBeacon } from "@/lib/analytics/beacon";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -254,9 +253,6 @@ function PwaBanners({
   showIosHint: boolean;
   onDismissIos: () => void;
 }) {
-  const { lang } = useExplanationLang();
-  const isRoman = lang === "roman";
-
   // 1. Mobile Bottom Banner: Shown only AFTER first calculator use on mobile
   const showMobileBanner =
     !isInstalled && !isDismissed && hasUsedCalculator && canInstall;
@@ -273,7 +269,7 @@ function PwaBanners({
             <div className="flex-1 min-w-0 space-y-1">
               <div className="flex items-center justify-between gap-2">
                 <span className="font-extrabold text-xs sm:text-sm text-white tracking-tight">
-                  {isRoman ? "App Install Karein (Free)" : "Install Finance Calculators"}
+                  Install App (Free)
                 </span>
                 <button
                   type="button"
@@ -285,9 +281,7 @@ function PwaBanners({
                 </button>
               </div>
               <p className="text-[11px] sm:text-xs text-slate-300 leading-snug">
-                {isRoman
-                  ? "Baghair browser address bar ke full screen chalayein — offline bhi kaam karta hai."
-                  : "Add to home screen for full-screen access — works 100% offline with zero login."}
+                Use full screen without browser address bar — works offline too.
               </p>
               <div className="pt-2 flex items-center gap-2">
                 <button
@@ -295,14 +289,14 @@ function PwaBanners({
                   onClick={onInstall}
                   className="px-3.5 py-1.5 rounded-lg bg-accent hover:bg-teal-600 text-white font-black text-xs transition-all shadow-xs cursor-pointer active:scale-98"
                 >
-                  {isRoman ? "Abhi Install Karein" : "Install App"}
+                  Install Now
                 </button>
                 <button
                   type="button"
                   onClick={onDismiss}
                   className="px-2.5 py-1.5 text-[11px] font-semibold text-slate-400 hover:text-slate-200"
                 >
-                  {isRoman ? "Baad Mein" : "Not now"}
+                  Maybe Later
                 </button>
               </div>
             </div>
@@ -318,7 +312,7 @@ function PwaBanners({
             <div className="flex-1 space-y-1">
               <div className="flex items-center justify-between gap-2">
                 <span className="font-extrabold text-xs text-white">
-                  {isRoman ? "iPhone Par Install Karein" : "Install on iPhone"}
+                  Install on iPhone
                 </span>
                 <button
                   type="button"
@@ -330,17 +324,8 @@ function PwaBanners({
                 </button>
               </div>
               <p className="text-[11px] text-slate-300 leading-snug">
-                {isRoman ? (
-                  <>
-                    Safari ke neechay <strong>Share (⎋)</strong> dabayein aur phir{" "}
-                    <strong>&apos;Add to Home Screen&apos; (+)</strong> chunein.
-                  </>
-                ) : (
-                  <>
-                    Tap <strong>Share (⎋)</strong> at the bottom of Safari, then choose{" "}
-                    <strong>&apos;Add to Home Screen&apos; (+)</strong>.
-                  </>
-                )}
+                Tap <strong>Share (⎋)</strong> at the bottom of Safari, then choose{" "}
+                <strong>&apos;Add to Home Screen&apos; (+)</strong>.
               </p>
             </div>
           </div>
