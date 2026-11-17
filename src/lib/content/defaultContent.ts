@@ -26,7 +26,7 @@ export const DEFAULT_SITE_CONTENT: ContentFieldConfig[] = [
     fieldLabel: "Homepage Subtitle / Intro Description",
     isTextarea: true,
     defaultValue:
-      "Instant, private calculations for salary tax, Zakat, property advance tax (236C/236K), GST 18%, and Fitrana. All numbers stay in your browser.",
+      "Instant, private calculations for salary tax, Zakat, property advance tax (236C/236K), GST 18%, Fitrana, and Ushr on agricultural produce. All numbers stay in your browser.",
   },
   {
     key: "home_card_salary_title",

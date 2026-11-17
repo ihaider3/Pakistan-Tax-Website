@@ -34,7 +34,7 @@ const websiteSchema = {
   name: "Pakistan Finance Calculators",
   url: siteUrl,
   description:
-    "Free, accurate Pakistan calculators for salary tax, Zakat, property tax, GST, and Fitrana. 100% client-side privacy.",
+    "Free, accurate Pakistan calculators for salary tax, Zakat, property tax, GST, Fitrana, and Ushr. 100% client-side privacy.",
   inLanguage: "en-PK",
 };
 
@@ -232,7 +232,7 @@ export default async function HomePage() {
             </h1>
 
             <p className="text-[15px] sm:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium pt-1">
-              {content.home_hero_subtitle || "Instant, private calculations for salary tax, Zakat, property advance tax (236C/236K), GST 18%, and Fitrana. All numbers stay in your browser."}
+              {content.home_hero_subtitle || "Instant, private calculations for salary tax, Zakat, property advance tax (236C/236K), GST 18%, Fitrana, and Ushr on agricultural produce. All numbers stay in your browser."}
             </p>
           </div>
 
