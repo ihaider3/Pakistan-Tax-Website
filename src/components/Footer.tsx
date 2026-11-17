@@ -3,8 +3,22 @@
 import React from "react";
 import Link from "next/link";
 import { siteConfig } from "@/content/pages";
+import { useSiteContent } from "./SiteContentContext";
 
 export default function Footer() {
+  const { getContent } = useSiteContent();
+  const footerMission = getContent(
+    "footer_mission",
+    "Free, official, and completely confidential calculation utilities for Pakistan. All tax slabs, Nisab rates, and withholding tables are verified against official notifications."
+  );
+  const footerPrivacyNote = getContent(
+    "footer_privacy_note",
+    "Everything is computed client-side inside your browser sandbox. We do not store or transmit any input amounts."
+  );
+  const footerCopyright = getContent(
+    "footer_copyright",
+    `© ${siteConfig.copyrightYear} ${siteConfig.brandName}. All rights reserved.`
+  );
   const scrollToTop = () => {
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -62,9 +76,11 @@ export default function Footer() {
             </div>
 
             {/* Platform Mission Statement */}
-            <p className="text-sm text-slate-300 leading-relaxed font-normal max-w-md">
-              Free, official, and completely confidential calculation utilities for Pakistan.
-              All tax slabs, Nisab rates, and withholding tables are verified against official notifications.
+            <p
+              data-content-key="footer_mission"
+              className="text-sm text-slate-300 leading-relaxed font-normal max-w-md"
+            >
+              {footerMission}
             </p>
 
             {/* Hardcooked Privacy & Client-Side Security Capsule */}
@@ -77,7 +93,8 @@ export default function Footer() {
                 <span>Zero Server Storage Guarantee</span>
               </div>
               <p className="text-xs text-slate-300 font-medium leading-relaxed">
-                <strong className="text-white font-extrabold">{siteConfig.privacyClaim}</strong> Everything is computed client-side inside your browser sandbox. We do not store or transmit any input amounts.
+                <strong className="text-white font-extrabold">{siteConfig.privacyClaim}</strong>{" "}
+                <span data-content-key="footer_privacy_note">{footerPrivacyNote}</span>
               </p>
             </div>
           </div>
@@ -156,8 +173,8 @@ export default function Footer() {
            ========================================================================= */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-[13px] text-slate-300 gap-4">
           <div className="space-y-1 text-center md:text-left">
-            <p className="font-semibold text-slate-200">
-              © {siteConfig.copyrightYear} {siteConfig.brandName}. All rights reserved.
+            <p data-content-key="footer_copyright" className="font-semibold text-slate-200">
+              {footerCopyright}
             </p>
             <p className="text-[13px] text-slate-400">
               Finance Act 2026 • FBR Withholding Tax Rate Card TY2027 • SBP Zakat Notifications

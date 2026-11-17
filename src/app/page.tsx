@@ -189,10 +189,19 @@ export default async function HomePage() {
     },
     {
       ...calculators[5],
-      title: calculators[5].title,
-      description: calculators[5].description,
+      title: content.home_card_ushr_title || calculators[5].title,
+      description: content.home_card_ushr_desc || calculators[5].description,
     },
   ];
+
+  const cardContentKeys: Record<string, { titleKey: string; descKey: string }> = {
+    "/salary-tax-calculator": { titleKey: "home_card_salary_title", descKey: "home_card_salary_desc" },
+    "/zakat-calculator": { titleKey: "home_card_zakat_title", descKey: "home_card_zakat_desc" },
+    "/property-tax-calculator": { titleKey: "home_card_property_title", descKey: "home_card_property_desc" },
+    "/gst-calculator": { titleKey: "home_card_gst_title", descKey: "home_card_gst_desc" },
+    "/fitrana-calculator": { titleKey: "home_card_fitrana_title", descKey: "home_card_fitrana_desc" },
+    "/ushr-calculator": { titleKey: "home_card_ushr_title", descKey: "home_card_ushr_desc" },
+  };
 
   return (
     <div className="space-y-12 sm:space-y-16 pb-0 sm:pb-2">
@@ -215,12 +224,15 @@ export default async function HomePage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent"></span>
             </span>
-            <span>{content.home_hero_badge || "VERIFIED AGAINST OFFICIAL 2026–27 NOTIFICATIONS"}</span>
+            <span data-content-key="home_hero_badge">{content.home_hero_badge || "VERIFIED AGAINST OFFICIAL 2026–27 NOTIFICATIONS"}</span>
           </div>
 
           {/* High-Impact Main Heading */}
           <div className="space-y-3">
-            <h1 className="text-[26px] sm:text-4xl lg:text-5xl font-black text-primary tracking-tight max-w-4xl mx-auto leading-[1.2] sm:leading-[1.25]">
+            <h1
+              data-content-key="home_hero_title"
+              className="text-[26px] sm:text-4xl lg:text-5xl font-black text-primary tracking-tight max-w-4xl mx-auto leading-[1.2] sm:leading-[1.25]"
+            >
               {content.home_hero_title || (
                 <>
                   Pakistan Financial &amp; Islamic Calculators{" "}
@@ -231,7 +243,10 @@ export default async function HomePage() {
               )}
             </h1>
 
-            <p className="text-[15px] sm:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium pt-1">
+            <p
+              data-content-key="home_hero_subtitle"
+              className="text-[15px] sm:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium pt-1"
+            >
               {content.home_hero_subtitle || "Instant, private calculations for salary tax, Zakat, property advance tax (236C/236K), GST 18%, Fitrana, and Ushr on agricultural produce. All numbers stay in your browser."}
             </p>
           </div>
@@ -367,7 +382,10 @@ export default async function HomePage() {
                 </div>
 
                 {/* Card Title & Subtitle */}
-                <h3 className="text-xl sm:text-2xl font-black text-primary group-hover:text-accent transition-colors duration-200 mb-1 leading-snug">
+                <h3
+                  data-content-key={cardContentKeys[calc.href]?.titleKey}
+                  className="text-xl sm:text-2xl font-black text-primary group-hover:text-accent transition-colors duration-200 mb-1 leading-snug"
+                >
                   {calc.title}
                 </h3>
                 <span className="text-xs font-extrabold text-accent uppercase tracking-wider block mb-3">
@@ -375,7 +393,10 @@ export default async function HomePage() {
                 </span>
 
                 {/* Prominent High-Contrast Description */}
-                <p className="text-sm text-slate-800 leading-relaxed font-medium">
+                <p
+                  data-content-key={cardContentKeys[calc.href]?.descKey}
+                  className="text-sm text-slate-800 leading-relaxed font-medium"
+                >
                   {calc.description}
                 </p>
 

@@ -2,6 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import { siteConfig } from "@/content/pages";
 import { siteUrl } from "@/config/site";
+import { getSiteContent } from "@/lib/content/contentServer";
 
 export const metadata: Metadata = {
   title: "Contact Us | Pakistan Financial & Islamic Calculators",
@@ -26,7 +27,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const content = await getSiteContent();
+
   return (
     <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-8">
       <div>
@@ -36,8 +39,9 @@ export default function ContactPage() {
         <h1 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight mt-2">
           Contact &amp; Feedback
         </h1>
-        <p className="text-base text-appText-muted mt-2">
-          Notice a rate change in a new FBR circular or scholarly announcement? Let us know so we can update the platform within 48 hours.
+        <p data-content-key="contact_intro" className="text-base text-appText-muted mt-2">
+          {content.contact_intro ||
+            "Notice a rate change in a new FBR circular or scholarly announcement? Let us know so we can update the platform within 48 hours."}
         </p>
       </div>
 

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { isAuthenticatedAdmin } from "@/lib/feedback/adminAuth";
 import { restoreSiteContent } from "@/lib/content/contentServer";
 
@@ -17,6 +18,11 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await restoreSiteContent(key);
+    try {
+      revalidatePath("/", "layout");
+    } catch (revalErr) {
+      console.warn("[Content Restore] Revalidation error:", revalErr);
+    }
     return NextResponse.json(result);
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Failed to restore content";

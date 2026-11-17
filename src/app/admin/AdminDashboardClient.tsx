@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ratesData from "@/data/rates.json";
+import VisualContentEditor from "@/components/admin/VisualContentEditor";
 
 export type AdminTab = "overview" | "feedback" | "content" | "analytics";
 
@@ -146,6 +147,17 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
   const [savingKey, setSavingKey] = useState<string | null>(null);
   const [saveSuccessKey, setSaveSuccessKey] = useState<string | null>(null);
   const [restoringKey, setRestoringKey] = useState<string | null>(null);
+  const [contentMode, setContentMode] = useState<"visual" | "form">("visual");
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const checkScreen = () => {
+      setIsSmallScreen(window.innerWidth < 768);
+    };
+    checkScreen();
+    window.addEventListener("resize", checkScreen);
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
 
   // Analytics State
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null);
@@ -300,11 +312,11 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
   }, [isAuthenticated, loadAnalytics]);
 
   // Handle Save Content Field
-  const handleSaveContent = async (key: string) => {
+  const handleSaveContent = async (key: string, customVal?: string): Promise<boolean> => {
     setSavingKey(key);
     setSaveSuccessKey(null);
     try {
-      const value = contentValues[key] ?? "";
+      const value = customVal !== undefined ? customVal : (contentValues[key] ?? "");
       const res = await fetch("/api/admin/content/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -312,22 +324,25 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
       });
       const data = await res.json();
       if (res.ok) {
+        setContentValues((prev) => ({ ...prev, [key]: value }));
         setSaveSuccessKey(key);
         setTimeout(() => setSaveSuccessKey(null), 3500);
         await loadContent();
+        return true;
       } else {
         alert(data.error || "Save failed");
+        return false;
       }
     } catch {
       alert("Error saving content");
+      return false;
     } finally {
       setSavingKey(null);
     }
   };
 
   // Handle Restore Content Field
-  const handleRestoreContent = async (key: string) => {
-    if (!confirm("Restore previous version of this field?")) return;
+  const handleRestoreContent = async (key: string): Promise<boolean> => {
     setRestoringKey(key);
     try {
       const res = await fetch("/api/admin/content/restore", {
@@ -341,11 +356,14 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
         setSaveSuccessKey(key);
         setTimeout(() => setSaveSuccessKey(null), 3500);
         await loadContent();
+        return true;
       } else {
         alert(data.error || "Restore failed");
+        return false;
       }
     } catch {
       alert("Error restoring content");
+      return false;
     } finally {
       setRestoringKey(null);
     }
@@ -927,6 +945,56 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
          ========================================================================= */}
       {activeTab === "content" && (
         <div className="space-y-6">
+          {/* Mode Switch Header */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-accent"></span>
+                <h3 className="text-base sm:text-lg font-black text-primary tracking-tight">
+                  Website Content Editor
+                </h3>
+              </div>
+              <p className="text-xs text-slate-500 mt-0.5">
+                Edit website text visually on a live interactive preview or through standard form fields.
+              </p>
+            </div>
+
+            {/* Mode Toggle Buttons */}
+            <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl border border-slate-200 self-start sm:self-auto">
+              <button
+                type="button"
+                onClick={() => setContentMode("visual")}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  contentMode === "visual" && !isSmallScreen
+                    ? "bg-primary text-white shadow-xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                <span>👁️ Visual Editor</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setContentMode("form")}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  contentMode === "form" || isSmallScreen
+                    ? "bg-primary text-white shadow-xs"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                <span>📝 Form Editor</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Small Screen Advisory */}
+          {isSmallScreen && (
+            <div className="p-3.5 bg-blue-50 border border-blue-200 rounded-2xl flex items-center gap-2.5 text-xs font-medium text-blue-900">
+              <span className="text-base">📱</span>
+              <span>Visual editing works best on a desktop or laptop. Showing Form Editor.</span>
+            </div>
+          )}
+
           {/* Statutory Protection Banner */}
           <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3">
             <span className="text-xl">⚠️</span>
@@ -943,119 +1011,144 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
             </div>
           </div>
 
-          {/* Page Filter Buttons */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2">
-            {[
-              { id: "all", label: "All Pages" },
-              { id: "homepage", label: "Homepage" },
-              { id: "salary", label: "Salary Tax" },
-              { id: "zakat", label: "Zakat" },
-              { id: "property", label: "Property Tax" },
-              { id: "gst", label: "GST 18%" },
-              { id: "fitrana", label: "Fitrana" },
-              { id: "footer", label: "Footer" },
-              { id: "contact", label: "Contact" },
-            ].map((p) => (
-              <button
-                key={p.id}
-                onClick={() => setContentPageFilter(p.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
-                  contentPageFilter === p.id
-                    ? "bg-primary text-white shadow-xs"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Content Field Editor Cards */}
-          {contentLoading ? (
-            <div className="p-12 text-center text-xs text-slate-500">Loading content fields...</div>
+          {/* VISUAL EDITOR MODE */}
+          {contentMode === "visual" && !isSmallScreen ? (
+            contentLoading ? (
+              <div className="p-12 text-center text-xs text-slate-500 bg-white rounded-2xl border border-slate-200 shadow-xs">
+                Loading visual content editor...
+              </div>
+            ) : (
+              <VisualContentEditor
+                contentList={contentList}
+                contentValues={contentValues}
+                setContentValues={setContentValues}
+                onSave={handleSaveContent}
+                onRestore={handleRestoreContent}
+                savingKey={savingKey}
+                restoringKey={restoringKey}
+              />
+            )
           ) : (
-            <div className="space-y-4">
-              {contentList
-                .filter((item) => contentPageFilter === "all" || item.page === contentPageFilter)
-                .map((item) => {
-                  const currentValue = contentValues[item.key] ?? item.currentValue;
-                  const isModified = currentValue !== item.defaultValue;
-                  const isSaving = savingKey === item.key;
-                  const isRestoring = restoringKey === item.key;
-                  const isSaved = saveSuccessKey === item.key;
+            /* FORM EDITOR MODE (FALLBACK) */
+            <div className="space-y-6">
+              {/* Page Filter Buttons */}
+              <div className="flex items-center gap-2 overflow-x-auto pb-2">
+                {[
+                  { id: "all", label: "All Pages" },
+                  { id: "homepage", label: "Homepage" },
+                  { id: "salary", label: "Salary Tax" },
+                  { id: "zakat", label: "Zakat" },
+                  { id: "property", label: "Property Tax" },
+                  { id: "gst", label: "GST 18%" },
+                  { id: "fitrana", label: "Fitrana" },
+                  { id: "ushr", label: "Ushr" },
+                  { id: "footer", label: "Footer" },
+                  { id: "contact", label: "Contact" },
+                ].map((p) => (
+                  <button
+                    key={p.id}
+                    onClick={() => setContentPageFilter(p.id)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+                      contentPageFilter === p.id
+                        ? "bg-primary text-white shadow-xs"
+                        : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                    }`}
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
 
-                  return (
-                    <div
-                      key={item.key}
-                      className="p-5 bg-white rounded-2xl border border-slate-200 shadow-xs space-y-3"
-                    >
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div className="space-y-0.5">
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-bold text-primary">{item.fieldLabel}</span>
-                            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600">
-                              {item.key}
-                            </span>
+              {/* Content Field Editor Cards */}
+              {contentLoading ? (
+                <div className="p-12 text-center text-xs text-slate-500 bg-white rounded-2xl border border-slate-200">
+                  Loading content fields...
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {contentList
+                    .filter((item) => contentPageFilter === "all" || item.page === contentPageFilter)
+                    .map((item) => {
+                      const currentValue = contentValues[item.key] ?? item.currentValue;
+                      const isModified = currentValue !== item.defaultValue;
+                      const isSaving = savingKey === item.key;
+                      const isRestoring = restoringKey === item.key;
+                      const isSaved = saveSuccessKey === item.key;
+
+                      return (
+                        <div
+                          key={item.key}
+                          className="p-5 bg-white rounded-2xl border border-slate-200 shadow-xs space-y-3"
+                        >
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div className="space-y-0.5">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs font-bold text-primary">{item.fieldLabel}</span>
+                                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600">
+                                  {item.key}
+                                </span>
+                              </div>
+                              <span className="text-[11px] text-slate-400 block">
+                                Page: <strong className="capitalize">{item.page}</strong> | Last updated: {item.updatedAt}
+                              </span>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              {isSaved && (
+                                <span className="text-xs font-bold text-emerald-600 flex items-center gap-1 animate-pulse">
+                                  ✓ Saved — live on the site now
+                                </span>
+                              )}
+                              {item.hasHistory && (
+                                <button
+                                  onClick={() => handleRestoreContent(item.key)}
+                                  disabled={isRestoring || isSaving}
+                                  className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 active:scale-98 disabled:opacity-50 transition-all cursor-pointer"
+                                >
+                                  {isRestoring ? "Restoring..." : "Restore Previous"}
+                                </button>
+                              )}
+                              <button
+                                onClick={() => handleSaveContent(item.key)}
+                                disabled={isSaving || isRestoring}
+                                className="px-4 py-1.5 rounded-lg text-xs font-bold text-white bg-accent hover:bg-[#0D625C] active:scale-98 disabled:opacity-50 transition-all shadow-xs cursor-pointer"
+                              >
+                                {isSaving ? "Saving..." : "Save Field"}
+                              </button>
+                            </div>
                           </div>
-                          <span className="text-[11px] text-slate-400 block">
-                            Page: <strong className="capitalize">{item.page}</strong> | Last updated: {item.updatedAt}
-                          </span>
-                        </div>
 
-                        <div className="flex items-center gap-2">
-                          {isSaved && (
-                            <span className="text-xs font-bold text-emerald-600 flex items-center gap-1 animate-pulse">
-                              ✓ Saved — live on the site now
-                            </span>
+                          {item.isTextarea ? (
+                            <textarea
+                              rows={3}
+                              value={currentValue}
+                              onChange={(e) =>
+                                setContentValues((prev) => ({ ...prev, [item.key]: e.target.value }))
+                              }
+                              className="w-full p-3 rounded-xl border border-slate-300 text-xs text-slate-800 leading-relaxed font-normal focus:outline-none focus:ring-2 focus:ring-accent"
+                            />
+                          ) : (
+                            <input
+                              type="text"
+                              value={currentValue}
+                              onChange={(e) =>
+                                setContentValues((prev) => ({ ...prev, [item.key]: e.target.value }))
+                              }
+                              className="w-full p-3 rounded-xl border border-slate-300 text-xs text-slate-800 font-normal focus:outline-none focus:ring-2 focus:ring-accent"
+                            />
                           )}
-                          {item.hasHistory && (
-                            <button
-                              onClick={() => handleRestoreContent(item.key)}
-                              disabled={isRestoring || isSaving}
-                              className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 active:scale-98 disabled:opacity-50 transition-all cursor-pointer"
-                            >
-                              {isRestoring ? "Restoring..." : "Restore Previous"}
-                            </button>
+
+                          {isModified && (
+                            <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
+                              <span>Custom content active (differs from codebase default).</span>
+                            </div>
                           )}
-                          <button
-                            onClick={() => handleSaveContent(item.key)}
-                            disabled={isSaving || isRestoring}
-                            className="px-4 py-1.5 rounded-lg text-xs font-bold text-white bg-accent hover:bg-[#0D625C] active:scale-98 disabled:opacity-50 transition-all shadow-xs cursor-pointer"
-                          >
-                            {isSaving ? "Saving..." : "Save Field"}
-                          </button>
                         </div>
-                      </div>
-
-                      {item.isTextarea ? (
-                        <textarea
-                          rows={3}
-                          value={currentValue}
-                          onChange={(e) =>
-                            setContentValues((prev) => ({ ...prev, [item.key]: e.target.value }))
-                          }
-                          className="w-full p-3 rounded-xl border border-slate-300 text-xs text-slate-800 leading-relaxed font-normal focus:outline-none focus:ring-2 focus:ring-accent"
-                        />
-                      ) : (
-                        <input
-                          type="text"
-                          value={currentValue}
-                          onChange={(e) =>
-                            setContentValues((prev) => ({ ...prev, [item.key]: e.target.value }))
-                          }
-                          className="w-full p-3 rounded-xl border border-slate-300 text-xs text-slate-800 font-normal focus:outline-none focus:ring-2 focus:ring-accent"
-                        />
-                      )}
-
-                      {isModified && (
-                        <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-accent"></span>
-                          <span>Custom content active (differs from codebase default).</span>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                      );
+                    })}
+                </div>
+              )}
             </div>
           )}
         </div>

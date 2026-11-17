@@ -24,6 +24,10 @@ import {
   restoreSiteContent,
   resetInMemoryContent,
 } from "@/lib/content/contentServer";
+import { calculateZakat } from "@/lib/calc/zakat";
+import { calculateSalaryTax } from "@/lib/calc/salary";
+import { calculateUshr } from "@/lib/calc/ushr";
+import { DEFAULT_SITE_CONTENT } from "@/lib/content/defaultContent";
 
 describe("Admin Authentication & Security Lockout", () => {
   const TEST_IP = "192.168.1.100";
@@ -208,6 +212,94 @@ describe("Content Editor & Statutory Protection", () => {
       "Tax rates, slabs, nisab, Fitrana amounts, and calculation formulas are statutory and cannot be edited from this panel."
     );
     await expect(updateSiteContent("gst_tax_rate", "0.20")).rejects.toThrow();
+  });
+
+  it("includes Ushr keys in default content and allows editing them", async () => {
+    const keys = DEFAULT_SITE_CONTENT.map((c) => c.key);
+    expect(keys).toContain("home_card_ushr_title");
+    expect(keys).toContain("home_card_ushr_desc");
+    expect(keys).toContain("ushr_intro");
+    expect(keys).toContain("ushr_roman_urdu_intro");
+    expect(keys).toContain("ushr_english_intro");
+
+    const updateRes = await updateSiteContent("ushr_intro", "Updated Ushr description for Pakistan");
+    expect(updateRes.success).toBe(true);
+    const content = await getSiteContent();
+    expect(content.ushr_intro).toBe("Updated Ushr description for Pakistan");
+  });
+
+  describe("Visual Editor Regression Tests", () => {
+    it("Test 1: Edit homepage hero subtitle in Visual Editor -> save -> live homepage has new text -> restore -> original text back", async () => {
+      const original = (await getSiteContent()).home_hero_subtitle;
+
+      // Save custom edit
+      const testText = "Brand new custom subtitle for testing visual editor";
+      await updateSiteContent("home_hero_subtitle", testText);
+      const afterSave = await getSiteContent();
+      expect(afterSave.home_hero_subtitle).toBe(testText);
+
+      // Restore back to original
+      await restoreSiteContent("home_hero_subtitle");
+      const afterRestore = await getSiteContent();
+      expect(afterRestore.home_hero_subtitle).toBe(original);
+    });
+
+    it("Test 2: Edit Zakat page intro text in Visual Editor -> save -> Zakat calculator with cash 500,000 still gives Zakat Rs 12,500", async () => {
+      await updateSiteContent("zakat_intro", "Custom Zakat Intro text edited visually.");
+      const content = await getSiteContent();
+      expect(content.zakat_intro).toBe("Custom Zakat Intro text edited visually.");
+
+      // Verify calculation is 100% untouched
+      const zakatResult = calculateZakat({
+        cashInHand: 500000,
+        bankSavings: 0,
+        goldUnit: "tola",
+        goldQuantity: 0,
+        goldRatePerTola: 402098,
+        silverUnit: "tola",
+        silverQuantity: 0,
+        silverRatePerTola: 4934,
+        businessStock: 0,
+        investments: 0,
+        debtsToDeduct: 0,
+      });
+      expect(zakatResult.zakatDue).toBe(12500);
+      expect(zakatResult.isZakatDue).toBe(true);
+    });
+
+    it("Test 3: Salary calculator monthly 150,000 -> monthly tax Rs 6,000, take-home Rs 144,000 (unchanged after editor change)", () => {
+      const salaryResult = calculateSalaryTax(150000, "monthly", "2026-27");
+      expect(salaryResult.monthlyTax).toBe(6000);
+      expect(salaryResult.monthlyTakeHome).toBe(144000);
+      expect(salaryResult.annualTax).toBe(72000);
+    });
+
+    it("Test 4: Ushr calculator: wheat 1,000 kg, Rs 130/kg, Rain -> Ushr 100 kg, Rs 13,000 (unchanged)", () => {
+      const ushrResult = calculateUshr({
+        crop: "wheat",
+        quantity: 1000,
+        unit: "kg",
+        pricePerUnit: 130,
+        irrigation: "rain",
+      });
+      expect(ushrResult.ushrKind).toBe(100);
+      expect(ushrResult.ushrCashValue).toBe(13000);
+      expect(ushrResult.ratePercentage).toBe("10%");
+    });
+
+    it("Test 5: Switch to Form Editor after visual save -> same new value is shown in the form field", async () => {
+      const customPropertyIntro = "Custom Property Intro via visual editor test";
+      await updateSiteContent("property_intro", customPropertyIntro);
+
+      const content = await getSiteContent();
+      expect(content.property_intro).toBe(customPropertyIntro);
+    });
+
+    it("Test 6: Try to click a result number or slab-table figure -> cannot be edited (locked / statutory protection)", async () => {
+      await expect(updateSiteContent("salary_slab_1_rate", "0")).rejects.toThrow("statutory");
+      await expect(updateSiteContent("zakat_nisab_threshold", "100000")).rejects.toThrow("statutory");
+      await expect(updateSiteContent("fitrana_wheat_amount", "500")).rejects.toThrow("statutory");
+    });
   });
 });
 

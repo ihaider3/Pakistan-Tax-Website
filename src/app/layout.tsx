@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import FloatingFeedbackButton from "@/components/FloatingFeedbackButton";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { LanguageProvider } from "@/components/LanguageContext";
+import { SiteContentProvider } from "@/components/SiteContentContext";
+import { getSiteContent } from "@/lib/content/contentServer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -88,21 +90,25 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialContent = await getSiteContent();
+
   return (
     <html lang="en" className={`overflow-x-hidden ${inter.variable} ${notoNastaliq.variable}`}>
       <body className="min-h-screen flex flex-col bg-white text-appText font-sans selection:bg-accent-soft selection:text-accent overflow-x-hidden w-full">
-        <LanguageProvider>
-          <AnalyticsTracker />
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <FloatingFeedbackButton />
-        </LanguageProvider>
+        <SiteContentProvider initialContent={initialContent}>
+          <LanguageProvider>
+            <AnalyticsTracker />
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <FloatingFeedbackButton />
+          </LanguageProvider>
+        </SiteContentProvider>
       </body>
     </html>
   );

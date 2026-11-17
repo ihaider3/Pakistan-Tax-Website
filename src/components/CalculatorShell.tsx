@@ -7,6 +7,7 @@ import RelatedTools from "./RelatedTools";
 import { CalculatorPageContent } from "@/content/pages";
 import { useExplanationLang } from "./LanguageContext";
 import ExplanationLangToggle from "./ExplanationLangToggle";
+import { useSiteContent } from "./SiteContentContext";
 import { trackToolUse } from "@/lib/analytics/beacon";
 import { CalculatorType } from "@/lib/analytics/types";
 
@@ -40,6 +41,18 @@ export default function CalculatorShell({
   printReport,
 }: CalculatorShellProps) {
   const { lang } = useExplanationLang();
+  const { getContent } = useSiteContent();
+
+  const calcKey = getCalculatorKey(content.slug);
+  const introKey = `${calcKey}_intro`;
+  const romanKey = `${calcKey}_roman_urdu_intro`;
+  const englishKey = `${calcKey}_english_intro`;
+
+  const displayIntro = getContent(introKey, content.intro);
+  const displayRomanIntro = getContent(romanKey, content.romanUrduIntro);
+  const displayEnglishIntro = getContent(englishKey, content.englishIntro);
+  const displayWazahat = lang === "roman" ? displayRomanIntro : displayEnglishIntro;
+  const activeWazahatKey = lang === "roman" ? romanKey : englishKey;
 
   // Mobile Accordion States (collapsed by default on mobile)
   const [mobileContextOpen, setMobileContextOpen] = useState(false);
@@ -72,13 +85,19 @@ export default function CalculatorShell({
           </h1>
 
           {/* Desktop full intro paragraph */}
-          <p className="hidden md:block text-[15px] sm:text-base text-appText-muted max-w-3xl leading-relaxed font-normal">
-            {content.intro}
+          <p
+            data-content-key={introKey}
+            className="hidden md:block text-[15px] sm:text-base text-appText-muted max-w-3xl leading-relaxed font-normal"
+          >
+            {displayIntro}
           </p>
 
           {/* Mobile full intro paragraph (no line-clamp) */}
-          <p className="md:hidden text-xs sm:text-sm text-appText-muted leading-relaxed font-normal">
-            {content.intro}
+          <p
+            data-content-key={introKey}
+            className="md:hidden text-xs sm:text-sm text-appText-muted leading-relaxed font-normal"
+          >
+            {displayIntro}
           </p>
         </div>
 
@@ -113,8 +132,11 @@ export default function CalculatorShell({
               </span>
               <ExplanationLangToggle />
             </div>
-            <p className="text-slate-800 text-[14px] sm:text-[15px] leading-relaxed font-normal">
-              {lang === "roman" ? content.romanUrduIntro : content.englishIntro}
+            <p
+              data-content-key={activeWazahatKey}
+              className="text-slate-800 text-[14px] sm:text-[15px] leading-relaxed font-normal"
+            >
+              {displayWazahat}
             </p>
           </div>
 
@@ -134,6 +156,7 @@ export default function CalculatorShell({
          ========================================================================= */}
       <section
         id="calculator"
+        data-statutory="true"
         onInput={handleFormInteraction}
         onChange={handleFormInteraction}
         className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start scroll-mt-20 sm:scroll-mt-24"
@@ -160,7 +183,7 @@ export default function CalculatorShell({
           FULL-WIDTH EXPLANATION BOX (Immediately under results & inputs)
          ========================================================================= */}
       {explanationBox && (
-        <section className="w-full print:hidden">
+        <section data-statutory="true" className="w-full print:hidden">
           {explanationBox}
         </section>
       )}
@@ -193,8 +216,11 @@ export default function CalculatorShell({
                 </span>
                 <ExplanationLangToggle />
               </div>
-              <p className="text-slate-800 text-xs sm:text-sm leading-relaxed font-normal">
-                {lang === "roman" ? content.romanUrduIntro : content.englishIntro}
+              <p
+                data-content-key={activeWazahatKey}
+                className="text-slate-800 text-xs sm:text-sm leading-relaxed font-normal"
+              >
+                {displayWazahat}
               </p>
             </div>
 
@@ -214,7 +240,7 @@ export default function CalculatorShell({
           LINE-BY-LINE / SLAB BREAKDOWN TABLE
          ========================================================================= */}
       {breakdownTable && (
-        <section className="bg-white p-5 sm:p-8 rounded-2xl border border-slate-200/90 shadow-[0_12px_30px_-5px_rgba(11,42,74,0.07)] print:p-0 print:border-none print:shadow-none">
+        <section data-statutory="true" className="bg-white p-5 sm:p-8 rounded-2xl border border-slate-200/90 shadow-[0_12px_30px_-5px_rgba(11,42,74,0.07)] print:p-0 print:border-none print:shadow-none">
           {breakdownTable}
         </section>
       )}

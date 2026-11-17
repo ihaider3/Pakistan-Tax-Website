@@ -1,6 +1,19 @@
 export interface ContentFieldConfig {
   key: string;
-  page: "homepage" | "salary" | "zakat" | "property" | "gst" | "fitrana" | "footer" | "contact";
+  page:
+    | "homepage"
+    | "salary"
+    | "zakat"
+    | "property"
+    | "gst"
+    | "fitrana"
+    | "ushr"
+    | "footer"
+    | "contact"
+    | "about"
+    | "methodology"
+    | "privacy"
+    | "disclaimer";
   fieldLabel: string;
   isTextarea?: boolean;
   defaultValue: string;
@@ -97,6 +110,20 @@ export const DEFAULT_SITE_CONTENT: ContentFieldConfig[] = [
     isTextarea: true,
     defaultValue:
       "Calculate household Fitrana for Eid-ul-Fitr 2026. Compare Mufti Muneeb and Council of Islamic Ideology rates side-by-side.",
+  },
+  {
+    key: "home_card_ushr_title",
+    page: "homepage",
+    fieldLabel: "Ushr Card Title",
+    defaultValue: "Ushr Calculator (Crops)",
+  },
+  {
+    key: "home_card_ushr_desc",
+    page: "homepage",
+    fieldLabel: "Ushr Card Description",
+    isTextarea: true,
+    defaultValue:
+      "Calculate Islamic Ushr on agricultural produce: 10% on rain-fed / natural crops, 5% on tube-well / irrigated crops. Units in kg, maunds, or rupees.",
   },
 
   // ===================== SALARY CALCULATOR PAGE =====================
@@ -227,6 +254,32 @@ export const DEFAULT_SITE_CONTENT: ContentFieldConfig[] = [
     isTextarea: true,
     defaultValue:
       "This calculator works out Sadqa-e-Fitr (Fitrana) for your household. The minimum is Rs 300 per person, based on wheat. This rate follows the announcements of Mufti Muneeb-ur-Rehman and the Council of Islamic Ideology (CII). Those who can afford more may pay a higher amount.",
+  },
+
+  // ===================== USHR CALCULATOR PAGE =====================
+  {
+    key: "ushr_intro",
+    page: "ushr",
+    fieldLabel: "Ushr Calculator English Intro",
+    isTextarea: true,
+    defaultValue:
+      "Calculate Ushr (Zakat on crops) in Pakistan — 10% for rain-fed, 5% for tube-well irrigated, 7.5% for mixed irrigation. Also spelled Oshar in Pakistan. Enter your harvest in kg or maund and get the Ushr in kind and in rupees.",
+  },
+  {
+    key: "ushr_roman_urdu_intro",
+    page: "ushr",
+    fieldLabel: "Ushr Wazahat Box (Roman Urdu)",
+    isTextarea: true,
+    defaultValue:
+      "Apni fasal par Ushr ka hisab lagayein — barish ya tube-well ke pani ke mutabiq. Pakistan mein ise Oshar bhi kaha jata hai. Fasal uthte hi Ushr ada karna wajib hai.",
+  },
+  {
+    key: "ushr_english_intro",
+    page: "ushr",
+    fieldLabel: "Ushr Wazahat Box (English)",
+    isTextarea: true,
+    defaultValue:
+      "Calculate Ushr (Zakat on agricultural produce) in Pakistan according to your irrigation method — 10% for rain-fed, 5% for tube-well irrigated, and 7.5% for mixed watering. Also spelled Oshar in Pakistan.",
   },
 
   // ===================== FOOTER =====================
