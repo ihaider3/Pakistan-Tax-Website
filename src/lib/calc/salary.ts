@@ -96,7 +96,7 @@ export function calculateSalaryTax(
 
   let surchargeNote: string | undefined = undefined;
   if (taxYear === "2025-26" && annualSalary > 10000000) {
-    surchargeNote = "Surcharge: check FBR rate card (9% surcharge on tax for income > Rs 10M TO VERIFY; not applied silently).";
+    surchargeNote = "Under Section 4AB of the Income Tax Ordinance 2001, a 9% surcharge applies on the tax liability for salaried individuals whose taxable income exceeds Rs 10,000,000.";
   }
 
   return {

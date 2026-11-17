@@ -28,7 +28,7 @@ export default function FitranaCalculatorPage() {
   ];
 
   const sourceOptions: ToggleOption<FitranaSourceKey>[] = [
-    { value: "muneeb", label: "Mufti Muneeb-ur-Rehman (2026)", badge: "21 Feb" },
+    { value: "muneeb", label: "Mufti Muneeb\u2011ur\u2011Rehman (2026)", badge: "21 Feb" },
     { value: "cii", label: "Council of Islamic Ideology (CII)", badge: "Ramadan" },
   ];
 
@@ -42,6 +42,13 @@ export default function FitranaCalculatorPage() {
   } else {
     result = calculateFitrana(members, staple, source);
   }
+
+  const handleReset = () => {
+    setMembersRaw("1");
+    setMembers(1);
+    setStaple("wheat");
+    setSource("muneeb");
+  };
 
   const handleMembersChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
@@ -64,13 +71,13 @@ export default function FitranaCalculatorPage() {
         },
         {
           label: "Selected Scholarly Source",
-          value: result.sourceName,
+          value: result.sourceName.replace(/Mufti Muneeb-ur-Rehman/g, "Mufti Muneeb\u2011ur\u2011Rehman"),
           subtext: `Announced: ${result.sourceDate}`,
         },
         {
-          label: `Alternate Source (${result.alternateSourceName})`,
+          label: "Alternate Source (CII)",
           value: formatRupees(result.alternateSourceTotal),
-          subtext: `${formatRupees(result.alternateSourcePerPerson)} per person`,
+          subtext: `${formatRupees(result.alternateSourcePerPerson)} per person (Council of Islamic Ideology)`,
         },
         {
           label: "Total Family Members",
@@ -218,12 +225,12 @@ export default function FitranaCalculatorPage() {
 
   const resultPanel = (
     <ResultPanel
-      title={`Fitrana 2026 (${result?.stapleName || "Wheat"})`}
+      title={`Fitrana 2026 — ${result?.stapleName || "Wheat (Gandum)"}`}
       mainLabel="Total Household Fitrana"
       mainValue={result ? formatRupees(result.totalFitrana) : "Rs 0"}
       mainSubtext={
         result
-          ? `${result.familyMembers} ${result.familyMembers === 1 ? "person" : "persons"} × ${formatRupees(result.perPersonRate)} (${result.sourceName})`
+          ? `${result.familyMembers} ${result.familyMembers === 1 ? "person" : "persons"} × ${formatRupees(result.perPersonRate)} (${result.sourceName.replace(/Mufti Muneeb-ur-Rehman/g, "Mufti Muneeb\u2011ur\u2011Rehman")})`
           : undefined
       }
       statusBadge={
@@ -239,6 +246,7 @@ export default function FitranaCalculatorPage() {
       isEmpty={!result || members < 1}
       emptyPrompt="Enter number of family members above to see your result — Afrad ki tadaad likhein, result foran nazar aayega."
       footnote={fitranaRates2026.disclaimerText}
+      onReset={handleReset}
     />
   );
 
@@ -303,10 +311,10 @@ export default function FitranaCalculatorPage() {
     <div className="space-y-3">
       <BreakdownTable
         title="Official 2026 Fitrana Rates Comparison"
-        subtitle="Side-by-side comparison between Mufti Muneeb-ur-Rehman and the Council of Islamic Ideology."
+        subtitle="Side-by-side comparison between Mufti Muneeb\u2011ur\u2011Rehman and the Council of Islamic Ideology."
         columns={breakdownColumns}
         rows={breakdownRows}
-        totalLabel={result ? `Selected: ${result.stapleName} (${result.sourceName})` : "Total"}
+        totalLabel={result ? `Selected: ${result.stapleName} (${result.sourceName.replace(/Mufti Muneeb-ur-Rehman/g, "Mufti Muneeb\u2011ur\u2011Rehman")})` : "Total"}
         totalValue={result ? formatRupees(result.totalFitrana) : undefined}
       />
       <div className="p-3.5 bg-gradient-to-r from-amber-50/80 via-white to-amber-50/50 border border-amber-200/80 rounded-xl text-xs text-amber-950 space-y-1.5 shadow-2xs">
@@ -320,9 +328,16 @@ export default function FitranaCalculatorPage() {
     </div>
   );
 
+  const seasonalNote = (
+    <div className="p-3.5 bg-slate-50 border border-slate-200/90 rounded-xl text-xs text-appText-muted font-medium shadow-2xs">
+      Rates announced for Ramadan 2026 — new rates will be published when announced for Ramadan 2027.
+    </div>
+  );
+
   return (
     <CalculatorShell
       content={content}
+      customTopSection={seasonalNote}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}
       explanationBox={explanationBox}

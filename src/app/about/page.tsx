@@ -79,7 +79,7 @@ export default function AboutPage() {
         <section className="space-y-3">
           <h2 className="text-xl font-bold text-primary">Open Methodology &amp; Trust</h2>
           <p>
-            Every single calculator page displays the primary source document, legal section, and last-verified date. We do not invent, round arbitrarily, or guess any tax rates.
+            Every single calculator page displays the primary source document, legal section, and last-verified date. We do not invent or guess any tax rates; we round to whole rupees and show our working.
           </p>
           <div className="pt-2">
             <Link

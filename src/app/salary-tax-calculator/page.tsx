@@ -46,6 +46,14 @@ export default function SalaryTaxCalculatorPage() {
     setIsValid(valid);
   };
 
+  const handleReset = () => {
+    setFrequency("monthly");
+    setTaxYear("2026-27");
+    setSalaryRaw("150000");
+    setSalaryNum(150000);
+    setIsValid(true);
+  };
+
   // Switch frequency: converts amount smoothly
   const handleFrequencyChange = (newFreq: SalaryFrequency) => {
     if (newFreq !== frequency && salaryNum > 0) {
@@ -180,6 +188,11 @@ export default function SalaryTaxCalculatorPage() {
     </div>
   );
 
+  const footnoteText =
+    taxYear === "2026-27"
+      ? "Calculations follow Finance Act 2026 progressive slabs. Salaried surcharge is 0% in TY2027."
+      : "Calculations follow Finance Act 2025 progressive slabs. Surcharge is 9% of tax on income exceeding Rs 10M under Section 4AB.";
+
   const resultPanel = (
     <ResultPanel
       title={`Salary Tax (${taxYear.replace("-", "\u2011")})`}
@@ -204,25 +217,42 @@ export default function SalaryTaxCalculatorPage() {
       copySummaryText={copySummaryText}
       isEmpty={isBlank || !isValid || !result}
       emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
-      footnote="Calculations follow Finance Act 2026 progressive slabs. Salaried surcharge is 0% in TY2027."
+      footnote={footnoteText}
+      onReset={handleReset}
     />
+  );
+
+  const hasDecimal = result ? (result.monthlySalary % 1 !== 0 || result.annualSalary % 1 !== 0) : false;
+  const roundingNote = hasDecimal ? " (rounded to whole rupees for the result)" : "";
+
+  const is26 = taxYear === "2026-27";
+  const refEn = is26 ? (
+    <p>
+      <strong>Law:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. First Rs 600,000 annual (Rs 50,000/month) is 0%. Salaried surcharge is 0% in TY2027.
+    </p>
+  ) : (
+    <p>
+      <strong>Law:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2025, FBR Withholding Tax Rate Card TY2026. First Rs 600,000 annual (Rs 50,000/month) is 0%. Salaried surcharge in TY2026 is 9% of tax on income exceeding Rs 10,000,000 (Section 4AB).
+    </p>
+  );
+
+  const refRoman = is26 ? (
+    <p>
+      <strong>Qanoon:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. Pehla Rs 600,000 salana (Rs 50,000/mahana) 0% hai. Salaried surcharge TY2027 mein 0% hai.
+    </p>
+  ) : (
+    <p>
+      <strong>Qanoon:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2025, FBR Withholding Tax Rate Card TY2026. Pehla Rs 600,000 salana (Rs 50,000/mahana) 0% hai. Salaried surcharge TY2026 mein Rs 10M se zyada aamdani par tax ka 9% hai (Section 4AB).
+    </p>
   );
 
   const explanationBox = result ? (
     <ExplanationBox
       type="tax"
-      romanUrduText={`Aap ne mahana tankhwah Rs ${formatRupees(result.monthlySalary, { prefix: false })} likhi. Is se salana tankhwah Rs ${formatRupees(result.annualSalary, { prefix: false })} banti hai. Tax Year 2026–27 ke slab ${result.appliedSlabIndex} ke mutabiq: ${result.appliedSlabDescription}. Kul salana tax Rs ${formatRupees(result.annualTax, { prefix: false })} banta hai, jo mahana Rs ${formatRupees(result.monthlyTax, { prefix: false })} hota hai. Is tarah aapki take-home tankhwah Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} mahana banti hai.`}
-      englishText={`You entered a monthly salary of Rs ${formatRupees(result.monthlySalary, { prefix: false })}. That makes an annual salary of Rs ${formatRupees(result.annualSalary, { prefix: false })}. Under Tax Year 2026–27 slab ${result.appliedSlabIndex}: ${result.appliedSlabDescription}. Total annual tax is Rs ${formatRupees(result.annualTax, { prefix: false })}, which is Rs ${formatRupees(result.monthlyTax, { prefix: false })} per month. Your take-home salary is therefore Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} per month.`}
-      referenceContentEn={
-        <p>
-          <strong>Law:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. First Rs 600,000 annual (Rs 50,000/month) is 0%. Salaried surcharge is 0% in TY2027.
-        </p>
-      }
-      referenceContentRoman={
-        <p>
-          <strong>Qanoon:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. Pehla Rs 600,000 salana (Rs 50,000/mahana) 0% hai. Salaried surcharge TY2027 mein 0% hai.
-        </p>
-      }
+      romanUrduText={`Aap ne mahana tankhwah Rs ${formatRupees(result.monthlySalary, { prefix: false, showPaisaIfDecimal: true })} likhi. Is se salana tankhwah Rs ${formatRupees(result.annualSalary, { prefix: false, showPaisaIfDecimal: true })} banti hai. Tax Year ${taxYear} ke slab ${result.appliedSlabIndex} ke mutabiq: ${result.appliedSlabDescription}. Kul salana tax Rs ${formatRupees(result.annualTax, { prefix: false })}${roundingNote} banta hai, jo mahana Rs ${formatRupees(result.monthlyTax, { prefix: false })} hota hai. Is tarah aapki take-home tankhwah Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} mahana banti hai.`}
+      englishText={`You entered a monthly salary of Rs ${formatRupees(result.monthlySalary, { prefix: false, showPaisaIfDecimal: true })}. That makes an annual salary of Rs ${formatRupees(result.annualSalary, { prefix: false, showPaisaIfDecimal: true })}. Under Tax Year ${taxYear} slab ${result.appliedSlabIndex}: ${result.appliedSlabDescription}. Total annual tax is Rs ${formatRupees(result.annualTax, { prefix: false })}${roundingNote}, which is Rs ${formatRupees(result.monthlyTax, { prefix: false })} per month. Your take-home salary is therefore Rs ${formatRupees(result.monthlyTakeHome, { prefix: false })} per month.`}
+      referenceContentEn={refEn}
+      referenceContentRoman={refRoman}
     />
   ) : null;
 
@@ -237,9 +267,21 @@ export default function SalaryTaxCalculatorPage() {
     />
   ) : null;
 
+  const dynamicContent = {
+    ...content,
+    workedExample: {
+      ...content.workedExample,
+      title:
+        taxYear === "2025-26"
+          ? "Worked Example: Monthly Salary of Rs 150,000 (Annual: Rs 1,800,000) [Tax Year 2025-26]"
+          : "Worked Example: Monthly Salary of Rs 150,000 (Annual: Rs 1,800,000)",
+      description: `How FBR computes your tax slab by slab for Tax Year ${taxYear}:`,
+    },
+  };
+
   return (
     <CalculatorShell
-      content={content}
+      content={dynamicContent}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}
       explanationBox={explanationBox}

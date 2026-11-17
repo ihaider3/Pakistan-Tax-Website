@@ -8,8 +8,8 @@ import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
 import ExplanationBox from "@/components/ExplanationBox";
 import BreakdownTable, { BreakdownColumn, BreakdownRow } from "@/components/BreakdownTable";
 import { calculatorPages } from "@/content/pages";
-import { calculateZakat, ZakatCalculationResult } from "@/lib/calc/zakat";
-import { formatRupees } from "@/lib/calc/money";
+import { calculateZakat, ZakatCalculationResult, GoldPurity, GOLD_PURITY_CONFIG } from "@/lib/calc/zakat";
+import { formatRupees, roundToPaisa } from "@/lib/calc/money";
 import { zakatRates } from "@/lib/rates/zakat";
 import { useExplanationLang } from "@/components/LanguageContext";
 import ratesData from "@/data/rates.json";
@@ -20,7 +20,8 @@ export default function ZakatCalculatorPage() {
   const content = calculatorPages.zakat;
   const { lang } = useExplanationLang();
 
-  // Step 2 & 3 Collapsible visibility — expanded by default on mobile (<768px), collapsed on desktop
+  // Step Collapsible visibility — Step 1 open by default; Step 2 & 3 open by default on mobile (<768px), collapsed on desktop
+  const [step1Open, setStep1Open] = useState<boolean>(true);
   const [step2Open, setStep2Open] = useState<boolean>(false);
   const [step3Open, setStep3Open] = useState<boolean>(false);
 
@@ -41,13 +42,14 @@ export default function ZakatCalculatorPage() {
   const [goldUnit, setGoldUnit] = useState<MetalUnit>("tola");
   const [goldQtyRaw, setGoldQtyRaw] = useState<string>("0");
   const [goldQtyNum, setGoldQtyNum] = useState<number>(0);
-  const [goldRateRaw, setGoldRateRaw] = useState<string>(ratesData.goldPerTolaPKR.toLocaleString());
+  const [goldPurity, setGoldPurity] = useState<GoldPurity>("24k");
+  const [goldRateRaw, setGoldRateRaw] = useState<string>(ratesData.goldPerTolaPKR.toFixed(2));
   const [goldRateNum, setGoldRateNum] = useState<number>(ratesData.goldPerTolaPKR);
 
   const [silverUnit, setSilverUnit] = useState<MetalUnit>("tola");
   const [silverQtyRaw, setSilverQtyRaw] = useState<string>("0");
   const [silverQtyNum, setSilverQtyNum] = useState<number>(0);
-  const [silverRateRaw, setSilverRateRaw] = useState<string>(ratesData.silverPerTolaPKR.toLocaleString());
+  const [silverRateRaw, setSilverRateRaw] = useState<string>(ratesData.silverPerTolaPKR.toFixed(2));
   const [silverRateNum, setSilverRateNum] = useState<number>(ratesData.silverPerTolaPKR);
 
   const [businessRaw, setBusinessRaw] = useState<string>("0");
@@ -61,6 +63,35 @@ export default function ZakatCalculatorPage() {
 
   const [alreadyPaidRaw, setAlreadyPaidRaw] = useState<string>("0");
   const [alreadyPaidNum, setAlreadyPaidNum] = useState<number>(0);
+
+  const handleReset = () => {
+    setCashRaw("0");
+    setCashNum(0);
+    setBankRaw("0");
+    setBankNum(0);
+    setGoldUnit("tola");
+    setGoldQtyRaw("0");
+    setGoldQtyNum(0);
+    setGoldPurity("24k");
+    setGoldRateRaw(ratesData.goldPerTolaPKR.toFixed(2));
+    setGoldRateNum(ratesData.goldPerTolaPKR);
+    setSilverUnit("tola");
+    setSilverQtyRaw("0");
+    setSilverQtyNum(0);
+    setSilverRateRaw(ratesData.silverPerTolaPKR.toFixed(2));
+    setSilverRateNum(ratesData.silverPerTolaPKR);
+    setBusinessRaw("0");
+    setBusinessNum(0);
+    setInvestmentsRaw("0");
+    setInvestmentsNum(0);
+    setDebtsRaw("0");
+    setDebtsNum(0);
+    setAlreadyPaidRaw("0");
+    setAlreadyPaidNum(0);
+    setStep1Open(true);
+    setStep2Open(false);
+    setStep3Open(false);
+  };
 
   const isStale = React.useMemo(() => {
     try {
@@ -77,17 +108,16 @@ export default function ZakatCalculatorPage() {
   ];
 
   // Perform live calculation
-  const isDefaultSilverRate = silverRateNum === ratesData.silverPerTolaPKR;
   const result: ZakatCalculationResult = calculateZakat({
     cashInHand: cashNum,
     bankSavings: bankNum,
     goldUnit,
     goldQuantity: goldQtyNum,
     goldRatePerTola: goldRateNum,
+    goldPurity,
     silverUnit,
     silverQuantity: silverQtyNum,
     silverRatePerTola: silverRateNum,
-    customSilverNisab: isDefaultSilverRate ? ratesData.nisabSilverPKR : undefined,
     businessStock: businessNum,
     investments: investmentsNum,
     debtsToDeduct: debtsNum,
@@ -189,32 +219,39 @@ export default function ZakatCalculatorPage() {
             <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold">1</span>
             <span>Step 1: Cash &amp; Bank</span>
           </h3>
-          <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-            Open
-          </span>
+          <button
+            type="button"
+            onClick={() => setStep1Open(!step1Open)}
+            className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors"
+          >
+            <span>{step1Open ? "Collapse" : "Expand"}</span>
+            <span>{step1Open ? "▲" : "▼"}</span>
+          </button>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <MoneyInput
-            id="cash-input"
-            label="Cash in Hand — Naqad raqam"
-            value={cashRaw}
-            onChange={(r, v) => {
-              setCashRaw(r);
-              setCashNum(v);
-            }}
-            placeholder="0"
-          />
-          <MoneyInput
-            id="bank-input"
-            label="Bank Savings / Deposits — Bank balance"
-            value={bankRaw}
-            onChange={(r, v) => {
-              setBankRaw(r);
-              setBankNum(v);
-            }}
-            placeholder="0"
-          />
-        </div>
+        {step1Open && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in fade-in duration-200">
+            <MoneyInput
+              id="cash-input"
+              label="Cash in Hand — Naqad raqam"
+              value={cashRaw}
+              onChange={(r, v) => {
+                setCashRaw(r);
+                setCashNum(v);
+              }}
+              placeholder="0"
+            />
+            <MoneyInput
+              id="bank-input"
+              label="Bank Savings / Deposits — Bank balance"
+              value={bankRaw}
+              onChange={(r, v) => {
+                setBankRaw(r);
+                setBankNum(v);
+              }}
+              placeholder="0"
+            />
+          </div>
+        )}
       </div>
 
       {/* =========================================================================
@@ -231,7 +268,7 @@ export default function ZakatCalculatorPage() {
             onClick={() => setStep2Open(!step2Open)}
             className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors"
           >
-            <span>{step2Open ? "Collapse Step 2" : "+ Add Gold / Silver"}</span>
+            <span>{step2Open ? "Collapse" : "Expand"}</span>
             <span>{step2Open ? "▲" : "▼"}</span>
           </button>
         </div>
@@ -239,7 +276,7 @@ export default function ZakatCalculatorPage() {
         {step2Open ? (
           <div className="bg-white p-4 rounded-xl border border-slate-200 space-y-5 animate-in fade-in duration-200">
             {/* Gold Input */}
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5 items-end">
                 <div className="sm:col-span-4">
                   <label htmlFor="gold-quantity" className="block text-xs font-bold text-primary mb-1.5">
@@ -316,15 +353,60 @@ export default function ZakatCalculatorPage() {
                       setGoldRateNum(parseFloat(cleaned) || 0);
                     }}
                     className="w-full px-3.5 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
-                    placeholder="e.g. 400,000"
+                    placeholder={`e.g. ${ratesData.goldPerTolaPKR.toFixed(2)}`}
                   />
                 </div>
               </div>
+
+              {/* Gold Purity Selector (Fix 4) */}
+              <div className="space-y-1.5 pt-1">
+                <label className="block text-xs font-bold text-primary">
+                  Gold Purity — Sone ki Purity (Karat)
+                </label>
+                <div
+                  role="radiogroup"
+                  aria-label="Gold Purity"
+                  className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-100/90 p-1.5 rounded-xl border border-slate-200/90 shadow-inner-soft"
+                >
+                  {(
+                    [
+                      { value: "24k", label: "24K (100%)" },
+                      { value: "22k", label: "22K (91.67%)" },
+                      { value: "21k", label: "21K (87.5%)" },
+                      { value: "18k", label: "18K (75%)" },
+                    ] as const
+                  ).map((p) => {
+                    const isSelected = goldPurity === p.value;
+                    return (
+                      <button
+                        key={p.value}
+                        type="button"
+                        role="radio"
+                        aria-checked={isSelected}
+                        onClick={() => setGoldPurity(p.value)}
+                        className={`min-h-[40px] px-3 py-1.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-150 flex items-center justify-center text-center cursor-pointer ${
+                          isSelected
+                            ? "bg-primary text-white shadow-sm scale-[1.01]"
+                            : "text-slate-600 hover:text-primary hover:bg-white/80"
+                        }`}
+                      >
+                        <span>{p.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+                <p className="text-[11px] text-appText-muted font-medium">
+                  {lang === "roman"
+                    ? "22K/21K jewellery Pakistan mein aam hai — apni zewar par likhi hui purity muntakhib karein."
+                    : "22K/21K jewellery is common in Pakistan — select the purity stamped on your jewellery."}
+                </p>
+              </div>
+
               <div className="text-[11px] text-amber-900 font-medium bg-amber-50/90 p-2.5 rounded-lg border border-amber-200/80">
                 <p>
                   {lang === "roman"
-                    ? `Live rate — updated ${ratesData.lastUpdatedLabel}. Ye international spot price se hisab hai — Sarafa official rate se thoda farq ho sakta hai.`
-                    : `Live rate — updated ${ratesData.lastUpdatedLabel}. This is calculated from the international spot price — it may differ slightly from the Sarafa official rate.`}
+                    ? `Live rate — updated ${ratesData.lastUpdatedLabel}. Gold: Rs ${ratesData.goldPerTolaPKR.toFixed(2)}/tola. Ye international spot price se hisab hai — Sarafa official rate se thoda farq ho sakta hai.`
+                    : `Live rate — updated ${ratesData.lastUpdatedLabel}. Gold: Rs ${ratesData.goldPerTolaPKR.toFixed(2)}/tola. Calculated from international spot price — may differ slightly from Sarafa official rate.`}
                 </p>
               </div>
             </div>
@@ -407,22 +489,22 @@ export default function ZakatCalculatorPage() {
                       setSilverRateNum(parseFloat(cleaned) || 0);
                     }}
                     className="w-full px-3.5 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
-                    placeholder="e.g. 5,500"
+                    placeholder={`e.g. ${ratesData.silverPerTolaPKR.toFixed(2)}`}
                   />
                 </div>
               </div>
               <div className="text-[11px] text-amber-900 font-medium bg-amber-50/90 p-2.5 rounded-lg border border-amber-200/80">
                 <p>
                   {lang === "roman"
-                    ? `Live rate — updated ${ratesData.lastUpdatedLabel}. Ye international spot price se hisab hai — Sarafa official rate se thoda farq ho sakta hai.`
-                    : `Live rate — updated ${ratesData.lastUpdatedLabel}. This is calculated from the international spot price — it may differ slightly from the Sarafa official rate.`}
+                    ? `Live rate — updated ${ratesData.lastUpdatedLabel}. Silver: Rs ${ratesData.silverPerTolaPKR.toFixed(2)}/tola. Ye international spot price se hisab hai — Sarafa official rate se thoda farq ho sakta hai.`
+                    : `Live rate — updated ${ratesData.lastUpdatedLabel}. Silver: Rs ${ratesData.silverPerTolaPKR.toFixed(2)}/tola. Calculated from international spot price — may differ slightly from Sarafa official rate.`}
                 </p>
               </div>
             </div>
           </div>
         ) : (
           <p className="text-xs text-slate-500 font-medium">
-            {"Optional: Click \"+ Add Gold / Silver\" to declare jewellery, bars, or coins. (Current: " + goldQtyNum + " " + goldUnit + " gold, " + silverQtyNum + " " + silverUnit + " silver, 2.5% Zakat Rate, 52.5 tola silver nisab)."}
+            {"Optional: Click \"Expand\" to declare jewellery, bars, or coins. (Current: " + goldQtyNum + " " + goldUnit + " gold, " + silverQtyNum + " " + silverUnit + " silver, 2.5% Zakat Rate, 52.5 tola silver nisab)."}
           </p>
         )}
       </div>
@@ -441,7 +523,7 @@ export default function ZakatCalculatorPage() {
             onClick={() => setStep3Open(!step3Open)}
             className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors"
           >
-            <span>{step3Open ? "Collapse Step 3" : "+ Add Business & Debts"}</span>
+            <span>{step3Open ? "Collapse" : "Expand"}</span>
             <span>{step3Open ? "▲" : "▼"}</span>
           </button>
         </div>
@@ -521,6 +603,7 @@ export default function ZakatCalculatorPage() {
         isEmpty={!hasAnyInput}
         emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
         footnote={zakatRates.disclaimerText}
+        onReset={handleReset}
       />
 
       {/* Live Rate Timestamp / 48-Hour Stale Warning */}
@@ -541,6 +624,8 @@ export default function ZakatCalculatorPage() {
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>
               <strong className="text-slate-800">Rates updated:</strong> {ratesData.lastUpdatedLabel}
+              <span className="mx-1.5 text-slate-400">•</span>
+              <strong className="text-slate-800">Last checked:</strong> {ratesData.lastCheckedLabel || ratesData.lastUpdatedLabel}
             </span>
           </span>
           <span className="text-[11px] text-slate-500 font-medium">
@@ -555,11 +640,31 @@ export default function ZakatCalculatorPage() {
   const nisabLabelEn = result.nisabUsed === "gold" ? "gold, 7.5 tola" : "silver, 52.5 tola";
   const nisabLabelRoman = result.nisabUsed === "gold" ? "sona, 7.5 tola" : "chandi, 52.5 tola";
 
+  const purityInfo = GOLD_PURITY_CONFIG[goldPurity] || GOLD_PURITY_CONFIG["24k"];
+  const goldValuationRoman =
+    goldQtyNum > 0
+      ? ` Sona: ${goldQtyNum} ${goldUnit} ${purityInfo.karat}K @ Rs ${goldRateNum.toFixed(2)}/tola${goldPurity !== "24k" ? ` × ${purityInfo.percent}` : ""} = Rs ${formatRupees(result.goldValue, { prefix: false })}.`
+      : "";
+  const goldValuationEn =
+    goldQtyNum > 0
+      ? ` Gold: ${goldQtyNum} ${goldUnit} ${purityInfo.karat}K @ Rs ${goldRateNum.toFixed(2)}/tola${goldPurity !== "24k" ? ` × ${purityInfo.percent}` : ""} = Rs ${formatRupees(result.goldValue, { prefix: false })}.`
+      : "";
+
+  const nisabCalcNoteRoman =
+    result.nisabUsed === "silver"
+      ? ` (52.5 tola chandi @ Rs ${silverRateNum.toFixed(2)}/tola = Rs ${formatRupees(result.nisabThreshold, { prefix: false })})`
+      : ` (7.5 tola sona @ Rs ${goldRateNum.toFixed(2)}/tola = Rs ${formatRupees(result.nisabThreshold, { prefix: false })})`;
+
+  const nisabCalcNoteEn =
+    result.nisabUsed === "silver"
+      ? ` (52.5 tola silver @ Rs ${silverRateNum.toFixed(2)}/tola = Rs ${formatRupees(result.nisabThreshold, { prefix: false })})`
+      : ` (7.5 tola gold @ Rs ${goldRateNum.toFixed(2)}/tola = Rs ${formatRupees(result.nisabThreshold, { prefix: false })})`;
+
   const explanationBox = (
     <ExplanationBox
       type="islamic"
-      romanUrduText={`Aapke kul zakatable assets Rs ${formatRupees(result.totalGrossWealth, { prefix: false })} hain. Aapki eligible deductions (qarz) Rs ${formatRupees(result.totalDebts, { prefix: false })} hain. Is tarah aapki net zakatable wealth Rs ${formatRupees(result.netZakatableWealth, { prefix: false })} banti hai. Nisab (${nisabLabelRoman}) aaj ke rate par Rs ${formatRupees(result.nisabThreshold, { prefix: false })} hai. ${isAbove ? "Aapki wealth nisab se zyada hai, is liye Zakat farz hai." : "Aapki wealth nisab se kam hai, is liye is waqt Zakat farz nahi hai."} 2.5% ke hisab se aapki Zakat Rs ${formatRupees(result.zakatDue, { prefix: false })} banti hai.`}
-      englishText={`Your total zakatable assets are Rs ${formatRupees(result.totalGrossWealth, { prefix: false })}. Your eligible deductions (debts) are Rs ${formatRupees(result.totalDebts, { prefix: false })}, giving net zakatable wealth of Rs ${formatRupees(result.netZakatableWealth, { prefix: false })}. The nisab (${nisabLabelEn}) at today's rate is Rs ${formatRupees(result.nisabThreshold, { prefix: false })}. ${isAbove ? "Your wealth is above the nisab, so Zakat is due." : "Your wealth is below the nisab, so no Zakat is due right now."} At 2.5%, your Zakat due is Rs ${formatRupees(result.zakatDue, { prefix: false })}.`}
+      romanUrduText={`Aapke kul zakatable assets Rs ${formatRupees(result.totalGrossWealth, { prefix: false })} hain.${goldValuationRoman} Aapki eligible deductions (qarz) Rs ${formatRupees(result.totalDebts, { prefix: false })} hain. Is tarah aapki net zakatable wealth Rs ${formatRupees(result.netZakatableWealth, { prefix: false })} banti hai. Nisab (${nisabLabelRoman}) aaj ke rate par Rs ${formatRupees(result.nisabThreshold, { prefix: false })}${nisabCalcNoteRoman} hai. ${isAbove ? "Aapki wealth nisab se zyada hai, is liye Zakat farz hai." : "Aapki wealth nisab se kam hai, is liye is waqt Zakat farz nahi hai."} 2.5% ke hisab se aapki Zakat Rs ${formatRupees(result.zakatDue, { prefix: false })} banti hai.`}
+      englishText={`Your total zakatable assets are Rs ${formatRupees(result.totalGrossWealth, { prefix: false })}.${goldValuationEn} Your eligible deductions (debts) are Rs ${formatRupees(result.totalDebts, { prefix: false })}, giving net zakatable wealth of Rs ${formatRupees(result.netZakatableWealth, { prefix: false })}. The nisab (${nisabLabelEn}) at today's rate is Rs ${formatRupees(result.nisabThreshold, { prefix: false })}${nisabCalcNoteEn}. ${isAbove ? "Your wealth is above the nisab, so Zakat is due." : "Your wealth is below the nisab, so no Zakat is due right now."} At 2.5%, your Zakat due is Rs ${formatRupees(result.zakatDue, { prefix: false })}.`}
       extraBullets={[
         {
           en: "Zakat is due from every adult Muslim who owns wealth at or above nisab for one full lunar year (Hawl).",
@@ -606,9 +711,38 @@ export default function ZakatCalculatorPage() {
     />
   ) : null;
 
+  const exampleGoldVal = roundToPaisa(2 * goldRateNum);
+  const exampleGrossVal = roundToPaisa(500000 + exampleGoldVal);
+  const exampleNetVal = roundToPaisa(exampleGrossVal - 100000);
+  const exampleNisabVal = Math.round(52.5 * silverRateNum);
+  const exampleZakatVal = roundToPaisa(exampleNetVal * 0.025);
+
+  const dynamicContent = {
+    ...content,
+    howToUseSteps: [
+      "Enter your cash, bank balances, business trade goods, and investment valuations.",
+      "Rates update automatically every day at 12:00 PKT from the international spot price (gold-api.com + open.er-api.com); the page shows the last update time.",
+      "Add any short-term deductible liabilities/debts to calculate your Net Zakatable Wealth.",
+      "Check whether your net wealth crosses the dynamic Nisab threshold, see Zakat due, and subtract any Zakat already paid.",
+    ],
+    workedExample: {
+      ...content.workedExample,
+      bulletPoints: [
+        "Cash in Hand + Bank: Rs 500,000",
+        `Gold: 2 tola @ market rate Rs ${goldRateNum.toFixed(2)}/tola = Rs ${formatRupees(exampleGoldVal, { prefix: false })}`,
+        `Gross Zakatable Assets = Rs ${formatRupees(exampleGrossVal, { prefix: false })}`,
+        "Less Debts to Deduct = Rs 100,000",
+        `Net Zakatable Wealth = Rs ${formatRupees(exampleNetVal, { prefix: false })}`,
+        `Silver Nisab Threshold (52.5 tola @ Rs ${silverRateNum.toFixed(2)}/tola) = Rs ${formatRupees(exampleNisabVal, { prefix: false })}`,
+        `Status: Zakat Due (Net Wealth Rs ${formatRupees(exampleNetVal, { prefix: false })} exceeds Nisab Rs ${formatRupees(exampleNisabVal, { prefix: false })})`,
+        `Zakat Due (2.5%) = Rs ${formatRupees(exampleNetVal, { prefix: false })} × 0.025 = Rs ${formatRupees(exampleZakatVal, { prefix: false })}`,
+      ],
+    },
+  };
+
   return (
     <CalculatorShell
-      content={content}
+      content={dynamicContent}
       customTopSection={customTopSection}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}

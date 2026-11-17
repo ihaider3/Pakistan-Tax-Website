@@ -26,6 +26,14 @@ export default function PropertyTaxCalculatorPage() {
   const [transaction, setTransaction] = useState<PropertyTransactionType>("buy");
   const [filerStatus, setFilerStatus] = useState<FilerStatus>("filer");
 
+  const handleReset = () => {
+    setPropertyValRaw("10000000");
+    setPropertyValNum(10000000);
+    setIsValid(true);
+    setTransaction("buy");
+    setFilerStatus("filer");
+  };
+
   const transactionOptions: ToggleOption<PropertyTransactionType>[] = [
     { value: "buy", label: "Buy Property (Section 236K)", badge: "Buyer" },
     { value: "sell", label: "Sell Property (Section 236C)", badge: "Seller" },
@@ -217,6 +225,7 @@ export default function PropertyTaxCalculatorPage() {
       isEmpty={isBlank || !isValid || !result}
       emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
       footnote="Finance Act 2026. Late-filer category was abolished in TY2027. Filers can adjust this advance tax in their annual return."
+      onReset={handleReset}
     />
   );
 
@@ -231,15 +240,17 @@ export default function PropertyTaxCalculatorPage() {
   const buyerOrSellerRoman = isBuy ? "kharidar" : "farokht kaninda";
   const filerOrNonFiler = isFiler ? "filer" : "non-filer";
 
+  const propFormatted = result ? formatRupees(result.propertyValue, { prefix: false, showPaisaIfDecimal: true }) : "0";
+
   const explanationBox = result ? (
     <ExplanationBox
       type="tax"
-      romanUrduText={`Property ki qeemat Rs ${formatRupees(result.propertyValue, { prefix: false })} hai. Aap ${buyerOrSellerRoman} hain aur aapki category ${filerOrNonFiler} hai. Section ${result.sectionCode} ke mutabiq ${rateClean}% ki sharah lagti hai. Is tarah withholding tax Rs ${formatRupees(result.taxAmount, { prefix: false })} banta hai. ${
+      romanUrduText={`Property ki qeemat Rs ${propFormatted} hai. Aap ${buyerOrSellerRoman} hain aur aapki category ${filerOrNonFiler} hai. Section ${result.sectionCode} ke mutabiq ${rateClean}% ki sharah lagti hai. Is tarah withholding tax Rs ${formatRupees(result.taxAmount, { prefix: false })} banta hai. ${
         isFiler
           ? `Non-filer hone par yehi tax Rs ${formatRupees(result.oppositeFilerTax, { prefix: false })} banta — filer hone se aapko Rs ${formatRupees(result.savingsVsNonFiler, { prefix: false })} ki bachat hui.`
           : `Filer hone par yehi tax sirf Rs ${formatRupees(result.oppositeFilerTax, { prefix: false })} banta.`
       }`}
-      englishText={`The property value is Rs ${formatRupees(result.propertyValue, { prefix: false })}. You are the ${buyerOrSellerEn} and your category is ${filerOrNonFiler}. Under Section ${result.sectionCode} a rate of ${rateClean}% applies. The withholding tax is therefore Rs ${formatRupees(result.taxAmount, { prefix: false })}. ${
+      englishText={`The property value is Rs ${propFormatted}. You are the ${buyerOrSellerEn} and your category is ${filerOrNonFiler}. Under Section ${result.sectionCode} a rate of ${rateClean}% applies. The withholding tax is therefore Rs ${formatRupees(result.taxAmount, { prefix: false })}. ${
         isFiler
           ? `As a non-filer this same tax would be Rs ${formatRupees(result.oppositeFilerTax, { prefix: false })} — being a filer saves you Rs ${formatRupees(result.savingsVsNonFiler, { prefix: false })}.`
           : `As a filer this same tax would be only Rs ${formatRupees(result.oppositeFilerTax, { prefix: false })}.`

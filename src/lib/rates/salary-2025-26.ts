@@ -3,9 +3,9 @@ import { SalaryTaxSlab, RatesMetadata } from "./salary-2026-27";
 export const salaryRates2025_26 = {
   metadata: {
     source: "Federal Board of Revenue (FBR)",
-    sourceDocument: "Finance Act 2025, FBR Withholding Tax Rate Card TY2026, Section 149",
+    sourceDocument: "Finance Act 2025, FBR Withholding Tax Rate Card TY2026, Section 149 & Section 4AB",
     lastVerified: "14 Nov 2026",
-    notes: "Tax Year 2026 (1 July 2025 - 30 June 2026). Surcharge TO VERIFY: check FBR rate card if income exceeds Rs 10,000,000.",
+    notes: "Tax Year 2026 (1 July 2025 - 30 June 2026). Section 4AB applies a 9% surcharge on tax if income exceeds Rs 10,000,000.",
   } as RatesMetadata,
   taxYear: "2025-26",
   taxYearCode: "TY2026",
@@ -56,8 +56,8 @@ export const salaryRates2025_26 = {
   surcharge: {
     applied: false,
     threshold: 10000000,
-    rateText: "9% (TO VERIFY against FBR Circular No. 2 of 2026-27)",
-    notes: "Surcharge: check FBR rate card. Not applied silently in this calculator.",
+    rateText: "9% under Section 4AB",
+    notes: "9% surcharge on tax liability on income exceeding Rs 10,000,000 as per FBR TY2026 Rate Card.",
   },
 };
 

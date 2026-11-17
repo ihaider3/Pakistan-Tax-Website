@@ -53,7 +53,7 @@ export default function CalculatorShell({
   };
 
   return (
-    <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 py-6 sm:py-10 space-y-8 sm:space-y-12">
+    <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 pt-6 pb-28 sm:py-10 space-y-8 sm:space-y-12">
       {/* =========================================================================
           HERO & HEADER BLOCK: Badge, H1, Trimmed/Full Intro & "Calculate Now ↓"
          ========================================================================= */}
@@ -72,8 +72,8 @@ export default function CalculatorShell({
             {content.intro}
           </p>
 
-          {/* Mobile trimmed intro line (max 2 lines) */}
-          <p className="md:hidden text-xs sm:text-sm text-appText-muted line-clamp-2 leading-relaxed font-normal">
+          {/* Mobile full intro paragraph (no line-clamp) */}
+          <p className="md:hidden text-xs sm:text-sm text-appText-muted leading-relaxed font-normal">
             {content.intro}
           </p>
         </div>

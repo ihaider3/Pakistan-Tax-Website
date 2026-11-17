@@ -158,7 +158,8 @@ describe("Salary Tax Calculator TY2027 (Finance Act 2026)", () => {
   it("attaches surcharge verification note for TY2026 when income > 10M", () => {
     const res = calculateSalaryTax(12000000, "annual", "2025-26");
     expect(res.surchargeNote).toBeDefined();
-    expect(res.surchargeNote).toContain("Surcharge: check FBR rate card");
+    expect(res.surchargeNote).toContain("9% surcharge");
+    expect(res.surchargeNote).toContain("Section 4AB");
   });
 
   // Test 22: Breakdown array length and contents

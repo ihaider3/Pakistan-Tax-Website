@@ -21,7 +21,13 @@ async function fetchWithRetry(url, name, retries = 3, timeoutMs = 15000) {
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       console.log(`[Fetch] Fetching ${name} from ${url} (attempt ${attempt}/${retries})...`);
-      const res = await fetch(url, { signal: AbortSignal.timeout(timeoutMs) });
+      const res = await fetch(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'application/json',
+        },
+        signal: AbortSignal.timeout(timeoutMs),
+      });
       if (!res.ok) {
         throw new Error(`HTTP ${res.status} ${res.statusText}`);
       }
@@ -99,17 +105,19 @@ async function updateRates() {
     throw new Error(`Validation Error: USD/PKR (Rs ${usdPkr}) outside expected range [200, 350].`);
   }
 
-  // 4. Mathematical Calculations
-  const goldPerTolaPKR = Math.round(xauUsd * usdPkr * TOLA_TO_TROY_OUNCES);
-  const silverPerTolaPKR = Math.round(xagUsd * usdPkr * TOLA_TO_TROY_OUNCES);
-  const goldPerGramPKR = Math.round((xauUsd * usdPkr) / TROY_OUNCE_TO_GRAMS);
-  const silverPerGramPKR = Math.round((xagUsd * usdPkr) / TROY_OUNCE_TO_GRAMS);
-  const nisabGoldPKR = Math.round(NISAB_GOLD_GRAMS * ((xauUsd * usdPkr) / TROY_OUNCE_TO_GRAMS));
-  const nisabSilverPKR = Math.round(NISAB_SILVER_GRAMS * ((xagUsd * usdPkr) / TROY_OUNCE_TO_GRAMS));
+  // 4. Mathematical Calculations (2 decimal places for per-tola rates to ensure exact Nisab reconciliation)
+  const goldPerTolaPKR = Number((xauUsd * usdPkr * TOLA_TO_TROY_OUNCES).toFixed(2));
+  const silverPerTolaPKR = Number((xagUsd * usdPkr * TOLA_TO_TROY_OUNCES).toFixed(2));
+  const goldPerGramPKR = Number(((xauUsd * usdPkr) / TROY_OUNCE_TO_GRAMS).toFixed(2));
+  const silverPerGramPKR = Number(((xagUsd * usdPkr) / TROY_OUNCE_TO_GRAMS).toFixed(2));
+  
+  // Nisab is computed directly from displayed rates so 52.5 * silverRate = silverNisab and 7.5 * goldRate = goldNisab to the rupee
+  const nisabGoldPKR = Math.round(7.5 * goldPerTolaPKR);
+  const nisabSilverPKR = Math.round(52.5 * silverPerTolaPKR);
 
-  console.log(`[Computed] Gold/tola: Rs ${goldPerTolaPKR}, Silver/tola: Rs ${silverPerTolaPKR}`);
-  console.log(`[Computed] Gold/gram: Rs ${goldPerGramPKR}, Silver/gram: Rs ${silverPerGramPKR}`);
-  console.log(`[Computed] Nisab Gold: Rs ${nisabGoldPKR}, Nisab Silver: Rs ${nisabSilverPKR}`);
+  console.log(`[Computed] Gold/tola: Rs ${goldPerTolaPKR.toFixed(2)}, Silver/tola: Rs ${silverPerTolaPKR.toFixed(2)}`);
+  console.log(`[Computed] Gold/gram: Rs ${goldPerGramPKR.toFixed(2)}, Silver/gram: Rs ${silverPerGramPKR.toFixed(2)}`);
+  console.log(`[Computed] Nisab Gold (7.5 tola): Rs ${nisabGoldPKR}, Nisab Silver (52.5 tola): Rs ${nisabSilverPKR}`);
 
   // 5. Tola threshold validations
   if (goldPerTolaPKR < 250000 || goldPerTolaPKR > 600000) {
@@ -120,9 +128,11 @@ async function updateRates() {
   }
 
   // 6. Max 10% daily jump validation against previous rates.json
+  let previousRates = null;
   if (fs.existsSync(RATES_FILE)) {
     try {
       const existing = JSON.parse(fs.readFileSync(RATES_FILE, 'utf8'));
+      previousRates = existing;
       if (existing && typeof existing.goldPerTolaPKR === 'number') {
         const jump = Math.abs(goldPerTolaPKR - existing.goldPerTolaPKR) / existing.goldPerTolaPKR;
         console.log(`[Validation] Gold per tola jump vs previous: ${(jump * 100).toFixed(2)}% (limit: 10%)`);
@@ -138,8 +148,18 @@ async function updateRates() {
     }
   }
 
-  // 7. Write new rates.json
-  const { lastUpdated, lastUpdatedLabel } = getPKTDateTime();
+  // 7. Write new rates.json (Always write lastChecked timestamp)
+  const { lastUpdated: currentTimestamp, lastUpdatedLabel: currentLabel } = getPKTDateTime();
+
+  const ratesChanged =
+    !previousRates ||
+    previousRates.goldPerTolaPKR !== goldPerTolaPKR ||
+    previousRates.silverPerTolaPKR !== silverPerTolaPKR;
+
+  const lastUpdated = ratesChanged ? currentTimestamp : (previousRates.lastUpdated || currentTimestamp);
+  const lastUpdatedLabel = ratesChanged ? currentLabel : (previousRates.lastUpdatedLabel || currentLabel);
+  const lastChecked = currentTimestamp;
+  const lastCheckedLabel = currentLabel;
 
   const newRates = {
     goldPerTolaPKR,
@@ -154,6 +174,8 @@ async function updateRates() {
     source: 'International spot price (gold-api.com) + USD/PKR (open.er-api.com). NOT the Sarafa official rate.',
     lastUpdated,
     lastUpdatedLabel,
+    lastChecked,
+    lastCheckedLabel,
   };
 
   fs.writeFileSync(RATES_FILE, JSON.stringify(newRates, null, 2) + '\n', 'utf8');

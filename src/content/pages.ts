@@ -135,7 +135,7 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
       "This Zakat calculator works out 2.5% Zakat on your cash, bank balance, gold, silver and business stock. Under Hanafi jurisprudence, Zakat becomes obligatory once your wealth reaches the nisab (the silver nisab of 52.5 tola). It is only due once a full lunar year (hawl) has passed over the wealth.",
     howToUseSteps: [
       "Enter your cash, bank balances, business trade goods, and investment valuations.",
-      "Enter your gold and silver weight in Tola or Grams, and input today's Sarafa market rates per tola.",
+      "Rates update automatically every day at 12:00 PKT from the international spot price (gold-api.com + open.er-api.com); the page shows the last update time.",
       "Add any short-term deductible liabilities/debts to calculate your Net Zakatable Wealth.",
       "Check whether your net wealth crosses the dynamic Nisab threshold, see Zakat due, and subtract any Zakat already paid.",
     ],

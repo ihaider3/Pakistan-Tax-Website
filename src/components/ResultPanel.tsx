@@ -24,6 +24,7 @@ interface ResultPanelProps {
   emptyPrompt?: string;
   footnote?: string;
   className?: string;
+  onReset?: () => void;
 }
 
 export default function ResultPanel({
@@ -38,6 +39,7 @@ export default function ResultPanel({
   emptyPrompt = "Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega.",
   footnote,
   className = "",
+  onReset,
 }: ResultPanelProps) {
   const [copied, setCopied] = useState(false);
 
@@ -163,37 +165,52 @@ export default function ResultPanel({
       {/* Action Buttons & Footnote */}
       <div className="pt-5 border-t border-slate-200/80 space-y-3 mt-4">
         {!isEmpty && (
-          <div className="flex flex-wrap items-center gap-2.5 print:hidden">
+          <div className="flex flex-wrap items-center gap-2 print:hidden">
             <button
               type="button"
               onClick={handleCopy}
-              className="flex-1 min-h-[46px] px-4 py-2.5 text-sm font-bold rounded-xl bg-gradient-to-r from-primary to-primary-light text-white hover:from-primary-light hover:to-primary active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-primary/20 hover:shadow-lg focus:outline-hidden focus:ring-2 focus:ring-accent"
+              className="flex-1 min-h-[46px] px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl bg-gradient-to-r from-primary to-primary-light text-white hover:from-primary-light hover:to-primary active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2 shadow-md shadow-primary/20 hover:shadow-lg focus:outline-hidden focus:ring-2 focus:ring-accent whitespace-nowrap"
               aria-label="Copy summary to clipboard"
             >
               {copied ? (
                 <>
-                  <svg className="w-4 h-4 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4 text-emerald-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Copied to Clipboard!</span>
+                  <span className="whitespace-nowrap">Copied!</span>
                 </>
               ) : (
                 <>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
-                  <span>Copy Summary</span>
+                  <span className="whitespace-nowrap hidden sm:inline">Copy Summary</span>
+                  <span className="whitespace-nowrap sm:hidden">Copy</span>
                 </>
               )}
             </button>
 
+            {onReset && (
+              <button
+                type="button"
+                onClick={onReset}
+                className="min-h-[46px] px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl border border-slate-200 bg-white text-appText hover:bg-surface hover:text-primary active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-1.5 shadow-xs hover:shadow-md focus:outline-hidden focus:ring-2 focus:ring-accent whitespace-nowrap cursor-pointer"
+                aria-label="Reset calculator inputs to default"
+              >
+                <svg className="w-4 h-4 text-appText-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span>Reset</span>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={handlePrint}
-              className="min-h-[46px] px-4 py-2.5 text-sm font-bold rounded-xl border border-slate-200 bg-white text-appText hover:bg-surface hover:text-primary active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 shadow-xs hover:shadow-md focus:outline-hidden focus:ring-2 focus:ring-accent"
+              className="min-h-[46px] px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl border border-slate-200 bg-white text-appText hover:bg-surface hover:text-primary active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-1.5 shadow-xs hover:shadow-md focus:outline-hidden focus:ring-2 focus:ring-accent whitespace-nowrap cursor-pointer"
               aria-label="Print or save as PDF"
             >
-              <svg className="w-4 h-4 text-appText-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-appText-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
               </svg>
               <span>Print / PDF</span>

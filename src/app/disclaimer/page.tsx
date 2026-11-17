@@ -3,14 +3,14 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/content/pages";
 
 export const metadata: Metadata = {
-  title: "Legal & Religious Disclaimer | Pakistan Finance Calc",
+  title: "Disclaimer | Pakistan Finance Calculators",
   description:
     "Review our official legal and religious disclaimer for Pakistan Finance Calculators. All calculation estimates are provided for general guidance only.",
   alternates: {
     canonical: "https://pak-tax-cal.vercel.app/disclaimer",
   },
   openGraph: {
-    title: "Legal & Religious Disclaimer | Pakistan Finance Calc",
+    title: "Disclaimer | Pakistan Finance Calculators",
     description:
       "Review our official legal and religious disclaimer for Pakistan Finance Calculators. All calculation estimates are provided for general guidance only.",
     url: "https://pak-tax-cal.vercel.app/disclaimer",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Legal & Religious Disclaimer | Pakistan Finance Calc",
+    title: "Disclaimer | Pakistan Finance Calculators",
     description:
       "Review our official legal and religious disclaimer for Pakistan Finance Calculators. All calculation estimates are provided for general guidance only.",
   },

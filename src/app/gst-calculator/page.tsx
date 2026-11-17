@@ -26,15 +26,25 @@ export default function GstCalculatorPage() {
   const [customRateRaw, setCustomRateRaw] = useState<string>("5");
   const [customRateNum, setCustomRateNum] = useState<number>(5);
 
+  const handleReset = () => {
+    setAmountRaw("100000");
+    setAmountNum(100000);
+    setIsValid(true);
+    setMode("add");
+    setRatePreset("18");
+    setCustomRateRaw("5");
+    setCustomRateNum(5);
+  };
+
   const modeOptions: ToggleOption<GstMode>[] = [
     { value: "add", label: "Add GST", badge: "Exclusive" },
     { value: "remove", label: "Remove GST", badge: "Inclusive" },
-    { value: "amount_only", label: "GST Amount Only", badge: "Tax Value" },
+    { value: "amount_only", label: "GST Only", badge: "Tax Value" },
   ];
 
   const rateOptions: ToggleOption<RatePreset>[] = [
-    { value: "18", label: "18% Standard (Goods)", badge: "Federal" },
-    { value: "custom", label: "Custom Rate %", badge: "Services/Special" },
+    { value: "18", label: "18% Standard", badge: "Federal" },
+    { value: "custom", label: "Custom Rate", badge: "Services/Special" },
   ];
 
   const effectiveRate = ratePreset === "18" ? 18 : customRateNum;
@@ -70,10 +80,10 @@ export default function GstCalculatorPage() {
           label: "Calculation Mode",
           value:
             mode === "add"
-              ? "Base + 18% GST"
+              ? `Base + ${result.ratePercentage} GST`
               : mode === "remove"
-              ? "Extract Tax from Total"
-              : "Tax Amount to Base",
+              ? `Base − ${result.ratePercentage} GST`
+              : `GST @ ${result.ratePercentage}`,
           subtext: `Applied rate: ${result.ratePercentage}`,
         },
       ]
@@ -265,6 +275,7 @@ export default function GstCalculatorPage() {
       isEmpty={isBlank || !isValid || !result}
       emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
       footnote="Calculations apply standard mathematical rounding in integer paisa under the Sales Tax Act 1990."
+      onReset={handleReset}
     />
   );
 

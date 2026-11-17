@@ -170,7 +170,7 @@ export default async function HomePage() {
   ];
 
   return (
-    <div className="space-y-12 sm:space-y-16 pb-20">
+    <div className="space-y-12 sm:space-y-16 pb-0 sm:pb-2">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
@@ -353,6 +353,12 @@ export default async function HomePage() {
                 <p className="text-sm text-slate-800 leading-relaxed font-medium">
                   {calc.description}
                 </p>
+
+                {calc.href === "/fitrana-calculator" && (
+                  <p className="mt-2.5 text-xs text-appText-muted font-medium bg-slate-50 border border-slate-200/90 rounded-xl p-2.5 shadow-2xs">
+                    Rates announced for Ramadan 2026 — new rates will be published when announced for Ramadan 2027.
+                  </p>
+                )}
 
                 {/* Micro-Features Chip Row */}
                 <div className="mt-4 pt-3.5 border-t border-slate-100 flex flex-wrap gap-1.5">

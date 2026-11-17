@@ -8,14 +8,14 @@ import { zakatRates } from "@/lib/rates/zakat";
 import { fitranaRates2026 } from "@/lib/rates/fitrana-2026";
 
 export const metadata: Metadata = {
-  title: "Methodology & Statutory Sources | Pakistan Finance Calc",
+  title: "Methodology & Sources | Pakistan Finance Calculators",
   description:
     "Read official statutory methodology and legal references for Pakistan salary tax, Zakat, 236C/236K property tax, GST, and Fitrana calculation rules.",
   alternates: {
     canonical: "https://pak-tax-cal.vercel.app/methodology",
   },
   openGraph: {
-    title: "Methodology & Statutory Sources | Pakistan Finance Calc",
+    title: "Methodology & Sources | Pakistan Finance Calculators",
     description:
       "Read official statutory methodology and legal references for Pakistan salary tax, Zakat, 236C/236K property tax, GST, and Fitrana calculation rules.",
     url: "https://pak-tax-cal.vercel.app/methodology",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Methodology & Statutory Sources | Pakistan Finance Calc",
+    title: "Methodology & Sources | Pakistan Finance Calculators",
     description:
       "Read official statutory methodology and legal references for Pakistan salary tax, Zakat, 236C/236K property tax, GST, and Fitrana calculation rules.",
   },
@@ -85,7 +85,7 @@ export default function MethodologyPage() {
               <strong>Nisab Rule:</strong> Gold Nisab is 87.48 grams (7.5 tola). Silver Nisab is 612.36 grams (52.5 tola). In accordance with the prevalent Hanafi school in Pakistan, if wealth is mixed (cash + gold + investments), the Silver Nisab threshold is applied as a precaution to benefit the poor.
             </p>
             <p>
-              <strong>Market Rates:</strong> Because gold and silver commodity spot prices change daily in Pakistani Sarafa markets, this platform does not hardcode a stale PKR Nisab. Users enter today&apos;s prevailing Sarafa rates.
+              <strong>Market Rates:</strong> Rates update automatically every day at 12:00 PKT from the international spot price (gold-api.com + open.er-api.com); the page shows the last update time.
             </p>
             <p>
               <strong>Bank Deduction Distinction:</strong> The government notified threshold of Rs 503,529 (SBP Circular 03/2026) is strictly for automatic bank deductions from savings accounts on 1 Ramadan, NOT personal Shariah Nisab.

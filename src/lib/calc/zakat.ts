@@ -1,12 +1,25 @@
 import { zakatRates } from "../rates/zakat";
 import { roundToPaisa } from "./money";
 
+export type GoldPurity = "24k" | "22k" | "21k" | "18k";
+
+export const GOLD_PURITY_CONFIG: Record<
+  GoldPurity,
+  { fraction: number; percent: string; karat: number }
+> = {
+  "24k": { fraction: 1.0, percent: "100%", karat: 24 },
+  "22k": { fraction: 0.9167, percent: "91.67%", karat: 22 },
+  "21k": { fraction: 0.875, percent: "87.5%", karat: 21 },
+  "18k": { fraction: 0.75, percent: "75%", karat: 18 },
+};
+
 export interface ZakatInputs {
   cashInHand: number;
   bankSavings: number;
   goldUnit: "tola" | "grams";
   goldQuantity: number;
   goldRatePerTola: number;
+  goldPurity?: GoldPurity;
   silverUnit: "tola" | "grams";
   silverQuantity: number;
   silverRatePerTola: number;
@@ -28,6 +41,7 @@ export interface ZakatCalculationResult {
   totalDebts: number;
   netZakatableWealth: number;
   goldValue: number;
+  goldPurity: GoldPurity;
   silverValue: number;
   nisabUsed: "silver" | "gold";
   nisabThreshold: number;
@@ -47,6 +61,7 @@ export function calculateZakat(inputs: ZakatInputs): ZakatCalculationResult {
     goldUnit = "tola",
     goldQuantity = 0,
     goldRatePerTola = 0,
+    goldPurity = "24k",
     silverUnit = "tola",
     silverQuantity = 0,
     silverRatePerTola = 0,
@@ -57,13 +72,16 @@ export function calculateZakat(inputs: ZakatInputs): ZakatCalculationResult {
     customSilverNisab,
   } = inputs;
 
-  // Gold value calculation
+  const purityInfo = GOLD_PURITY_CONFIG[goldPurity] || GOLD_PURITY_CONFIG["24k"];
+  const purityFraction = purityInfo.fraction;
+
+  // Gold value calculation: quantity * displayed rate * purity fraction
   let goldValue = 0;
   if (goldQuantity > 0 && goldRatePerTola > 0) {
     if (goldUnit === "tola") {
-      goldValue = goldQuantity * goldRatePerTola;
+      goldValue = goldQuantity * goldRatePerTola * purityFraction;
     } else {
-      goldValue = (goldQuantity / zakatRates.gramsPerTola) * goldRatePerTola;
+      goldValue = (goldQuantity / zakatRates.gramsPerTola) * goldRatePerTola * purityFraction;
     }
   }
   goldValue = roundToPaisa(goldValue);
@@ -95,20 +113,19 @@ export function calculateZakat(inputs: ZakatInputs): ZakatCalculationResult {
 
   if (isOnlyGold) {
     nisabUsed = "gold";
-    nisabThreshold = roundToPaisa(zakatRates.goldNisabTola * goldRatePerTola);
-    nisabExplanation = `Gold Nisab (7.5 tola / 87.48g @ Rs ${goldRatePerTola.toLocaleString()}/tola) applied because your assets consist solely of gold.`;
+    nisabThreshold = Math.round(zakatRates.goldNisabTola * goldRatePerTola);
+    nisabExplanation = `Gold Nisab (7.5 tola / 87.48g @ Rs ${goldRatePerTola.toFixed(2)}/tola) applied because your assets consist solely of gold.`;
   } else {
     nisabUsed = "silver";
     if (customSilverNisab && customSilverNisab > 0) {
-      nisabThreshold = roundToPaisa(customSilverNisab);
-      nisabExplanation = `Silver Nisab (52.5 tola / 612.36g @ Rs ${silverRatePerTola.toLocaleString()}/tola) applied as per Hanafi jurisprudence for mixed or liquid wealth.`;
+      nisabThreshold = Math.round(customSilverNisab);
+      nisabExplanation = `Silver Nisab (52.5 tola / 612.36g @ Rs ${silverRatePerTola.toFixed(2)}/tola) applied as per Hanafi jurisprudence for mixed or liquid wealth.`;
     } else {
-      // If silver rate not entered, fallback to 0 until entered
-      nisabThreshold = roundToPaisa(zakatRates.silverNisabTola * silverRatePerTola);
+      nisabThreshold = Math.round(zakatRates.silverNisabTola * silverRatePerTola);
       if (silverRatePerTola > 0) {
-        nisabExplanation = `Silver Nisab (52.5 tola / 612.36g @ Rs ${silverRatePerTola.toLocaleString()}/tola) applied as per Hanafi jurisprudence for mixed or liquid wealth.`;
+        nisabExplanation = `Silver Nisab (52.5 tola / 612.36g @ Rs ${silverRatePerTola.toFixed(2)}/tola) applied as per Hanafi jurisprudence for mixed or liquid wealth.`;
       } else {
-        nisabExplanation = `Silver Nisab (52.5 tola / 612.36g) — enter today's Sarafa silver rate in Step 2 to establish your Nisab threshold.`;
+        nisabExplanation = `Silver Nisab (52.5 tola / 612.36g) — enter today's silver rate in Step 2 to establish your Nisab threshold.`;
       }
     }
   }
@@ -118,17 +135,22 @@ export function calculateZakat(inputs: ZakatInputs): ZakatCalculationResult {
   const remainingDue = Math.max(0, roundToPaisa(zakatDue - alreadyPaid));
   const statusLabel = isZakatDue ? "Zakat Due" : "Zakat Not Due — below nisab";
 
+  const goldDetail =
+    goldPurity !== "24k"
+      ? `${goldQuantity} ${goldUnit} ${purityInfo.karat}K @ Rs ${goldRatePerTola.toFixed(2)}/tola × ${purityInfo.percent}`
+      : `${goldQuantity} ${goldUnit} @ Rs ${goldRatePerTola.toFixed(2)}/tola`;
+
   const assetBreakdown: ZakatAssetItem[] = [
     { category: "Cash in hand", detail: "Physical cash notes", grossValue: cashInHand },
     { category: "Bank Savings", detail: "Savings / checking accounts", grossValue: bankSavings },
     {
       category: "Gold",
-      detail: `${goldQuantity} ${goldUnit} @ Rs ${goldRatePerTola.toLocaleString()}/tola`,
+      detail: goldDetail,
       grossValue: goldValue,
     },
     {
       category: "Silver",
-      detail: `${silverQuantity} ${silverUnit} @ Rs ${silverRatePerTola.toLocaleString()}/tola`,
+      detail: `${silverQuantity} ${silverUnit} @ Rs ${silverRatePerTola.toFixed(2)}/tola`,
       grossValue: silverValue,
     },
     { category: "Business stock / goods", detail: "Trade inventory at cost/market", grossValue: businessStock },
@@ -140,6 +162,7 @@ export function calculateZakat(inputs: ZakatInputs): ZakatCalculationResult {
     totalDebts: roundToPaisa(debtsToDeduct),
     netZakatableWealth,
     goldValue,
+    goldPurity,
     silverValue,
     nisabUsed,
     nisabThreshold,

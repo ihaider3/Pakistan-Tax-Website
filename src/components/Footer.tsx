@@ -162,6 +162,15 @@ export default function Footer() {
             <p className="text-[13px] text-slate-400">
               Finance Act 2026 • FBR Withholding Tax Rate Card TY2027 • SBP Zakat Notifications
             </p>
+            <p className="text-[13px] text-slate-300 pt-0.5">
+              Contact:{" "}
+              <a
+                href="mailto:contact@pakfinancecalc.org"
+                className="text-emerald-400 hover:text-emerald-300 underline font-medium transition-colors"
+              >
+                contact@pakfinancecalc.org
+              </a>
+            </p>
           </div>
 
           {/* Hardcooked Disclaimer Pill */}
