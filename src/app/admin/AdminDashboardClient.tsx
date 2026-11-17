@@ -213,6 +213,9 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
       // ignore
     }
     setIsAuthenticated(false);
+    if (typeof window !== "undefined") {
+      router.refresh();
+    }
   };
 
   // Fetch Feedback Items
@@ -478,9 +481,7 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
 
   // 3. AUTHENTICATED ADMIN DASHBOARD
   const mostUsedWeeklyTool =
-    analyticsData?.mostUsedTools && analyticsData.mostUsedTools.length > 0
-      ? analyticsData.mostUsedTools[0]
-      : null;
+    analyticsData?.mostUsedTools?.find((tool) => tool.totalUses > 0) || null;
 
   return (
     <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8 space-y-8">

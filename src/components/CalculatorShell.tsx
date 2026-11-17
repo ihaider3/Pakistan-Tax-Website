@@ -71,6 +71,20 @@ export default function CalculatorShell({
     }
   };
 
+  // Automatically record tool use when calculator is viewed/interacted with
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!hasTrackedFormUse.current) {
+        hasTrackedFormUse.current = true;
+        trackToolUse(getCalculatorKey(content.slug));
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new Event("pfc_tool_used"));
+        }
+      }
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, [content.slug]);
+
   return (
     <>
       <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 pt-6 pb-28 sm:py-10 space-y-8 sm:space-y-12 print:hidden">

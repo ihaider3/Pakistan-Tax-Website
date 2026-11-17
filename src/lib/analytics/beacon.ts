@@ -7,21 +7,27 @@ export function sendTrackBeacon(payload: TrackPayload): void {
     const data = JSON.stringify(payload);
     const url = "/api/track";
 
-    if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
-      const blob = new Blob([data], { type: "application/json" });
-      const sent = navigator.sendBeacon(url, blob);
-      if (sent) return;
+    // Modern fetch with keepalive ensures JSON headers are sent cleanly across all browsers
+    if (typeof fetch === "function") {
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: data,
+        keepalive: true,
+      }).catch(() => {
+        // Fallback to sendBeacon if fetch errors
+        if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
+          const blob = new Blob([data], { type: "application/json" });
+          navigator.sendBeacon(url, blob);
+        }
+      });
+      return;
     }
 
-    // Fallback if sendBeacon failed or is not available
-    fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: data,
-      keepalive: true,
-    }).catch(() => {
-      // Fire-and-forget: silently ignore any network or abort errors
-    });
+    if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
+      const blob = new Blob([data], { type: "application/json" });
+      navigator.sendBeacon(url, blob);
+    }
   } catch {
     // Non-blocking
   }
@@ -47,4 +53,3 @@ export function trackToolUse(calculator: CalculatorType): void {
     calculator,
   });
 }
-

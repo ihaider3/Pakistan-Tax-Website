@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import CalculatorShell from "@/components/CalculatorShell";
 import MoneyInput from "@/components/MoneyInput";
 import Toggle, { ToggleOption } from "@/components/Toggle";
@@ -27,6 +27,16 @@ export default function SalaryTaxCalculatorPage() {
   const [salaryRaw, setSalaryRaw] = useState<string>("150000"); // Preloaded with Blueprint worked example
   const [salaryNum, setSalaryNum] = useState<number>(150000);
   const [isValid, setIsValid] = useState<boolean>(true);
+
+  // Dynamic document title based on tax year selection
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    if (taxYear === "2025-26") {
+      document.title = "Salary Tax Calculator Pakistan 2025-26 | FBR Tax Slabs & Monthly Pay";
+    } else {
+      document.title = "Salary Tax Calculator Pakistan 2026-27 | FBR Tax Slabs & Monthly Pay";
+    }
+  }, [taxYear]);
 
   const frequencyOptions: ToggleOption<SalaryFrequency>[] = [
     { value: "monthly", label: "Monthly Gross Salary" },

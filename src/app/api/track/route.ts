@@ -41,7 +41,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true, rateLimited: true });
     }
 
-    const body = await request.json().catch(() => null);
+    let body: any = null;
+    try {
+      body = await request.json();
+    } catch {
+      try {
+        const text = await request.text();
+        body = text ? JSON.parse(text) : null;
+      } catch {
+        body = null;
+      }
+    }
+
     if (!body || typeof body !== "object") {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
