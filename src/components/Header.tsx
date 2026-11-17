@@ -28,6 +28,7 @@ export default function Header() {
     { name: "Property Tax", href: "/property-tax-calculator" },
     { name: "GST", href: "/gst-calculator" },
     { name: "Fitrana", href: "/fitrana-calculator" },
+    { name: "Ushr", href: "/ushr-calculator" },
   ];
 
   return (

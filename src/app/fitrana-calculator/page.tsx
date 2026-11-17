@@ -6,6 +6,10 @@ import Toggle, { ToggleOption } from "@/components/Toggle";
 import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
 import BreakdownTable, { BreakdownColumn, BreakdownRow } from "@/components/BreakdownTable";
 import ExplanationBox from "@/components/ExplanationBox";
+import PrintReport from "@/components/PrintReport";
+import { useExplanationLang } from "@/components/LanguageContext";
+import { buildWhatsAppText } from "@/lib/summary";
+import { buildFitranaSummaryData } from "@/lib/summary/builders";
 import { calculatorPages } from "@/content/pages";
 import { calculateFitrana, FitranaCalculationResult } from "@/lib/calc/fitrana";
 import { formatRupees } from "@/lib/calc/money";
@@ -18,6 +22,8 @@ export default function FitranaCalculatorPage() {
   const [membersRaw, setMembersRaw] = useState<string>("5");
   const [staple, setStaple] = useState<StapleType>("wheat");
   const [source, setSource] = useState<FitranaSourceKey>("muneeb");
+
+  const { lang } = useExplanationLang();
 
   const currentRates = fitranaRates2026.sources[source].rates;
   const stapleOptions: ToggleOption<StapleType>[] = [
@@ -87,9 +93,20 @@ export default function FitranaCalculatorPage() {
       ]
     : [];
 
-  const copySummaryText = result
-    ? `Household Fitrana: ${formatRupees(result.totalFitrana)} (${result.familyMembers} ${result.familyMembers === 1 ? "person" : "persons"} × ${formatRupees(result.perPersonRate)} on ${result.stapleName} - ${result.sourceName}) — Pakistan Finance Calculators`
-    : "";
+  const summaryData = React.useMemo(() => {
+    return buildFitranaSummaryData({
+      members: isNaN(members) || members < 1 ? 1 : members,
+      stapleName: fitranaRates2026.sources[source].rates[staple].name,
+      sourceName: fitranaRates2026.sources[source].name,
+      sourceKey: source,
+      result: result || calculateFitrana(1, staple, source),
+      language: lang,
+    });
+  }, [members, staple, source, result, lang]);
+
+  const copySummaryText = React.useMemo(() => {
+    return buildWhatsAppText(summaryData, lang);
+  }, [summaryData, lang]);
 
   // Side-by-Side Rates Comparison Table
   const breakdownColumns: BreakdownColumn[] = [
@@ -342,6 +359,7 @@ export default function FitranaCalculatorPage() {
       resultPanel={resultPanel}
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
+      printReport={<PrintReport data={summaryData} language={lang} />}
     />
   );
 }

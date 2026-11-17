@@ -27,11 +27,13 @@ export interface CalculatorPageContent {
   disclaimer: string;
 }
 
+import { siteUrl } from "@/config/site";
+
 export const siteConfig = {
   brandName: "Pakistan Finance Calculators",
   tagline: "Free, Accurate, No Login — Financial & Islamic Calculators for Pakistan",
   privacyClaim: "Your numbers never leave your phone.",
-  baseUrl: "https://pak-tax-cal.vercel.app",
+  baseUrl: siteUrl,
   copyrightYear: "2026-27",
 };
 
@@ -413,6 +415,78 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
     lastVerified: "14 Nov 2026",
     disclaimer:
       "Guidance only, not a fatwa. Rates reflect official public announcements for Ramadan 2026. Wheat Rs 300 is the minimum standard; those with greater means are encouraged to pay according to barley, dates, or raisins. Consult a qualified scholar.",
+  },
+  ushr: {
+    slug: "ushr-calculator",
+    title: "Ushr Calculator 2026 | Pakistan Finance Calculators",
+    metaDescription:
+      "Calculate Ushr (Zakat on crops) in Pakistan — 10% for rain-fed, 5% for tube-well irrigated, 7.5% for mixed irrigation. Enter your harvest in kg or maund and get the Ushr in kind and in rupees.",
+    h1: "Ushr Calculator Pakistan (Zakat on Crops)",
+    keywords: [
+      "ushr calculator",
+      "oshar calculator pakistan",
+      "zakat on crops",
+      "zameen ki paidawar par zakat",
+      "ushr nisab",
+      "agricultural zakat pakistan",
+      "ushr rate rain fed tubewell",
+    ],
+    intro:
+      "Calculate Ushr (Zakat on crops) in Pakistan — 10% for rain-fed, 5% for tube-well irrigated, 7.5% for mixed irrigation. Also spelled Oshar in Pakistan. Enter your harvest in kg or maund and get the Ushr in kind and in rupees.",
+    romanUrduIntro:
+      "Apni fasal par Ushr ka hisab lagayein — barish ya tube-well ke pani ke mutabiq. Pakistan mein ise Oshar bhi kaha jata hai. Fasal uthte hi Ushr ada karna wajib hai.",
+    englishIntro:
+      "Calculate Ushr (Zakat on agricultural produce) in Pakistan according to your irrigation method — 10% for rain-fed, 5% for tube-well irrigated, and 7.5% for mixed watering. Also spelled Oshar in Pakistan.",
+    howToUseSteps: [
+      "Select your agricultural produce/crop from the list (Wheat, Rice, Cotton, Sugarcane, etc.).",
+      "Enter your total harvest quantity and choose your preferred unit (kg or maund; 1 maund = 40 kg).",
+      "Enter today's local mandi market price per unit in PKR.",
+      "Select your irrigation water source (Rain / River, Tube-well / Well, or Mixed).",
+      "View your obligatory Ushr both in kind (produce weight) and in cash rupees.",
+    ],
+    formulaTitle: "Shariah Ushr Calculation Formula (Sahih al-Bukhari 1483)",
+    formulaDescription:
+      "Total Harvest Value = Quantity × Market Price. Ushr in Kind = Quantity × Rate (10% rain / 5% tube-well / 7.5% mixed). Ushr Cash Value = Total Harvest Value × Rate. No deductions allowed for seeds, fertiliser, or harvesting labor.",
+    workedExample: {
+      title: "Worked Example: 1,000 kg Wheat Harvest (Rain-Fed Irrigation)",
+      description: "How Ushr is calculated on a 1,000 kg rain-watered wheat harvest at Rs 130/kg:",
+      bulletPoints: [
+        "Total Harvest Quantity = 1,000 kg (25 maund)",
+        "Market Price = Rs 130 per kg",
+        "Total Harvest Value = 1,000 kg × Rs 130 = Rs 130,000",
+        "Irrigation Method = Rain / River (Naturally watered) → 10% Ushr Rate",
+        "Ushr in Kind = 1,000 kg × 10% = 100 kg wheat",
+        "Ushr Cash Value = Rs 130,000 × 10% = Rs 13,000",
+        "Due Date = Payable immediately upon harvest (Quran 6:141 — no one-year Hawl applies)",
+      ],
+    },
+    faqs: [
+      {
+        question: "Ushr aur Zakat (2.5%) mein kya farq hai?",
+        answer:
+          "Zakat saal ke aakhir mein bachat aur daulat par 2.5% hoti hai (jis ke liye 1 saal guzarna / Hawl zaroori hai). Ushr zameen ki paidawar par fasal uthte hi wajib hota hai (Quran 6:141), is ke liye saal guzarna shart nahi hai, aur iska rate 10%, 5% ya 7.5% hota hai (2.5% nahi).",
+      },
+      {
+        question: "Kya beej/khaad ka kharcha kaat sakte hain?",
+        answer:
+          "Jumhoor fuqaha aur Islamic Fiqh Academy ke mutabiq beej, khaad, tractor ya katai ka kharcha harvest se minha (deduct) nahi kiya jata. Shariat ne masnooi pani aur mehnat ke kharche ki riayat dete hue pehle hi rate 10% se ghata kar 5% kar diya hai.",
+      },
+      {
+        question: "Mixed pani par rate kya hai?",
+        answer:
+          "Agar fasal ko nehri/barishi pani aur tube-well dono se barabar sairab kiya gaya ho to Hanafi fiqh ke mutabiq darmiyani rate 7.5% lagu hota hai. Agar koi ek tareeqa ghalib raha ho (maslan 80% tube-well) to ghalib tareeqe ka rate (5%) lagu hoga.",
+      },
+      {
+        question: "Kya chhoti fasal par bhi Ushr hai?",
+        answer:
+          "Hanafi fiqh ke mutabiq Ushr har miqdaar ki paidawar par wajib hai — is ke liye koi kam az kam nisab nahi hai. Jumhoor fuqaha (Shafi'i, Maliki, Hanbali) ke mutabiq 5 wasq (taqreeban 653 kg ya 16.3 maund) nisab hai, jis se kam par Ushr wajib nahi hota.",
+      },
+    ],
+    source: "Quran 6:141 & Sahih al-Bukhari 1483",
+    sourceDocument: "Hanafi Fiqh Standard & Sahih Hadith Injunctions",
+    lastVerified: "17 Nov 2026",
+    disclaimer:
+      "Ye sirf rehnumai ke liye hai — fatwa nahi. Apni khaas surat-e-haal ke liye kisi qualified Mufti se mashwara karein.",
   },
 };
 

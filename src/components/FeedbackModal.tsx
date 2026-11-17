@@ -10,7 +10,7 @@ interface FeedbackModalProps {
 }
 
 type CategoryType = "problem" | "feedback" | "feature";
-type CalculatorType = "general" | "salary" | "zakat" | "property" | "gst" | "fitrana";
+type CalculatorType = "general" | "salary" | "zakat" | "property" | "gst" | "fitrana" | "ushr";
 
 const CATEGORY_INFO = {
   problem: {
@@ -65,6 +65,7 @@ function getCalculatorFromPath(pathname: string): CalculatorType {
   if (pathname.includes("property-tax-calculator")) return "property";
   if (pathname.includes("gst-calculator")) return "gst";
   if (pathname.includes("fitrana-calculator")) return "fitrana";
+  if (pathname.includes("ushr-calculator")) return "ushr";
   return "general";
 }
 
@@ -401,6 +402,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                   <option value="property">Property Tax Calculator (236C/K)</option>
                   <option value="gst">GST Calculator (18%)</option>
                   <option value="fitrana">Fitrana Calculator</option>
+                  <option value="ushr">Ushr Calculator</option>
                 </select>
               </div>
 

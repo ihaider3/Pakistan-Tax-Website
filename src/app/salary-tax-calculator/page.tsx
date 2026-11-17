@@ -1,21 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import CalculatorShell from "@/components/CalculatorShell";
 import MoneyInput from "@/components/MoneyInput";
 import Toggle, { ToggleOption } from "@/components/Toggle";
 import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
 import ExplanationBox from "@/components/ExplanationBox";
 import BreakdownTable, { BreakdownColumn, BreakdownRow } from "@/components/BreakdownTable";
+import PrintReport from "@/components/PrintReport";
 import { calculatorPages } from "@/content/pages";
 import { calculateSalaryTax, SalaryTaxResult } from "@/lib/calc/salary";
 import { formatRupees, formatPercentage } from "@/lib/calc/money";
+import { useExplanationLang } from "@/components/LanguageContext";
+import { buildSalarySummaryData } from "@/lib/summary/builders";
+import { buildWhatsAppText } from "@/lib/summary";
 
 type SalaryFrequency = "monthly" | "annual";
 type TaxYear = "2026-27" | "2025-26";
 
 export default function SalaryTaxCalculatorPage() {
   const content = calculatorPages.salary;
+  const { lang } = useExplanationLang();
 
   const [frequency, setFrequency] = useState<SalaryFrequency>("monthly");
   const [taxYear, setTaxYear] = useState<TaxYear>("2026-27");
@@ -97,9 +102,20 @@ export default function SalaryTaxCalculatorPage() {
       ]
     : [];
 
-  const copySummaryText = result
-    ? `Monthly Tax: ${formatRupees(result.monthlyTax)} | Monthly Take-Home: ${formatRupees(result.monthlyTakeHome)} (Annual Tax: ${formatRupees(result.annualTax)} | Rate: ${result.effectiveTaxRate}%) — Pakistan Finance Calculators`
-    : "";
+  const summaryData = useMemo(() => {
+    return buildSalarySummaryData({
+      salaryRaw,
+      salaryNum,
+      period: frequency,
+      taxYear,
+      result: result || calculateSalaryTax(0, frequency, taxYear),
+      language: lang,
+    });
+  }, [salaryRaw, salaryNum, frequency, taxYear, result, lang]);
+
+  const copySummaryText = useMemo(() => {
+    return buildWhatsAppText(summaryData, lang);
+  }, [summaryData, lang]);
 
   // Prepare Breakdown Table
   const breakdownColumns: BreakdownColumn[] = [
@@ -286,6 +302,7 @@ export default function SalaryTaxCalculatorPage() {
       resultPanel={resultPanel}
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
+      printReport={<PrintReport data={summaryData} language={lang} />}
     />
   );
 }

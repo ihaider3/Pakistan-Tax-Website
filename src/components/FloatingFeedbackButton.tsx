@@ -9,7 +9,7 @@ export default function FloatingFeedbackButton() {
   return (
     <>
       {/* DESKTOP BUTTON: Fixed to right edge, vertically centered, vertical pill */}
-      <div className="hidden sm:block fixed right-0 top-1/2 -translate-y-1/2 z-40">
+      <div className="hidden sm:block fixed right-0 top-1/2 -translate-y-1/2 z-40 print:hidden">
         <button
           type="button"
           onClick={() => setIsOpen(true)}
@@ -37,7 +37,7 @@ export default function FloatingFeedbackButton() {
       </div>
 
       {/* MOBILE BUTTON: Fixed bottom-right circular button (56px), bottom: 20px; right: 16px */}
-      <div className="sm:hidden fixed bottom-5 right-4 z-40">
+      <div className="sm:hidden fixed bottom-5 right-4 z-40 print:hidden">
         <button
           type="button"
           onClick={() => setIsOpen(true)}

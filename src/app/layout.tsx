@@ -23,8 +23,10 @@ const notoNastaliq = Noto_Nastaliq_Urdu({
   fallback: ["Tahoma", "Arial", "sans-serif"],
 });
 
+import { siteUrl } from "@/config/site";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://pak-tax-cal.vercel.app"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Pakistan Finance Calculators | Tax, Zakat & GST Tools",
     template: "%s",
@@ -55,7 +57,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_PK",
-    url: "https://pak-tax-cal.vercel.app",
+    url: siteUrl,
     siteName: "Pakistan Finance Calculators",
     title: "Pakistan Finance Calculators | Tax, Zakat & GST Tools",
     description:

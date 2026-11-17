@@ -16,6 +16,7 @@ function getCalculatorKey(slug: string): CalculatorType {
   if (slug.includes("property")) return "property";
   if (slug.includes("gst")) return "gst";
   if (slug.includes("fitrana")) return "fitrana";
+  if (slug.includes("ushr")) return "ushr";
   return "salary";
 }
 
@@ -26,6 +27,7 @@ interface CalculatorShellProps {
   explanationBox?: React.ReactNode;
   breakdownTable?: React.ReactNode;
   customTopSection?: React.ReactNode;
+  printReport?: React.ReactNode;
 }
 
 export default function CalculatorShell({
@@ -35,6 +37,7 @@ export default function CalculatorShell({
   explanationBox,
   breakdownTable,
   customTopSection,
+  printReport,
 }: CalculatorShellProps) {
   const { lang } = useExplanationLang();
 
@@ -53,7 +56,8 @@ export default function CalculatorShell({
   };
 
   return (
-    <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 pt-6 pb-28 sm:py-10 space-y-8 sm:space-y-12">
+    <>
+      <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 pt-6 pb-28 sm:py-10 space-y-8 sm:space-y-12 print:hidden">
       {/* =========================================================================
           HERO & HEADER BLOCK: Badge, H1, Trimmed/Full Intro & "Calculate Now ↓"
          ========================================================================= */}
@@ -345,5 +349,12 @@ export default function CalculatorShell({
         </div>
       </section>
     </div>
+
+    {printReport && (
+      <div className="hidden print:block w-full">
+        {printReport}
+      </div>
+    )}
+  </>
   );
 }

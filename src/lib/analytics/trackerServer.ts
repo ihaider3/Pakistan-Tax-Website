@@ -308,6 +308,7 @@ export async function getAnalyticsMetrics(
     property: "Property Tax (236C/236K)",
     gst: "GST Calculator (18%)",
     fitrana: "Fitrana Calculator 2026",
+    ushr: "Ushr Calculator (Crops)",
   };
 
   const totalToolUsesCount = toolUses.length;
@@ -317,6 +318,7 @@ export async function getAnalyticsMetrics(
     property: { total: 0, last30d: 0 },
     gst: { total: 0, last30d: 0 },
     fitrana: { total: 0, last30d: 0 },
+    ushr: { total: 0, last30d: 0 },
   };
 
   for (const tu of toolUses) {

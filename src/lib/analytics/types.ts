@@ -1,6 +1,6 @@
 export type DeviceType = "mobile" | "tablet" | "desktop";
 
-export type CalculatorType = "salary" | "zakat" | "property" | "gst" | "fitrana";
+export type CalculatorType = "salary" | "zakat" | "property" | "gst" | "fitrana" | "ushr";
 
 export interface TrackPayload {
   type: "page_view" | "tool_use";

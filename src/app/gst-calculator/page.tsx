@@ -11,11 +11,16 @@ import { calculatorPages } from "@/content/pages";
 import { calculateGst, GstCalculationResult, GstMode } from "@/lib/calc/gst";
 import { formatRupees } from "@/lib/calc/money";
 import { gstRates } from "@/lib/rates/gst";
+import { useExplanationLang } from "@/components/LanguageContext";
+import PrintReport from "@/components/PrintReport";
+import { buildGstSummaryData } from "@/lib/summary/builders";
+import { buildWhatsAppText } from "@/lib/summary";
 
 type RatePreset = "18" | "custom";
 
 export default function GstCalculatorPage() {
   const content = calculatorPages.gst;
+  const { lang } = useExplanationLang();
 
   const [amountRaw, setAmountRaw] = useState<string>("100000"); // Preloaded with Blueprint worked example
   const [amountNum, setAmountNum] = useState<number>(100000);
@@ -58,40 +63,51 @@ export default function GstCalculatorPage() {
   // Secondary Results for ResultPanel
   const secondaryResults: SecondaryResult[] = result
     ? [
-        {
-          label: "Net Base Amount (Exclusive)",
-          value: formatRupees(result.baseAmount, { showPaisaIfDecimal: true }),
-          subtext: "Value of goods/services without tax",
-          highlight: mode === "remove",
-        },
-        {
-          label: `Sales Tax (${result.ratePercentage})`,
-          value: formatRupees(result.gstAmount, { showPaisaIfDecimal: true }),
-          subtext: "General Sales Tax payable to FBR",
-          highlight: mode === "amount_only",
-        },
-        {
-          label: "Total Gross Amount (Inclusive)",
-          value: formatRupees(result.totalAmount, { showPaisaIfDecimal: true }),
-          subtext: "Full invoice cost with tax",
-          highlight: mode === "add",
-        },
-        {
-          label: "Calculation Mode",
-          value:
-            mode === "add"
-              ? `Base + ${result.ratePercentage} GST`
-              : mode === "remove"
+      {
+        label: "Net Base Amount (Exclusive)",
+        value: formatRupees(result.baseAmount, { showPaisaIfDecimal: true }),
+        subtext: "Value of goods/services without tax",
+        highlight: mode === "remove",
+      },
+      {
+        label: `Sales Tax (${result.ratePercentage})`,
+        value: formatRupees(result.gstAmount, { showPaisaIfDecimal: true }),
+        subtext: "General Sales Tax payable to FBR",
+        highlight: mode === "amount_only",
+      },
+      {
+        label: "Total Gross Amount (Inclusive)",
+        value: formatRupees(result.totalAmount, { showPaisaIfDecimal: true }),
+        subtext: "Full invoice cost with tax",
+        highlight: mode === "add",
+      },
+      {
+        label: "Calculation Mode",
+        value:
+          mode === "add"
+            ? `Base + ${result.ratePercentage} GST`
+            : mode === "remove"
               ? `Base − ${result.ratePercentage} GST`
               : `GST @ ${result.ratePercentage}`,
-          subtext: `Applied rate: ${result.ratePercentage}`,
-        },
-      ]
+        subtext: `Applied rate: ${result.ratePercentage}`,
+      },
+    ]
     : [];
 
-  const copySummaryText = result
-    ? `Base Price: ${formatRupees(result.baseAmount, { showPaisaIfDecimal: true })} | GST (${result.ratePercentage}): ${formatRupees(result.gstAmount, { showPaisaIfDecimal: true })} | Total Invoice: ${formatRupees(result.totalAmount, { showPaisaIfDecimal: true })} — Pakistan Finance Calculators`
-    : "";
+  const summaryData = React.useMemo(() => {
+    return buildGstSummaryData({
+      amountRaw,
+      amountNum,
+      mode,
+      ratePercent: effectiveRate,
+      result: result || calculateGst(0, mode, effectiveRate),
+      language: lang,
+    });
+  }, [amountRaw, amountNum, mode, effectiveRate, result, lang]);
+
+  const copySummaryText = React.useMemo(() => {
+    return buildWhatsAppText(summaryData, lang);
+  }, [summaryData, lang]);
 
   // Breakdown Table
   const breakdownColumns: BreakdownColumn[] = [
@@ -102,49 +118,49 @@ export default function GstCalculatorPage() {
 
   const breakdownRows: BreakdownRow[] = result
     ? [
-        {
-          id: "base",
-          isHighlighted: mode === "remove",
-          cells: {
-            item: (
-              <div>
-                <span className="font-semibold text-primary block">Net Base Amount</span>
-                <span className="text-xs text-appText-muted">Product / service value before tax</span>
-              </div>
-            ),
-            percentage: (
-              <span className="font-medium text-xs text-appText">
-                {result.totalAmount > 0
-                  ? `${((result.baseAmount / result.totalAmount) * 100).toFixed(1)}%`
-                  : "0%"}
-              </span>
-            ),
-            amount: formatRupees(result.baseAmount, { showPaisaIfDecimal: true }),
-          },
+      {
+        id: "base",
+        isHighlighted: mode === "remove",
+        cells: {
+          item: (
+            <div>
+              <span className="font-semibold text-primary block">Net Base Amount</span>
+              <span className="text-xs text-appText-muted">Product / service value before tax</span>
+            </div>
+          ),
+          percentage: (
+            <span className="font-medium text-xs text-appText">
+              {result.totalAmount > 0
+                ? `${((result.baseAmount / result.totalAmount) * 100).toFixed(1)}%`
+                : "0%"}
+            </span>
+          ),
+          amount: formatRupees(result.baseAmount, { showPaisaIfDecimal: true }),
         },
-        {
-          id: "gst",
-          isHighlighted: true,
-          cells: {
-            item: (
-              <div>
-                <span className="font-semibold text-accent block">
-                  Sales Tax ({result.ratePercentage})
-                </span>
-                <span className="text-xs text-appText-muted">FBR General Sales Tax</span>
-              </div>
-            ),
-            percentage: (
-              <span className="font-bold text-xs text-accent">
-                {result.totalAmount > 0
-                  ? `${((result.gstAmount / result.totalAmount) * 100).toFixed(1)}%`
-                  : "0%"}
+      },
+      {
+        id: "gst",
+        isHighlighted: true,
+        cells: {
+          item: (
+            <div>
+              <span className="font-semibold text-accent block">
+                Sales Tax ({result.ratePercentage})
               </span>
-            ),
-            amount: formatRupees(result.gstAmount, { showPaisaIfDecimal: true }),
-          },
+              <span className="text-xs text-appText-muted">FBR General Sales Tax</span>
+            </div>
+          ),
+          percentage: (
+            <span className="font-bold text-xs text-accent">
+              {result.totalAmount > 0
+                ? `${((result.gstAmount / result.totalAmount) * 100).toFixed(1)}%`
+                : "0%"}
+            </span>
+          ),
+          amount: formatRupees(result.gstAmount, { showPaisaIfDecimal: true }),
         },
-      ]
+      },
+    ]
     : [];
 
   const calculatorInputs = (
@@ -164,8 +180,8 @@ export default function GstCalculatorPage() {
           mode === "add"
             ? "Base Net Amount (before tax)"
             : mode === "remove"
-            ? "Total Gross Invoice Amount (with tax)"
-            : "GST Tax Amount Collected / Paid"
+              ? "Total Gross Invoice Amount (with tax)"
+              : "GST Tax Amount Collected / Paid"
         }
         value={amountRaw}
         onChange={(r, v, valid) => {
@@ -178,8 +194,8 @@ export default function GstCalculatorPage() {
           mode === "add"
             ? "Tax will be added on top of this base price — Asal qeemat par tax shamil hoga"
             : mode === "remove"
-            ? "Tax will be subtracted to reveal the pre-tax base price — Kul bill se tax alag kiya jayega"
-            : "Base price and total invoice will be calculated from this tax — Tax se asal qeemat aur kul bill maloom hoga"
+              ? "Tax will be subtracted to reveal the pre-tax base price — Kul bill se tax alag kiya jayega"
+              : "Base price and total invoice will be calculated from this tax — Tax se asal qeemat aur kul bill maloom hoga"
         }
         unitLabel="PKR"
         required
@@ -242,19 +258,19 @@ export default function GstCalculatorPage() {
         mode === "add"
           ? "Total Payable (Invoice Amount)"
           : mode === "remove"
-          ? "Extracted Base Price (Net)"
-          : "Total Invoice Amount"
+            ? "Extracted Base Price (Net)"
+            : "Total Invoice Amount"
       }
       mainValue={
         result
           ? formatRupees(
-              mode === "add"
-                ? result.totalAmount
-                : mode === "remove"
+            mode === "add"
+              ? result.totalAmount
+              : mode === "remove"
                 ? result.baseAmount
                 : result.totalAmount,
-              { showPaisaIfDecimal: true }
-            )
+            { showPaisaIfDecimal: true }
+          )
           : "Rs 0"
       }
       mainSubtext={
@@ -265,9 +281,9 @@ export default function GstCalculatorPage() {
       statusBadge={
         result
           ? {
-              text: `Sales Tax: ${formatRupees(result.gstAmount, { showPaisaIfDecimal: true })}`,
-              variant: "warning",
-            }
+            text: `Sales Tax: ${formatRupees(result.gstAmount, { showPaisaIfDecimal: true })}`,
+            variant: "warning",
+          }
           : undefined
       }
       secondaryResults={secondaryResults}
@@ -291,15 +307,15 @@ export default function GstCalculatorPage() {
         mode === "add"
           ? `Aap ne raqam Rs ${baseFormatted} likhi. Add mode mein ${rateLabel} GST Rs ${gstFormatted} banta hai. Kul raqam Rs ${baseFormatted} + Rs ${gstFormatted} = Rs ${totalFormatted} banti hai.`
           : mode === "remove"
-          ? `Aap ne kul raqam Rs ${totalFormatted} likhi. Is mein se ${rateLabel} GST nikaalne par asal raqam Rs ${baseFormatted} aur GST Rs ${gstFormatted} banta hai.`
-          : `Aap ne raqam Rs ${baseFormatted} likhi. Is par ${rateLabel} GST Rs ${gstFormatted} banta hai.`
+            ? `Aap ne kul raqam Rs ${totalFormatted} likhi. Is mein se ${rateLabel} GST nikaalne par asal raqam Rs ${baseFormatted} aur GST Rs ${gstFormatted} banta hai.`
+            : `Aap ne raqam Rs ${baseFormatted} likhi. Is par ${rateLabel} GST Rs ${gstFormatted} banta hai.`
       }
       englishText={
         mode === "add"
           ? `You entered Rs ${baseFormatted}. In Add mode, ${rateLabel} GST is Rs ${gstFormatted}. Total = Rs ${baseFormatted} + Rs ${gstFormatted} = Rs ${totalFormatted}.`
           : mode === "remove"
-          ? `You entered a total of Rs ${totalFormatted}. Removing ${rateLabel} GST gives a base amount of Rs ${baseFormatted} and GST of Rs ${gstFormatted}.`
-          : `You entered Rs ${baseFormatted}. GST at ${rateLabel} on this amount is Rs ${gstFormatted}.`
+            ? `You entered a total of Rs ${totalFormatted}. Removing ${rateLabel} GST gives a base amount of Rs ${baseFormatted} and GST of Rs ${gstFormatted}.`
+            : `You entered Rs ${baseFormatted}. GST at ${rateLabel} on this amount is Rs ${gstFormatted}.`
       }
       referenceContentEn={
         <p>
@@ -332,6 +348,7 @@ export default function GstCalculatorPage() {
       resultPanel={resultPanel}
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
+      printReport={<PrintReport data={summaryData} language={lang} />}
     />
   );
 }

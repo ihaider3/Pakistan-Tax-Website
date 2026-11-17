@@ -41,15 +41,44 @@ export default function ResultPanel({
   className = "",
   onReset,
 }: ResultPanelProps) {
-  const [copied, setCopied] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<"idle" | "success" | "error">("idle");
 
   const handleCopy = async () => {
+    let success = false;
     try {
-      await navigator.clipboard.writeText(copySummaryText);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+      if (typeof navigator !== "undefined" && navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(copySummaryText);
+        success = true;
+      } else {
+        throw new Error("Clipboard API unavailable");
+      }
     } catch {
-      setCopied(false);
+      // Fallback for older browsers / webviews / unsupported permissions
+      try {
+        if (typeof document !== "undefined") {
+          const textarea = document.createElement("textarea");
+          textarea.value = copySummaryText;
+          textarea.style.position = "fixed";
+          textarea.style.left = "-9999px";
+          textarea.style.top = "-9999px";
+          textarea.setAttribute("readonly", "");
+          document.body.appendChild(textarea);
+          textarea.focus();
+          textarea.select();
+          success = document.execCommand("copy");
+          document.body.removeChild(textarea);
+        }
+      } catch {
+        success = false;
+      }
+    }
+
+    if (success) {
+      setCopyStatus("success");
+      setTimeout(() => setCopyStatus("idle"), 2500);
+    } else {
+      setCopyStatus("error");
+      setTimeout(() => setCopyStatus("idle"), 3000);
     }
   };
 
@@ -164,59 +193,64 @@ export default function ResultPanel({
 
       {/* Action Buttons & Footnote */}
       <div className="pt-5 border-t border-slate-200/80 space-y-3 mt-4">
-        {!isEmpty && (
-          <div className="flex flex-wrap items-center gap-2 print:hidden">
-            <button
-              type="button"
-              onClick={handleCopy}
-              className="flex-1 min-h-[46px] px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl bg-gradient-to-r from-primary to-primary-light text-white hover:from-primary-light hover:to-primary active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2 shadow-md shadow-primary/20 hover:shadow-lg focus:outline-hidden focus:ring-2 focus:ring-accent whitespace-nowrap"
-              aria-label="Copy summary to clipboard"
-            >
-              {copied ? (
-                <>
-                  <svg className="w-4 h-4 text-emerald-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="whitespace-nowrap">Copied!</span>
-                </>
-              ) : (
-                <>
-                  <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                  </svg>
-                  <span className="whitespace-nowrap hidden sm:inline">Copy Summary</span>
-                  <span className="whitespace-nowrap sm:hidden">Copy</span>
-                </>
-              )}
-            </button>
-
-            {onReset && (
-              <button
-                type="button"
-                onClick={onReset}
-                className="min-h-[46px] px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl border border-slate-200 bg-white text-appText hover:bg-surface hover:text-primary active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-1.5 shadow-xs hover:shadow-md focus:outline-hidden focus:ring-2 focus:ring-accent whitespace-nowrap cursor-pointer"
-                aria-label="Reset calculator inputs to default"
-              >
-                <svg className="w-4 h-4 text-appText-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        <div className="flex flex-wrap items-center gap-2 print:hidden">
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="flex-1 min-h-[46px] px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl bg-gradient-to-r from-primary to-primary-light text-white hover:from-primary-light hover:to-primary active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2 shadow-md shadow-primary/20 hover:shadow-lg focus:outline-hidden focus:ring-2 focus:ring-accent whitespace-nowrap cursor-pointer"
+            aria-label="Copy summary to clipboard"
+          >
+            {copyStatus === "success" ? (
+              <>
+                <svg className="w-4 h-4 text-emerald-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                 </svg>
-                <span>Reset</span>
-              </button>
+                <span className="whitespace-nowrap text-emerald-300">Summary copied successfully!</span>
+              </>
+            ) : copyStatus === "error" ? (
+              <>
+                <svg className="w-4 h-4 text-rose-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                <span className="whitespace-nowrap text-rose-300">Copy failed — please try again.</span>
+              </>
+            ) : (
+              <>
+                <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <span className="whitespace-nowrap hidden sm:inline">Copy Summary</span>
+                <span className="whitespace-nowrap sm:hidden">Copy</span>
+              </>
             )}
+          </button>
 
+          {onReset && (
             <button
               type="button"
-              onClick={handlePrint}
+              onClick={onReset}
               className="min-h-[46px] px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl border border-slate-200 bg-white text-appText hover:bg-surface hover:text-primary active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-1.5 shadow-xs hover:shadow-md focus:outline-hidden focus:ring-2 focus:ring-accent whitespace-nowrap cursor-pointer"
-              aria-label="Print or save as PDF"
+              aria-label="Reset calculator inputs to default"
             >
               <svg className="w-4 h-4 text-appText-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
               </svg>
-              <span>Print / PDF</span>
+              <span>Reset</span>
             </button>
-          </div>
-        )}
+          )}
+
+          <button
+            type="button"
+            onClick={handlePrint}
+            className="min-h-[46px] px-3 sm:px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl border border-slate-200 bg-white text-appText hover:bg-surface hover:text-primary active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-1.5 shadow-xs hover:shadow-md focus:outline-hidden focus:ring-2 focus:ring-accent whitespace-nowrap cursor-pointer"
+            aria-label="Print or save as PDF"
+          >
+            <svg className="w-4 h-4 text-appText-muted shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            <span>Print / PDF</span>
+          </button>
+        </div>
 
         {footnote && (
           <p className="text-[11px] text-appText-muted leading-relaxed italic pt-1">

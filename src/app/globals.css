@@ -130,41 +130,46 @@
 }
 
 /* =========================================================================
-   CLEAN PRINT STYLESHEET (Print to PDF)
-   Hides navigation, search, headers, footers, FAQs, and action buttons.
-   Prints cleanly formatted calculation summary and breakdown table.
+   CLEAN PRINT STYLESHEET (Print to PDF — Single Page A4 Portrait Report)
+   Hides navigation, header, footer, shell, inputs, and FAQs.
+   Renders only the dedicated #print-report component.
    ========================================================================= */
 @media print {
-  body {
-    background: #FFFFFF !important;
-    color: #000000 !important;
-    font-size: 12pt;
-    line-height: 1.4;
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
   }
 
-  header, footer, nav, button, .print\:hidden {
+  html, body {
+    background: #FFFFFF !important;
+    color: #0F172A !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    font-size: 10pt;
+    line-height: 1.35;
+  }
+
+  header, footer, nav, button, input, select, textarea,
+  .print\:hidden,
+  [data-print-hide] {
     display: none !important;
   }
 
-  .print\:p-0 {
-    padding: 0 !important;
-  }
-
-  .print\:border-none {
-    border: none !important;
-  }
-
-  .print\:shadow-none {
-    box-shadow: none !important;
-  }
-
-  table {
+  #print-report {
+    display: block !important;
     width: 100% !important;
-    border-collapse: collapse !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
-  th, td {
-    border: 1px solid #D1D5DB !important;
-    padding: 6px 8px !important;
+  .break-inside-avoid {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 }

@@ -3,19 +3,20 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import SearchBox from "@/components/SearchBox";
 import { getSiteContent } from "@/lib/content/contentServer";
+import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Pakistan Finance Calculators | Tax, Zakat & GST",
   description:
     "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
   alternates: {
-    canonical: "https://pak-tax-cal.vercel.app",
+    canonical: siteUrl,
   },
   openGraph: {
     title: "Pakistan Finance Calculators | Tax, Zakat & GST",
     description:
       "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
-    url: "https://pak-tax-cal.vercel.app",
+    url: siteUrl,
     type: "website",
     siteName: "Pakistan Finance Calculators",
   },
@@ -31,7 +32,7 @@ const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "Pakistan Finance Calculators",
-  url: "https://pak-tax-cal.vercel.app",
+  url: siteUrl,
   description:
     "Free, accurate Pakistan calculators for salary tax, Zakat, property tax, GST, and Fitrana. 100% client-side privacy.",
   inLanguage: "en-PK",
@@ -128,6 +129,24 @@ const calculators = [
       </svg>
     ),
   },
+  {
+    title: "Ushr Calculator",
+    subtitle: "Zakat on Crops",
+    description: "Zakat on crops — 10% rain-fed, 5% irrigated with authentic Shariah nisab & harvest conversion in kg/maund.",
+    href: "/ushr-calculator",
+    badge: "Agricultural Zakat",
+    badgeColor: "bg-lime-50 text-lime-950 border-lime-300",
+    dotColor: "bg-lime-600",
+    topGradient: "from-lime-600 via-emerald-600 to-teal-700",
+    iconBg: "bg-gradient-to-br from-lime-800 via-emerald-900 to-[#0B3322] text-white shadow-lime-900/25",
+    features: ["10% Rain / 5% Tubewell", "Kg & Maund Units", "Quran 6:141 Verified"],
+    buttonText: "Calculate Ushr",
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+  },
 ];
 
 const mostSearched = [
@@ -136,6 +155,7 @@ const mostSearched = [
   { label: "236C / 236K property", href: "/property-tax-calculator" },
   { label: "GST 18%", href: "/gst-calculator" },
   { label: "Fitrana per person", href: "/fitrana-calculator" },
+  { label: "Ushr on crops", href: "/ushr-calculator" },
 ];
 
 export default async function HomePage() {
@@ -166,6 +186,11 @@ export default async function HomePage() {
       ...calculators[4],
       title: content.home_card_fitrana_title || calculators[4].title,
       description: content.home_card_fitrana_desc || calculators[4].description,
+    },
+    {
+      ...calculators[5],
+      title: calculators[5].title,
+      description: calculators[5].description,
     },
   ];
 

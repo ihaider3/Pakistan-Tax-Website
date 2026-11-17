@@ -15,9 +15,14 @@ import {
   FilerStatus,
 } from "@/lib/calc/property";
 import { formatRupees } from "@/lib/calc/money";
+import { useExplanationLang } from "@/components/LanguageContext";
+import PrintReport from "@/components/PrintReport";
+import { buildPropertySummaryData } from "@/lib/summary/builders";
+import { buildWhatsAppText } from "@/lib/summary";
 
 export default function PropertyTaxCalculatorPage() {
   const content = calculatorPages.property;
+  const { lang } = useExplanationLang();
 
   const [propertyValRaw, setPropertyValRaw] = useState<string>("10000000"); // Preloaded with Blueprint worked example (1 Crore)
   const [propertyValNum, setPropertyValNum] = useState<number>(10000000);
@@ -76,9 +81,20 @@ export default function PropertyTaxCalculatorPage() {
       ]
     : [];
 
-  const copySummaryText = result
-    ? `Property Value: ${formatRupees(result.propertyValue)} | Advance Tax (${result.sectionCode} ${result.filerStatus}): ${formatRupees(result.taxAmount)} (${result.ratePercentage}) | Filer Savings: ${formatRupees(result.savingsVsNonFiler)} — Pakistan Finance Calculators`
-    : "";
+  const summaryData = React.useMemo(() => {
+    return buildPropertySummaryData({
+      propertyValueRaw: propertyValRaw,
+      propertyValueNum: propertyValNum,
+      transaction,
+      filerStatus,
+      result: result || calculatePropertyTax(0, transaction, filerStatus),
+      language: lang,
+    });
+  }, [propertyValRaw, propertyValNum, transaction, filerStatus, result, lang]);
+
+  const copySummaryText = React.useMemo(() => {
+    return buildWhatsAppText(summaryData, lang);
+  }, [summaryData, lang]);
 
   // Breakdown Table: Side-by-Side Comparison
   const breakdownColumns: BreakdownColumn[] = [
@@ -286,6 +302,7 @@ export default function PropertyTaxCalculatorPage() {
       resultPanel={resultPanel}
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
+      printReport={<PrintReport data={summaryData} language={lang} />}
     />
   );
 }

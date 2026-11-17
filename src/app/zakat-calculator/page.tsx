@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import CalculatorShell from "@/components/CalculatorShell";
 import MoneyInput from "@/components/MoneyInput";
 import Toggle, { ToggleOption } from "@/components/Toggle";
@@ -13,6 +14,9 @@ import { formatRupees, roundToPaisa } from "@/lib/calc/money";
 import { zakatRates } from "@/lib/rates/zakat";
 import { useExplanationLang } from "@/components/LanguageContext";
 import ratesData from "@/data/rates.json";
+import PrintReport from "@/components/PrintReport";
+import { buildZakatSummaryData } from "@/lib/summary/builders";
+import { buildWhatsAppText } from "@/lib/summary";
 
 type MetalUnit = "tola" | "grams";
 
@@ -157,7 +161,32 @@ export default function ZakatCalculatorPage() {
     },
   ];
 
-  const copySummaryText = `Zakat Status: ${result.statusLabel} | Zakat Due: ${formatRupees(result.zakatDue)} | Remaining: ${formatRupees(result.remainingDue)} (Net Wealth: ${formatRupees(result.netZakatableWealth)} vs Nisab: ${formatRupees(result.nisabThreshold)}) — Pakistan Finance Calculators`;
+  const summaryData = React.useMemo(() => {
+    return buildZakatSummaryData({
+      cashInHand: cashNum,
+      bankSavings: bankNum,
+      goldQuantity: goldQtyNum,
+      goldUnit,
+      goldPurity,
+      goldRatePerTola: goldRateNum,
+      silverQuantity: silverQtyNum,
+      silverUnit,
+      silverRatePerTola: silverRateNum,
+      businessStock: businessNum,
+      investments: investmentsNum,
+      debtsToDeduct: debtsNum,
+      result,
+      language: lang,
+    });
+  }, [
+    cashNum, bankNum, goldQtyNum, goldUnit, goldPurity, goldRateNum,
+    silverQtyNum, silverUnit, silverRateNum, businessNum, investmentsNum,
+    debtsNum, result, lang
+  ]);
+
+  const copySummaryText = React.useMemo(() => {
+    return buildWhatsAppText(summaryData, lang);
+  }, [summaryData, lang]);
 
   // Asset Breakdown Rows
   const breakdownColumns: BreakdownColumn[] = [
@@ -633,6 +662,25 @@ export default function ZakatCalculatorPage() {
           </span>
         </div>
       )}
+
+      {/* Cross-link to Ushr Calculator (Part 4) */}
+      <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-50/90 via-teal-50/50 to-lime-50/60 border border-emerald-200/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+        <div className="text-xs sm:text-sm text-slate-800 leading-snug">
+          <span className="font-bold text-primary block text-xs uppercase tracking-wider mb-0.5">
+            {lang === "roman" ? "Zameen Ki Paidawar (Crops)" : "Agricultural Produce (Crops)"}
+          </span>
+          {lang === "roman"
+            ? "Kya aapki fasal par Ushr banta hai? Ushr fasal uthte hi dena hota hai — 2.5% wali Zakat se alag hisab hai."
+            : "Do you owe Ushr on your agricultural harvest? Ushr is due at harvest time — calculated separately from 2.5% wealth Zakat."}
+        </div>
+        <Link
+          href="/ushr-calculator"
+          className="inline-flex items-center justify-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-primary hover:bg-slate-800 rounded-xl shrink-0 transition-colors shadow-xs"
+        >
+          <span>Ushr Calculator</span>
+          <span>→</span>
+        </Link>
+      </div>
     </div>
   );
 
@@ -748,6 +796,7 @@ export default function ZakatCalculatorPage() {
       resultPanel={resultPanel}
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
+      printReport={<PrintReport data={summaryData} language={lang} />}
     />
   );
 }
