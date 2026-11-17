@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import SearchBox from "@/components/SearchBox";
 import { getSiteContent } from "@/lib/content/contentServer";
+import { HeroInstallButton } from "@/components/PwaInstallPrompt";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -268,6 +269,11 @@ export default async function HomePage() {
                 {item.label}
               </Link>
             ))}
+          </div>
+
+          {/* Optional Hero Install App Button */}
+          <div className="flex justify-center">
+            <HeroInstallButton />
           </div>
         </div>
       </section>

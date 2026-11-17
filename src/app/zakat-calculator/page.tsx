@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import CalculatorShell from "@/components/CalculatorShell";
 import MoneyInput from "@/components/MoneyInput";
@@ -96,6 +96,24 @@ export default function ZakatCalculatorPage() {
     setStep2Open(false);
     setStep3Open(false);
   };
+
+  const [isOnline, setIsOnline] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setIsOnline(navigator.onLine);
+
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
 
   const isStale = React.useMemo(() => {
     try {
@@ -433,7 +451,9 @@ export default function ZakatCalculatorPage() {
 
               <div className="text-[11px] text-amber-900 font-medium bg-amber-50/90 p-2.5 rounded-lg border border-amber-200/80">
                 <p>
-                  {lang === "roman"
+                  {!isOnline
+                    ? `Offline — rates from ${ratesData.lastUpdatedLabel}. Gold: Rs ${ratesData.goldPerTolaPKR.toFixed(2)}/tola. Stored locally on device.`
+                    : lang === "roman"
                     ? `Live rate — updated ${ratesData.lastUpdatedLabel}. Gold: Rs ${ratesData.goldPerTolaPKR.toFixed(2)}/tola. Ye international spot price se hisab hai — Sarafa official rate se thoda farq ho sakta hai.`
                     : `Live rate — updated ${ratesData.lastUpdatedLabel}. Gold: Rs ${ratesData.goldPerTolaPKR.toFixed(2)}/tola. Calculated from international spot price — may differ slightly from Sarafa official rate.`}
                 </p>
@@ -524,7 +544,9 @@ export default function ZakatCalculatorPage() {
               </div>
               <div className="text-[11px] text-amber-900 font-medium bg-amber-50/90 p-2.5 rounded-lg border border-amber-200/80">
                 <p>
-                  {lang === "roman"
+                  {!isOnline
+                    ? `Offline — rates from ${ratesData.lastUpdatedLabel}. Silver: Rs ${ratesData.silverPerTolaPKR.toFixed(2)}/tola. Stored locally on device.`
+                    : lang === "roman"
                     ? `Live rate — updated ${ratesData.lastUpdatedLabel}. Silver: Rs ${ratesData.silverPerTolaPKR.toFixed(2)}/tola. Ye international spot price se hisab hai — Sarafa official rate se thoda farq ho sakta hai.`
                     : `Live rate — updated ${ratesData.lastUpdatedLabel}. Silver: Rs ${ratesData.silverPerTolaPKR.toFixed(2)}/tola. Calculated from international spot price — may differ slightly from Sarafa official rate.`}
                 </p>
@@ -646,6 +668,20 @@ export default function ZakatCalculatorPage() {
                 : "Rates are over 48 hours old — please enter today's local Sarafa rate manually."}
             </span>
           </div>
+        </div>
+      ) : !isOnline ? (
+        <div className="px-3.5 py-2 rounded-xl bg-amber-50 border border-amber-300 text-xs text-amber-900 flex flex-wrap items-center justify-between gap-2 shadow-2xs">
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+            <span>
+              <strong className="text-amber-950">Offline — rates from {ratesData.lastUpdatedLabel}</strong>
+              <span className="mx-1.5 text-amber-500">•</span>
+              <span className="text-amber-800">Stored on device</span>
+            </span>
+          </span>
+          <span className="text-[11px] text-amber-700 font-medium">
+            Cached copy
+          </span>
         </div>
       ) : (
         <div className="px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200/90 text-xs text-slate-600 flex flex-wrap items-center justify-between gap-2 shadow-2xs">

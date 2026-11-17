@@ -16,6 +16,7 @@ const VALID_CALCULATORS: CalculatorType[] = [
   "property",
   "gst",
   "fitrana",
+  "ushr",
 ];
 
 export async function POST(request: NextRequest) {
@@ -73,6 +74,11 @@ export async function POST(request: NextRequest) {
       }
 
       await recordToolUse(calculator as CalculatorType, visitorHash);
+      return NextResponse.json({ success: true });
+    }
+
+    // Handle generic PWA install tracking
+    if (type === "pwa_install") {
       return NextResponse.json({ success: true });
     }
 

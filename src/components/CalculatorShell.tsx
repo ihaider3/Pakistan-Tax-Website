@@ -65,6 +65,9 @@ export default function CalculatorShell({
     if (!hasTrackedFormUse.current) {
       hasTrackedFormUse.current = true;
       trackToolUse(getCalculatorKey(content.slug));
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("pfc_tool_used"));
+      }
     }
   };
 

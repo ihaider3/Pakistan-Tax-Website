@@ -7,6 +7,7 @@ import FloatingFeedbackButton from "@/components/FloatingFeedbackButton";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { LanguageProvider } from "@/components/LanguageContext";
 import { SiteContentProvider } from "@/components/SiteContentContext";
+import { PwaProvider } from "@/components/PwaInstallPrompt";
 import { getSiteContent } from "@/lib/content/contentServer";
 
 const inter = Inter({
@@ -52,9 +53,21 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Finance Calc",
+  },
   icons: {
-    icon: "/icon.svg",
-    apple: "/icon.svg",
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   openGraph: {
     type: "website",
@@ -88,6 +101,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  themeColor: "#0B2A4A",
 };
 
 export default async function RootLayout({
@@ -102,11 +116,13 @@ export default async function RootLayout({
       <body className="min-h-screen flex flex-col bg-white text-appText font-sans selection:bg-accent-soft selection:text-accent overflow-x-hidden w-full">
         <SiteContentProvider initialContent={initialContent}>
           <LanguageProvider>
-            <AnalyticsTracker />
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <FloatingFeedbackButton />
+            <PwaProvider>
+              <AnalyticsTracker />
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <FloatingFeedbackButton />
+            </PwaProvider>
           </LanguageProvider>
         </SiteContentProvider>
       </body>
