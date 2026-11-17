@@ -47,3 +47,4 @@ export function trackToolUse(calculator: CalculatorType): void {
     calculator,
   });
 }
+

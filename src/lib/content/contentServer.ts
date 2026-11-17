@@ -239,3 +239,4 @@ export function resetInMemoryContent(): void {
   inMemorySiteContent.clear();
   inMemoryHistory.length = 0;
 }
+

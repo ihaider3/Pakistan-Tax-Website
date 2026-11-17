@@ -84,3 +84,4 @@ export interface AnalyticsMetrics {
   topReferrers: TopReferrerStat[];
   recentActivity: RecentActivityItem[];
 }
+

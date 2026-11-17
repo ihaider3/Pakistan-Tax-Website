@@ -240,9 +240,9 @@ export default function ZakatCalculatorPage() {
           <div className="bg-white p-4 rounded-xl border border-slate-200 space-y-5 animate-in fade-in duration-200">
             {/* Gold Input */}
             <div className="space-y-2">
-              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
-                <div className="sm:col-span-5">
-                  <label htmlFor="gold-quantity" className="block text-xs font-bold text-primary mb-1">
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5 items-end">
+                <div className="sm:col-span-4">
+                  <label htmlFor="gold-quantity" className="block text-xs font-bold text-primary mb-1.5">
                     Gold Quantity — Sone ki miqdaar
                   </label>
                   <input
@@ -258,19 +258,49 @@ export default function ZakatCalculatorPage() {
                       setGoldQtyRaw(e.target.value);
                       setGoldQtyNum(parseFloat(e.target.value) || 0);
                     }}
-                    className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-slate-200 text-base font-semibold bg-white focus:ring-2 focus:ring-accent"
+                    className="w-full px-3.5 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
                     placeholder="0"
                   />
                 </div>
-                <div className="sm:col-span-3">
-                  <Toggle<MetalUnit>
-                    options={unitOptions}
-                    value={goldUnit}
-                    onChange={(u) => setGoldUnit(u)}
-                  />
+                <div className="sm:col-span-4">
+                  <label className="block text-xs font-bold text-primary mb-1.5">
+                    Unit — Ikai
+                  </label>
+                  <div
+                    role="radiogroup"
+                    aria-label="Gold Unit"
+                    className="w-full bg-slate-100/90 p-1 rounded-xl border border-slate-200/90 flex items-center min-h-[46px] gap-1 shadow-inner-soft"
+                  >
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked={goldUnit === "tola"}
+                      onClick={() => setGoldUnit("tola")}
+                      className={`flex-1 min-h-[38px] px-2.5 py-1.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-150 flex items-center justify-center text-center cursor-pointer ${
+                        goldUnit === "tola"
+                          ? "bg-primary text-white shadow-sm scale-[1.01]"
+                          : "text-slate-600 hover:text-primary hover:bg-white/70"
+                      }`}
+                    >
+                      <span>Tola</span>
+                    </button>
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked={goldUnit === "grams"}
+                      onClick={() => setGoldUnit("grams")}
+                      className={`flex-1 min-h-[38px] px-2.5 py-1.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-150 flex items-center justify-center text-center cursor-pointer ${
+                        goldUnit === "grams"
+                          ? "bg-primary text-white shadow-sm scale-[1.01]"
+                          : "text-slate-600 hover:text-primary hover:bg-white/70"
+                      }`}
+                    >
+                      <span>Grams</span>
+                    </button>
+                  </div>
                 </div>
                 <div className="sm:col-span-4">
-                  <label htmlFor="gold-rate-per-tola" className="block text-xs font-bold text-primary mb-1">
+                  <label htmlFor="gold-rate-per-tola" className="block text-xs font-bold text-primary mb-1.5">
                     Today&apos;s Gold Rate / Tola
                   </label>
                   <input
@@ -285,7 +315,7 @@ export default function ZakatCalculatorPage() {
                       setGoldRateRaw(e.target.value);
                       setGoldRateNum(parseFloat(cleaned) || 0);
                     }}
-                    className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-slate-200 text-base font-semibold bg-white focus:ring-2 focus:ring-accent"
+                    className="w-full px-3.5 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
                     placeholder="e.g. 400,000"
                   />
                 </div>
@@ -301,9 +331,9 @@ export default function ZakatCalculatorPage() {
 
             {/* Silver Input */}
             <div className="space-y-2 pt-4 border-t border-slate-100">
-              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
-                <div className="sm:col-span-5">
-                  <label htmlFor="silver-quantity" className="block text-xs font-bold text-primary mb-1">
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5 items-end">
+                <div className="sm:col-span-4">
+                  <label htmlFor="silver-quantity" className="block text-xs font-bold text-primary mb-1.5">
                     Silver Quantity — Chandi ki miqdaar
                   </label>
                   <input
@@ -319,19 +349,49 @@ export default function ZakatCalculatorPage() {
                       setSilverQtyRaw(e.target.value);
                       setSilverQtyNum(parseFloat(e.target.value) || 0);
                     }}
-                    className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-slate-200 text-base font-semibold bg-white focus:ring-2 focus:ring-accent"
+                    className="w-full px-3.5 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
                     placeholder="0"
                   />
                 </div>
-                <div className="sm:col-span-3">
-                  <Toggle<MetalUnit>
-                    options={unitOptions}
-                    value={silverUnit}
-                    onChange={(u) => setSilverUnit(u)}
-                  />
+                <div className="sm:col-span-4">
+                  <label className="block text-xs font-bold text-primary mb-1.5">
+                    Unit — Ikai
+                  </label>
+                  <div
+                    role="radiogroup"
+                    aria-label="Silver Unit"
+                    className="w-full bg-slate-100/90 p-1 rounded-xl border border-slate-200/90 flex items-center min-h-[46px] gap-1 shadow-inner-soft"
+                  >
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked={silverUnit === "tola"}
+                      onClick={() => setSilverUnit("tola")}
+                      className={`flex-1 min-h-[38px] px-2.5 py-1.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-150 flex items-center justify-center text-center cursor-pointer ${
+                        silverUnit === "tola"
+                          ? "bg-primary text-white shadow-sm scale-[1.01]"
+                          : "text-slate-600 hover:text-primary hover:bg-white/70"
+                      }`}
+                    >
+                      <span>Tola</span>
+                    </button>
+                    <button
+                      type="button"
+                      role="radio"
+                      aria-checked={silverUnit === "grams"}
+                      onClick={() => setSilverUnit("grams")}
+                      className={`flex-1 min-h-[38px] px-2.5 py-1.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-150 flex items-center justify-center text-center cursor-pointer ${
+                        silverUnit === "grams"
+                          ? "bg-primary text-white shadow-sm scale-[1.01]"
+                          : "text-slate-600 hover:text-primary hover:bg-white/70"
+                      }`}
+                    >
+                      <span>Grams</span>
+                    </button>
+                  </div>
                 </div>
                 <div className="sm:col-span-4">
-                  <label htmlFor="silver-rate-per-tola" className="block text-xs font-bold text-primary mb-1">
+                  <label htmlFor="silver-rate-per-tola" className="block text-xs font-bold text-primary mb-1.5">
                     Today&apos;s Silver Rate / Tola
                   </label>
                   <input
@@ -346,7 +406,7 @@ export default function ZakatCalculatorPage() {
                       setSilverRateRaw(e.target.value);
                       setSilverRateNum(parseFloat(cleaned) || 0);
                     }}
-                    className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-slate-200 text-base font-semibold bg-white focus:ring-2 focus:ring-accent"
+                    className="w-full px-3.5 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
                     placeholder="e.g. 5,500"
                   />
                 </div>

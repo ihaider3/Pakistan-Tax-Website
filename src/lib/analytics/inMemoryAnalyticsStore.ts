@@ -29,3 +29,4 @@ export function resetInMemoryAnalytics(): void {
   inMemoryPageViews.length = 0;
   inMemoryToolUses.length = 0;
 }
+
