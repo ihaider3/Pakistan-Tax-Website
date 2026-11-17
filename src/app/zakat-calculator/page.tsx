@@ -36,65 +36,85 @@ export default function ZakatCalculatorPage() {
     }
   }, []);
 
-  // Asset inputs state — all initialized to 0 per user requirement
-  const [cashRaw, setCashRaw] = useState<string>("0");
+  // Asset inputs state — all empty by default per Prompt 22
+  const [cashRaw, setCashRaw] = useState<string>("");
   const [cashNum, setCashNum] = useState<number>(0);
 
-  const [bankRaw, setBankRaw] = useState<string>("0");
+  const [bankRaw, setBankRaw] = useState<string>("");
   const [bankNum, setBankNum] = useState<number>(0);
 
   const [goldUnit, setGoldUnit] = useState<MetalUnit>("tola");
-  const [goldQtyRaw, setGoldQtyRaw] = useState<string>("0");
+  const [goldQtyRaw, setGoldQtyRaw] = useState<string>("");
   const [goldQtyNum, setGoldQtyNum] = useState<number>(0);
   const [goldPurity, setGoldPurity] = useState<GoldPurity>("24k");
   const [goldRateRaw, setGoldRateRaw] = useState<string>(ratesData.goldPerTolaPKR.toFixed(2));
   const [goldRateNum, setGoldRateNum] = useState<number>(ratesData.goldPerTolaPKR);
 
   const [silverUnit, setSilverUnit] = useState<MetalUnit>("tola");
-  const [silverQtyRaw, setSilverQtyRaw] = useState<string>("0");
+  const [silverQtyRaw, setSilverQtyRaw] = useState<string>("");
   const [silverQtyNum, setSilverQtyNum] = useState<number>(0);
   const [silverRateRaw, setSilverRateRaw] = useState<string>(ratesData.silverPerTolaPKR.toFixed(2));
   const [silverRateNum, setSilverRateNum] = useState<number>(ratesData.silverPerTolaPKR);
 
-  const [businessRaw, setBusinessRaw] = useState<string>("0");
+  const [businessRaw, setBusinessRaw] = useState<string>("");
   const [businessNum, setBusinessNum] = useState<number>(0);
 
-  const [investmentsRaw, setInvestmentsRaw] = useState<string>("0");
+  const [investmentsRaw, setInvestmentsRaw] = useState<string>("");
   const [investmentsNum, setInvestmentsNum] = useState<number>(0);
 
-  const [debtsRaw, setDebtsRaw] = useState<string>("0");
+  const [debtsRaw, setDebtsRaw] = useState<string>("");
   const [debtsNum, setDebtsNum] = useState<number>(0);
 
-  const [alreadyPaidRaw, setAlreadyPaidRaw] = useState<string>("0");
+  const [alreadyPaidRaw, setAlreadyPaidRaw] = useState<string>("");
   const [alreadyPaidNum, setAlreadyPaidNum] = useState<number>(0);
 
   const handleReset = () => {
-    setCashRaw("0");
+    setCashRaw("");
     setCashNum(0);
-    setBankRaw("0");
+    setBankRaw("");
     setBankNum(0);
     setGoldUnit("tola");
-    setGoldQtyRaw("0");
+    setGoldQtyRaw("");
     setGoldQtyNum(0);
     setGoldPurity("24k");
     setGoldRateRaw(ratesData.goldPerTolaPKR.toFixed(2));
     setGoldRateNum(ratesData.goldPerTolaPKR);
     setSilverUnit("tola");
-    setSilverQtyRaw("0");
+    setSilverQtyRaw("");
     setSilverQtyNum(0);
     setSilverRateRaw(ratesData.silverPerTolaPKR.toFixed(2));
     setSilverRateNum(ratesData.silverPerTolaPKR);
-    setBusinessRaw("0");
+    setBusinessRaw("");
     setBusinessNum(0);
-    setInvestmentsRaw("0");
+    setInvestmentsRaw("");
     setInvestmentsNum(0);
-    setDebtsRaw("0");
+    setDebtsRaw("");
     setDebtsNum(0);
-    setAlreadyPaidRaw("0");
+    setAlreadyPaidRaw("");
     setAlreadyPaidNum(0);
     setStep1Open(true);
     setStep2Open(false);
     setStep3Open(false);
+  };
+
+  const handleExample = () => {
+    setCashRaw("500000");
+    setCashNum(500000);
+    setBankRaw("");
+    setBankNum(0);
+    setGoldQtyRaw("");
+    setGoldQtyNum(0);
+    setSilverQtyRaw("");
+    setSilverQtyNum(0);
+    setBusinessRaw("");
+    setBusinessNum(0);
+    setInvestmentsRaw("");
+    setInvestmentsNum(0);
+    setDebtsRaw("");
+    setDebtsNum(0);
+    setAlreadyPaidRaw("");
+    setAlreadyPaidNum(0);
+    setStep1Open(true);
   };
 
   const [isOnline, setIsOnline] = useState<boolean>(true);
@@ -266,14 +286,24 @@ export default function ZakatCalculatorPage() {
             <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold">1</span>
             <span>Step 1: Cash &amp; Bank</span>
           </h3>
-          <button
-            type="button"
-            onClick={() => setStep1Open(!step1Open)}
-            className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors"
-          >
-            <span>{step1Open ? "Collapse" : "Expand"}</span>
-            <span>{step1Open ? "▲" : "▼"}</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleExample}
+              className="text-xs font-bold text-accent hover:text-accent-dark px-2.5 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors active:scale-98"
+            >
+              <span>💡</span>
+              <span>{lang === "roman" ? "Example try karein" : "Try an example"}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setStep1Open(!step1Open)}
+              className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors"
+            >
+              <span>{step1Open ? "Collapse" : "Expand"}</span>
+              <span>{step1Open ? "▲" : "▼"}</span>
+            </button>
+          </div>
         </div>
         {step1Open && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in fade-in duration-200">
@@ -285,7 +315,7 @@ export default function ZakatCalculatorPage() {
                 setCashRaw(r);
                 setCashNum(v);
               }}
-              placeholder="0"
+              placeholder="e.g. 500,000"
             />
             <MoneyInput
               id="bank-input"
@@ -295,7 +325,7 @@ export default function ZakatCalculatorPage() {
                 setBankRaw(r);
                 setBankNum(v);
               }}
-              placeholder="0"
+              placeholder="e.g. 200,000"
             />
           </div>
         )}
@@ -344,7 +374,7 @@ export default function ZakatCalculatorPage() {
                         setGoldQtyNum(parseFloat(e.target.value) || 0);
                       }}
                       className="flex-1 min-w-0 px-3.5 py-2.5 min-h-[46px] text-base font-semibold text-slate-900 bg-transparent focus:outline-none"
-                      placeholder="0"
+                      placeholder="e.g. 10"
                     />
                     <div
                       role="radiogroup"
@@ -488,7 +518,7 @@ export default function ZakatCalculatorPage() {
                         setSilverQtyNum(parseFloat(e.target.value) || 0);
                       }}
                       className="flex-1 min-w-0 px-3.5 py-2.5 min-h-[46px] text-base font-semibold text-slate-900 bg-transparent focus:outline-none"
-                      placeholder="0"
+                      placeholder="e.g. 52.5"
                     />
                     <div
                       role="radiogroup"
@@ -602,7 +632,7 @@ export default function ZakatCalculatorPage() {
                   setBusinessRaw(r);
                   setBusinessNum(v);
                 }}
-                placeholder="0"
+                placeholder="e.g. 300,000"
               />
               <MoneyInput
                 id="investments-input"
@@ -612,7 +642,7 @@ export default function ZakatCalculatorPage() {
                   setInvestmentsRaw(r);
                   setInvestmentsNum(v);
                 }}
-                placeholder="0"
+                placeholder="e.g. 150,000"
               />
             </div>
 
@@ -625,7 +655,7 @@ export default function ZakatCalculatorPage() {
                   setDebtsRaw(r);
                   setDebtsNum(v);
                 }}
-                placeholder="0"
+                placeholder="e.g. 50,000"
                 hint="Debts due immediately or within this year"
               />
               <MoneyInput
@@ -636,7 +666,7 @@ export default function ZakatCalculatorPage() {
                   setAlreadyPaidRaw(r);
                   setAlreadyPaidNum(v);
                 }}
-                placeholder="0"
+                placeholder="e.g. 5,000"
                 hint="Bank 1 Ramadan deduction or advance charity"
               />
             </div>
@@ -664,9 +694,9 @@ export default function ZakatCalculatorPage() {
         secondaryResults={secondaryResults}
         copySummaryText={copySummaryText}
         isEmpty={!hasAnyInput}
-        emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
         footnote={zakatRates.disclaimerText}
         onReset={handleReset}
+        onExample={handleExample}
       />
 
       {/* Live Rate Timestamp / 48-Hour Stale Warning */}

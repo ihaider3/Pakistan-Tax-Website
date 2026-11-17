@@ -24,14 +24,22 @@ export default function PropertyTaxCalculatorPage() {
   const content = calculatorPages.property;
   const { lang } = useExplanationLang();
 
-  const [propertyValRaw, setPropertyValRaw] = useState<string>("10000000"); // Preloaded with Blueprint worked example (1 Crore)
-  const [propertyValNum, setPropertyValNum] = useState<number>(10000000);
+  const [propertyValRaw, setPropertyValRaw] = useState<string>("");
+  const [propertyValNum, setPropertyValNum] = useState<number>(0);
   const [isValid, setIsValid] = useState<boolean>(true);
 
   const [transaction, setTransaction] = useState<PropertyTransactionType>("buy");
   const [filerStatus, setFilerStatus] = useState<FilerStatus>("filer");
 
   const handleReset = () => {
+    setPropertyValRaw("");
+    setPropertyValNum(0);
+    setIsValid(true);
+    setTransaction("buy");
+    setFilerStatus("filer");
+  };
+
+  const handleExample = () => {
     setPropertyValRaw("10000000");
     setPropertyValNum(10000000);
     setIsValid(true);
@@ -51,7 +59,7 @@ export default function PropertyTaxCalculatorPage() {
 
   const isBlank = propertyValRaw.trim() === "";
   let result: PropertyTaxResult | null = null;
-  if (isValid && !isBlank && propertyValNum >= 0) {
+  if (isValid && !isBlank && propertyValNum > 0) {
     result = calculatePropertyTax(propertyValNum, transaction, filerStatus);
   }
 
@@ -178,6 +186,19 @@ export default function PropertyTaxCalculatorPage() {
         onChange={(val) => setTransaction(val)}
       />
 
+      {/* Property Details Header with Try an Example Button */}
+      <div className="flex items-center justify-between pt-1">
+        <span className="text-xs font-bold text-primary uppercase tracking-wider">Property Consideration</span>
+        <button
+          type="button"
+          onClick={handleExample}
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold text-accent bg-accent-soft hover:bg-teal-100/80 border border-accent/30 rounded-lg transition-all cursor-pointer shadow-2xs active:scale-98"
+        >
+          <span>💡</span>
+          <span>{lang === "roman" ? "Example try karein" : "Try an example"}</span>
+        </button>
+      </div>
+
       {/* Property Value Input */}
       <MoneyInput
         id="property-value-input"
@@ -191,7 +212,6 @@ export default function PropertyTaxCalculatorPage() {
         placeholder="e.g. 10,000,000"
         hint="Enter the higher of actual sale price or official FBR notified valuation — FBR rate ya asal qeemat"
         unitLabel="PKR"
-        required
       />
 
       {/* Filer Status Toggle */}
@@ -239,9 +259,9 @@ export default function PropertyTaxCalculatorPage() {
       secondaryResults={secondaryResults}
       copySummaryText={copySummaryText}
       isEmpty={isBlank || !isValid || !result}
-      emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
       footnote="Finance Act 2026. Late-filer category was abolished in TY2027. Filers can adjust this advance tax in their annual return."
       onReset={handleReset}
+      onExample={handleExample}
     />
   );
 

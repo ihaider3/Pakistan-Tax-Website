@@ -24,8 +24,8 @@ export default function SalaryTaxCalculatorPage() {
 
   const [frequency, setFrequency] = useState<SalaryFrequency>("monthly");
   const [taxYear, setTaxYear] = useState<TaxYear>("2026-27");
-  const [salaryRaw, setSalaryRaw] = useState<string>("150000"); // Preloaded with Blueprint worked example
-  const [salaryNum, setSalaryNum] = useState<number>(150000);
+  const [salaryRaw, setSalaryRaw] = useState<string>("");
+  const [salaryNum, setSalaryNum] = useState<number>(0);
   const [isValid, setIsValid] = useState<boolean>(true);
 
   // Dynamic document title based on tax year selection
@@ -50,7 +50,7 @@ export default function SalaryTaxCalculatorPage() {
 
   const isBlank = salaryRaw.trim() === "";
   let result: SalaryTaxResult | null = null;
-  if (isValid && !isBlank && salaryNum >= 0) {
+  if (isValid && !isBlank && salaryNum > 0) {
     result = calculateSalaryTax(salaryNum, frequency, taxYear);
   }
 
@@ -62,6 +62,14 @@ export default function SalaryTaxCalculatorPage() {
   };
 
   const handleReset = () => {
+    setFrequency("monthly");
+    setTaxYear("2026-27");
+    setSalaryRaw("");
+    setSalaryNum(0);
+    setIsValid(true);
+  };
+
+  const handleExample = () => {
     setFrequency("monthly");
     setTaxYear("2026-27");
     setSalaryRaw("150000");
@@ -181,6 +189,19 @@ export default function SalaryTaxCalculatorPage() {
         onChange={handleFrequencyChange}
       />
 
+      {/* Salary Input Header with Try an Example Button */}
+      <div className="flex items-center justify-between pt-1">
+        <span className="text-xs font-bold text-primary uppercase tracking-wider">Salary Details</span>
+        <button
+          type="button"
+          onClick={handleExample}
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold text-accent bg-accent-soft hover:bg-teal-100/80 border border-accent/30 rounded-lg transition-all cursor-pointer shadow-2xs active:scale-98"
+        >
+          <span>💡</span>
+          <span>{lang === "roman" ? "Example try karein" : "Try an example"}</span>
+        </button>
+      </div>
+
       {/* Salary Money Input */}
       <MoneyInput
         id="salary-input"
@@ -194,7 +215,6 @@ export default function SalaryTaxCalculatorPage() {
         placeholder={frequency === "monthly" ? "e.g. 150,000" : "e.g. 1,800,000"}
         hint="Enter gross taxable salary before tax deductions or provident fund — Mahana kul aamdani tax katne se pehle"
         unitLabel="PKR"
-        required
       />
 
       {/* Tax Year Selector */}
@@ -242,9 +262,9 @@ export default function SalaryTaxCalculatorPage() {
       secondaryResults={secondaryResults}
       copySummaryText={copySummaryText}
       isEmpty={isBlank || !isValid || !result}
-      emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
       footnote={footnoteText}
       onReset={handleReset}
+      onExample={handleExample}
     />
   );
 

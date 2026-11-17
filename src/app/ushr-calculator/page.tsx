@@ -28,13 +28,23 @@ export default function UshrCalculatorPage() {
   // Form State
   const [crop, setCrop] = useState<string>("wheat");
   const [unit, setUnit] = useState<UshrUnit>("kg");
-  const [quantityRaw, setQuantityRaw] = useState<string>("1000");
-  const [quantityNum, setQuantityNum] = useState<number>(1000);
-  const [priceRaw, setPriceRaw] = useState<string>("130");
-  const [priceNum, setPriceNum] = useState<number>(130);
+  const [quantityRaw, setQuantityRaw] = useState<string>("");
+  const [quantityNum, setQuantityNum] = useState<number>(0);
+  const [priceRaw, setPriceRaw] = useState<string>("");
+  const [priceNum, setPriceNum] = useState<number>(0);
   const [irrigation, setIrrigation] = useState<UshrIrrigationType>("rain");
 
   const handleReset = () => {
+    setCrop("wheat");
+    setUnit("kg");
+    setQuantityRaw("");
+    setQuantityNum(0);
+    setPriceRaw("");
+    setPriceNum(0);
+    setIrrigation("rain");
+  };
+
+  const handleExample = () => {
     setCrop("wheat");
     setUnit("kg");
     setQuantityRaw("1000");
@@ -168,6 +178,19 @@ export default function UshrCalculatorPage() {
   // Inputs Section
   const calculatorInputs = (
     <div className="space-y-6">
+      {/* Try an Example Header */}
+      <div className="flex items-center justify-between pb-1">
+        <span className="text-xs font-bold text-primary uppercase tracking-wider">Harvest Details</span>
+        <button
+          type="button"
+          onClick={handleExample}
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold text-accent bg-accent-soft hover:bg-teal-100/80 border border-accent/30 rounded-lg transition-all cursor-pointer shadow-2xs active:scale-98"
+        >
+          <span>💡</span>
+          <span>{lang === "roman" ? "Example try karein" : "Try an example"}</span>
+        </button>
+      </div>
+
       {/* 1. Crop Selection */}
       <div className="space-y-1.5">
         <label htmlFor="ushr-crop-select" className="block text-xs sm:text-sm font-bold text-primary">
@@ -216,7 +239,7 @@ export default function UshrCalculatorPage() {
               inputMode="decimal"
               value={quantityRaw}
               onChange={handleQuantityChange}
-              placeholder="e.g. 1000"
+              placeholder={unit === "kg" ? "e.g. 1,000" : "e.g. 25"}
               className="w-full px-3.5 py-2.5 pr-16 text-base sm:text-lg font-bold text-slate-900 bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/40 shadow-2xs"
             />
             <div className="absolute right-3 top-1/2 -translate-y-1/2 px-2 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-600 uppercase">
@@ -250,7 +273,7 @@ export default function UshrCalculatorPage() {
             inputMode="decimal"
             value={priceRaw}
             onChange={handlePriceChange}
-            placeholder={unit === "kg" ? "e.g. 130" : "e.g. 5200"}
+            placeholder={unit === "kg" ? "e.g. 130" : "e.g. 5,200"}
             className="w-full pl-10 pr-20 py-2.5 text-base sm:text-lg font-bold text-slate-900 bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/40 shadow-2xs"
           />
           <div className="absolute right-3 top-1/2 -translate-y-1/2 px-2 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-600">
@@ -401,6 +424,7 @@ export default function UshrCalculatorPage() {
             isEmpty={false}
             footnote="Ushr is due immediately upon harvest (Quran 6:141). Seed, fertiliser, and harvesting expenses are not deductible."
             onReset={handleReset}
+            onExample={handleExample}
           />
 
           {/* Prominent Cash Value Accent Box */}
@@ -456,9 +480,9 @@ export default function UshrCalculatorPage() {
           secondaryResults={[]}
           copySummaryText={copySummaryText}
           isEmpty={true}
-          emptyPrompt="Enter your harvest above to see your Ushr — Upar apni paidawar likhein, Ushr foran nazar aayega."
           footnote="Ushr is due immediately upon harvest (Quran 6:141). Seed, fertiliser, and harvesting expenses are not deductible."
           onReset={handleReset}
+          onExample={handleExample}
         />
       )}
 

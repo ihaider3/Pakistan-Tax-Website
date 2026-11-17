@@ -22,8 +22,8 @@ export default function GstCalculatorPage() {
   const content = calculatorPages.gst;
   const { lang } = useExplanationLang();
 
-  const [amountRaw, setAmountRaw] = useState<string>("100000"); // Preloaded with Blueprint worked example
-  const [amountNum, setAmountNum] = useState<number>(100000);
+  const [amountRaw, setAmountRaw] = useState<string>("");
+  const [amountNum, setAmountNum] = useState<number>(0);
   const [isValid, setIsValid] = useState<boolean>(true);
 
   const [mode, setMode] = useState<GstMode>("add");
@@ -32,13 +32,21 @@ export default function GstCalculatorPage() {
   const [customRateNum, setCustomRateNum] = useState<number>(5);
 
   const handleReset = () => {
-    setAmountRaw("100000");
-    setAmountNum(100000);
+    setAmountRaw("");
+    setAmountNum(0);
     setIsValid(true);
     setMode("add");
     setRatePreset("18");
     setCustomRateRaw("5");
     setCustomRateNum(5);
+  };
+
+  const handleExample = () => {
+    setAmountRaw("100000");
+    setAmountNum(100000);
+    setIsValid(true);
+    setMode("add");
+    setRatePreset("18");
   };
 
   const modeOptions: ToggleOption<GstMode>[] = [
@@ -56,7 +64,7 @@ export default function GstCalculatorPage() {
 
   const isBlank = amountRaw.trim() === "";
   let result: GstCalculationResult | null = null;
-  if (isValid && !isBlank && amountNum >= 0) {
+  if (isValid && !isBlank && amountNum > 0) {
     result = calculateGst(amountNum, mode, effectiveRate);
   }
 
@@ -173,6 +181,19 @@ export default function GstCalculatorPage() {
         onChange={(m) => setMode(m)}
       />
 
+      {/* Amount Input Header with Try an Example Button */}
+      <div className="flex items-center justify-between pt-1">
+        <span className="text-xs font-bold text-primary uppercase tracking-wider">Invoice Amount</span>
+        <button
+          type="button"
+          onClick={handleExample}
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold text-accent bg-accent-soft hover:bg-teal-100/80 border border-accent/30 rounded-lg transition-all cursor-pointer shadow-2xs active:scale-98"
+        >
+          <span>💡</span>
+          <span>{lang === "roman" ? "Example try karein" : "Try an example"}</span>
+        </button>
+      </div>
+
       {/* Amount Input */}
       <MoneyInput
         id="gst-amount-input"
@@ -198,7 +219,6 @@ export default function GstCalculatorPage() {
               : "Base price and total invoice will be calculated from this tax — Tax se asal qeemat aur kul bill maloom hoga"
         }
         unitLabel="PKR"
-        required
       />
 
       {/* Rate Preset Toggle */}
@@ -289,9 +309,9 @@ export default function GstCalculatorPage() {
       secondaryResults={secondaryResults}
       copySummaryText={copySummaryText}
       isEmpty={isBlank || !isValid || !result}
-      emptyPrompt="Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega."
       footnote="Calculations apply standard mathematical rounding in integer paisa under the Sales Tax Act 1990."
       onReset={handleReset}
+      onExample={handleExample}
     />
   );
 

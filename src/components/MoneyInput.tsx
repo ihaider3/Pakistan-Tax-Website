@@ -59,7 +59,7 @@ export default function MoneyInput({
 
   const handleBlur = () => {
     if (value.trim() === "") {
-      setErrorMessage("Enter an amount above to see your result — Upar raqam likhein, result foran nazar aayega.");
+      setErrorMessage(null);
     }
   };
 
