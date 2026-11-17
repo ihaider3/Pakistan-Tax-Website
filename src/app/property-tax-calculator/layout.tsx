@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
+import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Property Tax Calculator Pakistan | 236C and 236K",
   description:
     "Calculate Pakistan property advance tax under Sections 236C and 236K for buyers and sellers. Compare active Filer vs Non-Filer tax savings instantly.",
   alternates: {
-    canonical: "https://pak-tax-cal.vercel.app/property-tax-calculator",
+    canonical: `${siteUrl}/property-tax-calculator`,
   },
   openGraph: {
     title: "Property Tax Calculator Pakistan | 236C and 236K",
     description:
       "Calculate Pakistan property advance tax under Sections 236C and 236K for buyers and sellers. Compare active Filer vs Non-Filer tax savings instantly.",
-    url: "https://pak-tax-cal.vercel.app/property-tax-calculator",
+    url: `${siteUrl}/property-tax-calculator`,
     type: "website",
     siteName: "Pakistan Finance Calculators",
   },
@@ -32,13 +33,13 @@ export default function PropertyTaxLayout({ children }: { children: React.ReactN
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://pak-tax-cal.vercel.app",
+        item: siteUrl,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Property Tax Calculator",
-        item: "https://pak-tax-cal.vercel.app/property-tax-calculator",
+        item: `${siteUrl}/property-tax-calculator`,
       },
     ],
   };

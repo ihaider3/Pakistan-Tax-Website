@@ -1,19 +1,20 @@
 import React from "react";
 import type { Metadata } from "next";
 import { siteConfig } from "@/content/pages";
+import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | 100% Client-Side Private Calculators",
   description:
     "Read our 100% client-side privacy policy. Your financial numbers never leave your phone or browser. Zero server storage, no database, and no cookies.",
   alternates: {
-    canonical: "https://pak-tax-cal.vercel.app/privacy-policy",
+    canonical: `${siteUrl}/privacy-policy`,
   },
   openGraph: {
     title: "Privacy Policy | 100% Client-Side Private Calculators",
     description:
       "Read our 100% client-side privacy policy. Your financial numbers never leave your phone or browser. Zero server storage, no database, and no cookies.",
-    url: "https://pak-tax-cal.vercel.app/privacy-policy",
+    url: `${siteUrl}/privacy-policy`,
     type: "website",
     siteName: "Pakistan Finance Calculators",
   },

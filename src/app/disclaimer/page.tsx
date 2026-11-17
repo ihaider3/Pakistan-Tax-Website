@@ -1,19 +1,20 @@
 import React from "react";
 import type { Metadata } from "next";
 import { siteConfig } from "@/content/pages";
+import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Disclaimer | Pakistan Finance Calculators",
   description:
     "Review our official legal and religious disclaimer for Pakistan Finance Calculators. All calculation estimates are provided for general guidance only.",
   alternates: {
-    canonical: "https://pak-tax-cal.vercel.app/disclaimer",
+    canonical: `${siteUrl}/disclaimer`,
   },
   openGraph: {
     title: "Disclaimer | Pakistan Finance Calculators",
     description:
       "Review our official legal and religious disclaimer for Pakistan Finance Calculators. All calculation estimates are provided for general guidance only.",
-    url: "https://pak-tax-cal.vercel.app/disclaimer",
+    url: `${siteUrl}/disclaimer`,
     type: "website",
     siteName: "Pakistan Finance Calculators",
   },

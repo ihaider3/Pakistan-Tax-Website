@@ -2,19 +2,20 @@ import React from "react";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { siteConfig } from "@/content/pages";
+import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "About Us | Pakistan Financial & Islamic Calculators",
   description:
     "Learn about Pakistan Financial & Islamic Calculators. Providing free, transparent, and completely private calculation tools with zero server tracking.",
   alternates: {
-    canonical: "https://pak-tax-cal.vercel.app/about",
+    canonical: `${siteUrl}/about`,
   },
   openGraph: {
     title: "About Us | Pakistan Financial & Islamic Calculators",
     description:
       "Learn about Pakistan Financial & Islamic Calculators. Providing free, transparent, and completely private calculation tools with zero server tracking.",
-    url: "https://pak-tax-cal.vercel.app/about",
+    url: `${siteUrl}/about`,
     type: "website",
     siteName: "Pakistan Finance Calculators",
   },

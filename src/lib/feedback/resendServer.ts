@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { siteUrl } from "@/config/site";
 
 export interface EmailNotificationPayload {
   category: "problem" | "feedback" | "feature";
@@ -47,7 +48,7 @@ export async function sendFeedbackNotificationEmail(payload: EmailNotificationPa
     timeStyle: "medium",
   }).format(now);
 
-  const adminUrl = "https://pak-tax-cal.vercel.app/admin/feedback";
+  const adminUrl = `${siteUrl}/admin/feedback`;
 
   const emailLines = [
     `New feedback received on Pakistan Finance Calculators:`,

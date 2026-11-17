@@ -402,4 +402,20 @@ describe("Summary and Copy System Regression Tests (§7)", () => {
     expect(text).toContain("FINAL USHR");
     expect(text).toContain("Rs 13,000");
   });
+
+  it("Test 14: Domain config — custom NEXT_PUBLIC_SITE_URL is respected across summaries", () => {
+    const res = calculateSalaryTax(100000, "monthly", "2026-27");
+    const data = buildSalarySummaryData({
+      salaryRaw: "100000",
+      salaryNum: 100000,
+      period: "monthly",
+      taxYear: "2026-27",
+      result: res,
+      language: "en",
+    });
+
+    data.domain = "my-custom-pak-tax.pk";
+    const text = buildWhatsAppText(data, "en");
+    expect(text).toContain("*Website:* my-custom-pak-tax.pk");
+  });
 });

@@ -130,14 +130,14 @@
 }
 
 /* =========================================================================
-   CLEAN PRINT STYLESHEET (Print to PDF — Single Page A4 Portrait Report)
+   CLEAN PRINT STYLESHEET (Print to PDF — Spacious A4 Portrait Report)
    Hides navigation, header, footer, shell, inputs, and FAQs.
    Renders only the dedicated #print-report component.
    ========================================================================= */
 @media print {
   @page {
     size: A4 portrait;
-    margin: 12mm;
+    margin: 18mm 15mm 15mm 15mm;
   }
 
   html, body {
@@ -147,8 +147,8 @@
     padding: 0 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    font-size: 10pt;
-    line-height: 1.35;
+    font-size: 11.5pt;
+    line-height: 1.5;
   }
 
   header, footer, nav, button, input, select, textarea,
@@ -163,9 +163,6 @@
     max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
-    page-break-after: avoid !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
   }
 
   .break-inside-avoid {

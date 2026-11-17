@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
+import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Salary Tax Calculator Pakistan 2026-27 | FBR Tax",
   description:
     "Calculate your Pakistan salary tax for 2026-27 with official FBR slabs. See monthly tax, annual tax, and take-home pay instantly with slab breakdown.",
   alternates: {
-    canonical: "https://pak-tax-cal.vercel.app/salary-tax-calculator",
+    canonical: `${siteUrl}/salary-tax-calculator`,
   },
   openGraph: {
     title: "Salary Tax Calculator Pakistan 2026-27 | FBR Tax",
     description:
       "Calculate your Pakistan salary tax for 2026-27 with official FBR slabs. See monthly tax, annual tax, and take-home pay instantly with slab breakdown.",
-    url: "https://pak-tax-cal.vercel.app/salary-tax-calculator",
+    url: `${siteUrl}/salary-tax-calculator`,
     type: "website",
     siteName: "Pakistan Finance Calculators",
   },
@@ -32,13 +33,13 @@ export default function SalaryTaxLayout({ children }: { children: React.ReactNod
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://pak-tax-cal.vercel.app",
+        item: siteUrl,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Salary Tax Calculator",
-        item: "https://pak-tax-cal.vercel.app/salary-tax-calculator",
+        item: `${siteUrl}/salary-tax-calculator`,
       },
     ],
   };

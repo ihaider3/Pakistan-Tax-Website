@@ -6,19 +6,20 @@ import { propertyRates2026_27 } from "@/lib/rates/property-2026-27";
 import { gstRates } from "@/lib/rates/gst";
 import { zakatRates } from "@/lib/rates/zakat";
 import { fitranaRates2026 } from "@/lib/rates/fitrana-2026";
+import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Methodology & Sources | Pakistan Finance Calculators",
   description:
     "Read official statutory methodology and legal references for Pakistan salary tax, Zakat, 236C/236K property tax, GST, and Fitrana calculation rules.",
   alternates: {
-    canonical: "https://pak-tax-cal.vercel.app/methodology",
+    canonical: `${siteUrl}/methodology`,
   },
   openGraph: {
     title: "Methodology & Sources | Pakistan Finance Calculators",
     description:
       "Read official statutory methodology and legal references for Pakistan salary tax, Zakat, 236C/236K property tax, GST, and Fitrana calculation rules.",
-    url: "https://pak-tax-cal.vercel.app/methodology",
+    url: `${siteUrl}/methodology`,
     type: "website",
     siteName: "Pakistan Finance Calculators",
   },
