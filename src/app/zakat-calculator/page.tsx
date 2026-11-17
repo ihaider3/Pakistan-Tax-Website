@@ -324,84 +324,90 @@ export default function ZakatCalculatorPage() {
           <div className="bg-white p-4 rounded-xl border border-slate-200 space-y-5 animate-in fade-in duration-200">
             {/* Gold Input */}
             <div className="space-y-3">
-              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5 items-end">
-                <div className="sm:col-span-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
                   <label htmlFor="gold-quantity" className="block text-xs font-bold text-primary mb-1.5">
                     Gold Quantity — Sone ki miqdaar
                   </label>
-                  <input
-                    id="gold-quantity"
-                    type="number"
-                    min="0"
-                    step="any"
-                    value={goldQtyRaw}
-                    onFocus={(e) => {
-                      if (e.target.value === "0") e.target.select();
-                    }}
-                    onChange={(e) => {
-                      setGoldQtyRaw(e.target.value);
-                      setGoldQtyNum(parseFloat(e.target.value) || 0);
-                    }}
-                    className="w-full px-3.5 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
-                    placeholder="0"
-                  />
-                </div>
-                <div className="sm:col-span-4">
-                  <label className="block text-xs font-bold text-primary mb-1.5">
-                    Unit — Ikai
-                  </label>
-                  <div
-                    role="radiogroup"
-                    aria-label="Gold Unit"
-                    className="w-full bg-slate-100/90 p-1 rounded-xl border border-slate-200/90 flex items-center min-h-[46px] gap-1 shadow-inner-soft"
-                  >
-                    <button
-                      type="button"
-                      role="radio"
-                      aria-checked={goldUnit === "tola"}
-                      onClick={() => setGoldUnit("tola")}
-                      className={`flex-1 min-h-[38px] px-2.5 py-1.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-150 flex items-center justify-center text-center cursor-pointer ${
-                        goldUnit === "tola"
-                          ? "bg-primary text-white shadow-sm scale-[1.01]"
-                          : "text-slate-600 hover:text-primary hover:bg-white/70"
-                      }`}
+                  <div className="flex items-center rounded-xl border border-slate-200 bg-white shadow-xs focus-within:ring-2 focus-within:ring-accent focus-within:border-accent overflow-hidden transition-all">
+                    <input
+                      id="gold-quantity"
+                      type="number"
+                      min="0"
+                      step="any"
+                      value={goldQtyRaw}
+                      onFocus={(e) => {
+                        if (e.target.value === "0") e.target.select();
+                      }}
+                      onChange={(e) => {
+                        setGoldQtyRaw(e.target.value);
+                        setGoldQtyNum(parseFloat(e.target.value) || 0);
+                      }}
+                      className="flex-1 min-w-0 px-3.5 py-2.5 min-h-[46px] text-base font-semibold text-slate-900 bg-transparent focus:outline-none"
+                      placeholder="0"
+                    />
+                    <div
+                      role="radiogroup"
+                      aria-label="Gold Unit"
+                      className="flex items-center p-1 bg-slate-100/90 rounded-lg m-1 border border-slate-200/80 shrink-0 gap-0.5"
                     >
-                      <span>Tola</span>
-                    </button>
-                    <button
-                      type="button"
-                      role="radio"
-                      aria-checked={goldUnit === "grams"}
-                      onClick={() => setGoldUnit("grams")}
-                      className={`flex-1 min-h-[38px] px-2.5 py-1.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-150 flex items-center justify-center text-center cursor-pointer ${
-                        goldUnit === "grams"
-                          ? "bg-primary text-white shadow-sm scale-[1.01]"
-                          : "text-slate-600 hover:text-primary hover:bg-white/70"
-                      }`}
-                    >
-                      <span>Grams</span>
-                    </button>
+                      <button
+                        type="button"
+                        role="radio"
+                        aria-checked={goldUnit === "tola"}
+                        onClick={() => setGoldUnit("tola")}
+                        className={`min-h-[34px] px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer whitespace-nowrap select-none ${
+                          goldUnit === "tola"
+                            ? "bg-primary text-white shadow-xs"
+                            : "text-slate-600 hover:text-primary hover:bg-white/70"
+                        }`}
+                      >
+                        Tola
+                      </button>
+                      <button
+                        type="button"
+                        role="radio"
+                        aria-checked={goldUnit === "grams"}
+                        onClick={() => setGoldUnit("grams")}
+                        className={`min-h-[34px] px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer whitespace-nowrap select-none ${
+                          goldUnit === "grams"
+                            ? "bg-primary text-white shadow-xs"
+                            : "text-slate-600 hover:text-primary hover:bg-white/70"
+                        }`}
+                      >
+                        Grams
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div className="sm:col-span-4">
+
+                <div>
                   <label htmlFor="gold-rate-per-tola" className="block text-xs font-bold text-primary mb-1.5">
                     Today&apos;s Gold Rate / Tola
                   </label>
-                  <input
-                    id="gold-rate-per-tola"
-                    type="text"
-                    value={goldRateRaw}
-                    onFocus={(e) => {
-                      if (e.target.value === "0") e.target.select();
-                    }}
-                    onChange={(e) => {
-                      const cleaned = e.target.value.replace(/[, \s]/g, "");
-                      setGoldRateRaw(e.target.value);
-                      setGoldRateNum(parseFloat(cleaned) || 0);
-                    }}
-                    className="w-full px-3.5 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
-                    placeholder={`e.g. ${ratesData.goldPerTolaPKR.toFixed(2)}`}
-                  />
+                  <div className="relative">
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400 select-none">
+                      Rs
+                    </span>
+                    <input
+                      id="gold-rate-per-tola"
+                      type="text"
+                      value={goldRateRaw}
+                      onFocus={(e) => {
+                        if (e.target.value === "0") e.target.select();
+                      }}
+                      onChange={(e) => {
+                        const cleaned = e.target.value.replace(/[, \s]/g, "");
+                        setGoldRateRaw(e.target.value);
+                        setGoldRateNum(parseFloat(cleaned) || 0);
+                      }}
+                      className="w-full pl-10 pr-14 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
+                      placeholder={`e.g. ${ratesData.goldPerTolaPKR.toFixed(2)}`}
+                    />
+                    <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 select-none">
+                      /tola
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -461,85 +467,91 @@ export default function ZakatCalculatorPage() {
             </div>
 
             {/* Silver Input */}
-            <div className="space-y-2 pt-4 border-t border-slate-100">
-              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5 items-end">
-                <div className="sm:col-span-4">
+            <div className="space-y-3 pt-4 border-t border-slate-100">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
                   <label htmlFor="silver-quantity" className="block text-xs font-bold text-primary mb-1.5">
                     Silver Quantity — Chandi ki miqdaar
                   </label>
-                  <input
-                    id="silver-quantity"
-                    type="number"
-                    min="0"
-                    step="any"
-                    value={silverQtyRaw}
-                    onFocus={(e) => {
-                      if (e.target.value === "0") e.target.select();
-                    }}
-                    onChange={(e) => {
-                      setSilverQtyRaw(e.target.value);
-                      setSilverQtyNum(parseFloat(e.target.value) || 0);
-                    }}
-                    className="w-full px-3.5 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
-                    placeholder="0"
-                  />
-                </div>
-                <div className="sm:col-span-4">
-                  <label className="block text-xs font-bold text-primary mb-1.5">
-                    Unit — Ikai
-                  </label>
-                  <div
-                    role="radiogroup"
-                    aria-label="Silver Unit"
-                    className="w-full bg-slate-100/90 p-1 rounded-xl border border-slate-200/90 flex items-center min-h-[46px] gap-1 shadow-inner-soft"
-                  >
-                    <button
-                      type="button"
-                      role="radio"
-                      aria-checked={silverUnit === "tola"}
-                      onClick={() => setSilverUnit("tola")}
-                      className={`flex-1 min-h-[38px] px-2.5 py-1.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-150 flex items-center justify-center text-center cursor-pointer ${
-                        silverUnit === "tola"
-                          ? "bg-primary text-white shadow-sm scale-[1.01]"
-                          : "text-slate-600 hover:text-primary hover:bg-white/70"
-                      }`}
+                  <div className="flex items-center rounded-xl border border-slate-200 bg-white shadow-xs focus-within:ring-2 focus-within:ring-accent focus-within:border-accent overflow-hidden transition-all">
+                    <input
+                      id="silver-quantity"
+                      type="number"
+                      min="0"
+                      step="any"
+                      value={silverQtyRaw}
+                      onFocus={(e) => {
+                        if (e.target.value === "0") e.target.select();
+                      }}
+                      onChange={(e) => {
+                        setSilverQtyRaw(e.target.value);
+                        setSilverQtyNum(parseFloat(e.target.value) || 0);
+                      }}
+                      className="flex-1 min-w-0 px-3.5 py-2.5 min-h-[46px] text-base font-semibold text-slate-900 bg-transparent focus:outline-none"
+                      placeholder="0"
+                    />
+                    <div
+                      role="radiogroup"
+                      aria-label="Silver Unit"
+                      className="flex items-center p-1 bg-slate-100/90 rounded-lg m-1 border border-slate-200/80 shrink-0 gap-0.5"
                     >
-                      <span>Tola</span>
-                    </button>
-                    <button
-                      type="button"
-                      role="radio"
-                      aria-checked={silverUnit === "grams"}
-                      onClick={() => setSilverUnit("grams")}
-                      className={`flex-1 min-h-[38px] px-2.5 py-1.5 text-xs sm:text-sm font-bold rounded-lg transition-all duration-150 flex items-center justify-center text-center cursor-pointer ${
-                        silverUnit === "grams"
-                          ? "bg-primary text-white shadow-sm scale-[1.01]"
-                          : "text-slate-600 hover:text-primary hover:bg-white/70"
-                      }`}
-                    >
-                      <span>Grams</span>
-                    </button>
+                      <button
+                        type="button"
+                        role="radio"
+                        aria-checked={silverUnit === "tola"}
+                        onClick={() => setSilverUnit("tola")}
+                        className={`min-h-[34px] px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer whitespace-nowrap select-none ${
+                          silverUnit === "tola"
+                            ? "bg-primary text-white shadow-xs"
+                            : "text-slate-600 hover:text-primary hover:bg-white/70"
+                        }`}
+                      >
+                        Tola
+                      </button>
+                      <button
+                        type="button"
+                        role="radio"
+                        aria-checked={silverUnit === "grams"}
+                        onClick={() => setSilverUnit("grams")}
+                        className={`min-h-[34px] px-2.5 py-1 text-xs font-bold rounded-md transition-all cursor-pointer whitespace-nowrap select-none ${
+                          silverUnit === "grams"
+                            ? "bg-primary text-white shadow-xs"
+                            : "text-slate-600 hover:text-primary hover:bg-white/70"
+                        }`}
+                      >
+                        Grams
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div className="sm:col-span-4">
+
+                <div>
                   <label htmlFor="silver-rate-per-tola" className="block text-xs font-bold text-primary mb-1.5">
                     Today&apos;s Silver Rate / Tola
                   </label>
-                  <input
-                    id="silver-rate-per-tola"
-                    type="text"
-                    value={silverRateRaw}
-                    onFocus={(e) => {
-                      if (e.target.value === "0") e.target.select();
-                    }}
-                    onChange={(e) => {
-                      const cleaned = e.target.value.replace(/[, \s]/g, "");
-                      setSilverRateRaw(e.target.value);
-                      setSilverRateNum(parseFloat(cleaned) || 0);
-                    }}
-                    className="w-full px-3.5 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
-                    placeholder={`e.g. ${ratesData.silverPerTolaPKR.toFixed(2)}`}
-                  />
+                  <div className="relative">
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-400 select-none">
+                      Rs
+                    </span>
+                    <input
+                      id="silver-rate-per-tola"
+                      type="text"
+                      value={silverRateRaw}
+                      onFocus={(e) => {
+                        if (e.target.value === "0") e.target.select();
+                      }}
+                      onChange={(e) => {
+                        const cleaned = e.target.value.replace(/[, \s]/g, "");
+                        setSilverRateRaw(e.target.value);
+                        setSilverRateNum(parseFloat(cleaned) || 0);
+                      }}
+                      className="w-full pl-10 pr-14 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
+                      placeholder={`e.g. ${ratesData.silverPerTolaPKR.toFixed(2)}`}
+                    />
+                    <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 select-none">
+                      /tola
+                    </span>
+                  </div>
                 </div>
               </div>
               <div className="text-[11px] text-amber-900 font-medium bg-amber-50/90 p-2.5 rounded-lg border border-amber-200/80">
