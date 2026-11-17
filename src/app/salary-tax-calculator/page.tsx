@@ -283,8 +283,26 @@ export default function SalaryTaxCalculatorPage() {
     />
   ) : null;
 
+  const is25 = taxYear === "2025-26";
+
   const dynamicContent = {
     ...content,
+    h1: is25 ? "Salary Tax Calculator Pakistan 2025-26" : content.h1,
+    intro: is25
+      ? "Calculate your monthly tax withholding and take-home salary in Pakistan for Tax Year 2025-26 (1 July 2025 to 30 June 2026) based on official FBR progressive income tax slabs under Section 149."
+      : content.intro,
+    englishIntro: is25
+      ? "This calculator works out the tax on your monthly salary using FBR's Tax Year 2025–26 slabs (6 progressive slabs, top rate 35% above Rs 4,100,000). If your annual salary is below Rs 600,000, no tax applies. Tax is charged slab by slab, and your take-home salary appears instantly."
+      : content.englishIntro,
+    romanUrduIntro: is25
+      ? "Ye calculator aapki mahana tankhwah par FBR ke Tax Year 2025–26 ke slabs (6 progressive slabs, Rs 4,100,000 se upar 35% aakhri rate) ke mutabiq tax nikalta hai. Agar aapki salana tankhwah Rs 600,000 se kam hai, to koi tax nahi lagta. Tax slab ke hisab se lagta hai aur aapki take-home tankhwah foran samne aa jati hai."
+      : content.romanUrduIntro,
+    sourceDocument: is25
+      ? "Finance Act 2025, FBR Withholding Tax Rate Card TY2026, Section 149"
+      : content.sourceDocument,
+    formulaTitle: is25
+      ? "Progressive Income Tax Formula (Section 149, Finance Act 2025)"
+      : content.formulaTitle,
     workedExample: {
       ...content.workedExample,
       title:

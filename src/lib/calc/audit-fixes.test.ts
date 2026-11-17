@@ -208,4 +208,35 @@ describe("§8 Regression Tests — All 21 Audit Fixes", () => {
     const shellContent = fs.readFileSync(path.resolve(__dirname, "../../components/CalculatorShell.tsx"), "utf-8");
     expect(shellContent).not.toContain("line-clamp-2");
   });
+
+  // 18. Dynamic Salary ExplanationBox for Tax Year 2025-26 and 2026-27
+  it("Salary Tax Calculator page has dynamic ExplanationBox for Tax Year 2025-26 and 2026-27", () => {
+    const salaryPage = fs.readFileSync(path.resolve(__dirname, "../../app/salary-tax-calculator/page.tsx"), "utf-8");
+    
+    // Checks that 2025-26 overrides intro, englishIntro, and romanUrduIntro
+    expect(salaryPage).toContain("taxYear === \"2025-26\"");
+    expect(salaryPage).toContain("Tax Year 2025–26 slabs (6 progressive slabs, top rate 35% above Rs 4,100,000)");
+    expect(salaryPage).toContain("Tax Year 2025–26 ke slabs (6 progressive slabs, Rs 4,100,000 se upar 35% aakhri rate)");
+    expect(salaryPage).toContain("Salary Tax Calculator Pakistan 2025-26");
+  });
+
+  // 19. Spot check Zakat calculator unchanged
+  it("Spot check Zakat calculator: cash 500,000 produces Zakat Rs 12,500", () => {
+    const res = calculateZakat({
+      cashInHand: 500000,
+      bankSavings: 0,
+      goldQuantity: 0,
+      goldUnit: "tola",
+      goldPurity: "24k",
+      goldRatePerTola: ratesData.goldPerTolaPKR,
+      silverQuantity: 0,
+      silverUnit: "tola",
+      silverRatePerTola: ratesData.silverPerTolaPKR,
+      businessStock: 0,
+      investments: 0,
+      debtsToDeduct: 0,
+    });
+    expect(res.zakatDue).toBe(12500);
+    expect(formatRupees(res.zakatDue)).toBe("Rs 12,500");
+  });
 });

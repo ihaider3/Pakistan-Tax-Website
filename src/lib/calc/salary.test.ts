@@ -171,5 +171,26 @@ describe("Salary Tax Calculator TY2027 (Finance Act 2026)", () => {
     expect(res.breakdown[2].taxableAmountInSlab).toBe(600000);
     expect(res.breakdown[3].taxableAmountInSlab).toBe(0);
   });
+
+  // Test 23: Regression test 150k for both years
+  it("Regression: 150k monthly is identical across TY2027 and TY2026", () => {
+    const res26 = calculateSalaryTax(150000, "monthly", "2026-27");
+    const res25 = calculateSalaryTax(150000, "monthly", "2025-26");
+    expect(res26.monthlyTax).toBe(6000);
+    expect(res26.monthlyTakeHome).toBe(144000);
+    expect(res26.annualTax).toBe(72000);
+
+    expect(res25.monthlyTax).toBe(6000);
+    expect(res25.monthlyTakeHome).toBe(144000);
+    expect(res25.annualTax).toBe(72000);
+  });
+
+  // Test 24: Regression test 300k monthly (Rs 3.6M annual) across TY2027 and TY2026
+  it("Regression: 300k monthly -> TY2027 annual tax 416,000 vs TY2026 annual tax 466,000", () => {
+    const res26 = calculateSalaryTax(300000, "monthly", "2026-27");
+    const res25 = calculateSalaryTax(300000, "monthly", "2025-26");
+    expect(res26.annualTax).toBe(416000);
+    expect(res25.annualTax).toBe(466000);
+  });
 });
 
