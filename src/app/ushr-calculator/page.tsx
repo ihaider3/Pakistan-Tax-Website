@@ -19,6 +19,18 @@ import {
 import { formatRupees } from "@/lib/calc/money";
 import { buildWhatsAppText } from "@/lib/summary";
 import { buildUshrSummaryData } from "@/lib/summary/builders";
+import CalculatorHistory from "@/components/CalculatorHistory";
+import { useCalculatorHistory } from "@/lib/history/useCalculatorHistory";
+
+interface UshrInputs {
+  crop: string;
+  unit: UshrUnit;
+  quantityRaw: string;
+  quantityNum: number;
+  priceRaw: string;
+  priceNum: number;
+  irrigation: UshrIrrigationType;
+}
 
 export default function UshrCalculatorPage() {
   const content = calculatorPages.ushr;
@@ -33,6 +45,9 @@ export default function UshrCalculatorPage() {
   const [priceRaw, setPriceRaw] = useState<string>("");
   const [priceNum, setPriceNum] = useState<number>(0);
   const [irrigation, setIrrigation] = useState<UshrIrrigationType>("rain");
+
+  const { history, recordCalculation, removeEntry, clearAll } =
+    useCalculatorHistory<UshrInputs>("ushr");
 
   const handleReset = () => {
     setCrop("wheat");
@@ -52,6 +67,16 @@ export default function UshrCalculatorPage() {
     setPriceRaw("130");
     setPriceNum(130);
     setIrrigation("rain");
+  };
+
+  const handleRestore = (saved: UshrInputs) => {
+    setCrop(saved.crop);
+    setUnit(saved.unit);
+    setQuantityRaw(saved.quantityRaw);
+    setQuantityNum(saved.quantityNum);
+    setPriceRaw(saved.priceRaw);
+    setPriceNum(saved.priceNum);
+    setIrrigation(saved.irrigation);
   };
 
   const handleUnitToggle = (newUnit: UshrUnit) => {
@@ -102,6 +127,48 @@ export default function UshrCalculatorPage() {
       irrigation,
     });
   }
+
+  // Record valid calculation into history (debounced)
+  React.useEffect(() => {
+    if (!isBlankOrZero && quantityNum > 0 && priceNum > 0 && result) {
+      const cropName = USHR_CROPS.find((c) => c.id === crop)?.nameEn || crop;
+      const summary = `Ushr — ${cropName} ${quantityNum.toLocaleString()} ${unit}, ${
+        irrigation === "rain"
+          ? "Rain"
+          : irrigation === "tubewell"
+          ? "Canal/Tube"
+          : "Half/Half"
+      }`;
+      const resultSummary = `Ushr ${result.ushrKind.toLocaleString()} ${
+        result.ushrKindUnit
+      }, Rs ${formatRupees(result.ushrCashValue, { prefix: false })}`;
+
+      recordCalculation({
+        summary,
+        resultSummary,
+        inputs: {
+          crop,
+          unit,
+          quantityRaw,
+          quantityNum,
+          priceRaw,
+          priceNum,
+          irrigation,
+        },
+      });
+    }
+  }, [
+    crop,
+    unit,
+    quantityRaw,
+    quantityNum,
+    priceRaw,
+    priceNum,
+    irrigation,
+    isBlankOrZero,
+    result,
+    recordCalculation,
+  ]);
 
   // Unit Options
   const unitOptions: ToggleOption<UshrUnit>[] = [
@@ -567,6 +634,14 @@ export default function UshrCalculatorPage() {
       content={content}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}
+      calculatorHistory={
+        <CalculatorHistory<UshrInputs>
+          history={history}
+          onRestore={handleRestore}
+          onDelete={removeEntry}
+          onClear={clearAll}
+        />
+      }
       explanationBox={explanationBox}
       printReport={<PrintReport data={summaryData} language={lang} />}
     />

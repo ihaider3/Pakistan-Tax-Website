@@ -57,10 +57,10 @@ export default async function ContactPage() {
             Send inquiries, bug reports, or official gazette notifications directly to our verification team:
           </p>
           <a
-            href="mailto:contact@pakfinancecalc.org"
+            href="mailto:contact@calculationhubs.com"
             className="text-accent font-semibold text-sm hover:underline block"
           >
-            contact@pakfinancecalc.org
+            contact@calculationhubs.com
           </a>
         </div>
 

@@ -91,13 +91,13 @@ export default function PrivacyPolicyPage() {
           </p>
           <p>
             Feedback submissions are never published publicly and are accessible exclusively to the website administrator in a password-protected dashboard. Screenshots are stored in private cloud storage and never exposed to the public. Providing your name or email is completely optional; if provided, your email is never shared, sold, or used for marketing. You can request permanent deletion of any feedback you submitted at any time by emailing us at{" "}
-            <a href="mailto:contact@pakfinancecalc.org" className="text-accent font-semibold hover:underline">
-              contact@pakfinancecalc.org
+            <a href="mailto:contact@calculationhubs.com" className="text-accent font-semibold hover:underline">
+              contact@calculationhubs.com
             </a>
             .
           </p>
           <p className="text-xs sm:text-sm text-appText-muted italic bg-surface p-3 rounded-lg border border-appBorder">
-            <strong>Roman Urdu:</strong> Aapka feedback, suggestion ya screenshot sirf website ko behtar banane aur masail hal karne ke liye istemal hota hai, kabhi public nahi kiya jata, aur aap contact@pakfinancecalc.org par email kar ke apna data delete karwa sakte hain.
+            <strong>Roman Urdu:</strong> Aapka feedback, suggestion ya screenshot sirf website ko behtar banane aur masail hal karne ke liye istemal hota hai, kabhi public nahi kiya jata, aur aap contact@calculationhubs.com par email kar ke apna data delete karwa sakte hain.
           </p>
         </section>
       </div>

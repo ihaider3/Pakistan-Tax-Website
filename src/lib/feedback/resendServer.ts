@@ -34,7 +34,7 @@ export async function sendFeedbackNotificationEmail(payload: EmailNotificationPa
     return { skipped: true, reason: "RESEND_API_KEY missing" };
   }
 
-  const recipient = process.env.FEEDBACK_NOTIFY_EMAIL || "contact@pakfinancecalc.org";
+  const recipient = process.env.FEEDBACK_NOTIFY_EMAIL || "contact@calculationhubs.com";
   const resend = new Resend(apiKey);
 
   const categoryName = CATEGORY_LABELS[payload.category] || payload.category;

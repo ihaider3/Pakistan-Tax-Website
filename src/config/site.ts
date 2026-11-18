@@ -24,6 +24,6 @@ export const siteDomain = siteUrl
   .replace(/^https?:\/\//i, "")
   .replace(/\/+$/, "");
 
-export const contactEmail = "contact@pakfinancecalc.org";
+export const contactEmail = "contact@calculationhubs.com";
 
 

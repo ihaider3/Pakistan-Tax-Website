@@ -15,8 +15,19 @@ import { useExplanationLang } from "@/components/LanguageContext";
 import PrintReport from "@/components/PrintReport";
 import { buildGstSummaryData } from "@/lib/summary/builders";
 import { buildWhatsAppText } from "@/lib/summary";
+import CalculatorHistory from "@/components/CalculatorHistory";
+import { useCalculatorHistory } from "@/lib/history/useCalculatorHistory";
 
 type RatePreset = "18" | "custom";
+
+interface GstInputs {
+  amountRaw: string;
+  amountNum: number;
+  mode: GstMode;
+  ratePreset: RatePreset;
+  customRateRaw: string;
+  customRateNum: number;
+}
 
 export default function GstCalculatorPage() {
   const content = calculatorPages.gst;
@@ -30,6 +41,9 @@ export default function GstCalculatorPage() {
   const [ratePreset, setRatePreset] = useState<RatePreset>("18");
   const [customRateRaw, setCustomRateRaw] = useState<string>("5");
   const [customRateNum, setCustomRateNum] = useState<number>(5);
+
+  const { history, recordCalculation, removeEntry, clearAll } =
+    useCalculatorHistory<GstInputs>("gst");
 
   const handleReset = () => {
     setAmountRaw("");
@@ -47,6 +61,16 @@ export default function GstCalculatorPage() {
     setIsValid(true);
     setMode("add");
     setRatePreset("18");
+  };
+
+  const handleRestore = (saved: GstInputs) => {
+    setMode(saved.mode);
+    setRatePreset(saved.ratePreset);
+    setCustomRateRaw(saved.customRateRaw);
+    setCustomRateNum(saved.customRateNum);
+    setAmountRaw(saved.amountRaw);
+    setAmountNum(saved.amountNum);
+    setIsValid(true);
   };
 
   const modeOptions: ToggleOption<GstMode>[] = [
@@ -67,6 +91,47 @@ export default function GstCalculatorPage() {
   if (isValid && !isBlank && amountNum > 0) {
     result = calculateGst(amountNum, mode, effectiveRate);
   }
+
+  // Record valid calculation into history (debounced)
+  React.useEffect(() => {
+    if (isValid && !isBlank && amountNum > 0 && result) {
+      const summary = `GST ${effectiveRate}% — Rs ${formatRupees(amountNum, {
+        prefix: false,
+      })} (${mode === "add" ? "Add GST" : mode === "remove" ? "Remove GST" : "GST Only"})`;
+      const resultSummary = `Tax Rs ${formatRupees(result.gstAmount, {
+        prefix: false,
+        showPaisaIfDecimal: true,
+      })} / Total Rs ${formatRupees(result.totalAmount, {
+        prefix: false,
+        showPaisaIfDecimal: true,
+      })}`;
+
+      recordCalculation({
+        summary,
+        resultSummary,
+        inputs: {
+          amountRaw,
+          amountNum,
+          mode,
+          ratePreset,
+          customRateRaw,
+          customRateNum,
+        },
+      });
+    }
+  }, [
+    amountRaw,
+    amountNum,
+    mode,
+    ratePreset,
+    customRateRaw,
+    customRateNum,
+    effectiveRate,
+    isValid,
+    isBlank,
+    result,
+    recordCalculation,
+  ]);
 
   // Secondary Results for ResultPanel
   const secondaryResults: SecondaryResult[] = result
@@ -366,6 +431,14 @@ export default function GstCalculatorPage() {
       content={content}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}
+      calculatorHistory={
+        <CalculatorHistory<GstInputs>
+          history={history}
+          onRestore={handleRestore}
+          onDelete={removeEntry}
+          onClear={clearAll}
+        />
+      }
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
       printReport={<PrintReport data={summaryData} language={lang} />}

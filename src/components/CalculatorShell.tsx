@@ -25,6 +25,7 @@ interface CalculatorShellProps {
   content: CalculatorPageContent;
   calculatorInputs: React.ReactNode;
   resultPanel: React.ReactNode;
+  calculatorHistory?: React.ReactNode;
   explanationBox?: React.ReactNode;
   breakdownTable?: React.ReactNode;
   customTopSection?: React.ReactNode;
@@ -35,6 +36,7 @@ export default function CalculatorShell({
   content,
   calculatorInputs,
   resultPanel,
+  calculatorHistory,
   explanationBox,
   breakdownTable,
   customTopSection,
@@ -190,9 +192,10 @@ export default function CalculatorShell({
           {calculatorInputs}
         </div>
 
-        {/* Right Column: Live Result Panel */}
+        {/* Right Column: Live Result Panel & Local History */}
         <div className="lg:col-span-5 lg:sticky lg:top-24 space-y-4">
           {resultPanel}
+          {calculatorHistory}
         </div>
       </section>
 

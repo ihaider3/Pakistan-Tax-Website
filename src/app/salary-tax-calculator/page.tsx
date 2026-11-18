@@ -14,9 +14,18 @@ import { formatRupees, formatPercentage } from "@/lib/calc/money";
 import { useExplanationLang } from "@/components/LanguageContext";
 import { buildSalarySummaryData } from "@/lib/summary/builders";
 import { buildWhatsAppText } from "@/lib/summary";
+import CalculatorHistory from "@/components/CalculatorHistory";
+import { useCalculatorHistory } from "@/lib/history/useCalculatorHistory";
 
 type SalaryFrequency = "monthly" | "annual";
 type TaxYear = "2026-27" | "2025-26";
+
+interface SalaryInputs {
+  salaryRaw: string;
+  salaryNum: number;
+  frequency: SalaryFrequency;
+  taxYear: TaxYear;
+}
 
 export default function SalaryTaxCalculatorPage() {
   const content = calculatorPages.salary;
@@ -27,6 +36,9 @@ export default function SalaryTaxCalculatorPage() {
   const [salaryRaw, setSalaryRaw] = useState<string>("");
   const [salaryNum, setSalaryNum] = useState<number>(0);
   const [isValid, setIsValid] = useState<boolean>(true);
+
+  const { history, recordCalculation, removeEntry, clearAll } =
+    useCalculatorHistory<SalaryInputs>("salary");
 
   // Dynamic document title based on tax year selection
   useEffect(() => {
@@ -76,6 +88,46 @@ export default function SalaryTaxCalculatorPage() {
     setSalaryNum(150000);
     setIsValid(true);
   };
+
+  const handleRestore = (saved: SalaryInputs) => {
+    setFrequency(saved.frequency);
+    setTaxYear(saved.taxYear);
+    setSalaryRaw(saved.salaryRaw);
+    setSalaryNum(saved.salaryNum);
+    setIsValid(true);
+  };
+
+  // Record valid calculation into history (debounced)
+  useEffect(() => {
+    if (isValid && !isBlank && salaryNum > 0 && result) {
+      const summary = `Salary Rs ${formatRupees(salaryNum, { prefix: false })}/${
+        frequency === "monthly" ? "mo" : "yr"
+      }${taxYear === "2025-26" ? " (TY2025-26)" : ""}`;
+      const resultSummary = `Tax Rs ${formatRupees(
+        frequency === "monthly" ? result.monthlyTax : result.annualTax,
+        { prefix: false }
+      )}`;
+      recordCalculation({
+        summary,
+        resultSummary,
+        inputs: {
+          salaryRaw,
+          salaryNum,
+          frequency,
+          taxYear,
+        },
+      });
+    }
+  }, [
+    salaryRaw,
+    salaryNum,
+    frequency,
+    taxYear,
+    isValid,
+    isBlank,
+    result,
+    recordCalculation,
+  ]);
 
   // Switch frequency: converts amount smoothly
   const handleFrequencyChange = (newFreq: SalaryFrequency) => {
@@ -348,6 +400,14 @@ export default function SalaryTaxCalculatorPage() {
       content={dynamicContent}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}
+      calculatorHistory={
+        <CalculatorHistory<SalaryInputs>
+          history={history}
+          onRestore={handleRestore}
+          onDelete={removeEntry}
+          onClear={clearAll}
+        />
+      }
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
       printReport={<PrintReport data={summaryData} language={lang} />}

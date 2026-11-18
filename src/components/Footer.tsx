@@ -184,10 +184,10 @@ export default function Footer() {
             <p className="text-[13px] text-slate-300 pt-0.5">
               Contact:{" "}
               <a
-                href="mailto:contact@pakfinancecalc.org"
+                href="mailto:contact@calculationhubs.com"
                 className="text-emerald-400 hover:text-emerald-300 underline font-medium transition-colors"
               >
-                contact@pakfinancecalc.org
+                contact@calculationhubs.com
               </a>
             </p>
           </div>

@@ -148,7 +148,7 @@ describe("Feedback System - Privacy Policy Integrity", () => {
     const content = fs.readFileSync(privacyPath, "utf-8");
 
     expect(content).toContain("User Feedback &amp; Defect Reports");
-    expect(content).toContain("contact@pakfinancecalc.org");
+    expect(content).toContain("contact@calculationhubs.com");
     expect(content).toContain("Aapka feedback, suggestion ya screenshot sirf website ko behtar banane");
   });
 });

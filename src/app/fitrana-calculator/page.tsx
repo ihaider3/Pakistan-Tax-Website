@@ -14,6 +14,15 @@ import { calculatorPages } from "@/content/pages";
 import { calculateFitrana, FitranaCalculationResult } from "@/lib/calc/fitrana";
 import { formatRupees } from "@/lib/calc/money";
 import { fitranaRates2026, StapleType, FitranaSourceKey } from "@/lib/rates/fitrana-2026";
+import CalculatorHistory from "@/components/CalculatorHistory";
+import { useCalculatorHistory } from "@/lib/history/useCalculatorHistory";
+
+interface FitranaInputs {
+  membersRaw: string;
+  members: number;
+  staple: StapleType;
+  source: FitranaSourceKey;
+}
 
 export default function FitranaCalculatorPage() {
   const content = calculatorPages.fitrana;
@@ -22,6 +31,9 @@ export default function FitranaCalculatorPage() {
   const [membersRaw, setMembersRaw] = useState<string>("");
   const [staple, setStaple] = useState<StapleType>("wheat");
   const [source, setSource] = useState<FitranaSourceKey>("muneeb");
+
+  const { history, recordCalculation, removeEntry, clearAll } =
+    useCalculatorHistory<FitranaInputs>("fitrana");
 
   const { lang } = useExplanationLang();
 
@@ -66,6 +78,45 @@ export default function FitranaCalculatorPage() {
     setStaple("wheat");
     setSource("muneeb");
   };
+
+  const handleRestore = (saved: FitranaInputs) => {
+    setStaple(saved.staple);
+    setSource(saved.source);
+    setMembersRaw(saved.membersRaw);
+    setMembers(saved.members);
+  };
+
+  // Record valid calculation into history (debounced)
+  React.useEffect(() => {
+    if (!isBlank && members >= 1 && members <= 50 && result) {
+      const summary = `Fitrana — ${members} ${
+        members === 1 ? "person" : "persons"
+      }, ${currentRates[staple]?.name || staple}`;
+      const resultSummary = `Fitrana Rs ${formatRupees(result.totalFitrana, {
+        prefix: false,
+      })}`;
+
+      recordCalculation({
+        summary,
+        resultSummary,
+        inputs: {
+          membersRaw,
+          members,
+          staple,
+          source,
+        },
+      });
+    }
+  }, [
+    membersRaw,
+    members,
+    staple,
+    source,
+    isBlank,
+    result,
+    currentRates,
+    recordCalculation,
+  ]);
 
   const handleMembersChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value;
@@ -377,6 +428,14 @@ export default function FitranaCalculatorPage() {
       customTopSection={seasonalNote}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}
+      calculatorHistory={
+        <CalculatorHistory<FitranaInputs>
+          history={history}
+          onRestore={handleRestore}
+          onDelete={removeEntry}
+          onClear={clearAll}
+        />
+      }
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
       printReport={<PrintReport data={summaryData} language={lang} />}

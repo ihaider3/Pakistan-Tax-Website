@@ -17,8 +17,32 @@ import ratesData from "@/data/rates.json";
 import PrintReport from "@/components/PrintReport";
 import { buildZakatSummaryData } from "@/lib/summary/builders";
 import { buildWhatsAppText } from "@/lib/summary";
+import CalculatorHistory from "@/components/CalculatorHistory";
+import { useCalculatorHistory } from "@/lib/history/useCalculatorHistory";
 
 type MetalUnit = "tola" | "grams";
+
+interface ZakatInputs {
+  cashRaw: string;
+  cashNum: number;
+  bankRaw: string;
+  bankNum: number;
+  goldUnit: MetalUnit;
+  goldQtyRaw: string;
+  goldQtyNum: number;
+  goldPurity: GoldPurity;
+  silverUnit: MetalUnit;
+  silverQtyRaw: string;
+  silverQtyNum: number;
+  businessRaw: string;
+  businessNum: number;
+  investmentsRaw: string;
+  investmentsNum: number;
+  debtsRaw: string;
+  debtsNum: number;
+  alreadyPaidRaw: string;
+  alreadyPaidNum: number;
+}
 
 export default function ZakatCalculatorPage() {
   const content = calculatorPages.zakat;
@@ -68,6 +92,9 @@ export default function ZakatCalculatorPage() {
   const [alreadyPaidRaw, setAlreadyPaidRaw] = useState<string>("");
   const [alreadyPaidNum, setAlreadyPaidNum] = useState<number>(0);
 
+  const { history, recordCalculation, removeEntry, clearAll } =
+    useCalculatorHistory<ZakatInputs>("zakat");
+
   const handleReset = () => {
     setCashRaw("");
     setCashNum(0);
@@ -115,6 +142,33 @@ export default function ZakatCalculatorPage() {
     setAlreadyPaidRaw("");
     setAlreadyPaidNum(0);
     setStep1Open(true);
+  };
+
+  const handleRestore = (saved: ZakatInputs) => {
+    setCashRaw(saved.cashRaw);
+    setCashNum(saved.cashNum);
+    setBankRaw(saved.bankRaw);
+    setBankNum(saved.bankNum);
+    setGoldUnit(saved.goldUnit);
+    setGoldQtyRaw(saved.goldQtyRaw);
+    setGoldQtyNum(saved.goldQtyNum);
+    setGoldPurity(saved.goldPurity);
+    setSilverUnit(saved.silverUnit);
+    setSilverQtyRaw(saved.silverQtyRaw);
+    setSilverQtyNum(saved.silverQtyNum);
+    setBusinessRaw(saved.businessRaw);
+    setBusinessNum(saved.businessNum);
+    setInvestmentsRaw(saved.investmentsRaw);
+    setInvestmentsNum(saved.investmentsNum);
+    setDebtsRaw(saved.debtsRaw);
+    setDebtsNum(saved.debtsNum);
+    setAlreadyPaidRaw(saved.alreadyPaidRaw);
+    setAlreadyPaidNum(saved.alreadyPaidNum);
+    setStep1Open(true);
+    if (saved.goldQtyNum > 0 || saved.silverQtyNum > 0) setStep2Open(true);
+    if (saved.businessNum > 0 || saved.investmentsNum > 0 || saved.debtsNum > 0 || saved.alreadyPaidNum > 0) {
+      setStep3Open(true);
+    }
   };
 
   const [isOnline, setIsOnline] = useState<boolean>(true);
@@ -173,6 +227,79 @@ export default function ZakatCalculatorPage() {
     silverQtyNum > 0 ||
     businessNum > 0 ||
     investmentsNum > 0;
+
+  // Record valid calculation into history (debounced)
+  useEffect(() => {
+    if (hasAnyInput && result) {
+      let summary = `Zakat — Net Assets Rs ${formatRupees(result.netZakatableWealth, { prefix: false })}`;
+      if (
+        cashNum > 0 &&
+        bankNum === 0 &&
+        goldQtyNum === 0 &&
+        silverQtyNum === 0 &&
+        businessNum === 0 &&
+        investmentsNum === 0 &&
+        debtsNum === 0
+      ) {
+        summary = `Zakat — Cash Rs ${formatRupees(cashNum, { prefix: false })}`;
+      }
+      const resultSummary =
+        result.zakatDue > 0
+          ? `Zakat Rs ${formatRupees(result.zakatDue, { prefix: false })}`
+          : result.isZakatDue
+          ? "Zakat Due"
+          : "Below Nisab — Rs 0";
+
+      recordCalculation({
+        summary,
+        resultSummary,
+        inputs: {
+          cashRaw,
+          cashNum,
+          bankRaw,
+          bankNum,
+          goldUnit,
+          goldQtyRaw,
+          goldQtyNum,
+          goldPurity,
+          silverUnit,
+          silverQtyRaw,
+          silverQtyNum,
+          businessRaw,
+          businessNum,
+          investmentsRaw,
+          investmentsNum,
+          debtsRaw,
+          debtsNum,
+          alreadyPaidRaw,
+          alreadyPaidNum,
+        },
+      });
+    }
+  }, [
+    hasAnyInput,
+    cashRaw,
+    cashNum,
+    bankRaw,
+    bankNum,
+    goldUnit,
+    goldQtyRaw,
+    goldQtyNum,
+    goldPurity,
+    silverUnit,
+    silverQtyRaw,
+    silverQtyNum,
+    businessRaw,
+    businessNum,
+    investmentsRaw,
+    investmentsNum,
+    debtsRaw,
+    debtsNum,
+    alreadyPaidRaw,
+    alreadyPaidNum,
+    result,
+    recordCalculation,
+  ]);
 
   // Secondary Results for ResultPanel
   const secondaryResults: SecondaryResult[] = [
@@ -872,6 +999,14 @@ export default function ZakatCalculatorPage() {
       customTopSection={customTopSection}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}
+      calculatorHistory={
+        <CalculatorHistory<ZakatInputs>
+          history={history}
+          onRestore={handleRestore}
+          onDelete={removeEntry}
+          onClear={clearAll}
+        />
+      }
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
       printReport={<PrintReport data={summaryData} language={lang} />}

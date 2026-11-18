@@ -175,10 +175,10 @@ describe("§8 Regression Tests — All 21 Audit Fixes", () => {
   });
 
   // 13. Footer contact email
-  it("Footer contains mailto contact@pakfinancecalc.org", () => {
+  it("Footer contains mailto contact@calculationhubs.com", () => {
     const footerContent = fs.readFileSync(path.resolve(__dirname, "../../components/Footer.tsx"), "utf-8");
-    expect(footerContent).toContain("contact@pakfinancecalc.org");
-    expect(footerContent).toContain("mailto:contact@pakfinancecalc.org");
+    expect(footerContent).toContain("contact@calculationhubs.com");
+    expect(footerContent).toContain("mailto:contact@calculationhubs.com");
   });
 
   // 14. Browser titles for Methodology & Disclaimer

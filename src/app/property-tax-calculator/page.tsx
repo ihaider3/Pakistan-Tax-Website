@@ -19,6 +19,15 @@ import { useExplanationLang } from "@/components/LanguageContext";
 import PrintReport from "@/components/PrintReport";
 import { buildPropertySummaryData } from "@/lib/summary/builders";
 import { buildWhatsAppText } from "@/lib/summary";
+import CalculatorHistory from "@/components/CalculatorHistory";
+import { useCalculatorHistory } from "@/lib/history/useCalculatorHistory";
+
+interface PropertyInputs {
+  propertyValRaw: string;
+  propertyValNum: number;
+  transaction: PropertyTransactionType;
+  filerStatus: FilerStatus;
+}
 
 export default function PropertyTaxCalculatorPage() {
   const content = calculatorPages.property;
@@ -30,6 +39,9 @@ export default function PropertyTaxCalculatorPage() {
 
   const [transaction, setTransaction] = useState<PropertyTransactionType>("buy");
   const [filerStatus, setFilerStatus] = useState<FilerStatus>("filer");
+
+  const { history, recordCalculation, removeEntry, clearAll } =
+    useCalculatorHistory<PropertyInputs>("property");
 
   const handleReset = () => {
     setPropertyValRaw("");
@@ -47,6 +59,14 @@ export default function PropertyTaxCalculatorPage() {
     setFilerStatus("filer");
   };
 
+  const handleRestore = (saved: PropertyInputs) => {
+    setTransaction(saved.transaction);
+    setFilerStatus(saved.filerStatus);
+    setPropertyValRaw(saved.propertyValRaw);
+    setPropertyValNum(saved.propertyValNum);
+    setIsValid(true);
+  };
+
   const transactionOptions: ToggleOption<PropertyTransactionType>[] = [
     { value: "buy", label: "Buy Property (Section 236K)", badge: "Buyer" },
     { value: "sell", label: "Sell Property (Section 236C)", badge: "Seller" },
@@ -62,6 +82,37 @@ export default function PropertyTaxCalculatorPage() {
   if (isValid && !isBlank && propertyValNum > 0) {
     result = calculatePropertyTax(propertyValNum, transaction, filerStatus);
   }
+
+  // Record valid calculation into history (debounced)
+  React.useEffect(() => {
+    if (isValid && !isBlank && propertyValNum > 0 && result) {
+      const summary = `Property ${transaction === "buy" ? "Buy" : "Sell"} — Rs ${formatRupees(
+        propertyValNum,
+        { prefix: false }
+      )} (${filerStatus === "filer" ? "Filer" : "Non-Filer"})`;
+      const resultSummary = `Tax Rs ${formatRupees(result.taxAmount, { prefix: false })}`;
+
+      recordCalculation({
+        summary,
+        resultSummary,
+        inputs: {
+          propertyValRaw,
+          propertyValNum,
+          transaction,
+          filerStatus,
+        },
+      });
+    }
+  }, [
+    propertyValRaw,
+    propertyValNum,
+    transaction,
+    filerStatus,
+    isValid,
+    isBlank,
+    result,
+    recordCalculation,
+  ]);
 
   const secondaryResults: SecondaryResult[] = result
     ? [
@@ -320,6 +371,14 @@ export default function PropertyTaxCalculatorPage() {
       content={content}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}
+      calculatorHistory={
+        <CalculatorHistory<PropertyInputs>
+          history={history}
+          onRestore={handleRestore}
+          onDelete={removeEntry}
+          onClear={clearAll}
+        />
+      }
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
       printReport={<PrintReport data={summaryData} language={lang} />}
