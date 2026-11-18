@@ -7,9 +7,16 @@ import {
   recordFailedLogin,
   recordSuccessfulLogin,
 } from "@/lib/feedback/adminAuth";
+import { validateOrigin } from "@/lib/security/apiSecurity";
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. Origin Check (CSRF protection)
+    const originCheck = validateOrigin(request);
+    if (!originCheck.allowed) {
+      return NextResponse.json({ error: originCheck.error || "Forbidden" }, { status: 403 });
+    }
+
     const ip =
       request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
       request.headers.get("x-real-ip") ||

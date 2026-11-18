@@ -87,6 +87,9 @@ interface AnalyticsData {
     device: string;
     createdAt: string;
   }>;
+  security?: {
+    failedLogins7d: number;
+  };
 }
 
 interface AdminDashboardClientProps {
@@ -672,6 +675,26 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
               <p className="text-[11px] text-amber-800 leading-tight">
                 ℹ️ Rates and formulas are statutory. They update via verified code releases and are intentionally not editable from this panel.
               </p>
+            </div>
+          </div>
+
+          {/* Security & Audit Overview Card */}
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/90 text-xs text-slate-600 flex flex-wrap items-center justify-between gap-3 shadow-2xs">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <span className="font-bold text-slate-800">Security Hardening Status: Active</span>
+              <span className="text-slate-400">•</span>
+              <span className="text-slate-600">Rate Limiting, CSP &amp; Session Isolation Enforced</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-slate-500">Failed Login Attempts (Last 7 Days):</span>
+              <span className={`px-2 py-0.5 rounded font-black text-xs ${
+                (analyticsData?.security?.failedLogins7d ?? 0) > 0
+                  ? "bg-amber-100 text-amber-800 border border-amber-300"
+                  : "bg-emerald-100 text-emerald-800 border border-emerald-300"
+              }`}>
+                {analyticsData?.security?.failedLogins7d ?? 0}
+              </span>
             </div>
           </div>
 

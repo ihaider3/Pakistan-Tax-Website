@@ -1,19 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticatedAdmin } from "@/lib/feedback/adminAuth";
 import { getSupabaseAdmin, FEEDBACK_SCREENSHOTS_BUCKET } from "@/lib/feedback/supabaseServer";
+import { checkApiRateLimit, getClientIp } from "@/lib/security/apiSecurity";
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // Rate limit: 60 requests/minute per IP
+  const ip = getClientIp(request);
+  const rateLimit = checkApiRateLimit(`admin-screenshot:${ip}`, 60, 60 * 1000);
+  if (!rateLimit.allowed) {
+    return NextResponse.json({ error: "Too many requests. Please wait." }, { status: 429 });
+  }
+
   const isAuth = await isAuthenticatedAdmin(request);
   if (!isAuth) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const { id } = await params;
-  if (!id) {
-    return NextResponse.json({ error: "Missing feedback ID" }, { status: 400 });
+  if (!id || typeof id !== "string" || id.length > 64) {
+    return NextResponse.json({ error: "Missing or invalid feedback ID" }, { status: 400 });
   }
 
   const supabase = getSupabaseAdmin();

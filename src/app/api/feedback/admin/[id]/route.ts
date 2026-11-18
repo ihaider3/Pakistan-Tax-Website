@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticatedAdmin } from "@/lib/feedback/adminAuth";
 import { getSupabaseAdmin, FEEDBACK_SCREENSHOTS_BUCKET } from "@/lib/feedback/supabaseServer";
 import { getInMemorySubmissions } from "@/lib/feedback/inMemoryStore";
+import { checkApiRateLimit, getClientIp, validateOrigin } from "@/lib/security/apiSecurity";
 
 const VALID_STATUSES = new Set(["pending", "in_progress", "resolved"]);
 
@@ -9,14 +10,28 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // 1. Origin check
+  const originCheck = validateOrigin(request);
+  if (!originCheck.allowed) {
+    return NextResponse.json({ error: originCheck.error || "Forbidden" }, { status: 403 });
+  }
+
+  // 2. Rate limit
+  const ip = getClientIp(request);
+  const rateLimit = checkApiRateLimit(`admin-feedback-patch:${ip}`, 60, 60 * 1000);
+  if (!rateLimit.allowed) {
+    return NextResponse.json({ error: "Too many requests. Please wait." }, { status: 429 });
+  }
+
+  // 3. Auth check
   const isAuth = await isAuthenticatedAdmin(request);
   if (!isAuth) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const { id } = await params;
-  if (!id) {
-    return NextResponse.json({ error: "Missing feedback ID" }, { status: 400 });
+  if (!id || typeof id !== "string" || id.length > 64) {
+    return NextResponse.json({ error: "Missing or invalid feedback ID" }, { status: 400 });
   }
 
   try {
@@ -66,14 +81,27 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // 1. Origin check
+  const originCheck = validateOrigin(request);
+  if (!originCheck.allowed) {
+    return NextResponse.json({ error: originCheck.error || "Forbidden" }, { status: 403 });
+  }
+
+  // 2. Rate limit
+  const ip = getClientIp(request);
+  const rateLimit = checkApiRateLimit(`admin-feedback-delete:${ip}`, 60, 60 * 1000);
+  if (!rateLimit.allowed) {
+    return NextResponse.json({ error: "Too many requests. Please wait." }, { status: 429 });
+  }
+
   const isAuth = await isAuthenticatedAdmin(request);
   if (!isAuth) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const { id } = await params;
-  if (!id) {
-    return NextResponse.json({ error: "Missing feedback ID" }, { status: 400 });
+  if (!id || typeof id !== "string" || id.length > 64) {
+    return NextResponse.json({ error: "Missing or invalid feedback ID" }, { status: 400 });
   }
 
   try {

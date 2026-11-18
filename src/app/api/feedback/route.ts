@@ -4,6 +4,7 @@ import { getSupabaseAdmin, FEEDBACK_SCREENSHOTS_BUCKET } from "@/lib/feedback/su
 import { sendFeedbackNotificationEmail } from "@/lib/feedback/resendServer";
 import { checkSpamAndRateLimit } from "@/lib/feedback/spamProtection";
 import { addInMemorySubmission } from "@/lib/feedback/inMemoryStore";
+import { validateOrigin, validateImageMagicBytes } from "@/lib/security/apiSecurity";
 
 const VALID_CATEGORIES = new Set(["problem", "feedback", "feature"]);
 const VALID_CALCULATORS = new Set(["general", "salary", "zakat", "property", "gst", "fitrana"]);
@@ -14,6 +15,12 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: NextRequest) {
   try {
+    // 0. Origin Check (CSRF protection)
+    const originCheck = validateOrigin(request);
+    if (!originCheck.allowed) {
+      return NextResponse.json({ error: originCheck.error || "Forbidden" }, { status: 403 });
+    }
+
     const ip =
       request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
       request.headers.get("x-real-ip") ||
@@ -134,17 +141,25 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      const extension = screenshotFile.type.split("/")[1]?.replace("jpeg", "jpg") || "png";
+      const fileBuffer = Buffer.from(await screenshotFile.arrayBuffer());
+      const magicCheck = validateImageMagicBytes(fileBuffer);
+      if (!magicCheck.valid) {
+        return NextResponse.json(
+          { error: "Invalid image format. Only authentic JPG, PNG, and WebP images are accepted." },
+          { status: 400 }
+        );
+      }
+
+      const extension = (magicCheck.mime || screenshotFile.type).split("/")[1]?.replace("jpeg", "jpg") || "png";
       const fileName = `${Date.now()}-${crypto.randomUUID()}.${extension}`;
       const filePath = `screenshots/${fileName}`;
 
       const supabase = getSupabaseAdmin();
       if (supabase) {
-        const fileBuffer = Buffer.from(await screenshotFile.arrayBuffer());
         const { error: uploadError } = await supabase.storage
           .from(FEEDBACK_SCREENSHOTS_BUCKET)
           .upload(filePath, fileBuffer, {
-            contentType: screenshotFile.type,
+            contentType: magicCheck.mime || screenshotFile.type,
             upsert: false,
           });
 

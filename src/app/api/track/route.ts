@@ -9,6 +9,7 @@ import {
   recordToolUse,
 } from "@/lib/analytics/trackerServer";
 import { CalculatorType } from "@/lib/analytics/types";
+import { validateOrigin } from "@/lib/security/apiSecurity";
 
 const VALID_CALCULATORS: CalculatorType[] = [
   "salary",
@@ -21,6 +22,11 @@ const VALID_CALCULATORS: CalculatorType[] = [
 
 export async function POST(request: NextRequest) {
   try {
+    const originCheck = validateOrigin(request);
+    if (!originCheck.allowed) {
+      return NextResponse.json({ success: true, ignored: "cross_origin" });
+    }
+
     const userAgent = request.headers.get("user-agent") || "";
 
     // 1. Filter out known bots/crawlers

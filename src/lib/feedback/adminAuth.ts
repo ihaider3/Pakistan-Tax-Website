@@ -29,6 +29,17 @@ function cleanupOldLoginAttempts() {
   }
 }
 
+// Security Audit: Track failed login counts (timestamps only, privacy-first, zero IP logged)
+const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+let globalFailedLoginAuditTimestamps: number[] = [];
+
+export function getFailedLoginCount7Days(): number {
+  const now = Date.now();
+  const cutoff = now - SEVEN_DAYS_MS;
+  globalFailedLoginAuditTimestamps = globalFailedLoginAuditTimestamps.filter((t) => t >= cutoff);
+  return globalFailedLoginAuditTimestamps.length;
+}
+
 export function checkLoginRateLimit(ip: string): { allowed: boolean; error?: string } {
   cleanupOldLoginAttempts();
   const now = Date.now();
@@ -76,6 +87,7 @@ export function recordFailedLogin(ip: string): void {
   }
 
   loginAttemptsByIp.set(ip, record);
+  globalFailedLoginAuditTimestamps.push(now);
 }
 
 export function recordSuccessfulLogin(ip: string): void {
@@ -85,6 +97,7 @@ export function recordSuccessfulLogin(ip: string): void {
 // Reset rate limits (useful for testing)
 export function resetLoginRateLimits(): void {
   loginAttemptsByIp.clear();
+  globalFailedLoginAuditTimestamps = [];
 }
 
 /**
@@ -126,6 +139,10 @@ export function verifySessionToken(token: string | null | undefined): boolean {
   }
 
   const [timestampStr, signature] = parts;
+  if (!/^[0-9a-f]{64}$/i.test(signature)) {
+    return false;
+  }
+
   const timestamp = parseInt(timestampStr, 10);
   if (isNaN(timestamp)) {
     return false;

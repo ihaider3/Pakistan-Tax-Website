@@ -2,10 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticatedAdmin } from "@/lib/feedback/adminAuth";
 import { getSupabaseAdmin } from "@/lib/feedback/supabaseServer";
 import { getInMemorySubmissions } from "@/lib/feedback/inMemoryStore";
+import { checkApiRateLimit, getClientIp } from "@/lib/security/apiSecurity";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
+  // Rate limit: 120 requests/minute per IP
+  const ip = getClientIp(request);
+  const rateLimit = checkApiRateLimit(`admin-feedback-list:${ip}`, 120, 60 * 1000);
+  if (!rateLimit.allowed) {
+    return NextResponse.json({ error: "Too many requests. Please wait." }, { status: 429 });
+  }
+
   const isAuth = await isAuthenticatedAdmin(request);
   if (!isAuth) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -15,7 +23,7 @@ export async function GET(request: NextRequest) {
   const category = searchParams.get("category") || "all";
   const calculator = searchParams.get("calculator") || "all";
   const status = searchParams.get("status") || "all";
-  const search = searchParams.get("search")?.trim().toLowerCase() || "";
+  const search = (searchParams.get("search") || "").slice(0, 100).trim().toLowerCase();
   const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
   const limit = Math.max(1, Math.min(50, parseInt(searchParams.get("limit") || "20", 10)));
   const offset = (page - 1) * limit;
