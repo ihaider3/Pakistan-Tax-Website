@@ -121,8 +121,8 @@ export default async function RootLayout({
   const initialContent = await getSiteContent();
 
   return (
-    <html lang="en" className={`overflow-x-hidden ${inter.variable} ${notoNastaliq.variable}`}>
-      <body className="min-h-screen flex flex-col bg-white text-appText font-sans selection:bg-accent-soft selection:text-accent overflow-x-hidden w-full">
+    <html lang="en" className={`overflow-x-clip ${inter.variable} ${notoNastaliq.variable}`}>
+      <body className="min-h-screen flex flex-col bg-white text-appText font-sans selection:bg-accent-soft selection:text-accent overflow-x-clip w-full">
         <SiteContentProvider initialContent={initialContent}>
           <LanguageProvider>
             <PwaProvider>

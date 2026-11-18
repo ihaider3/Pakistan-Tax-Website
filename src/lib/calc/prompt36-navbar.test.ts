@@ -19,20 +19,21 @@ describe("Prompt 36 — Sticky Glass Navbar & Regression Suite", () => {
   const calcShellContent = fs.readFileSync(calcShellPath, "utf-8");
 
   it("Fix 1: Main navbar is sticky with glass effect, backdrop-blur, and z-40", () => {
-    expect(headerContent).toContain("sticky top-0 z-40");
+    expect(headerContent).toMatch(/<header[^>]*sticky top-0 z-40/);
     expect(headerContent).toContain("backdrop-blur-md");
     expect(headerContent).toContain("bg-white/80");
     expect(headerContent).toContain("border-b");
   });
 
-  it("Fix 2: Top announcement bar is NOT sticky so it scrolls off with the page", () => {
-    // Header root element must not be sticky
-    expect(headerContent).not.toMatch(/<header[^>]*\bsticky\b/);
-    // Announcement bar is before the sticky div
+  it("Fix 2: Top announcement bar is NOT sticky and sits outside <header> so it scrolls off with the page", () => {
     const announcementIndex = headerContent.indexOf("100% Client-Side Privacy");
-    const stickyNavIndex = headerContent.indexOf("sticky top-0 z-40");
+    const headerStickyIndex = headerContent.indexOf("<header");
     expect(announcementIndex).toBeGreaterThan(-1);
-    expect(stickyNavIndex).toBeGreaterThan(announcementIndex);
+    expect(headerStickyIndex).toBeGreaterThan(announcementIndex);
+
+    // Announcement bar itself has no sticky class
+    const announcementSnippet = headerContent.substring(announcementIndex - 200, announcementIndex);
+    expect(announcementSnippet).not.toContain("sticky");
   });
 
   it("Fix 3: Mobile navbar has compact logo and functional mobile menu", () => {

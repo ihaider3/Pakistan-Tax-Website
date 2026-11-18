@@ -32,12 +32,12 @@ export default function Header() {
   ];
 
   return (
-    <header className="print:hidden">
+    <>
       {/* =========================================================================
           TOP AMBIENT STATUS BAR (1-LINE CLIENT-SIDE PRIVACY & AUDIT TICKER)
           NOT STICKY: Scrolls out of view with the page naturally
          ========================================================================= */}
-      <div className="bg-gradient-to-r from-[#071B30] via-primary to-[#0A335C] text-white text-[11px] sm:text-xs py-1.5 px-4 border-b border-accent/25 shadow-xs">
+      <div className="print:hidden bg-gradient-to-r from-[#071B30] via-primary to-[#0A335C] text-white text-[11px] sm:text-xs py-1.5 px-4 border-b border-accent/25 shadow-xs">
         <div className="max-w-[1150px] w-full mx-auto flex items-center justify-between gap-3 min-w-0">
           <div className="flex items-center gap-2 min-w-0 flex-1">
             <span className="relative flex h-2 w-2 shrink-0">
@@ -71,8 +71,8 @@ export default function Header() {
           STICKY MAIN NAVIGATION BAR (GLASS EFFECT + TRANSLUCENT FROSTED BLUR)
           Sticky on scroll across all pages. Modals (z-50/z-60) open above it.
          ========================================================================= */}
-      <div
-        className={`sticky top-0 z-40 w-full transition-all duration-200 border-b border-slate-200/80 ${
+      <header
+        className={`sticky top-0 z-40 w-full print:hidden transition-all duration-200 border-b border-slate-200/80 ${
           scrolled
             ? "bg-white/85 backdrop-blur-md shadow-sm py-1.5 sm:py-2 md:py-2.5"
             : "bg-white/80 backdrop-blur-md shadow-xs py-2 sm:py-2.5 md:py-3"
@@ -191,7 +191,7 @@ export default function Header() {
             </div>
           </div>
         )}
-      </div>
-    </header>
+      </header>
+    </>
   );
 }
