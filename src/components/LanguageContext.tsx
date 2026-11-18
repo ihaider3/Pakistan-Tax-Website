@@ -13,13 +13,13 @@ interface LanguageContextType {
 const STORAGE_KEY = "pfc-lang";
 
 const LanguageContext = createContext<LanguageContextType>({
-  lang: "roman",
+  lang: "en",
   setLang: () => {},
   toggleLang: () => {},
 });
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<ExplanationLang>("roman");
+  const [lang, setLangState] = useState<ExplanationLang>("en");
 
   useEffect(() => {
     try {
