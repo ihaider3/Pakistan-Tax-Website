@@ -44,6 +44,10 @@ export default function MethodologyPage() {
         <p className="text-base text-appText-muted mt-2 leading-relaxed">
           How our calculation engines operate, which legal and religious statutes govern them, and exactly what is included or excluded.
         </p>
+        <p className="text-xs font-semibold text-emerald-800 bg-emerald-50 inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-200 mt-3">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+          Figures last verified: 17 November 2026
+        </p>
       </div>
 
       <div className="space-y-8 text-sm sm:text-base text-appText leading-relaxed">
@@ -54,7 +58,7 @@ export default function MethodologyPage() {
             <span className="text-xs font-semibold text-accent">{salaryRates2026_27.taxYearCode}</span>
           </div>
           <p>
-            <strong>Statutory Reference:</strong> {salaryRates2026_27.metadata.sourceDocument}. Last verified: {salaryRates2026_27.metadata.lastVerified}.
+            <strong>Statutory Reference:</strong> {salaryRates2026_27.metadata.sourceDocument}. Figures last verified: 17 November 2026.
           </p>
           <div className="space-y-2 text-sm text-appText-muted">
             <p>
@@ -79,7 +83,7 @@ export default function MethodologyPage() {
             <span className="text-xs font-semibold text-accent">Hanafi Standard</span>
           </div>
           <p>
-            <strong>Statutory &amp; Religious Reference:</strong> {zakatRates.metadata.sourceDocument}. Last verified: {zakatRates.metadata.lastVerified}.
+            <strong>Statutory &amp; Religious Reference:</strong> {zakatRates.metadata.sourceDocument}. Figures last verified: 17 November 2026.
           </p>
           <div className="space-y-2 text-sm text-appText-muted">
             <p>
@@ -107,7 +111,7 @@ export default function MethodologyPage() {
             <span className="text-xs font-semibold text-accent">{propertyRates2026_27.taxYearCode}</span>
           </div>
           <p>
-            <strong>Statutory Reference:</strong> {propertyRates2026_27.metadata.sourceDocument}. Last verified: {propertyRates2026_27.metadata.lastVerified}.
+            <strong>Statutory Reference:</strong> {propertyRates2026_27.metadata.sourceDocument}. Figures last verified: 17 November 2026.
           </p>
           <div className="space-y-2 text-sm text-appText-muted">
             <p>
@@ -135,7 +139,7 @@ export default function MethodologyPage() {
             <span className="text-xs font-semibold text-accent">Federal 18%</span>
           </div>
           <p>
-            <strong>Statutory Reference:</strong> {gstRates.metadata.sourceDocument}. Last verified: {gstRates.metadata.lastVerified}.
+            <strong>Statutory Reference:</strong> {gstRates.metadata.sourceDocument}. Figures last verified: 17 November 2026.
           </p>
           <div className="space-y-2 text-sm text-appText-muted">
             <p>
@@ -157,7 +161,7 @@ export default function MethodologyPage() {
             <span className="text-xs font-semibold text-accent">Ramadan 2026</span>
           </div>
           <p>
-            <strong>Scholarly Sources:</strong> {fitranaRates2026.metadata.sourceDocument}. Last verified: {fitranaRates2026.metadata.lastVerified}.
+            <strong>Scholarly Sources:</strong> {fitranaRates2026.metadata.sourceDocument}. Figures last verified: 17 November 2026.
           </p>
           <div className="space-y-2 text-sm text-appText-muted">
             <p>

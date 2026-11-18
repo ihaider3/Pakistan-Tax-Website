@@ -3,7 +3,7 @@ import React from "react";
 interface VerificationBadgeProps {
   source: string;
   sourceDocument: string;
-  lastVerified: string;
+  lastVerified?: string;
   notes?: string;
   className?: string;
 }
@@ -11,7 +11,7 @@ interface VerificationBadgeProps {
 export default function VerificationBadge({
   source,
   sourceDocument,
-  lastVerified,
+  lastVerified: _lastVerified,
   notes,
   className = "",
 }: VerificationBadgeProps) {
@@ -40,11 +40,6 @@ export default function VerificationBadge({
           <span className="font-bold text-primary text-xs sm:text-sm break-words">
             {source}
           </span>
-        </div>
-
-        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-md border border-emerald-200">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
-          <span>Last Audited: {lastVerified}</span>
         </div>
       </div>
 
