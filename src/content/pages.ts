@@ -146,16 +146,16 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
       "Net Zakatable Wealth = (Cash + Bank Savings + Gold Value + Silver Value + Business Stock + Investments) − Deductible Debts. If Net Wealth ≥ Nisab Threshold: Zakat Due = Net Wealth × 2.5% (or ÷ 40). Remaining Due = Max(0, Zakat Due − Already Paid).",
     workedExample: {
       title: "Worked Example: Mixed Assets with Cash, Gold, and Liabilities",
-      description: "How Nisab and Zakat are calculated for an individual in Pakistan:",
+      description: "How Nisab and Zakat are calculated for an individual in Pakistan (rates update live with current market spot prices):",
       bulletPoints: [
         "Cash in Hand + Bank: Rs 500,000",
-        "Gold: 2 tola @ market rate Rs 400,000/tola = Rs 800,000",
-        "Gross Zakatable Assets = Rs 1,300,000",
+        "Gold: 2 tola @ live market rate (fetched automatically on every visit)",
+        "Gross Zakatable Assets: Calculated live from cash and gold values",
         "Less Debts to Deduct = Rs 100,000",
-        "Net Zakatable Wealth = Rs 1,200,000",
-        "Silver Nisab Threshold (52.5 tola @ Rs 5,500/tola) = Rs 288,750",
-        "Status: Zakat Due (Net Wealth Rs 1,200,000 exceeds Nisab Rs 288,750)",
-        "Zakat Due (2.5%) = Rs 1,200,000 × 0.025 = Rs 30,000",
+        "Net Zakatable Wealth: Gross assets minus debts",
+        "Silver Nisab Threshold: 52.5 tola × live silver rate (updated live on page)",
+        "Status: Zakat Due (Net Wealth exceeds live Silver Nisab)",
+        "Zakat Due (2.5%): Net Zakatable Wealth × 0.025",
       ],
     },
     faqs: [

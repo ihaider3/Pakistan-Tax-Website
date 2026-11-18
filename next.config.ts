@@ -53,6 +53,36 @@ const nextConfig: NextConfig = {
       destination: "/privacy-policy",
       permanent: true,
     },
+    {
+      source: "/zakat",
+      destination: "/zakat-calculator",
+      permanent: true,
+    },
+    {
+      source: "/salary",
+      destination: "/salary-tax-calculator",
+      permanent: true,
+    },
+    {
+      source: "/property",
+      destination: "/property-tax-calculator",
+      permanent: true,
+    },
+    {
+      source: "/gst",
+      destination: "/gst-calculator",
+      permanent: true,
+    },
+    {
+      source: "/fitrana",
+      destination: "/fitrana-calculator",
+      permanent: true,
+    },
+    {
+      source: "/ushr",
+      destination: "/ushr-calculator",
+      permanent: true,
+    },
   ],
   headers: async () => [
     {
