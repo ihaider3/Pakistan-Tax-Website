@@ -63,11 +63,20 @@ export default function DisclaimerPage() {
           </p>
         </section>
 
-        <section className="space-y-2">
-          <h2 className="text-xl font-bold text-primary">3. Limitation of Liability</h2>
+        <section className="space-y-3">
+          <h2 className="text-xl font-bold text-primary">3. Rate Verification &amp; Limitation of Liability</h2>
           <p>
-            While every effort is made to maintain complete accuracy with official rate tables (last verified: 14 Nov 2026), {siteConfig.brandName} and its operators accept no liability for financial penalties, tax shortfalls, business decisions, or religious discrepancies arising from the use of this website.
+            Gold and silver prices are fetched live every time you open the Zakat page, from international spot prices (gold-api.com) and USD/PKR (open.er-api.com). Tax slabs, property rates and GST were last verified against FBR&apos;s Finance Act 2026 and Circular No. 02 of 2026-27 in November 2026. Fitrana rates are from the 21 February 2026 announcement by Mufti Muneeb-ur-Rehman.
           </p>
+          <p>
+            While every effort is made to maintain complete accuracy with official rate tables, {siteConfig.brandName} and its operators accept no liability for financial penalties, tax shortfalls, business decisions, or religious discrepancies arising from the use of this website.
+          </p>
+          <div className="text-xs sm:text-sm text-appText-muted italic bg-surface p-4 rounded-xl border border-appBorder space-y-2 mt-2">
+            <p>
+              <strong className="text-primary not-italic font-bold">Roman Urdu:</strong>{" "}
+              Gold aur silver ki qeematein Zakat page kholne par har dafa live aati hain — international spot prices (gold-api.com) aur USD/PKR (open.er-api.com) se. Tax slabs, property rates aur GST November 2026 mein FBR ke Finance Act 2026 aur Circular No. 02 of 2026-27 se verify kiye gaye the. Fitrana ki rates 21 February 2026 ke Mufti Muneeb-ur-Rehman ke ailaan se hain.
+            </p>
+          </div>
         </section>
 
         <section className="space-y-3">

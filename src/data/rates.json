@@ -1,16 +1,16 @@
 {
-  "goldPerTolaPKR": 390697.71,
-  "silverPerTolaPKR": 4732.08,
-  "goldPerGramPKR": 33507.5,
-  "silverPerGramPKR": 405.84,
-  "nisabGoldPKR": 2930233,
-  "nisabSilverPKR": 248434,
+  "goldPerTolaPKR": 388980.25,
+  "silverPerTolaPKR": 4692.65,
+  "goldPerGramPKR": 33360.2,
+  "silverPerGramPKR": 402.46,
+  "nisabGoldPKR": 2917352,
+  "nisabSilverPKR": 246364,
   "usdPkr": 276.82,
-  "xauUsd": 3764.9,
-  "xagUsd": 45.6,
+  "xauUsd": 3748.35,
+  "xagUsd": 45.22,
   "source": "International spot price (gold-api.com) + USD/PKR (open.er-api.com). NOT the Sarafa official rate.",
-  "lastUpdated": "2026-11-18T16:15:55+05:00",
-  "lastUpdatedLabel": "18 Nov 2026, 16:15 PKT",
-  "lastChecked": "2026-11-18T16:15:55+05:00",
-  "lastCheckedLabel": "18 Nov 2026, 16:15 PKT"
+  "lastUpdated": "2026-11-18T17:57:08+05:00",
+  "lastUpdatedLabel": "18 Nov 2026, 17:57 PKT",
+  "lastChecked": "2026-11-18T17:57:08+05:00",
+  "lastCheckedLabel": "18 Nov 2026, 17:57 PKT"
 }

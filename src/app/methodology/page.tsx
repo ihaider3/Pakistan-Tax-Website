@@ -86,7 +86,7 @@ export default function MethodologyPage() {
               <strong>Nisab Rule:</strong> Gold Nisab is 87.48 grams (7.5 tola). Silver Nisab is 612.36 grams (52.5 tola). In accordance with the prevalent Hanafi school in Pakistan, if wealth is mixed (cash + gold + investments), the Silver Nisab threshold is applied as a precaution to benefit the poor.
             </p>
             <p>
-              <strong>Market Rates:</strong> Rates update automatically every day at 12:00 PKT from the international spot price (gold-api.com + open.er-api.com); the page shows the last update time.
+              <strong>Market Rates:</strong> Gold and silver rates update live every time you open the Zakat page — always the latest market rates.
             </p>
             <p>
               <strong>Bank Deduction Distinction:</strong> The government notified threshold of Rs 503,529 (SBP Circular 03/2026) is strictly for automatic bank deductions from savings accounts on 1 Ramadan, NOT personal Shariah Nisab.

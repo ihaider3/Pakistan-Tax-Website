@@ -1029,10 +1029,18 @@ export default function ZakatCalculatorPage() {
   const dynamicContent = {
     ...content,
     howToUseSteps: [
-      "Enter your cash, bank balances, business trade goods, and investment valuations.",
-      "Rates update automatically every day at 12:00 PKT from the international spot price (gold-api.com + open.er-api.com); the page shows the last update time.",
-      "Add any short-term deductible liabilities/debts to calculate your Net Zakatable Wealth.",
-      "Check whether your net wealth crosses the dynamic Nisab threshold, see Zakat due, and subtract any Zakat already paid.",
+      lang === "roman"
+        ? "Apni cash, bank balance, tijarti maal aur investments ki raqam darj karein."
+        : "Enter your cash, bank balances, business trade goods, and investment valuations.",
+      lang === "roman"
+        ? "Gold aur silver ki rates har dafa page kholne par live update hoti hain — hamesha taaza market rates."
+        : "Gold and silver rates update live every time you open this page — always the latest market rates.",
+      lang === "roman"
+        ? "Net Zakatable Wealth maloom karne ke liye short-term wajibat / qarze deduct karein."
+        : "Add any short-term deductible liabilities/debts to calculate your Net Zakatable Wealth.",
+      lang === "roman"
+        ? "Check karein ke aapki daulat Nisab se zyada hai, Zakat check karein aur pehle ada ki gayi raqam nikal lein."
+        : "Check whether your net wealth crosses the dynamic Nisab threshold, see Zakat due, and subtract any Zakat already paid.",
     ],
     workedExample: {
       ...content.workedExample,
