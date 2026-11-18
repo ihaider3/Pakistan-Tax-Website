@@ -86,7 +86,7 @@ export default function Header() {
             <img
               src="/images/CalculationHub_Logo_Full.png"
               alt="CalculationHub"
-              className="h-8 sm:h-10 w-auto object-contain group-hover:opacity-95 transition-opacity"
+              className="h-10 sm:h-11 md:h-12 w-auto object-contain group-hover:opacity-95 transition-opacity"
             />
           </Link>
 
