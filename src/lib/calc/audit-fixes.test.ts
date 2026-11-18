@@ -184,10 +184,10 @@ describe("§8 Regression Tests — All 21 Audit Fixes", () => {
   // 14. Browser titles for Methodology & Disclaimer
   it("Titles for Methodology and Disclaimer fit ~60 characters", () => {
     const methContent = fs.readFileSync(path.resolve(__dirname, "../../app/methodology/page.tsx"), "utf-8");
-    expect(methContent).toContain('title: "Methodology & Sources | Pakistan Finance Calculators"');
+    expect(methContent).toContain('title: "Methodology & Sources | CalculationHub"');
 
     const discContent = fs.readFileSync(path.resolve(__dirname, "../../app/disclaimer/page.tsx"), "utf-8");
-    expect(discContent).toContain('title: "Disclaimer | Pakistan Finance Calculators"');
+    expect(discContent).toContain('title: "Disclaimer | CalculationHub"');
   });
 
   // 15. About page accuracy claim

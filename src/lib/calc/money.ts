@@ -1,5 +1,5 @@
 /**
- * Money utilities for Pakistan Financial & Islamic Calculators.
+ * Money utilities for CalculationHub.
  * Handles parsing, integer paisa rounding, formatting with thousand separators,
  * and input validation according to MVP specifications.
  */

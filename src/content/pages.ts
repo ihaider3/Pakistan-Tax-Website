@@ -30,11 +30,11 @@ export interface CalculatorPageContent {
 import { siteUrl } from "@/config/site";
 
 export const siteConfig = {
-  brandName: "Pakistan Finance Calculators",
+  brandName: "CalculationHub",
   tagline: "Free, Accurate, No Login — Financial & Islamic Calculators for Pakistan",
   privacyClaim: "Your numbers never leave your phone.",
   baseUrl: siteUrl,
-  copyrightYear: "2026-27",
+  copyrightYear: "2026",
 };
 
 export const calculatorPages: Record<string, CalculatorPageContent> = {
@@ -418,7 +418,7 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
   },
   ushr: {
     slug: "ushr-calculator",
-    title: "Ushr Calculator 2026 | Pakistan Finance Calculators",
+    title: "Ushr Calculator 2026 | CalculationHub",
     metaDescription:
       "Calculate Ushr (Zakat on crops) in Pakistan — 10% for rain-fed, 5% for tube-well irrigated, 7.5% for mixed irrigation. Enter your harvest in kg or maund and get the Ushr in kind and in rupees.",
     h1: "Ushr Calculator Pakistan (Zakat on Crops)",

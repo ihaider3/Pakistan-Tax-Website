@@ -1,7 +1,7 @@
 {
-  "name": "Pakistan Finance Calculators",
-  "short_name": "Finance Calc",
-  "description": "Free, accurate Pakistan tax, Zakat, property, GST, Fitrana and Ushr calculators — no login, private by design.",
+  "name": "CalculationHub",
+  "short_name": "Calc Hub",
+  "description": "Free, accurate Pakistan tax, Zakat, property, GST, Fitrana and Ushr calculators by CalculationHub — no login, private by design.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

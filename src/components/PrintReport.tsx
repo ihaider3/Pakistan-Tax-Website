@@ -54,12 +54,20 @@ export default function PrintReport({
           <tr>
             <td className="p-0 border-none pb-3">
               <div className="flex items-center justify-between border-b-2 border-[#D4AF37] pb-2.5">
-                <div>
-                  <div className="text-[20pt] font-black tracking-tight text-[#0B2A4A] leading-tight">
-                    {siteName}
-                  </div>
-                  <div className="text-[10pt] text-[#0F766E] font-bold mt-0.5 tracking-wide">
-                    Official Pakistan Statutory &amp; Islamic Calculation Engine
+                <div className="flex items-center gap-3.5">
+                  <img
+                    src="/images/CalculationHub_Logo_Full.png"
+                    alt="CalculationHub"
+                    className="h-10 w-auto object-contain"
+                    style={{ printColorAdjust: "exact", WebkitPrintColorAdjust: "exact" }}
+                  />
+                  <div>
+                    <div className="text-[20pt] font-black tracking-tight text-[#0B2A4A] leading-tight">
+                      {siteName}
+                    </div>
+                    <div className="text-[9.5pt] text-[#0F766E] font-bold mt-0.5 tracking-wide">
+                      Official Pakistan Statutory &amp; Islamic Calculation Engine
+                    </div>
                   </div>
                 </div>
                 <div className="text-right">

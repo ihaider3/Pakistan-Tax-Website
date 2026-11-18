@@ -3,8 +3,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "404 — Page Not Found | Pakistan Finance Calculators",
-  description: "The requested page could not be found. Return to Pakistan Finance Calculators homepage.",
+  title: "404 — Page Not Found | CalculationHub",
+  description: "The requested page could not be found. Return to CalculationHub homepage.",
   robots: {
     index: false,
     follow: false,

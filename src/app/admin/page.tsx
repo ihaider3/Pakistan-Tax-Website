@@ -4,7 +4,7 @@ import { isAuthenticatedAdmin } from "@/lib/feedback/adminAuth";
 import AdminDashboardClient from "./AdminDashboardClient";
 
 export const metadata: Metadata = {
-  title: "Admin Control Center | Pakistan Finance Calculators",
+  title: "Admin Control Center | CalculationHub",
   robots: {
     index: false,
     follow: false,
@@ -20,7 +20,7 @@ export default async function AdminPage() {
       fallback={
         <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 space-y-4">
           <div className="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center font-black text-xl animate-pulse">
-            PK
+            CH
           </div>
           <div className="text-slate-500 font-medium text-sm">
             Loading Admin Panel...

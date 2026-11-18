@@ -4,25 +4,25 @@ import { siteConfig } from "@/content/pages";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Disclaimer | Pakistan Finance Calculators",
+  title: "Disclaimer | CalculationHub",
   description:
-    "Review our official legal and religious disclaimer for Pakistan Finance Calculators. All calculation estimates are provided for general guidance only.",
+    "Review our official legal and religious disclaimer for CalculationHub. All calculation estimates are provided for general guidance only.",
   alternates: {
     canonical: `${siteUrl}/disclaimer`,
   },
   openGraph: {
-    title: "Disclaimer | Pakistan Finance Calculators",
+    title: "Disclaimer | CalculationHub",
     description:
-      "Review our official legal and religious disclaimer for Pakistan Finance Calculators. All calculation estimates are provided for general guidance only.",
+      "Review our official legal and religious disclaimer for CalculationHub. All calculation estimates are provided for general guidance only.",
     url: `${siteUrl}/disclaimer`,
     type: "website",
-    siteName: "Pakistan Finance Calculators",
+    siteName: "CalculationHub",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Disclaimer | Pakistan Finance Calculators",
+    title: "Disclaimer | CalculationHub",
     description:
-      "Review our official legal and religious disclaimer for Pakistan Finance Calculators. All calculation estimates are provided for general guidance only.",
+      "Review our official legal and religious disclaimer for CalculationHub. All calculation estimates are provided for general guidance only.",
   },
 };
 

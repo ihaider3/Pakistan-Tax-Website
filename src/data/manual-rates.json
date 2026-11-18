@@ -1,5 +1,5 @@
 {
-  "description": "Annual manual rates for Pakistan Finance Calculators. Never touched by automated bots. Updated annually via Finance Act or Ramadan notifications.",
+  "description": "Annual manual rates for CalculationHub. Never touched by automated bots. Updated annually via Finance Act or Ramadan notifications.",
   "salaryTax": {
     "taxYear": "2026-27",
     "source": "Federal Board of Revenue (FBR), Finance Act 2026, Section 149",

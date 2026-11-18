@@ -263,8 +263,12 @@ function PwaBanners({
       {showMobileBanner && (
         <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md z-45 animate-in slide-in-from-bottom-5 duration-300 print:hidden">
           <div className="bg-[#0B2A4A] text-white p-4 rounded-2xl border border-teal-500/30 shadow-[0_12px_40px_rgba(11,42,74,0.4)] flex items-start gap-3.5">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-400 to-accent text-white flex items-center justify-center font-black text-sm shrink-0 shadow-md">
-              PK
+            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-md p-1 overflow-hidden">
+              <img
+                src="/images/CalculationHub_App_Icon.png"
+                alt="CalculationHub"
+                className="w-full h-full object-contain"
+              />
             </div>
             <div className="flex-1 min-w-0 space-y-1">
               <div className="flex items-center justify-between gap-2">

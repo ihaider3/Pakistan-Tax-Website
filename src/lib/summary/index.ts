@@ -82,7 +82,7 @@ export function buildWhatsAppText(
 
   // Section titles
   const cleanTitle = data.title.replace(/\s+Calculator$/i, "").toUpperCase();
-  const titleText = `*${cleanTitle} CALCULATION SUMMARY*`;
+  const titleText = `*CalculationHub*\n*${cleanTitle} CALCULATION SUMMARY*`;
   const divider = "━━━━━━━━━━━━━━━━";
 
   const detailsHeading = isRoman

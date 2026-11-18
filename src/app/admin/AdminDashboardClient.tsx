@@ -409,7 +409,7 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 space-y-4">
         <div className="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center font-black text-xl animate-pulse">
-          PK
+          CH
         </div>
         <div className="flex items-center gap-2 text-slate-500 font-medium text-sm">
           <svg className="w-5 h-5 animate-spin text-accent" fill="none" viewBox="0 0 24 24">
@@ -490,9 +490,9 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
         <div className="space-y-1">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center font-black text-sm">
-              PK
+              CH
             </div>
-            <h1 className="text-xl sm:text-2xl font-black text-primary">Website Administration</h1>
+            <h1 className="text-xl sm:text-2xl font-black text-primary">Admin Control Center | CalculationHub</h1>
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-200">
               Authenticated
             </span>

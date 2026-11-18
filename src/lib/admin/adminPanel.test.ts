@@ -182,7 +182,7 @@ describe("Content Editor & Statutory Protection", () => {
 
   it("provides live defaults when database is empty", async () => {
     const content = await getSiteContent();
-    expect(content.home_hero_title).toContain("Pakistan Financial & Islamic Calculators");
+    expect(content.home_hero_title).toContain("CalculationHub");
     expect(content.home_card_salary_title).toBe("Salary Tax Calculator");
   });
 

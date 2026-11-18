@@ -5,25 +5,25 @@ import { siteUrl } from "@/config/site";
 import { getSiteContent } from "@/lib/content/contentServer";
 
 export const metadata: Metadata = {
-  title: "Contact Us | Pakistan Financial & Islamic Calculators",
+  title: "Contact Us | CalculationHub",
   description:
-    "Get in touch with the Pakistan Finance Calculators team to report statutory rate updates, submit feedback, or request new financial calculation tools.",
+    "Get in touch with the CalculationHub team to report statutory rate updates, submit feedback, or request new financial calculation tools.",
   alternates: {
     canonical: `${siteUrl}/contact`,
   },
   openGraph: {
-    title: "Contact Us | Pakistan Financial & Islamic Calculators",
+    title: "Contact Us | CalculationHub",
     description:
-      "Get in touch with the Pakistan Finance Calculators team to report statutory rate updates, submit feedback, or request new financial calculation tools.",
+      "Get in touch with the CalculationHub team to report statutory rate updates, submit feedback, or request new financial calculation tools.",
     url: `${siteUrl}/contact`,
     type: "website",
-    siteName: "Pakistan Finance Calculators",
+    siteName: "CalculationHub",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact Us | Pakistan Financial & Islamic Calculators",
+    title: "Contact Us | CalculationHub",
     description:
-      "Get in touch with the Pakistan Finance Calculators team to report statutory rate updates, submit feedback, or request new financial calculation tools.",
+      "Get in touch with the CalculationHub team to report statutory rate updates, submit feedback, or request new financial calculation tools.",
   },
 };
 

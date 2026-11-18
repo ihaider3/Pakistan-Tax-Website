@@ -418,4 +418,18 @@ describe("Summary and Copy System Regression Tests (§7)", () => {
     const text = buildWhatsAppText(data, "en");
     expect(text).toContain("*Website:* my-custom-pak-tax.pk");
   });
+
+  it("Test 15: Brand header — buildWhatsAppText begins with *CalculationHub* brand header", () => {
+    const res = calculateSalaryTax(150000, "monthly", "2026-27");
+    const data = buildSalarySummaryData({
+      salaryRaw: "150000",
+      salaryNum: 150000,
+      period: "monthly",
+      taxYear: "2026-27",
+      result: res,
+      language: "en",
+    });
+    const text = buildWhatsAppText(data, "en");
+    expect(text.startsWith("*CalculationHub*")).toBe(true);
+  });
 });

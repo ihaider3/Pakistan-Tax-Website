@@ -31,7 +31,7 @@ export const DEFAULT_SITE_CONTENT: ContentFieldConfig[] = [
     key: "home_hero_title",
     page: "homepage",
     fieldLabel: "Homepage Main Title (H1)",
-    defaultValue: "Pakistan Financial & Islamic Calculators — Free, Accurate, No Login",
+    defaultValue: "CalculationHub — Free, Accurate, No Login",
   },
   {
     key: "home_hero_subtitle",
@@ -303,7 +303,7 @@ export const DEFAULT_SITE_CONTENT: ContentFieldConfig[] = [
     key: "footer_copyright",
     page: "footer",
     fieldLabel: "Footer Copyright Line",
-    defaultValue: "© 2026-27 Pakistan Finance Calculators. All rights reserved.",
+    defaultValue: "© 2026 CalculationHub. All rights reserved.",
   },
 
   // ===================== CONTACT =====================

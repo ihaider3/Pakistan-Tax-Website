@@ -7,32 +7,41 @@ import { HeroInstallButton } from "@/components/PwaInstallPrompt";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Pakistan Finance Calculators | Tax, Zakat & GST",
+  title: "CalculationHub | Tax, Zakat & Financial Calculators",
   description:
     "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
   alternates: {
     canonical: siteUrl,
   },
   openGraph: {
-    title: "Pakistan Finance Calculators | Tax, Zakat & GST",
+    title: "CalculationHub | Tax, Zakat & Financial Calculators",
     description:
       "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
     url: siteUrl,
     type: "website",
-    siteName: "Pakistan Finance Calculators",
+    siteName: "CalculationHub",
+    images: [
+      {
+        url: "/images/og-share-1200x630.png",
+        width: 1200,
+        height: 630,
+        alt: "CalculationHub",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pakistan Finance Calculators | Tax, Zakat & GST",
+    title: "CalculationHub | Tax, Zakat & Financial Calculators",
     description:
       "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
+    images: ["/images/og-share-1200x630.png"],
   },
 };
 
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Pakistan Finance Calculators",
+  name: "CalculationHub",
   url: siteUrl,
   description:
     "Free, accurate Pakistan calculators for salary tax, Zakat, property tax, GST, Fitrana, and Ushr. 100% client-side privacy.",
@@ -236,7 +245,7 @@ export default async function HomePage() {
             >
               {content.home_hero_title || (
                 <>
-                  Pakistan Financial &amp; Islamic Calculators{" "}
+                  CalculationHub{" "}
                   <span className="block mt-1 sm:mt-2 pb-2 sm:pb-3 leading-normal bg-gradient-to-r from-primary via-[#0F5A9E] to-accent bg-clip-text text-transparent">
                     — Free, Accurate, No Login
                   </span>

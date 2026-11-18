@@ -15,9 +15,9 @@ describe("Web App Manifest Validation", () => {
 
   it("reads app name and short name from central site config", () => {
     expect(m.name).toBe(siteName);
-    expect(m.name).toBe("Pakistan Finance Calculators");
+    expect(m.name).toBe("CalculationHub");
     expect(m.short_name).toBe(siteShortName);
-    expect(m.short_name).toBe("Finance Calc");
+    expect(m.short_name).toBe("Calc Hub");
     expect(m.short_name.length).toBeLessThanOrEqual(12);
   });
 
@@ -60,8 +60,8 @@ describe("Web App Manifest Validation", () => {
     expect(fs.existsSync(manifestJsonPath)).toBe(true);
 
     const jsonContent = JSON.parse(fs.readFileSync(manifestJsonPath, "utf-8"));
-    expect(jsonContent.name).toBe("Pakistan Finance Calculators");
-    expect(jsonContent.short_name).toBe("Finance Calc");
+    expect(jsonContent.name).toBe("CalculationHub");
+    expect(jsonContent.short_name).toBe("Calc Hub");
     expect(jsonContent.display).toBe("standalone");
     expect(jsonContent.background_color).toBe("#0B2A4A");
     expect(jsonContent.theme_color).toBe("#0B2A4A");

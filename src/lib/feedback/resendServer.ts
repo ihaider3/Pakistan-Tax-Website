@@ -51,7 +51,7 @@ export async function sendFeedbackNotificationEmail(payload: EmailNotificationPa
   const adminUrl = `${siteUrl}/admin/feedback`;
 
   const emailLines = [
-    `New feedback received on Pakistan Finance Calculators:`,
+    `New feedback received on CalculationHub:`,
     ``,
     `--------------------------------------------------`,
     `Date & Time (PKT): ${pktDateStr}`,
@@ -75,7 +75,7 @@ export async function sendFeedbackNotificationEmail(payload: EmailNotificationPa
 
   try {
     const response = await resend.emails.send({
-      from: "Pakistan Finance Calculators <onboarding@resend.dev>",
+      from: "CalculationHub <onboarding@resend.dev>",
       to: recipient,
       subject,
       text: emailLines.join("\n"),

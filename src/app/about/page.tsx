@@ -5,25 +5,25 @@ import { siteConfig } from "@/content/pages";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "About Us | Pakistan Financial & Islamic Calculators",
+  title: "About Us | CalculationHub",
   description:
-    "Learn about Pakistan Financial & Islamic Calculators. Providing free, transparent, and completely private calculation tools with zero server tracking.",
+    "Learn about CalculationHub. Providing free, transparent, and completely private calculation tools with zero server tracking.",
   alternates: {
     canonical: `${siteUrl}/about`,
   },
   openGraph: {
-    title: "About Us | Pakistan Financial & Islamic Calculators",
+    title: "About Us | CalculationHub",
     description:
-      "Learn about Pakistan Financial & Islamic Calculators. Providing free, transparent, and completely private calculation tools with zero server tracking.",
+      "Learn about CalculationHub. Providing free, transparent, and completely private calculation tools with zero server tracking.",
     url: `${siteUrl}/about`,
     type: "website",
-    siteName: "Pakistan Finance Calculators",
+    siteName: "CalculationHub",
   },
   twitter: {
     card: "summary_large_image",
-    title: "About Us | Pakistan Financial & Islamic Calculators",
+    title: "About Us | CalculationHub",
     description:
-      "Learn about Pakistan Financial & Islamic Calculators. Providing free, transparent, and completely private calculation tools with zero server tracking.",
+      "Learn about CalculationHub. Providing free, transparent, and completely private calculation tools with zero server tracking.",
   },
 };
 
@@ -35,7 +35,7 @@ export default function AboutPage() {
           About Platform
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight mt-2">
-          About Pakistan Finance Calculators
+          About CalculationHub
         </h1>
         <p className="text-base text-appText-muted mt-2">
           Empowering Pakistani citizens and businesses with accurate, transparent, and completely private financial calculators.

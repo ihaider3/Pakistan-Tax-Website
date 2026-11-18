@@ -1,4 +1,4 @@
-const CACHE_NAME = "pfc-cache-v2";
+const CACHE_NAME = "calc-hub-cache-v3";
 
 const PRECACHE_URLS = [
   "/",
@@ -20,6 +20,9 @@ const PRECACHE_URLS = [
   "/icon-512x512.png",
   "/icon-512x512-maskable.png",
   "/apple-touch-icon.png",
+  "/images/CalculationHub_Logo_Full.png",
+  "/images/CalculationHub_App_Icon.png",
+  "/images/og-share-1200x630.png",
   "/data/rates.json",
 ];
 

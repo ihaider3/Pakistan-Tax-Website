@@ -62,18 +62,19 @@ export default function Footer() {
           {/* Column 1: Brand & High-Security Privacy Card (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
             {/* Brand Logo & Title */}
-            <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-light via-accent to-emerald-500 text-white flex items-center justify-center font-black text-lg tracking-tighter shadow-lg shadow-accent/25 ring-2 ring-white/20">
-                PK
-              </div>
-              <div>
-                <h3 className="font-black text-xl sm:text-2xl text-white tracking-tight leading-none">
-                  {siteConfig.brandName}
-                </h3>
-                <span className="text-[11px] font-bold text-accent-light uppercase tracking-widest block mt-1">
-                  Statutory &amp; Islamic Calculation Platform
-                </span>
-              </div>
+            <div className="space-y-3">
+              <Link href="/" className="inline-block group" aria-label="CalculationHub Homepage">
+                <div className="bg-white rounded-2xl px-4 py-2.5 shadow-lg shadow-black/20 ring-1 ring-white/30 inline-flex items-center">
+                  <img
+                    src="/images/CalculationHub_Logo_Full.png"
+                    alt="CalculationHub"
+                    className="h-9 sm:h-10 w-auto object-contain group-hover:opacity-95 transition-opacity"
+                  />
+                </div>
+              </Link>
+              <p className="text-[11px] font-bold text-accent-light uppercase tracking-widest block">
+                Statutory &amp; Islamic Calculation Platform
+              </p>
             </div>
 
             {/* Platform Mission Statement */}

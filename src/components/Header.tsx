@@ -80,14 +80,14 @@ export default function Header() {
           {/* Brand Logo & Name (Responsive on 360px mobile + tablet + desktop) */}
           <Link
             href="/"
-            className="group flex items-center gap-2 sm:gap-2.5 shrink-0 focus:outline-hidden"
+            className="group flex items-center shrink-0 focus:outline-hidden"
+            aria-label="CalculationHub Homepage"
           >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary via-[#0C3259] to-accent text-white flex items-center justify-center font-black text-sm tracking-tight shadow-md shadow-primary/20 ring-1 ring-slate-200/80 group-hover:scale-105 transition-all duration-200 shrink-0">
-              PK
-            </div>
-            <span className="text-sm sm:text-lg font-extrabold tracking-tight text-primary whitespace-nowrap">
-              Pakistan Finance <span className="hidden sm:inline text-accent">Calculators</span>
-            </span>
+            <img
+              src="/images/CalculationHub_Logo_Full.png"
+              alt="CalculationHub"
+              className="h-8 sm:h-10 w-auto object-contain group-hover:opacity-95 transition-opacity"
+            />
           </Link>
 
           {/* Desktop & Tablet Navigation Links (Clean, Attractive, Strictly 1 Line) */}

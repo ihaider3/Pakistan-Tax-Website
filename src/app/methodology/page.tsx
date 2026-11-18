@@ -9,23 +9,23 @@ import { fitranaRates2026 } from "@/lib/rates/fitrana-2026";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Methodology & Sources | Pakistan Finance Calculators",
+  title: "Methodology & Sources | CalculationHub",
   description:
     "Read official statutory methodology and legal references for Pakistan salary tax, Zakat, 236C/236K property tax, GST, and Fitrana calculation rules.",
   alternates: {
     canonical: `${siteUrl}/methodology`,
   },
   openGraph: {
-    title: "Methodology & Sources | Pakistan Finance Calculators",
+    title: "Methodology & Sources | CalculationHub",
     description:
       "Read official statutory methodology and legal references for Pakistan salary tax, Zakat, 236C/236K property tax, GST, and Fitrana calculation rules.",
     url: `${siteUrl}/methodology`,
     type: "website",
-    siteName: "Pakistan Finance Calculators",
+    siteName: "CalculationHub",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Methodology & Sources | Pakistan Finance Calculators",
+    title: "Methodology & Sources | CalculationHub",
     description:
       "Read official statutory methodology and legal references for Pakistan salary tax, Zakat, 236C/236K property tax, GST, and Fitrana calculation rules.",
   },

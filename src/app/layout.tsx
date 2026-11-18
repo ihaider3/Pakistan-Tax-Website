@@ -31,7 +31,7 @@ import { siteUrl } from "@/config/site";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Pakistan Finance Calculators | Tax, Zakat & GST Tools",
+    default: "CalculationHub | Free Financial & Islamic Calculators",
     template: "%s",
   },
   description:
@@ -45,9 +45,9 @@ export const metadata: Metadata = {
     "fitrana calculator pakistan",
     "fbr tax slabs 2026-27",
   ],
-  authors: [{ name: "Pakistan Finance Calculators Team" }],
-  creator: "Pakistan Finance Calculators",
-  publisher: "Pakistan Finance Calculators",
+  authors: [{ name: "CalculationHub Team" }],
+  creator: "CalculationHub",
+  publisher: "CalculationHub",
   formatDetection: {
     email: false,
     address: false,
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Finance Calc",
+    title: "Calc Hub",
   },
   icons: {
     icon: [
@@ -73,16 +73,25 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_PK",
     url: siteUrl,
-    siteName: "Pakistan Finance Calculators",
-    title: "Pakistan Finance Calculators | Tax, Zakat & GST Tools",
+    siteName: "CalculationHub",
+    title: "CalculationHub | Free Financial & Islamic Calculators",
     description:
       "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
+    images: [
+      {
+        url: "/images/og-share-1200x630.png",
+        width: 1200,
+        height: 630,
+        alt: "CalculationHub",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pakistan Finance Calculators | Tax, Zakat & GST Tools",
+    title: "CalculationHub | Free Financial & Islamic Calculators",
     description:
       "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
+    images: ["/images/og-share-1200x630.png"],
   },
   robots: {
     index: true,
