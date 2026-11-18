@@ -32,9 +32,10 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 print:hidden transition-all duration-300">
+    <header className="print:hidden">
       {/* =========================================================================
           TOP AMBIENT STATUS BAR (1-LINE CLIENT-SIDE PRIVACY & AUDIT TICKER)
+          NOT STICKY: Scrolls out of view with the page naturally
          ========================================================================= */}
       <div className="bg-gradient-to-r from-[#071B30] via-primary to-[#0A335C] text-white text-[11px] sm:text-xs py-1.5 px-4 border-b border-accent/25 shadow-xs">
         <div className="max-w-[1150px] w-full mx-auto flex items-center justify-between gap-3 min-w-0">
@@ -67,17 +68,18 @@ export default function Header() {
       </div>
 
       {/* =========================================================================
-          MAIN NAVIGATION BAR (STRICTLY 1-LINE, CLEAN, SPACIOUS, ATTRACTIVE)
+          STICKY MAIN NAVIGATION BAR (GLASS EFFECT + TRANSLUCENT FROSTED BLUR)
+          Sticky on scroll across all pages. Modals (z-50/z-60) open above it.
          ========================================================================= */}
       <div
-        className={`w-full transition-all duration-300 ${
+        className={`sticky top-0 z-40 w-full transition-all duration-200 border-b border-slate-200/80 ${
           scrolled
-            ? "backdrop-blur-xl bg-white/95 border-b border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(11,42,74,0.08)] py-2"
-            : "backdrop-blur-md bg-white/98 border-b border-slate-200/80 shadow-xs py-2.5 sm:py-3"
+            ? "bg-white/85 backdrop-blur-md shadow-sm py-1.5 sm:py-2 md:py-2.5"
+            : "bg-white/80 backdrop-blur-md shadow-xs py-2 sm:py-2.5 md:py-3"
         }`}
       >
-        <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 flex items-center justify-between gap-4">
-          {/* Brand Logo & Name (Responsive on 360px mobile + tablet + desktop) */}
+        <div className="max-w-[1150px] mx-auto px-3 sm:px-5 lg:px-6 flex items-center justify-between gap-2 sm:gap-4">
+          {/* Brand Logo & Name (Compact on mobile, standard on desktop) */}
           <Link
             href="/"
             className="group flex items-center shrink-0 focus:outline-hidden py-0.5"
@@ -86,7 +88,7 @@ export default function Header() {
             <img
               src="/images/CalculationHub_Logo_Full.png"
               alt="CalculationHub"
-              className="h-11 sm:h-12 md:h-[54px] w-auto object-contain group-hover:opacity-95 transition-all duration-200"
+              className="h-8 sm:h-9 md:h-12 w-auto object-contain group-hover:opacity-95 transition-all duration-200"
             />
           </Link>
 
@@ -110,17 +112,17 @@ export default function Header() {
             })}
           </nav>
 
-          {/* Mobile menu trigger button (Clean 44px tap target on 360px mobile) */}
+          {/* Mobile menu trigger button (Compact 40px+ tap target on mobile) */}
           <div className="flex md:hidden items-center shrink-0">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl bg-slate-100 text-primary hover:bg-slate-200 focus:outline-hidden focus:ring-2 focus:ring-accent transition-colors shadow-2xs border border-slate-200/80 cursor-pointer"
+              className="p-1.5 sm:p-2 min-h-[40px] min-w-[40px] inline-flex items-center justify-center rounded-xl bg-slate-100/90 text-primary hover:bg-slate-200 focus:outline-hidden focus:ring-2 focus:ring-accent transition-colors shadow-2xs border border-slate-200/80 cursor-pointer"
               aria-label="Toggle navigation menu"
               aria-expanded={mobileMenuOpen}
             >
               <svg
-                className="w-6 h-6 transition-transform duration-200"
+                className="w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-200"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -144,54 +146,52 @@ export default function Header() {
             </button>
           </div>
         </div>
-      </div>
 
-      {/* =========================================================================
-          MOBILE NAVIGATION DRAWER (FOR MOBILE SCREENS)
-         ========================================================================= */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-b border-slate-200 backdrop-blur-xl bg-white/98 px-4 pt-3 pb-5 space-y-1.5 shadow-xl animate-in slide-in-from-top-2 duration-200">
-          <div className="text-[11px] font-bold uppercase tracking-wider text-accent px-3 py-1">
-            Navigation &amp; Calculators
-          </div>
+        {/* Mobile menu drawer attached to sticky navbar */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-slate-200/80 backdrop-blur-xl bg-white/95 px-4 pt-3 pb-5 space-y-1.5 shadow-xl animate-in slide-in-from-top-2 duration-200 max-h-[calc(100vh-60px)] overflow-y-auto">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-accent px-3 py-1">
+              Navigation &amp; Calculators
+            </div>
 
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href;
-            return (
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`px-4 py-3 text-base font-semibold rounded-xl min-h-[44px] flex items-center justify-between transition-all ${
+                    isActive
+                      ? "bg-primary text-white shadow-md shadow-primary/20 font-bold"
+                      : "text-slate-800 hover:bg-slate-100 hover:text-primary"
+                  }`}
+                >
+                  <span>{link.name}</span>
+                  <span className="text-xs text-slate-400">→</span>
+                </Link>
+              );
+            })}
+
+            <div className="pt-3 mt-2 border-t border-slate-200 grid grid-cols-2 gap-2 text-xs">
               <Link
-                key={link.href}
-                href={link.href}
+                href="/about"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-3 text-base font-semibold rounded-xl min-h-[44px] flex items-center justify-between transition-all ${
-                  isActive
-                    ? "bg-primary text-white shadow-md shadow-primary/20 font-bold"
-                    : "text-slate-800 hover:bg-slate-100 hover:text-primary"
-                }`}
+                className="p-2.5 rounded-lg bg-slate-50 text-center font-semibold text-slate-700 hover:bg-slate-100 transition-colors border border-slate-200/80"
               >
-                <span>{link.name}</span>
-                <span className="text-xs text-slate-400">→</span>
+                About Platform
               </Link>
-            );
-          })}
-
-          <div className="pt-3 mt-2 border-t border-slate-200 grid grid-cols-2 gap-2 text-xs">
-            <Link
-              href="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2.5 rounded-lg bg-slate-50 text-center font-semibold text-slate-700 hover:bg-slate-100 transition-colors border border-slate-200/80"
-            >
-              About Platform
-            </Link>
-            <Link
-              href="/methodology"
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2.5 rounded-lg bg-slate-50 text-center font-semibold text-slate-700 hover:bg-slate-100 transition-colors border border-slate-200/80"
-            >
-              Methodology
-            </Link>
+              <Link
+                href="/methodology"
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2.5 rounded-lg bg-slate-50 text-center font-semibold text-slate-700 hover:bg-slate-100 transition-colors border border-slate-200/80"
+              >
+                Methodology
+              </Link>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </header>
   );
 }
