@@ -14,6 +14,7 @@ import { formatRupees, roundToPaisa } from "@/lib/calc/money";
 import { zakatRates } from "@/lib/rates/zakat";
 import { useExplanationLang } from "@/components/LanguageContext";
 import ratesData from "@/data/rates.json";
+import { useLiveRates } from "@/lib/rates/useLiveRates";
 import PrintReport from "@/components/PrintReport";
 import { buildZakatSummaryData } from "@/lib/summary/builders";
 import { buildWhatsAppText } from "@/lib/summary";
@@ -67,18 +68,37 @@ export default function ZakatCalculatorPage() {
   const [bankRaw, setBankRaw] = useState<string>("");
   const [bankNum, setBankNum] = useState<number>(0);
 
+  const { rates, status, isFetching } = useLiveRates();
+  const [isManualGold, setIsManualGold] = useState<boolean>(false);
+  const [isManualSilver, setIsManualSilver] = useState<boolean>(false);
+
   const [goldUnit, setGoldUnit] = useState<MetalUnit>("tola");
   const [goldQtyRaw, setGoldQtyRaw] = useState<string>("");
   const [goldQtyNum, setGoldQtyNum] = useState<number>(0);
   const [goldPurity, setGoldPurity] = useState<GoldPurity>("24k");
-  const [goldRateRaw, setGoldRateRaw] = useState<string>(ratesData.goldPerTolaPKR.toFixed(2));
-  const [goldRateNum, setGoldRateNum] = useState<number>(ratesData.goldPerTolaPKR);
+  const [goldRateRaw, setGoldRateRaw] = useState<string>(rates.goldPerTolaPKR.toFixed(2));
+  const [goldRateNum, setGoldRateNum] = useState<number>(rates.goldPerTolaPKR);
 
   const [silverUnit, setSilverUnit] = useState<MetalUnit>("tola");
   const [silverQtyRaw, setSilverQtyRaw] = useState<string>("");
   const [silverQtyNum, setSilverQtyNum] = useState<number>(0);
-  const [silverRateRaw, setSilverRateRaw] = useState<string>(ratesData.silverPerTolaPKR.toFixed(2));
-  const [silverRateNum, setSilverRateNum] = useState<number>(ratesData.silverPerTolaPKR);
+  const [silverRateRaw, setSilverRateRaw] = useState<string>(rates.silverPerTolaPKR.toFixed(2));
+  const [silverRateNum, setSilverRateNum] = useState<number>(rates.silverPerTolaPKR);
+
+  // Sync state when live rates arrive if user hasn't overridden
+  useEffect(() => {
+    if (!isManualGold && rates.goldPerTolaPKR > 0) {
+      setGoldRateRaw(rates.goldPerTolaPKR.toFixed(2));
+      setGoldRateNum(rates.goldPerTolaPKR);
+    }
+  }, [rates.goldPerTolaPKR, isManualGold]);
+
+  useEffect(() => {
+    if (!isManualSilver && rates.silverPerTolaPKR > 0) {
+      setSilverRateRaw(rates.silverPerTolaPKR.toFixed(2));
+      setSilverRateNum(rates.silverPerTolaPKR);
+    }
+  }, [rates.silverPerTolaPKR, isManualSilver]);
 
   const [businessRaw, setBusinessRaw] = useState<string>("");
   const [businessNum, setBusinessNum] = useState<number>(0);
@@ -104,13 +124,15 @@ export default function ZakatCalculatorPage() {
     setGoldQtyRaw("");
     setGoldQtyNum(0);
     setGoldPurity("24k");
-    setGoldRateRaw(ratesData.goldPerTolaPKR.toFixed(2));
-    setGoldRateNum(ratesData.goldPerTolaPKR);
+    setIsManualGold(false);
+    setGoldRateRaw(rates.goldPerTolaPKR.toFixed(2));
+    setGoldRateNum(rates.goldPerTolaPKR);
     setSilverUnit("tola");
     setSilverQtyRaw("");
     setSilverQtyNum(0);
-    setSilverRateRaw(ratesData.silverPerTolaPKR.toFixed(2));
-    setSilverRateNum(ratesData.silverPerTolaPKR);
+    setIsManualSilver(false);
+    setSilverRateRaw(rates.silverPerTolaPKR.toFixed(2));
+    setSilverRateNum(rates.silverPerTolaPKR);
     setBusinessRaw("");
     setBusinessNum(0);
     setInvestmentsRaw("");
@@ -191,12 +213,12 @@ export default function ZakatCalculatorPage() {
 
   const isStale = React.useMemo(() => {
     try {
-      const updatedMs = new Date(ratesData.lastUpdated).getTime();
+      const updatedMs = new Date(rates.lastUpdated).getTime();
       return Date.now() - updatedMs > 48 * 3600 * 1000;
     } catch {
       return false;
     }
-  }, []);
+  }, [rates.lastUpdated]);
 
   const unitOptions: ToggleOption<MetalUnit>[] = [
     { value: "tola", label: "Tola" },
@@ -554,12 +576,13 @@ export default function ZakatCalculatorPage() {
                         if (e.target.value === "0") e.target.select();
                       }}
                       onChange={(e) => {
+                        setIsManualGold(true);
                         const cleaned = e.target.value.replace(/[, \s]/g, "");
                         setGoldRateRaw(e.target.value);
                         setGoldRateNum(parseFloat(cleaned) || 0);
                       }}
                       className="w-full pl-10 pr-14 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
-                      placeholder={`e.g. ${ratesData.goldPerTolaPKR.toFixed(2)}`}
+                      placeholder={`e.g. ${rates.goldPerTolaPKR.toFixed(2)}`}
                     />
                     <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 select-none">
                       /tola
@@ -614,11 +637,19 @@ export default function ZakatCalculatorPage() {
 
               <div className="text-[11px] text-amber-900 font-medium bg-amber-50/90 p-2.5 rounded-lg border border-amber-200/80">
                 <p>
-                  {!isOnline
-                    ? `Offline — rates from ${ratesData.lastUpdatedLabel}. Gold: Rs ${ratesData.goldPerTolaPKR.toFixed(2)}/tola. Stored locally on device.`
-                    : lang === "roman"
-                    ? `Live rate — updated ${ratesData.lastUpdatedLabel}. Gold: Rs ${ratesData.goldPerTolaPKR.toFixed(2)}/tola. Ye international spot price se hisab hai — Sarafa official rate se thoda farq ho sakta hai.`
-                    : `Live rate — updated ${ratesData.lastUpdatedLabel}. Gold: Rs ${ratesData.goldPerTolaPKR.toFixed(2)}/tola. Calculated from international spot price — may differ slightly from Sarafa official rate.`}
+                  {isManualGold
+                    ? (lang === "roman"
+                      ? `Aapka darj karda rate: Rs ${goldRateNum.toFixed(2)}/tola (Manual rate).`
+                      : `Manual rate: Rs ${goldRateNum.toFixed(2)}/tola. Entered by user.`)
+                    : !isOnline
+                    ? `Offline — rates from ${rates.lastUpdatedLabel}. Gold: Rs ${rates.goldPerTolaPKR.toFixed(2)}/tola. Stored locally on device.`
+                    : status === "live"
+                    ? (lang === "roman"
+                      ? `Live rate — updated ${rates.lastUpdatedLabel}. Gold: Rs ${rates.goldPerTolaPKR.toFixed(2)}/tola. Ye international spot price se hisab hai.`
+                      : `Live rate — updated ${rates.lastUpdatedLabel}. Gold: Rs ${rates.goldPerTolaPKR.toFixed(2)}/tola. Calculated from international spot price.`)
+                    : (lang === "roman"
+                      ? `Aakhri available rates (${rates.lastUpdatedLabel}) se dikhaye ja rahe hain. Gold: Rs ${rates.goldPerTolaPKR.toFixed(2)}/tola.`
+                      : `Showing last available rates from ${rates.lastUpdatedLabel}. Gold: Rs ${rates.goldPerTolaPKR.toFixed(2)}/tola.`)}
                 </p>
               </div>
             </div>
@@ -698,12 +729,13 @@ export default function ZakatCalculatorPage() {
                         if (e.target.value === "0") e.target.select();
                       }}
                       onChange={(e) => {
+                        setIsManualSilver(true);
                         const cleaned = e.target.value.replace(/[, \s]/g, "");
                         setSilverRateRaw(e.target.value);
                         setSilverRateNum(parseFloat(cleaned) || 0);
                       }}
                       className="w-full pl-10 pr-14 py-2.5 min-h-[46px] rounded-xl border border-slate-200 text-base font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-accent transition-all shadow-xs"
-                      placeholder={`e.g. ${ratesData.silverPerTolaPKR.toFixed(2)}`}
+                      placeholder={`e.g. ${rates.silverPerTolaPKR.toFixed(2)}`}
                     />
                     <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 select-none">
                       /tola
@@ -713,11 +745,19 @@ export default function ZakatCalculatorPage() {
               </div>
               <div className="text-[11px] text-amber-900 font-medium bg-amber-50/90 p-2.5 rounded-lg border border-amber-200/80">
                 <p>
-                  {!isOnline
-                    ? `Offline — rates from ${ratesData.lastUpdatedLabel}. Silver: Rs ${ratesData.silverPerTolaPKR.toFixed(2)}/tola. Stored locally on device.`
-                    : lang === "roman"
-                    ? `Live rate — updated ${ratesData.lastUpdatedLabel}. Silver: Rs ${ratesData.silverPerTolaPKR.toFixed(2)}/tola. Ye international spot price se hisab hai — Sarafa official rate se thoda farq ho sakta hai.`
-                    : `Live rate — updated ${ratesData.lastUpdatedLabel}. Silver: Rs ${ratesData.silverPerTolaPKR.toFixed(2)}/tola. Calculated from international spot price — may differ slightly from Sarafa official rate.`}
+                  {isManualSilver
+                    ? (lang === "roman"
+                      ? `Aapka darj karda rate: Rs ${silverRateNum.toFixed(2)}/tola (Manual rate).`
+                      : `Manual rate: Rs ${silverRateNum.toFixed(2)}/tola. Entered by user.`)
+                    : !isOnline
+                    ? `Offline — rates from ${rates.lastUpdatedLabel}. Silver: Rs ${rates.silverPerTolaPKR.toFixed(2)}/tola. Stored locally on device.`
+                    : status === "live"
+                    ? (lang === "roman"
+                      ? `Live rate — updated ${rates.lastUpdatedLabel}. Silver: Rs ${rates.silverPerTolaPKR.toFixed(2)}/tola. Ye international spot price se hisab hai.`
+                      : `Live rate — updated ${rates.lastUpdatedLabel}. Silver: Rs ${rates.silverPerTolaPKR.toFixed(2)}/tola. Calculated from international spot price.`)
+                    : (lang === "roman"
+                      ? `Aakhri available rates (${rates.lastUpdatedLabel}) se dikhaye ja rahe hain. Silver: Rs ${rates.silverPerTolaPKR.toFixed(2)}/tola.`
+                      : `Showing last available rates from ${rates.lastUpdatedLabel}. Silver: Rs ${rates.silverPerTolaPKR.toFixed(2)}/tola.`)}
                 </p>
               </div>
             </div>
@@ -833,8 +873,8 @@ export default function ZakatCalculatorPage() {
             <span className="text-amber-600">⚠️</span>
             <span>
               {lang === "roman"
-                ? "Rates 48 ghante se purane hain — barah-e-karam aaj ka Sarafa rate khud darj karein."
-                : "Rates are over 48 hours old — please enter today's local Sarafa rate manually."}
+                ? "Rates 48 ghante se zyada purane hain — Zakat ka hisaab dobara check karein."
+                : "Rates are older than 48 hours — please verify rates before paying Zakat."}
             </span>
           </div>
         </div>
@@ -843,7 +883,7 @@ export default function ZakatCalculatorPage() {
           <span className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-amber-500"></span>
             <span>
-              <strong className="text-amber-950">Offline — rates from {ratesData.lastUpdatedLabel}</strong>
+              <strong className="text-amber-950">Offline — rates from {rates.lastUpdatedLabel}</strong>
               <span className="mx-1.5 text-amber-500">•</span>
               <span className="text-amber-800">Stored on device</span>
             </span>
@@ -852,17 +892,33 @@ export default function ZakatCalculatorPage() {
             Cached copy
           </span>
         </div>
-      ) : (
+      ) : status === "live" ? (
         <div className="px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200/90 text-xs text-slate-600 flex flex-wrap items-center justify-between gap-2 shadow-2xs">
           <span className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>
-              <strong className="text-slate-800">Rates updated:</strong> {ratesData.lastUpdatedLabel}
+              <strong className="text-slate-800">Rates updated:</strong> {rates.lastUpdatedLabel}
               <span className="mx-1.5 text-slate-400">•</span>
-              <strong className="text-slate-800">Last checked:</strong> {ratesData.lastCheckedLabel || ratesData.lastUpdatedLabel}
+              <strong className="text-slate-800">Last checked:</strong> {rates.lastCheckedLabel || rates.lastUpdatedLabel}
             </span>
           </span>
           <span className="text-[11px] text-slate-500 font-medium">
+            Source: gold-api.com + open.er-api.com
+          </span>
+        </div>
+      ) : (
+        <div className="px-3.5 py-2 rounded-xl bg-amber-50/80 border border-amber-200/90 text-xs text-amber-900 flex flex-wrap items-center justify-between gap-2 shadow-2xs">
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+            <span>
+              <strong className="text-amber-950">
+                {lang === "roman"
+                  ? `Aakhri available rates ${rates.lastUpdatedLabel} se dikhaye ja rahe hain`
+                  : `Showing last available rates from ${rates.lastUpdatedLabel}`}
+              </strong>
+            </span>
+          </span>
+          <span className="text-[11px] text-amber-800 font-medium">
             Source: gold-api.com + open.er-api.com
           </span>
         </div>

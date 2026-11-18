@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ratesData from "@/data/rates.json";
+import { useLiveRates } from "@/lib/rates/useLiveRates";
 import VisualContentEditor from "@/components/admin/VisualContentEditor";
 
 export type AdminTab = "overview" | "feedback" | "content" | "analytics";
@@ -105,6 +106,7 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
     : "overview";
 
   // Authentication State
+  const { rates: liveRates } = useLiveRates();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
     typeof initialAuth === "boolean" ? initialAuth : null
   );
@@ -640,26 +642,26 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
                   Current Live Rates (Read-Only)
                 </span>
                 <span className="text-[10px] font-semibold text-amber-700 bg-amber-100 px-2 py-0.5 rounded">
-                  {ratesData.lastUpdatedLabel || "Verified"}
+                  {liveRates.lastUpdatedLabel || ratesData.lastUpdatedLabel || "Verified"}
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div className="p-2.5 rounded-lg bg-white border border-amber-200/60">
                   <span className="text-slate-500 block text-[10px]">Gold Rate (24K / tola)</span>
                   <strong className="text-primary font-bold">
-                    Rs {ratesData.goldPerTolaPKR.toLocaleString()}
+                    Rs {liveRates.goldPerTolaPKR.toLocaleString()}
                   </strong>
                 </div>
                 <div className="p-2.5 rounded-lg bg-white border border-amber-200/60">
                   <span className="text-slate-500 block text-[10px]">Silver Rate (tola)</span>
                   <strong className="text-primary font-bold">
-                    Rs {ratesData.silverPerTolaPKR.toLocaleString()}
+                    Rs {liveRates.silverPerTolaPKR.toLocaleString()}
                   </strong>
                 </div>
                 <div className="p-2.5 rounded-lg bg-white border border-amber-200/60">
                   <span className="text-slate-500 block text-[10px]">Hanafi Nisab (52.5 tola)</span>
                   <strong className="text-primary font-bold">
-                    Rs {ratesData.nisabSilverPKR.toLocaleString()}
+                    Rs {liveRates.nisabSilverPKR.toLocaleString()}
                   </strong>
                 </div>
                 <div className="p-2.5 rounded-lg bg-white border border-amber-200/60">
