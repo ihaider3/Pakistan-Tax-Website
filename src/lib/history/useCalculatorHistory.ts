@@ -63,13 +63,13 @@ export function useCalculatorHistory<TInputs = Record<string, unknown>>(
           resultSummary: params.resultSummary,
           inputs: params.inputs,
         });
-        setHistory(updated);
+        setHistory([...updated]);
       };
 
       if (params.immediate) {
         save();
       } else {
-        debounceTimerRef.current = setTimeout(save, 500);
+        debounceTimerRef.current = setTimeout(save, 150);
       }
     },
     [calculatorId]
@@ -102,3 +102,4 @@ export function useCalculatorHistory<TInputs = Record<string, unknown>>(
     refreshHistory,
   };
 }
+

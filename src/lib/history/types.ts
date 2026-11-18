@@ -20,3 +20,4 @@ export const HISTORY_STORAGE_KEYS: Record<CalculatorId, string> = {
 };
 
 export const MAX_HISTORY_ENTRIES = 10;
+

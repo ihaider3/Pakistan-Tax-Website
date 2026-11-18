@@ -3,5 +3,5 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://pak-tax-cal.vercel.app/sitemap.xml
+Sitemap: https://calculationhub-official.vercel.app/sitemap.xml
 

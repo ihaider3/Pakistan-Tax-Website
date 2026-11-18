@@ -194,3 +194,4 @@ export function clearHistory(calculatorId: CalculatorId): void {
     // ignore
   }
 }
+

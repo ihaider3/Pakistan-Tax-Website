@@ -168,3 +168,4 @@ export default function CalculatorHistory<TInputs = Record<string, unknown>>({
     </div>
   );
 }
+

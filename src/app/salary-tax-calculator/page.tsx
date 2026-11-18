@@ -61,10 +61,12 @@ export default function SalaryTaxCalculatorPage() {
   ];
 
   const isBlank = salaryRaw.trim() === "";
-  let result: SalaryTaxResult | null = null;
-  if (isValid && !isBlank && salaryNum > 0) {
-    result = calculateSalaryTax(salaryNum, frequency, taxYear);
-  }
+  const result = useMemo(() => {
+    if (isValid && !isBlank && salaryNum > 0) {
+      return calculateSalaryTax(salaryNum, frequency, taxYear);
+    }
+    return null;
+  }, [isValid, isBlank, salaryNum, frequency, taxYear]);
 
   // Handle salary input change
   const handleSalaryChange = (raw: string, numValue: number, valid: boolean) => {
