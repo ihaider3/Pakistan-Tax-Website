@@ -72,21 +72,21 @@ export default function Header() {
       <div
         className={`w-full transition-all duration-300 ${
           scrolled
-            ? "backdrop-blur-xl bg-white/95 border-b border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(11,42,74,0.08)] py-2.5"
-            : "backdrop-blur-md bg-white/98 border-b border-slate-200/80 shadow-xs py-3.5"
+            ? "backdrop-blur-xl bg-white/95 border-b border-slate-200/90 shadow-[0_4px_20px_-4px_rgba(11,42,74,0.08)] py-2"
+            : "backdrop-blur-md bg-white/98 border-b border-slate-200/80 shadow-xs py-2.5 sm:py-3"
         }`}
       >
         <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 flex items-center justify-between gap-4">
           {/* Brand Logo & Name (Responsive on 360px mobile + tablet + desktop) */}
           <Link
             href="/"
-            className="group flex items-center shrink-0 focus:outline-hidden"
+            className="group flex items-center shrink-0 focus:outline-hidden py-0.5"
             aria-label="CalculationHub Homepage"
           >
             <img
               src="/images/CalculationHub_Logo_Full.png"
               alt="CalculationHub"
-              className="h-10 sm:h-11 md:h-12 w-auto object-contain group-hover:opacity-95 transition-opacity"
+              className="h-11 sm:h-12 md:h-[54px] w-auto object-contain group-hover:opacity-95 transition-all duration-200"
             />
           </Link>
 
