@@ -214,83 +214,84 @@ export default async function HomePage() {
   };
 
   return (
-    <div className="space-y-12 sm:space-y-16 pb-0 sm:pb-2">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
-      {/* =========================================================================
-          HERO SECTION WITH AMBIENT ILLUMINATION & CINEMATIC DEPTH
-         ========================================================================= */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#F2F6FA] via-white to-white border-b border-slate-200/90 pt-14 pb-16 sm:pt-20 sm:pb-24 px-4 sm:px-6">
-        {/* Subtle Ambient Radial Lighting Background */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-96 bg-[radial-gradient(ellipse_at_top,_rgba(15,118,110,0.14),transparent_70%)] pointer-events-none" />
-        <div className="absolute inset-0 bg-dot-mesh pointer-events-none opacity-60" />
+      <div className="pb-12 sm:pb-16">
+        {/* =========================================================================
+            HERO SECTION WITH AMBIENT ILLUMINATION & CINEMATIC DEPTH
+           ========================================================================= */}
+        <section className="relative overflow-hidden bg-gradient-to-b from-[#F2F6FA] via-white to-white border-b border-slate-200/90 pt-10 pb-10 sm:pt-14 sm:pb-14 px-4 sm:px-6">
+          {/* Subtle Ambient Radial Lighting Background */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-96 bg-[radial-gradient(ellipse_at_top,_rgba(15,118,110,0.14),transparent_70%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-dot-mesh pointer-events-none opacity-60" />
 
-        <div className="relative max-w-[1150px] mx-auto text-center space-y-6 sm:space-y-8">
-          {/* Glowing Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-accent text-xs font-black uppercase tracking-widest border border-accent/30 shadow-[0_4px_16px_rgba(15,118,110,0.18)] hover:scale-105 transition-all duration-300">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent"></span>
-            </span>
-            <span data-content-key="home_hero_badge">{content.home_hero_badge || "VERIFIED AGAINST OFFICIAL 2026–27 NOTIFICATIONS"}</span>
-          </div>
+          <div className="relative max-w-[1150px] mx-auto text-center space-y-6 sm:space-y-8">
+            {/* Glowing Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-accent text-xs font-black uppercase tracking-widest border border-accent/30 shadow-[0_4px_16px_rgba(15,118,110,0.18)] hover:scale-105 transition-all duration-300">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent"></span>
+              </span>
+              <span data-content-key="home_hero_badge">{content.home_hero_badge || "VERIFIED AGAINST OFFICIAL 2026–27 NOTIFICATIONS"}</span>
+            </div>
 
-          {/* High-Impact Main Heading */}
-          <div className="space-y-3">
-            <h1
-              data-content-key="home_hero_title"
-              className="text-[26px] sm:text-4xl lg:text-5xl font-black text-primary tracking-tight max-w-4xl mx-auto leading-[1.2] sm:leading-[1.25]"
-            >
-              {content.home_hero_title || (
-                <>
-                  CalculationHub{" "}
-                  <span className="block mt-1 sm:mt-2 pb-2 sm:pb-3 leading-normal bg-gradient-to-r from-primary via-[#0F5A9E] to-accent bg-clip-text text-transparent">
-                    — Free, Accurate, No Login
-                  </span>
-                </>
-              )}
-            </h1>
-
-            <p
-              data-content-key="home_hero_subtitle"
-              className="text-[15px] sm:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium pt-1"
-            >
-              {content.home_hero_subtitle || "Instant, private calculations for salary tax, Zakat, property advance tax (236C/236K), GST 18%, Fitrana, and Ushr on agricultural produce. All numbers stay in your browser."}
-            </p>
-          </div>
-
-          {/* Search Box with Deep Shadow */}
-          <div className="pt-2 max-w-2xl mx-auto">
-            <SearchBox />
-          </div>
-
-          {/* Most Searched Quick Links with Micro-Shadows */}
-          <div className="pt-1 flex flex-wrap items-center justify-center gap-2 text-xs">
-            <span className="font-extrabold text-primary mr-1">Most Searched:</span>
-            {mostSearched.map((item, idx) => (
-              <Link
-                key={idx}
-                href={item.href}
-                className="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200/90 text-primary hover:border-accent hover:text-accent hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 font-bold shadow-xs"
+            {/* High-Impact Main Heading */}
+            <div className="space-y-3">
+              <h1
+                data-content-key="home_hero_title"
+                className="text-[26px] sm:text-4xl lg:text-5xl font-black text-primary tracking-tight max-w-4xl mx-auto leading-[1.2] sm:leading-[1.25]"
               >
-                {item.label}
-              </Link>
-            ))}
-          </div>
+                {content.home_hero_title || (
+                  <>
+                    CalculationHub{" "}
+                    <span className="block mt-1 sm:mt-2 pb-2 sm:pb-3 leading-normal bg-gradient-to-r from-primary via-[#0F5A9E] to-accent bg-clip-text text-transparent">
+                      — Free, Accurate, No Login
+                    </span>
+                  </>
+                )}
+              </h1>
 
-          {/* Optional Hero Install App Button */}
-          <div className="flex justify-center">
-            <HeroInstallButton />
-          </div>
-        </div>
-      </section>
+              <p
+                data-content-key="home_hero_subtitle"
+                className="text-[15px] sm:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium pt-1"
+              >
+                {content.home_hero_subtitle || "Instant, private calculations for salary tax, Zakat, property advance tax (236C/236K), GST 18%, Fitrana, and Ushr on agricultural produce. All numbers stay in your browser."}
+              </p>
+            </div>
 
-      {/* =========================================================================
-          ELEVATED HARDCOOKED TRUST STRIP (FLOATING CAPSULE WITH DEEP SHADOWS)
-         ========================================================================= */}
-      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 -mt-8 sm:-mt-12 relative z-20">
+            {/* Search Box with Deep Shadow */}
+            <div className="pt-2 max-w-2xl mx-auto">
+              <SearchBox />
+            </div>
+
+            {/* Most Searched Quick Links with Micro-Shadows */}
+            <div className="pt-1 flex flex-wrap items-center justify-center gap-2 text-xs">
+              <span className="font-extrabold text-primary mr-1">Most Searched:</span>
+              {mostSearched.map((item, idx) => (
+                <Link
+                  key={idx}
+                  href={item.href}
+                  className="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200/90 text-primary hover:border-accent hover:text-accent hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 font-bold shadow-xs"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Optional Hero Install App Button */}
+            <div className="flex justify-center">
+              <HeroInstallButton />
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            ELEVATED HARDCOOKED TRUST STRIP (FLOATING CAPSULE WITH DEEP SHADOWS)
+           ========================================================================= */}
+        <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 -mt-6 sm:-mt-8 relative z-20">
         <div className="backdrop-blur-2xl bg-white rounded-3xl p-4 sm:p-6 lg:p-7 border-2 border-slate-200/95 shadow-[0_22px_50px_-12px_rgba(11,42,74,0.14),0_6px_20px_rgba(0,0,0,0.04)] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:divide-x lg:divide-slate-100">
           <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none">
             <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/25 ring-2 ring-emerald-100">
@@ -345,7 +346,7 @@ export default async function HomePage() {
       {/* =========================================================================
           THE 5 CALCULATOR CARDS (HARDCOOKED WITH TOP ACCENTS, PROMINENT TEXT & SHADOWS)
          ========================================================================= */}
-      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 space-y-8">
+      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 mt-12 sm:mt-16 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-slate-200/90 pb-5">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-black text-accent uppercase tracking-widest bg-accent-soft px-3 py-1 rounded-full border border-accent/25 mb-1.5 shadow-2xs">
@@ -454,7 +455,7 @@ export default async function HomePage() {
       {/* =========================================================================
           HOW IT WORKS (HARDCOOKED 3-STEP ENGINE WITH CINEMATIC DEPTH & GLOW)
          ========================================================================= */}
-      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6">
+      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 mt-12 sm:mt-16">
         <div className="relative overflow-hidden bg-gradient-to-br from-[#F4F7FB] via-white to-[#EEF4F9] rounded-3xl p-6 sm:p-12 border-2 border-slate-200/95 shadow-[0_25px_60px_-15px_rgba(11,42,74,0.12),0_4px_20px_rgba(0,0,0,0.03)] space-y-10 ring-1 ring-slate-900/5">
           {/* Ambient Radial Spotlight inside container */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-[radial-gradient(ellipse_at_top,_rgba(15,118,110,0.12),transparent_70%)] pointer-events-none" />
@@ -545,7 +546,7 @@ export default async function HomePage() {
       {/* =========================================================================
           FAQ TEASER SECTION (HARDCOOKED CARDS WITH TOP ACCENTS & SHADOWS)
          ========================================================================= */}
-      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 space-y-8">
+      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 mt-12 sm:mt-16 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-slate-200/90 pb-5">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-black text-accent uppercase tracking-widest bg-accent-soft px-3 py-1 rounded-full border border-accent/25 mb-1.5 shadow-2xs">
@@ -647,5 +648,6 @@ export default async function HomePage() {
         </div>
       </section>
     </div>
-  );
+  </>
+);
 }
