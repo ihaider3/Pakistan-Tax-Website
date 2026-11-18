@@ -17,7 +17,7 @@ export default function Footer() {
   );
   const footerCopyright = getContent(
     "footer_copyright",
-    `© ${siteConfig.copyrightYear} ${siteConfig.brandName}. All rights reserved.`
+    `© ${siteConfig.copyrightYear} ${siteConfig.brandName}. All rights reserved. Content, design and text on this website may not be copied, reproduced or republished without written permission.`
   );
   const scrollToTop = () => {
     if (typeof window !== "undefined") {

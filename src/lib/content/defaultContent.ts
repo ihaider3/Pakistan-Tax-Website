@@ -303,7 +303,8 @@ export const DEFAULT_SITE_CONTENT: ContentFieldConfig[] = [
     key: "footer_copyright",
     page: "footer",
     fieldLabel: "Footer Copyright Line",
-    defaultValue: "© 2026 CalculationHub. All rights reserved.",
+    defaultValue:
+      "© 2026 CalculationHub. All rights reserved. Content, design and text on this website may not be copied, reproduced or republished without written permission.",
   },
 
   // ===================== CONTACT =====================

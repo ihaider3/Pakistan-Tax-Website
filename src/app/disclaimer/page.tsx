@@ -69,6 +69,40 @@ export default function DisclaimerPage() {
             While every effort is made to maintain complete accuracy with official rate tables (last verified: 14 Nov 2026), {siteConfig.brandName} and its operators accept no liability for financial penalties, tax shortfalls, business decisions, or religious discrepancies arising from the use of this website.
           </p>
         </section>
+
+        <section className="space-y-3">
+          <h2 className="text-xl font-bold text-primary">4. Copyright</h2>
+          <p>
+            All content on this website — including text, explanations, design, layout, logo and code — is the property of CalculationHub and is protected by copyright law. It may not be copied, reproduced, republished or distributed, in whole or in part, without written permission from CalculationHub.
+          </p>
+          <p>
+            Public facts and formulas — such as government tax slabs, Zakat rates and Ushr rules — are public information and are not claimed as our property. Anyone may build their own calculator using the same public rules, but they may not copy our text, design or code.
+          </p>
+          <p>
+            If you find our content copied on another website, please report it to us at{" "}
+            <a
+              href="mailto:contact@calculationhubs.com"
+              className="text-accent font-semibold hover:underline"
+            >
+              contact@calculationhubs.com
+            </a>
+            .
+          </p>
+
+          <div className="text-xs sm:text-sm text-appText-muted italic bg-surface p-4 rounded-xl border border-appBorder space-y-2 mt-2">
+            <p>
+              <strong className="text-primary not-italic font-bold">Roman Urdu:</strong>{" "}
+              Is website ka tamam content — text, wazahat, design, layout, logo aur code — CalculationHub ki milkiyat hai aur copyright qanoon ke tehet mehfooz hai. Ise CalculationHub ki likhi hui ijazat ke baghair copy, dobara shaya ya taqseem nahi kiya ja sakta. Sarkari tax slabs, Zakat aur Ushr ke usool aam maloomat hain — in par hamara daawa nahi hai; koi bhi inhi usool par apna calculator bana sakta hai, lekin hamara text, design ya code copy nahi kar sakta. Agar aap ko hamara content kisi aur website par mile to{" "}
+              <a
+                href="mailto:contact@calculationhubs.com"
+                className="text-accent font-semibold hover:underline not-italic"
+              >
+                contact@calculationhubs.com
+              </a>{" "}
+              par report karein.
+            </p>
+          </div>
+        </section>
       </div>
     </div>
   );
