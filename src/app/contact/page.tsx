@@ -6,25 +6,34 @@ import { siteUrl } from "@/config/site";
 import { getSiteContent } from "@/lib/content/contentServer";
 
 export const metadata: Metadata = {
-  title: "Contact CalculationHub | Support & Official Rate Tips",
+  title: "Contact CalculationHub — Feedback & New Tool Requests",
   description:
-    "Need to contact CalculationHub? Send statutory rate updates, report bugs, or submit tool feedback directly to our verification team. We respond within 48h.",
+    "Contact the CalculationHub team to report a statutory rate update, submit feedback, or request a new financial calculator. We read every message you send.",
   alternates: {
     canonical: `${siteUrl}/contact`,
   },
   openGraph: {
-    title: "Contact CalculationHub | Support & Official Rate Tips",
+    title: "Contact CalculationHub — Feedback & New Tool Requests",
     description:
-      "Need to contact CalculationHub? Send statutory rate updates, report bugs, or submit tool feedback directly to our verification team. We respond within 48h.",
+      "Contact the CalculationHub team to report a statutory rate update, submit feedback, or request a new financial calculator. We read every message you send.",
     url: `${siteUrl}/contact`,
     type: "website",
     siteName: "CalculationHub",
+    images: [
+      {
+        url: "/images/og-share-1200x630.png",
+        width: 1200,
+        height: 630,
+        alt: "CalculationHub — Contact",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact CalculationHub | Support & Official Rate Tips",
+    title: "Contact CalculationHub — Feedback & New Tool Requests",
     description:
-      "Need to contact CalculationHub? Send statutory rate updates, report bugs, or submit tool feedback directly to our verification team. We respond within 48h.",
+      "Contact the CalculationHub team to report a statutory rate update, submit feedback, or request a new financial calculator. We read every message you send.",
+    images: ["/images/og-share-1200x630.png"],
   },
 };
 
@@ -33,13 +42,13 @@ export default async function ContactPage() {
 
   return (
     <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-8">
-      <Breadcrumb items={[{ label: "Contact CalculationHub" }]} />
+      <Breadcrumb items={[{ label: "Contact", href: "/contact" }]} />
       <div>
         <span className="text-xs font-bold text-accent uppercase tracking-widest bg-accent-soft px-2.5 py-1 rounded-full border border-accent/20">
           Get in Touch
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight mt-2">
-          Contact CalculationHub
+          Contact &amp; Feedback
         </h1>
         <p data-content-key="contact_intro" className="text-base text-appText-muted mt-2">
           {content.contact_intro ||
