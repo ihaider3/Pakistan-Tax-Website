@@ -6,32 +6,41 @@ import { siteConfig } from "@/content/pages";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "About CalculationHub | Free Pakistan Tax & Islamic Tools",
+  title: "About CalculationHub — Free Pakistan Tax Calculators",
   description:
-    "Learn about CalculationHub: 100% free, private Pakistan financial and Islamic calculation tools. Zero server storage, no login and completely private code.",
+    "Learn about CalculationHub — free, transparent Pakistan tax, Zakat and financial calculators. No login, 100% private, all calculations on your device.",
   alternates: {
     canonical: `${siteUrl}/about`,
   },
   openGraph: {
-    title: "About CalculationHub | Free Pakistan Tax & Islamic Tools",
+    title: "About CalculationHub — Free Pakistan Tax Calculators",
     description:
-      "Learn about CalculationHub: 100% free, private Pakistan financial and Islamic calculation tools. Zero server storage, no login and completely private code.",
+      "Learn about CalculationHub — free, transparent Pakistan tax, Zakat and financial calculators. No login, 100% private, all calculations on your device.",
     url: `${siteUrl}/about`,
     type: "website",
     siteName: "CalculationHub",
+    images: [
+      {
+        url: "/images/og-share-1200x630.png",
+        width: 1200,
+        height: 630,
+        alt: "CalculationHub — About",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "About CalculationHub | Free Pakistan Tax & Islamic Tools",
+    title: "About CalculationHub — Free Pakistan Tax Calculators",
     description:
-      "Learn about CalculationHub: 100% free, private Pakistan financial and Islamic calculation tools. Zero server storage, no login and completely private code.",
+      "Learn about CalculationHub — free, transparent Pakistan tax, Zakat and financial calculators. No login, 100% private, all calculations on your device.",
+    images: ["/images/og-share-1200x630.png"],
   },
 };
 
 export default function AboutPage() {
   return (
     <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-8">
-      <Breadcrumb items={[{ label: "About CalculationHub" }]} />
+      <Breadcrumb items={[{ label: "About", href: "/about" }]} />
       <div>
         <span className="text-xs font-bold text-accent uppercase tracking-widest bg-accent-soft px-2.5 py-1 rounded-full border border-accent/20">
           About Platform
@@ -93,6 +102,12 @@ export default function AboutPage() {
               className="inline-flex items-center gap-1 text-accent font-semibold hover:underline"
             >
               Read our full verification methodology &rarr;
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-1 text-slate-600 hover:text-accent font-semibold hover:underline"
+            >
+              Contact our team &rarr;
             </Link>
             <Link
               href="/disclaimer"
