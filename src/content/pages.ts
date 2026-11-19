@@ -271,19 +271,20 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
 
   gst: {
     slug: "gst-calculator",
-    title: "GST Calculator Pakistan 18% Sales Tax | CalculationHub",
+    title: "GST Calculator Pakistan — 18% Sales Tax | CalculationHub",
     metaDescription:
-      "Fast GST calculator Pakistan for 18% standard sales tax. Add or remove GST from invoice totals with exact paisa precision and clear line-by-line breakdown.",
-    h1: "GST Calculator Pakistan (18% Sales Tax)",
+      "Calculate 18% federal GST on goods in Pakistan with integer paisa precision. Easily add or remove GST and view clear tax-exclusive and total invoice amounts.",
+    h1: "GST Calculator Pakistan (18%)",
     keywords: [
       "gst calculator pakistan",
+      "sales tax calculator pakistan 18%",
       "sales tax calculator pakistan",
       "18% gst",
       "gst kitna hai",
       "18% gst kaise nikalein",
     ],
     intro:
-      "Quickly compute Pakistan General Sales Tax (GST). Add 18% sales tax to net figures, remove tax from total invoice amounts, or calculate base values from tax amounts with instant integer paisa accuracy.",
+      "Use our GST calculator Pakistan to quickly compute 18% federal sales tax on goods. Add or remove sales tax with our sales tax calculator Pakistan 18% tool with integer paisa precision.",
     romanUrduIntro:
       "Is tool se aap kisi bhi raqam par 18% General Sales Tax (GST) shamil ya nikaal sakte hain. Agar aapko invoice ki kul raqam maloom hai, to 'Remove GST' select kar ke asal qeemat aur tax alag alag dekh sakte hain.",
     englishIntro:

@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "GST Calculator Pakistan 18% Sales Tax | CalculationHub",
+  title: "GST Calculator Pakistan — 18% Sales Tax | CalculationHub",
   description:
-    "Fast GST calculator Pakistan for 18% standard sales tax. Add or remove GST from invoice totals with exact paisa precision and clear line-by-line breakdown.",
+    "Calculate 18% federal GST on goods in Pakistan with integer paisa precision. Easily add or remove GST and view clear tax-exclusive and total invoice amounts.",
   alternates: {
     canonical: `${siteUrl}/gst-calculator`,
   },
   openGraph: {
-    title: "GST Calculator Pakistan 18% Sales Tax | CalculationHub",
+    title: "GST Calculator Pakistan — 18% Sales Tax | CalculationHub",
     description:
-      "Fast GST calculator Pakistan for 18% standard sales tax. Add or remove GST from invoice totals with exact paisa precision and clear line-by-line breakdown.",
+      "Calculate 18% federal GST on goods in Pakistan with integer paisa precision. Easily add or remove GST and view clear tax-exclusive and total invoice amounts.",
     url: `${siteUrl}/gst-calculator`,
     type: "website",
     siteName: "CalculationHub",
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "GST Calculator Pakistan 18% Sales Tax | CalculationHub",
+    title: "GST Calculator Pakistan — 18% Sales Tax | CalculationHub",
     description:
-      "Fast GST calculator Pakistan for 18% standard sales tax. Add or remove GST from invoice totals with exact paisa precision and clear line-by-line breakdown.",
+      "Calculate 18% federal GST on goods in Pakistan with integer paisa precision. Easily add or remove GST and view clear tax-exclusive and total invoice amounts.",
     images: ["/images/og-share-1200x630.png"],
   },
 };

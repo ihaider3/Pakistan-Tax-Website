@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import CalculatorShell from "@/components/CalculatorShell";
 import MoneyInput from "@/components/MoneyInput";
 import Toggle, { ToggleOption } from "@/components/Toggle";
@@ -332,6 +333,16 @@ export default function GstCalculatorPage() {
           Services Tax Notice:
         </span>
         <p className="leading-relaxed">{gstRates.provincialNotice}</p>
+        <p className="pt-1 text-[11px] text-slate-500">
+          Compare with personal income tax on our{" "}
+          <Link href="/salary-tax-calculator" className="text-accent underline font-semibold hover:text-teal-700">
+            salary tax calculator
+          </Link>{" "}
+          or learn more in our{" "}
+          <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+            GST calculation methodology
+          </Link>.
+        </p>
       </div>
     </div>
   );
@@ -403,14 +414,54 @@ export default function GstCalculatorPage() {
             : `You entered Rs ${baseFormatted}. GST at ${rateLabel} on this amount is Rs ${gstFormatted}.`
       }
       referenceContentEn={
-        <p>
-          <strong>Law:</strong> Sales Tax Act 1990, standard rate 18% on goods. Services rates are provincial and vary — confirm with PRA / SRB / KPRA / BRA for your service.
-        </p>
+        <div className="space-y-1.5">
+          <p>
+            <strong>Law:</strong> Sales Tax Act 1990, standard rate 18% on goods. Services rates are provincial and vary — confirm with PRA / SRB / KPRA / BRA for your specific service.
+          </p>
+          <p>
+            • <strong>Methodology:</strong> Read our detailed{" "}
+            <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+              GST calculation methodology
+            </Link>{" "}
+            to understand integer paisa rounding and formula proofs.
+          </p>
+          <p>
+            • <strong>Related Tax Tools:</strong> Calculate your annual income tax with our{" "}
+            <Link href="/salary-tax-calculator" className="text-accent underline font-semibold hover:text-teal-700">
+              salary tax calculator
+            </Link>{" "}
+            or return to the{" "}
+            <Link href="/" className="text-accent underline font-semibold hover:text-teal-700">
+              CalculationHub homepage
+            </Link>{" "}
+            for all 6 verified calculators.
+          </p>
+        </div>
       }
       referenceContentRoman={
-        <p>
-          <strong>Qanoon:</strong> Sales Tax Act 1990, goods par standard rate 18%. Services par rate soobay ke mutabiq alag hota hai — apni service ke liye PRA / SRB / KPRA / BRA se tasdeeq karein.
-        </p>
+        <div className="space-y-1.5">
+          <p>
+            <strong>Qanoon:</strong> Sales Tax Act 1990, goods par standard rate 18%. Services par rate soobay ke mutabiq alag hota hai — apni service ke liye PRA / SRB / KPRA / BRA se tasdeeq karein.
+          </p>
+          <p>
+            • <strong>Tariqa-e-Kaar:</strong> Paisa rounding aur hisab ke qawaneen samajhne ke liye hamari{" "}
+            <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+              GST calculation methodology
+            </Link>{" "}
+            mulaheza karein.
+          </p>
+          <p>
+            • <strong>Mutaliqa Tools:</strong> Apni tankhwah ka tax janne ke liye{" "}
+            <Link href="/salary-tax-calculator" className="text-accent underline font-semibold hover:text-teal-700">
+              salary tax calculator
+            </Link>{" "}
+            istemal karein ya tamam tools ke liye{" "}
+            <Link href="/" className="text-accent underline font-semibold hover:text-teal-700">
+              CalculationHub homepage
+            </Link>{" "}
+            par jayein.
+          </p>
+        </div>
       }
     />
   ) : null;
