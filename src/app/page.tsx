@@ -256,7 +256,9 @@ export default async function HomePage() {
                 data-content-key="home_hero_title"
                 className="text-[26px] sm:text-4xl lg:text-5xl font-black text-primary tracking-tight max-w-4xl mx-auto leading-[1.2] sm:leading-[1.25]"
               >
-                {content.home_hero_title || (
+                {content.home_hero_title && content.home_hero_title !== "CalculationHub — Free, Accurate, No Login" ? (
+                  content.home_hero_title
+                ) : (
                   <>
                     Free Pakistan Tax, Zakat{" "}
                     <span className="block mt-1 sm:mt-2 pb-2 sm:pb-3 leading-normal bg-gradient-to-r from-primary via-[#0F5A9E] to-accent bg-clip-text text-transparent">
@@ -270,7 +272,9 @@ export default async function HomePage() {
                 data-content-key="home_hero_subtitle"
                 className="text-[15px] sm:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium pt-1"
               >
-                {content.home_hero_subtitle || "Instant, private calculations with our Pakistan tax calculator for salary tax, Zakat, property advance tax (236C/236K), GST 18%, Fitrana, and agricultural Ushr. All numbers stay in your browser."}
+                {content.home_hero_subtitle && !content.home_hero_subtitle.startsWith("Instant, private calculations for salary tax")
+                  ? content.home_hero_subtitle
+                  : "Instant, private calculations with our Pakistan tax calculator for salary tax, Zakat, property advance tax (236C/236K), GST 18%, Fitrana, and agricultural Ushr. All numbers stay in your browser."}
               </p>
             </div>
 
