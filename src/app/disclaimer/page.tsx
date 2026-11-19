@@ -5,38 +5,47 @@ import { siteConfig } from "@/content/pages";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "CalculationHub Disclaimer | Legal & Religious Guidance",
+  title: "Disclaimer & Terms — CalculationHub Tax Calculators",
   description:
-    "Review the CalculationHub disclaimer for tax, legal, and religious calculations. Estimates are provided for general guidance only. Consult licensed experts.",
+    "Please read CalculationHub's official legal and religious disclaimer. All calculation estimates are for general guidance only — not tax or religious advice.",
   alternates: {
     canonical: `${siteUrl}/disclaimer`,
   },
   openGraph: {
-    title: "CalculationHub Disclaimer | Legal & Religious Guidance",
+    title: "Disclaimer & Terms — CalculationHub Tax Calculators",
     description:
-      "Review the CalculationHub disclaimer for tax, legal, and religious calculations. Estimates are provided for general guidance only. Consult licensed experts.",
+      "Please read CalculationHub's official legal and religious disclaimer. All calculation estimates are for general guidance only — not tax or religious advice.",
     url: `${siteUrl}/disclaimer`,
     type: "website",
     siteName: "CalculationHub",
+    images: [
+      {
+        url: "/images/og-share-1200x630.png",
+        width: 1200,
+        height: 630,
+        alt: "CalculationHub — Disclaimer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CalculationHub Disclaimer | Legal & Religious Guidance",
+    title: "Disclaimer & Terms — CalculationHub Tax Calculators",
     description:
-      "Review the CalculationHub disclaimer for tax, legal, and religious calculations. Estimates are provided for general guidance only. Consult licensed experts.",
+      "Please read CalculationHub's official legal and religious disclaimer. All calculation estimates are for general guidance only — not tax or religious advice.",
+    images: ["/images/og-share-1200x630.png"],
   },
 };
 
 export default function DisclaimerPage() {
   return (
     <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-8">
-      <Breadcrumb items={[{ label: "Platform Disclaimer" }]} />
+      <Breadcrumb items={[{ label: "Disclaimer", href: "/disclaimer" }]} />
       <div>
         <span className="text-xs font-bold text-accent uppercase tracking-widest bg-accent-soft px-2.5 py-1 rounded-full border border-accent/20">
           Legal &amp; Religious Disclaimer
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight mt-2">
-          CalculationHub Platform Disclaimer
+          Platform Disclaimer &amp; Terms
         </h1>
         <p className="text-base text-appText-muted mt-2">
           Effective Date: Tax Year 2026–27 / Ramadan 2026. General guidance and terms of use.

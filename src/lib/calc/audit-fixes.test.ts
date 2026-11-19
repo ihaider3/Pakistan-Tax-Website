@@ -187,7 +187,7 @@ describe("§8 Regression Tests — All 21 Audit Fixes", () => {
     expect(methContent).toContain('title: "Pakistan Tax Slabs 2026-27 — Methodology | CalculationHub"');
 
     const discContent = fs.readFileSync(path.resolve(__dirname, "../../app/disclaimer/page.tsx"), "utf-8");
-    expect(discContent).toContain('title: "CalculationHub Disclaimer | Legal & Religious Guidance"');
+    expect(discContent).toContain('title: "Disclaimer & Terms — CalculationHub Tax Calculators"');
   });
 
   // 15. About page accuracy claim
