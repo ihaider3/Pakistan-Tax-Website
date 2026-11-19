@@ -5,38 +5,47 @@ import { siteConfig } from "@/content/pages";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "CalculationHub Privacy Policy | Client-Side Security",
+  title: "Privacy Policy — CalculationHub | 100% Client-Side",
   description:
-    "Read the official CalculationHub privacy policy. Your financial numbers never leave your device. Zero server storage, no database, no cookies, 100% private.",
+    "Read our 100% client-side privacy policy. Your financial numbers never leave your phone or browser. Zero server storage, no database, and no cookies.",
   alternates: {
     canonical: `${siteUrl}/privacy-policy`,
   },
   openGraph: {
-    title: "CalculationHub Privacy Policy | Client-Side Security",
+    title: "Privacy Policy — CalculationHub | 100% Client-Side",
     description:
-      "Read the official CalculationHub privacy policy. Your financial numbers never leave your device. Zero server storage, no database, no cookies, 100% private.",
+      "Read our 100% client-side privacy policy. Your financial numbers never leave your phone or browser. Zero server storage, no database, and no cookies.",
     url: `${siteUrl}/privacy-policy`,
     type: "website",
     siteName: "CalculationHub",
+    images: [
+      {
+        url: "/images/og-share-1200x630.png",
+        width: 1200,
+        height: 630,
+        alt: "CalculationHub — Privacy Policy",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CalculationHub Privacy Policy | Client-Side Security",
+    title: "Privacy Policy — CalculationHub | 100% Client-Side",
     description:
-      "Read the official CalculationHub privacy policy. Your financial numbers never leave your device. Zero server storage, no database, no cookies, 100% private.",
+      "Read our 100% client-side privacy policy. Your financial numbers never leave your phone or browser. Zero server storage, no database, and no cookies.",
+    images: ["/images/og-share-1200x630.png"],
   },
 };
 
 export default function PrivacyPolicyPage() {
   return (
     <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-8">
-      <Breadcrumb items={[{ label: "Privacy Policy" }]} />
+      <Breadcrumb items={[{ label: "Privacy Policy", href: "/privacy-policy" }]} />
       <div>
         <span className="text-xs font-bold text-accent uppercase tracking-widest bg-accent-soft px-2.5 py-1 rounded-full border border-accent/20">
           Privacy Policy
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight mt-2">
-          CalculationHub Privacy Policy
+          Your Numbers Never Leave Your Device
         </h1>
         <p className="text-base text-appText-muted mt-2">
           Your numbers never leave your device. Read how we protect your personal financial privacy.
