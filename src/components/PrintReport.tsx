@@ -106,9 +106,9 @@ export default function PrintReport({
               {/* 2 & 3. REPORT TITLE & METADATA */}
               <div className="flex items-baseline justify-between border-b border-slate-200 pb-2.5 mb-4 pt-1 break-inside-avoid">
                 <div>
-                  <h1 className="text-[21pt] font-bold text-[#0B2A4A] tracking-tight leading-tight">
+                  <h2 className="text-[21pt] font-bold text-[#0B2A4A] tracking-tight leading-tight">
                     {data.title}
-                  </h1>
+                  </h2>
                   <p className="text-[11.5pt] text-slate-600 font-medium mt-0.5">
                     {data.description}
                   </p>

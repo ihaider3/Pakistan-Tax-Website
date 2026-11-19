@@ -10,9 +10,14 @@ export interface BreadcrumbItem {
 interface BreadcrumbProps {
   items: BreadcrumbItem[];
   className?: string;
+  suppressSchema?: boolean;
 }
 
-export default function Breadcrumb({ items, className = "" }: BreadcrumbProps) {
+export default function Breadcrumb({
+  items,
+  className = "",
+  suppressSchema = false,
+}: BreadcrumbProps) {
   const schemaList = [
     {
       "@type": "ListItem",
@@ -36,10 +41,12 @@ export default function Breadcrumb({ items, className = "" }: BreadcrumbProps) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      {!suppressSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
       <nav aria-label="Breadcrumb" className={`text-xs text-appText-muted font-medium mb-3 ${className}`}>
         <ol className="flex items-center space-x-1.5 flex-wrap">
           <li>

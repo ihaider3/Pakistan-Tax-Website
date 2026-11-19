@@ -42,7 +42,7 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
     slug: "salary-tax-calculator",
     title: "Salary Tax Calculator Pakistan 2026-27 | CalculationHub",
     metaDescription:
-      "Calculate your salary tax calculator Pakistan 2026-27 with official FBR slabs. See monthly tax, annual deductions & take-home pay instantly. Calculate now!",
+      "Calculate your Pakistan salary tax for 2026-27 with official FBR slabs. See monthly tax, annual tax and take-home pay instantly, with full slab breakdown.",
     h1: "Salary Tax Calculator Pakistan 2026-27",
     keywords: [
       "salary tax calculator pakistan 2026-27",
@@ -53,7 +53,7 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
       "meri salary par tax kitna katega",
     ],
     intro:
-      "Calculate your monthly tax withholding and take-home salary in Pakistan for Tax Year 2026-27 (1 July 2026 to 30 June 2027) based on official FBR progressive income tax slabs under Section 149.",
+      "Calculate your Pakistan salary tax for 2026-27 with official FBR slabs under Section 149. See monthly tax, annual tax and take-home pay instantly with full slab breakdown.",
     romanUrduIntro:
       "Ye calculator aapki mahana tankhwah par FBR ke Tax Year 2026–27 ke slabs ke mutabiq tax nikalta hai. Agar aapki salana tankhwah Rs 600,000 se kam hai, to koi tax nahi lagta. Tax slab ke hisab se lagta hai aur aapki take-home tankhwah foran samne aa jati hai.",
     englishIntro:

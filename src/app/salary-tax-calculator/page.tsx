@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
+import Link from "next/link";
 import CalculatorShell from "@/components/CalculatorShell";
 import MoneyInput from "@/components/MoneyInput";
 import Toggle, { ToggleOption } from "@/components/Toggle";
@@ -231,7 +232,15 @@ export default function SalaryTaxCalculatorPage() {
           </svg>
         </div>
         <p className="leading-relaxed">
-          <strong className="font-bold text-blue-900">Salaried Individuals Scope:</strong> Applicable only to individuals where salary income exceeds 75% of total taxable income (Section 149). Not for freelancers, sole proprietors, or corporate directors.
+          <strong className="font-bold text-blue-900">Salaried Individuals Scope:</strong> Applicable only to individuals where salary income exceeds 75% of total taxable income (Section 149). Not for freelancers, sole proprietors, or corporate directors. For statutory derivation details, see our{" "}
+          <Link href="/methodology" className="text-blue-700 font-semibold underline hover:text-blue-900">
+            salary tax methodology
+          </Link>
+          , or calculate your{" "}
+          <Link href="/zakat-calculator" className="text-blue-700 font-semibold underline hover:text-blue-900">
+            annual Zakat
+          </Link>
+          .
         </p>
       </div>
 
@@ -328,21 +337,33 @@ export default function SalaryTaxCalculatorPage() {
   const is26 = taxYear === "2026-27";
   const refEn = is26 ? (
     <p>
-      <strong>Law:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. First Rs 600,000 annual (Rs 50,000/month) is 0%. Salaried surcharge is 0% in TY2027.
+      <strong>Law:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. First Rs 600,000 annual (Rs 50,000/month) is 0%. Salaried surcharge is 0% in TY2027.{" "}
+      <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+        Read detailed salary methodology &amp; slab rules →
+      </Link>
     </p>
   ) : (
     <p>
-      <strong>Law:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2025, FBR Withholding Tax Rate Card TY2026. First Rs 600,000 annual (Rs 50,000/month) is 0%. Salaried surcharge in TY2026 is 9% of tax on income exceeding Rs 10,000,000 (Section 4AB).
+      <strong>Law:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2025, FBR Withholding Tax Rate Card TY2026. First Rs 600,000 annual (Rs 50,000/month) is 0%. Salaried surcharge in TY2026 is 9% of tax on income exceeding Rs 10,000,000 (Section 4AB).{" "}
+      <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+        Read salary tax methodology →
+      </Link>
     </p>
   );
 
   const refRoman = is26 ? (
     <p>
-      <strong>Qanoon:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. Pehla Rs 600,000 salana (Rs 50,000/mahana) 0% hai. Salaried surcharge TY2027 mein 0% hai.
+      <strong>Qanoon:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2026, FBR Withholding Tax Rate Card TY2027. Pehla Rs 600,000 salana (Rs 50,000/mahana) 0% hai. Salaried surcharge TY2027 mein 0% hai.{" "}
+      <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+        Salary tax ka mukammal tareeqa-e-kar (methodology) dekhein →
+      </Link>
     </p>
   ) : (
     <p>
-      <strong>Qanoon:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2025, FBR Withholding Tax Rate Card TY2026. Pehla Rs 600,000 salana (Rs 50,000/mahana) 0% hai. Salaried surcharge TY2026 mein Rs 10M se zyada aamdani par tax ka 9% hai (Section 4AB).
+      <strong>Qanoon:</strong> Income Tax Ordinance 2001, Section 149 — Salary. Finance Act 2025, FBR Withholding Tax Rate Card TY2026. Pehla Rs 600,000 salana (Rs 50,000/mahana) 0% hai. Salaried surcharge TY2026 mein Rs 10M se zyada aamdani par tax ka 9% hai (Section 4AB).{" "}
+      <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+        Salary tax methodology parhein →
+      </Link>
     </p>
   );
 

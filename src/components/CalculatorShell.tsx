@@ -114,7 +114,18 @@ export default function CalculatorShell({
           HERO & HEADER BLOCK: Breadcrumb, Badge, H1, Trimmed/Full Intro & "Calculate Now ↓"
          ========================================================================= */}
       <section className="space-y-4 print:hidden">
-        <Breadcrumb items={[{ label: content.h1 }]} />
+        <Breadcrumb
+          items={[
+            {
+              label:
+                content.slug === "salary-tax-calculator"
+                  ? "Salary Tax Calculator"
+                  : content.h1,
+              href: `/${content.slug}`,
+            },
+          ]}
+          suppressSchema={true}
+        />
         <div className="space-y-2">
           <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-accent uppercase tracking-widest bg-accent-soft px-3.5 py-1 rounded-full border border-accent/25 shadow-2xs">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
