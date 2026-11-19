@@ -17,7 +17,7 @@ export const logoIcon = "/images/CalculationHub_App_Icon.png";
 export const ogImage = "/images/og-share-1200x630.png";
 
 export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://calculationhub-official.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://calculationhubs.com";
 
 // Host part of siteUrl with protocol and trailing slash removed (e.g. pak-tax-cal.vercel.app)
 export const siteDomain = siteUrl

@@ -3,5 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://calculationhub-official.vercel.app/sitemap.xml
-
+Sitemap: https://calculationhubs.com/sitemap.xml

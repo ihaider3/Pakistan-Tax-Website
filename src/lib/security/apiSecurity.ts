@@ -70,6 +70,8 @@ export function getClientIp(request: NextRequest): string {
 }
 
 const ALLOWED_HOSTS = new Set([
+  "calculationhubs.com",
+  "www.calculationhubs.com",
   "calculationhub-official.vercel.app",
   "calculationhub-pk.vercel.app",
   "calculationhub-app.vercel.app",

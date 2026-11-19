@@ -179,15 +179,15 @@ describe("Prompt 29 — Full 11-Point Regression Test Suite", () => {
   });
 
   // Test 10: Sitemap and robots.txt domain check
-  it("Test 10: Robots and sitemap contain calculationhub-official.vercel.app and 0 occurrences of pak-tax-cal.vercel.app", () => {
+  it("Test 10: Robots and sitemap contain calculationhubs.com and 0 occurrences of pak-tax-cal.vercel.app", () => {
     const robotsPath = path.join(process.cwd(), "public/robots.txt");
     const robots = fs.readFileSync(robotsPath, "utf-8");
-    expect(robots).toContain("https://calculationhub-official.vercel.app/sitemap.xml");
+    expect(robots).toContain("https://calculationhubs.com/sitemap.xml");
     expect(robots).not.toContain("pak-tax-cal.vercel.app");
 
     const sitemapPath = path.join(process.cwd(), "public/sitemap.xml");
     const sitemap = fs.readFileSync(sitemapPath, "utf-8");
-    expect(sitemap).toContain("https://calculationhub-official.vercel.app/");
+    expect(sitemap).toContain("https://calculationhubs.com/");
     expect(sitemap).not.toContain("pak-tax-cal.vercel.app");
   });
 
