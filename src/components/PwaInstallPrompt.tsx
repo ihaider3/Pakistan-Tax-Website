@@ -44,6 +44,7 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
   const [showIosHint, setShowIosHint] = useState(false);
   const [hasUsedCalculator, setHasUsedCalculator] = useState(false);
   const [isDismissed, setIsDismissed] = useState(true);
+  const [showManualGuide, setShowManualGuide] = useState(false);
 
   // 1. Register Service Worker & Detect Standalone / iOS
   useEffect(() => {
@@ -165,6 +166,8 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
       }
     } else if (isIos) {
       setShowIosHint(true);
+    } else {
+      setShowManualGuide(true);
     }
   }, [deferredPrompt, isIos]);
 
@@ -207,17 +210,24 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
         onDismiss={dismissBanner}
         showIosHint={showIosHint}
         onDismissIos={dismissIosHint}
+        showManualGuide={showManualGuide}
+        onDismissManual={() => setShowManualGuide(false)}
       />
     </PwaContext.Provider>
   );
 }
 
-// Subcomponent: Hero Install Button for Homepage
+// Subcomponent: Hero Install Button for Homepage (Visible on Mobile & Desktop)
 export function HeroInstallButton() {
-  const { canInstall, isInstalled, isIos, promptInstall } = usePwa();
+  const { isInstalled, promptInstall } = usePwa();
+  const [mounted, setMounted] = useState(false);
 
-  if (isInstalled) return null;
-  if (!canInstall && !isIos) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Hide only if app is already running as installed standalone PWA
+  if (mounted && isInstalled) return null;
 
   return (
     <div className="pt-2 animate-in fade-in duration-300">
@@ -225,6 +235,7 @@ export function HeroInstallButton() {
         type="button"
         onClick={promptInstall}
         className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-primary via-[#0E355D] to-primary text-white border border-slate-700/60 shadow-md shadow-primary/25 hover:shadow-lg hover:scale-102 active:scale-98 transition-all cursor-pointer"
+        aria-label="Install CalculationHub App"
       >
         <span className="text-sm">📲</span>
         <span>Install App (Free)</span>
@@ -233,7 +244,34 @@ export function HeroInstallButton() {
   );
 }
 
-// Subcomponent: Mobile Bottom Banner & iOS Safari Hint Card
+// Subcomponent: Mobile Header Drawer Install Button
+export function MobileDrawerInstallButton({ onAfterClick }: { onAfterClick?: () => void }) {
+  const { isInstalled, promptInstall } = usePwa();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (mounted && isInstalled) return null;
+
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        if (onAfterClick) onAfterClick();
+        promptInstall();
+      }}
+      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-black bg-gradient-to-r from-primary via-[#0E355D] to-primary text-white border border-slate-700/60 shadow-md shadow-primary/25 hover:shadow-lg active:scale-98 transition-all cursor-pointer"
+      aria-label="Install CalculationHub App on Mobile"
+    >
+      <span className="text-sm">📲</span>
+      <span>Install App (Free)</span>
+    </button>
+  );
+}
+
+// Subcomponent: Mobile Bottom Banner, iOS Safari Hint Card & Universal Install Guide
 function PwaBanners({
   canInstall,
   isInstalled,
@@ -243,6 +281,8 @@ function PwaBanners({
   onDismiss,
   showIosHint,
   onDismissIos,
+  showManualGuide,
+  onDismissManual,
 }: {
   canInstall: boolean;
   isInstalled: boolean;
@@ -252,6 +292,8 @@ function PwaBanners({
   onDismiss: () => void;
   showIosHint: boolean;
   onDismissIos: () => void;
+  showManualGuide: boolean;
+  onDismissManual: () => void;
 }) {
   // 1. Mobile Bottom Banner: Shown only AFTER first calculator use on mobile
   const showMobileBanner =
@@ -316,7 +358,7 @@ function PwaBanners({
             <div className="flex-1 space-y-1">
               <div className="flex items-center justify-between gap-2">
                 <span className="font-extrabold text-xs text-white">
-                  Install on iPhone
+                  Install on iPhone / iPad
                 </span>
                 <button
                   type="button"
@@ -332,6 +374,60 @@ function PwaBanners({
                 <strong>&apos;Add to Home Screen&apos; (+)</strong>.
               </p>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Universal Step-by-Step Install Guide Modal (Mobile & Desktop Fallback) */}
+      {showManualGuide && !isInstalled && (
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200 print:hidden">
+          <div className="bg-white rounded-3xl p-5 sm:p-7 max-w-sm w-full border-2 border-slate-200/90 shadow-2xl space-y-4 animate-in slide-in-from-bottom-4 duration-300">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 p-1 flex items-center justify-center shrink-0">
+                  <img
+                    src="/images/CalculationHub_App_Icon.png"
+                    alt="CalculationHub"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <div>
+                  <h4 className="font-extrabold text-sm text-primary">Install CalculationHub</h4>
+                  <p className="text-[11px] font-semibold text-accent">Free &amp; Offline Ready</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={onDismissManual}
+                className="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:text-slate-800 flex items-center justify-center font-bold text-sm cursor-pointer transition-colors"
+                aria-label="Close guide"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 space-y-3 text-xs text-slate-700">
+              <div className="flex items-start gap-2.5">
+                <span className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
+                <span>Tap your browser menu (<strong className="text-primary font-bold">⋮</strong> 3 dots in Chrome/Android or <strong className="text-primary font-bold">Share ⎋</strong> in Safari).</span>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <span className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
+                <span>Select <strong className="text-primary font-bold">&quot;Install app&quot;</strong> or <strong className="text-primary font-bold">&quot;Add to Home screen&quot;</strong>.</span>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <span className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">3</span>
+                <span>Launch CalculationHub instantly from your home screen anytime!</span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={onDismissManual}
+              className="w-full py-2.5 rounded-xl bg-primary hover:bg-[#071F36] text-white font-bold text-xs transition-colors shadow-md cursor-pointer"
+            >
+              Got It
+            </button>
           </div>
         </div>
       )}

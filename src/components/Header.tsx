@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { MobileDrawerInstallButton } from "./PwaInstallPrompt";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -172,6 +173,11 @@ export default function Header() {
                 </Link>
               );
             })}
+
+            {/* Mobile Drawer Install App (Free) Button */}
+            <div className="pt-2">
+              <MobileDrawerInstallButton onAfterClick={() => setMobileMenuOpen(false)} />
+            </div>
 
             <div className="pt-3 mt-2 border-t border-slate-200 grid grid-cols-2 gap-2 text-xs">
               <Link
