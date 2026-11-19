@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import CalculatorShell from "@/components/CalculatorShell";
 import MoneyInput from "@/components/MoneyInput";
 import Toggle, { ToggleOption } from "@/components/Toggle";
@@ -280,7 +281,15 @@ export default function PropertyTaxCalculatorPage() {
           Provincial Fees &amp; Capital Gains Tax Note:
         </span>
         <p className="leading-relaxed">
-          Provincial stamp duty, registration fees, and Capital Value Tax (CVT) vary by province (Punjab, Sindh, KP, Balochistan) and are NOT included in this tool. Confirm local levies with your sub-registrar office. Capital Gains Tax (CGT) under Section 37 is also calculated separately.
+          Provincial stamp duty, registration fees, and Capital Value Tax (CVT) vary by province (Punjab, Sindh, KP, Balochistan) and are NOT included in this tool. Confirm local levies with your sub-registrar office. For comprehensive statutory derivation, read our{" "}
+          <Link href="/methodology" className="text-blue-700 font-semibold underline hover:text-blue-900">
+            property tax methodology
+          </Link>
+          . You can also calculate salary withholding tax using our{" "}
+          <Link href="/salary-tax-calculator" className="text-blue-700 font-semibold underline hover:text-blue-900">
+            salary tax calculator
+          </Link>
+          .
         </p>
       </div>
     </div>
@@ -344,12 +353,18 @@ export default function PropertyTaxCalculatorPage() {
       }`}
       referenceContentEn={
         <p>
-          <strong>Law:</strong> Income Tax Ordinance 2001, Sections 236C (Seller) and 236K (Buyer). Finance Act 2026. Filer buyer 1.25%, filer seller 2.75%. Late-filer category abolished in TY2027.
+          <strong>Law:</strong> Income Tax Ordinance 2001, Sections 236C (Seller) and 236K (Buyer). Finance Act 2026. Filer buyer 1.25%, filer seller 2.75%. Late-filer category abolished in TY2027. Read our detailed{" "}
+          <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+            property tax methodology &amp; statutory rules →
+          </Link>
         </p>
       }
       referenceContentRoman={
         <p>
-          <strong>Qanoon:</strong> Income Tax Ordinance 2001, Sections 236C (Farokht kaninda) aur 236K (Kharidar). Finance Act 2026. Filer kharidar 1.25%, filer farokht kaninda 2.75%. Late-filer category TY2027 mein khatam kar di gayi hai.
+          <strong>Qanoon:</strong> Income Tax Ordinance 2001, Sections 236C (Farokht kaninda) aur 236K (Kharidar). Finance Act 2026. Filer kharidar 1.25%, filer farokht kaninda 2.75%. Late-filer category TY2027 mein khatam kar di gayi hai. Mukammal{" "}
+          <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+            property tax methodology dekhein →
+          </Link>
         </p>
       }
     />

@@ -196,8 +196,8 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
     slug: "property-tax-calculator",
     title: "Property Tax Calculator Pakistan 236C 236K | CalculationHub",
     metaDescription:
-      "Accurate property tax calculator Pakistan for buyers (236K) and sellers (236C). Compare Filer vs Non-Filer tax rates and calculate your savings in seconds!",
-    h1: "Property Tax Calculator Pakistan (236C & 236K)",
+      "Calculate Pakistan property advance tax under Sections 236C and 236K for buyers and sellers. Compare Filer vs Non-Filer tax and savings instantly in Pakistan.",
+    h1: "Property Transfer Tax Calculator (236C + 236K)",
     keywords: [
       "property tax calculator pakistan",
       "236c 236k tax",
@@ -207,7 +207,7 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
       "236c 236k kya hai",
     ],
     intro:
-      "Calculate FBR Advance Withholding Tax on real estate transactions in Pakistan for Tax Year 2026-27. Features Section 236K for buyers and Section 236C for sellers with side-by-side Filer vs Non-Filer comparisons.",
+      "Use our property tax calculator Pakistan to calculate FBR advance tax under Sections 236C and 236K for buyers and sellers. Compare active Filer vs Non-Filer tax rates and instant savings with our 236C 236K tax calculator.",
     romanUrduIntro:
       "Ye tool FBR ke Section 236K (kharidar) aur Section 236C (farokht kaninda) ke advance income tax ka hisab karta hai. Tax Year 2026–27 ke mutabiq, filer kharidar 1.25% aur filer farokht kaninda 2.75% tax deta hai. Filer aur non-filer ke darmiyan farq bhi yahan saaf nazar aa jata hai.",
     englishIntro:
