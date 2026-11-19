@@ -992,7 +992,8 @@ export default function ZakatCalculatorPage() {
           <p>• <strong>Quran 9:60</strong> — Zakat is for the poor, the needy, and the other eligible groups named in this verse.</p>
           <p>• <strong>Quran 2:43</strong> — &quot;Establish prayer and give Zakat.&quot;</p>
           <p>• <strong>Hadith:</strong> &quot;Islam is built upon five [pillars]… and giving Zakat.&quot; — Sahih al-Bukhari 8; Sahih Muslim 16.</p>
-          <p>• <strong>Nisab:</strong> 87.48g gold (7.5 tola) or 612.36g silver (52.5 tola). Hanafi rule in Pakistan: silver nisab for mixed wealth.</p>
+          <p>• <strong>Nisab:</strong> 87.48g gold (7.5 tola) or 612.36g silver (52.5 tola). Hanafi rule in Pakistan: silver nisab for mixed wealth. Read our full <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">Zakat methodology &amp; Nisab derivation</Link>.</p>
+          <p>• <strong>Other Islamic Dues:</strong> Also calculate your household <Link href="/fitrana-calculator" className="text-accent underline font-semibold hover:text-teal-700">Fitrana</Link> or agricultural <Link href="/ushr-calculator" className="text-accent underline font-semibold hover:text-teal-700">Ushr on crops</Link>.</p>
           <p>• <strong>Government bank nisab 2026 (Rs 503,529)</strong> is for bank auto-deduction only — do not mix it with personal nisab.</p>
         </div>
       }
@@ -1002,7 +1003,8 @@ export default function ZakatCalculatorPage() {
           <p>• <strong>Quran 9:60</strong> — Zakat ghareebon, miskeeno aur aayat mein bayan kiye gaye deegar mustahqeen ke liye hai.</p>
           <p>• <strong>Quran 2:43</strong> — &quot;Namaz qaim karo aur zakat ada karo.&quot;</p>
           <p>• <strong>Hadith:</strong> &quot;Islam ki bunyad paanch sutoonon par hai... aur zakat ada karna.&quot; — Sahih al-Bukhari 8; Sahih Muslim 16.</p>
-          <p>• <strong>Nisab:</strong> 87.48g sona (7.5 tola) ya 612.36g chandi (52.5 tola). Pakistan mein Hanafi qanoon: mili juli daulat ke liye chandi ka nisab lagta hai.</p>
+          <p>• <strong>Nisab:</strong> 87.48g sona (7.5 tola) ya 612.36g chandi (52.5 tola). Pakistan mein Hanafi qanoon: mili juli daulat ke liye chandi ka nisab lagta hai. Mukammal <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">Zakat methodology</Link> dekhein.</p>
+          <p>• <strong>Deegar Deeni Huqooq:</strong> Ramadan ke liye gharana ka <Link href="/fitrana-calculator" className="text-accent underline font-semibold hover:text-teal-700">Fitrana</Link> ya zameen ki fasal par <Link href="/ushr-calculator" className="text-accent underline font-semibold hover:text-teal-700">Ushr</Link> calculate karein.</p>
           <p>• <strong>Hukoomati bank nisab 2026 (Rs 503,529)</strong> sirf bank ki auto-deduction ke liye hai — zaati nisab se mix na karein.</p>
         </div>
       }

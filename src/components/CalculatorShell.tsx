@@ -23,6 +23,15 @@ function getCalculatorKey(slug: string): CalculatorType {
   return "salary";
 }
 
+const breadcrumbLabels: Record<string, string> = {
+  "salary-tax-calculator": "Salary Tax Calculator",
+  "zakat-calculator": "Zakat Calculator",
+  "property-tax-calculator": "Property Tax Calculator",
+  "gst-calculator": "GST Calculator",
+  "fitrana-calculator": "Fitrana Calculator",
+  "ushr-calculator": "Ushr Calculator",
+};
+
 interface CalculatorShellProps {
   content: CalculatorPageContent;
   calculatorInputs: React.ReactNode;
@@ -117,10 +126,7 @@ export default function CalculatorShell({
         <Breadcrumb
           items={[
             {
-              label:
-                content.slug === "salary-tax-calculator"
-                  ? "Salary Tax Calculator"
-                  : content.h1,
+              label: breadcrumbLabels[content.slug] || content.h1,
               href: `/${content.slug}`,
             },
           ]}

@@ -116,10 +116,10 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
 
   zakat: {
     slug: "zakat-calculator",
-    title: "Zakat Calculator Pakistan 2026 | Nisab | CalculationHub",
+    title: "Zakat Calculator Pakistan — Nisab 2026 | CalculationHub",
     metaDescription:
-      "Use our zakat calculator Pakistan to calculate 2.5% Zakat on cash, gold, silver & assets with live 2026 Nisab verification and debt deductions. Calculate now!",
-    h1: "Zakat Calculator Pakistan 2026",
+      "Calculate 2.5% Zakat on cash, gold, silver and business assets with live Hanafi Nisab verification in Pakistan. 100% private, free, and instant breakdown.",
+    h1: "Zakat Calculator Pakistan",
     keywords: [
       "zakat calculator pakistan",
       "zakat nisab pakistan",
@@ -130,7 +130,7 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
       "sona par zakat",
     ],
     intro:
-      "Accurately calculate your annual Zakat (2.5%) on cash, gold, silver, bank accounts, trade stock, and shares in Pakistani Rupees. Includes automatic Nisab evaluation under Hanafi jurisprudence.",
+      "Use our zakat calculator Pakistan to accurately calculate your annual 2.5% Zakat on cash, gold, silver, bank accounts, and trade assets with live Hanafi zakat nisab Pakistan 2026 verification.",
     romanUrduIntro:
       "Ye Zakat calculator aapke cash, bank balance, sone, chandi aur karobar ke maal par 2.5% Zakat nikalta hai. Hanafi fiqh ke mutabiq, agar aapka maal nisab (chandi ka nisab 52.5 tola) tak pohanch jaye to Zakat farz ho jati hai. Zakat sirf us waqt farz hoti hai jab maal par poora ek saal (hawl) guzar chuka ho.",
     englishIntro:
