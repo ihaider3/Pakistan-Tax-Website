@@ -563,13 +563,21 @@ export default function UshrCalculatorPage() {
             ? "Cash, gold ya business par Zakat? → Zakat Calculator"
             : "Need to calculate 2.5% Zakat on cash, gold, silver, or business inventory?"}
         </div>
-        <Link
-          href="/zakat-calculator"
-          className="inline-flex items-center justify-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-primary hover:bg-slate-800 rounded-xl shrink-0 transition-colors shadow-xs"
-        >
-          <span>Zakat Calculator</span>
-          <span>→</span>
-        </Link>
+        <div className="flex items-center gap-2 shrink-0">
+          <Link
+            href="/methodology"
+            className="inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-primary bg-white hover:bg-slate-100 border border-slate-200 rounded-xl transition-colors shadow-2xs"
+          >
+            <span>Methodology</span>
+          </Link>
+          <Link
+            href="/zakat-calculator"
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-primary hover:bg-slate-800 rounded-xl transition-colors shadow-xs"
+          >
+            <span>Zakat Calculator</span>
+            <span>→</span>
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -608,6 +616,22 @@ export default function UshrCalculatorPage() {
           <p>
             • <strong>Cost Deduction:</strong> Islamic Fiqh Academy resolution: Production costs are not deducted; the lower 5% rate already compensates for irrigation overhead.
           </p>
+          <p>
+            • <strong>Methodology:</strong> Read our complete{" "}
+            <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+              Ushr calculation methodology &amp; agricultural Nisab rules
+            </Link>.
+          </p>
+          <p>
+            • <strong>Related Obligations:</strong> Calculate 2.5% wealth Zakat on our{" "}
+            <Link href="/zakat-calculator" className="text-accent underline font-semibold hover:text-teal-700">
+              Zakat calculator
+            </Link>{" "}
+            or return to the{" "}
+            <Link href="/" className="text-accent underline font-semibold hover:text-teal-700">
+              CalculationHub homepage
+            </Link>.
+          </p>
         </div>
       }
       referenceContentRoman={
@@ -623,6 +647,24 @@ export default function UshrCalculatorPage() {
           </p>
           <p>
             • <strong>Kharcha Minha:</strong> Islamic Fiqh Academy ka faisla: beej aur khaad ka kharcha minha nahi hota kyunke 10% se 5% rate pehle hi kharche ki riayat hai.
+          </p>
+          <p>
+            • <strong>Tariqa-e-Kaar:</strong> Tafseeli ahkam samajhne ke liye hamari{" "}
+            <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+              Ushr methodology
+            </Link>{" "}
+            mulaheza karein.
+          </p>
+          <p>
+            • <strong>Deegar Faraiz:</strong> Salana daulat par 2.5% Zakat ke liye{" "}
+            <Link href="/zakat-calculator" className="text-accent underline font-semibold hover:text-teal-700">
+              Zakat calculator
+            </Link>{" "}
+            ya tamam tools ke liye{" "}
+            <Link href="/" className="text-accent underline font-semibold hover:text-teal-700">
+              CalculationHub homepage
+            </Link>{" "}
+            par jayein.
           </p>
         </div>
       }

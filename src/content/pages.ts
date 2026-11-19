@@ -421,11 +421,13 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
   },
   ushr: {
     slug: "ushr-calculator",
-    title: "Ushr Calculator Pakistan 2026 on Crops | CalculationHub",
+    title: "Ushr Calculator Pakistan — Zakat on Crops | CalculationHub",
     metaDescription:
-      "Accurate ushr calculator Pakistan for agricultural produce. Calculate 5% to 10% Ushr on wheat, rice & crops in kg, maund and cash value. Calculate online!",
-    h1: "Ushr Calculator Pakistan 2026 (Zakat on Crops)",
+      "Calculate Ushr (Zakat on crops) in Pakistan — 10% rain-fed, 5% tube-well, 7.5% mixed irrigation. Enter harvest in kg or maund, get Ushr in kind and rupees.",
+    h1: "Ushr Calculator Pakistan (Zakat on Crops)",
     keywords: [
+      "ushr calculator pakistan",
+      "ushr on wheat pakistan",
       "ushr calculator",
       "oshar calculator pakistan",
       "zakat on crops",
@@ -435,7 +437,7 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
       "ushr rate rain fed tubewell",
     ],
     intro:
-      "Calculate Ushr (Zakat on crops) in Pakistan — 10% for rain-fed, 5% for tube-well irrigated, 7.5% for mixed irrigation. Also spelled Oshar in Pakistan. Enter your harvest in kg or maund and get the Ushr in kind and in rupees.",
+      "Use our ushr calculator Pakistan to accurately calculate Zakat on crops with official 10% rain-fed, 5% tube-well, and 7.5% mixed irrigation rates. Calculate ushr on wheat Pakistan, rice, and cash crops in kg or maund with instant cash and in-kind valuation.",
     romanUrduIntro:
       "Apni fasal par Ushr ka hisab lagayein — barish ya tube-well ke pani ke mutabiq. Pakistan mein ise Oshar bhi kaha jata hai. Fasal uthte hi Ushr ada karna wajib hai.",
     englishIntro:
