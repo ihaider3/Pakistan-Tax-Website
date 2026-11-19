@@ -7,16 +7,16 @@ import { HeroInstallButton } from "@/components/PwaInstallPrompt";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Pakistan Tax Calculator & Islamic Tools | CalculationHub",
+  title: "CalculationHub | Tax, Zakat & Financial Calculators",
   description:
-    "Free Pakistan tax calculator, Zakat, property & GST tools. Instant salary breakdown, live Nisab & verified 2026-27 slabs with zero login. Calculate now!",
+    "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
   alternates: {
     canonical: siteUrl,
   },
   openGraph: {
-    title: "Pakistan Tax Calculator & Islamic Tools | CalculationHub",
+    title: "CalculationHub | Tax, Zakat & Financial Calculators",
     description:
-      "Free Pakistan tax calculator, Zakat, property & GST tools. Instant salary breakdown, live Nisab & verified 2026-27 slabs with zero login. Calculate now!",
+      "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
     url: siteUrl,
     type: "website",
     siteName: "CalculationHub",
@@ -31,9 +31,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pakistan Tax Calculator & Islamic Tools | CalculationHub",
+    title: "CalculationHub | Tax, Zakat & Financial Calculators",
     description:
-      "Free Pakistan tax calculator, Zakat, property & GST tools. Instant salary breakdown, live Nisab & verified 2026-27 slabs with zero login. Calculate now!",
+      "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
     images: ["/images/og-share-1200x630.png"],
   },
 };
@@ -47,7 +47,7 @@ const structuredData = {
       name: "CalculationHub",
       url: siteUrl,
       description:
-        "Free Pakistan tax calculator, Zakat, property tax, GST, Fitrana, and agricultural Ushr. 100% client-side privacy.",
+        "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
       inLanguage: "en-PK",
     },
     {
@@ -258,9 +258,9 @@ export default async function HomePage() {
               >
                 {content.home_hero_title || (
                   <>
-                    CalculationHub{" "}
+                    Free Pakistan Tax, Zakat{" "}
                     <span className="block mt-1 sm:mt-2 pb-2 sm:pb-3 leading-normal bg-gradient-to-r from-primary via-[#0F5A9E] to-accent bg-clip-text text-transparent">
-                      — Pakistan Tax Calculator &amp; Financial Tools
+                      &amp; Financial Calculators
                     </span>
                   </>
                 )}
@@ -270,7 +270,7 @@ export default async function HomePage() {
                 data-content-key="home_hero_subtitle"
                 className="text-[15px] sm:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium pt-1"
               >
-                {content.home_hero_subtitle || "Instant, private Pakistan tax calculator and Zakat tools for salary tax (TY2027), Zakat Nisab, property advance tax (236C/236K), GST 18%, Fitrana, and agricultural Ushr. 100% private."}
+                {content.home_hero_subtitle || "Instant, private calculations with our Pakistan tax calculator for salary tax, Zakat, property advance tax (236C/236K), GST 18%, Fitrana, and agricultural Ushr. All numbers stay in your browser."}
               </p>
             </div>
 
