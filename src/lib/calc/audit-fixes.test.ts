@@ -184,7 +184,7 @@ describe("§8 Regression Tests — All 21 Audit Fixes", () => {
   // 14. Browser titles for Methodology & Disclaimer
   it("Titles for Methodology and Disclaimer fit ~60 characters", () => {
     const methContent = fs.readFileSync(path.resolve(__dirname, "../../app/methodology/page.tsx"), "utf-8");
-    expect(methContent).toContain('title: "Pakistan Tax Slabs 2026-27 & Methodology | CalculationHub"');
+    expect(methContent).toContain('title: "Pakistan Tax Slabs 2026-27 — Methodology | CalculationHub"');
 
     const discContent = fs.readFileSync(path.resolve(__dirname, "../../app/disclaimer/page.tsx"), "utf-8");
     expect(discContent).toContain('title: "CalculationHub Disclaimer | Legal & Religious Guidance"');

@@ -17,14 +17,14 @@ export default function MethodologyClient() {
 
   return (
     <div className="max-w-[850px] mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-10">
-      <Breadcrumb items={[{ label: "Methodology & Statutory Sources" }]} />
+      <Breadcrumb items={[{ label: "Methodology", href: "/methodology" }]} />
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>
           <span className="text-xs font-bold text-accent uppercase tracking-widest bg-accent-soft px-2.5 py-1 rounded-full border border-accent/20">
             Statutory Verification
           </span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight mt-2">
-            Pakistan Tax Slabs 2026-27 &amp; Statutory Methodology
+            Methodology &amp; Statutory Sources
           </h1>
           <p className="text-base text-appText-muted mt-2 leading-relaxed">
             Learn how salary tax is calculated in Pakistan alongside statutory FBR references for Pakistan tax slabs 2026-27, Zakat Nisab, property laws (236C/236K), GST 18%, Fitrana, and agricultural Ushr.
