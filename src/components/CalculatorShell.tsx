@@ -4,7 +4,9 @@ import React, { useState } from "react";
 import VerificationBadge from "./VerificationBadge";
 import Faq from "./Faq";
 import RelatedTools from "./RelatedTools";
+import Breadcrumb from "./Breadcrumb";
 import { CalculatorPageContent } from "@/content/pages";
+import { siteUrl } from "@/config/site";
 import { useExplanationLang } from "./LanguageContext";
 import ExplanationLangToggle from "./ExplanationLangToggle";
 import { useSiteContent } from "./SiteContentContext";
@@ -87,13 +89,32 @@ export default function CalculatorShell({
     return () => clearTimeout(timer);
   }, [content.slug]);
 
+  const webAppSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: content.h1,
+    url: `${siteUrl}/${content.slug}`,
+    applicationCategory: "FinanceApplication",
+    operatingSystem: "All",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "PKR",
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+      />
       <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 pt-6 pb-28 sm:py-10 space-y-8 sm:space-y-12 print:hidden">
       {/* =========================================================================
-          HERO & HEADER BLOCK: Badge, H1, Trimmed/Full Intro & "Calculate Now ↓"
+          HERO & HEADER BLOCK: Breadcrumb, Badge, H1, Trimmed/Full Intro & "Calculate Now ↓"
          ========================================================================= */}
       <section className="space-y-4 print:hidden">
+        <Breadcrumb items={[{ label: content.h1 }]} />
         <div className="space-y-2">
           <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-accent uppercase tracking-widest bg-accent-soft px-3.5 py-1 rounded-full border border-accent/25 shadow-2xs">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>

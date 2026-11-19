@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Zakat Calculator Pakistan 2026 | CalculationHub",
+  title: "Zakat Calculator Pakistan 2026 | Nisab | CalculationHub",
   description:
-    "Calculate 2.5% Zakat on cash, gold, silver and business assets with live Hanafi Nisab verification in Pakistan. 100% private, free, and instant breakdown.",
+    "Use our zakat calculator Pakistan to calculate 2.5% Zakat on cash, gold, silver & assets with live 2026 Nisab verification and debt deductions. Calculate now!",
   alternates: {
     canonical: `${siteUrl}/zakat-calculator`,
   },
   openGraph: {
-    title: "Zakat Calculator Pakistan 2026 | CalculationHub",
+    title: "Zakat Calculator Pakistan 2026 | Nisab | CalculationHub",
     description:
-      "Calculate 2.5% Zakat on cash, gold, silver and business assets with live Hanafi Nisab verification in Pakistan. 100% private, free, and instant breakdown.",
+      "Use our zakat calculator Pakistan to calculate 2.5% Zakat on cash, gold, silver & assets with live 2026 Nisab verification and debt deductions. Calculate now!",
     url: `${siteUrl}/zakat-calculator`,
     type: "website",
     siteName: "CalculationHub",
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Zakat Calculator Pakistan 2026 | CalculationHub",
+    title: "Zakat Calculator Pakistan 2026 | Nisab | CalculationHub",
     description:
-      "Calculate 2.5% Zakat on cash, gold, silver and business assets with live Hanafi Nisab verification in Pakistan. 100% private, free, and instant breakdown.",
+      "Use our zakat calculator Pakistan to calculate 2.5% Zakat on cash, gold, silver & assets with live 2026 Nisab verification and debt deductions. Calculate now!",
     images: ["/images/og-share-1200x630.png"],
   },
 };

@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Breadcrumb from "@/components/Breadcrumb";
 import { salaryRates2026_27 } from "@/lib/rates/salary-2026-27";
 import { propertyRates2026_27 } from "@/lib/rates/property-2026-27";
 import { gstRates } from "@/lib/rates/gst";
@@ -16,16 +17,17 @@ export default function MethodologyClient() {
 
   return (
     <div className="max-w-[850px] mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-10">
+      <Breadcrumb items={[{ label: "Methodology & Statutory Sources" }]} />
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>
           <span className="text-xs font-bold text-accent uppercase tracking-widest bg-accent-soft px-2.5 py-1 rounded-full border border-accent/20">
             Statutory Verification
           </span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight mt-2">
-            Methodology &amp; Statutory Sources
+            Pakistan Tax Slabs 2026-27 &amp; Statutory Methodology
           </h1>
           <p className="text-base text-appText-muted mt-2 leading-relaxed">
-            How our calculation engines operate, which legal and religious statutes govern them, and exactly what is included or excluded.
+            Learn how salary tax is calculated in Pakistan alongside statutory FBR references for Pakistan tax slabs 2026-27, Zakat Nisab, property laws (236C/236K), GST 18%, Fitrana, and agricultural Ushr.
           </p>
           <p className="text-xs font-semibold text-emerald-800 bg-emerald-50 inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-200 mt-3">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>

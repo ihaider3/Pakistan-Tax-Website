@@ -44,9 +44,9 @@ export default function SalaryTaxCalculatorPage() {
   useEffect(() => {
     if (typeof document === "undefined") return;
     if (taxYear === "2025-26") {
-      document.title = "Salary Tax Calculator Pakistan 2025-26 | FBR Tax Slabs & Monthly Pay";
+      document.title = "Salary Tax Calculator Pakistan 2025-26 | CalculationHub";
     } else {
-      document.title = "Salary Tax Calculator Pakistan 2026-27 | FBR Tax Slabs & Monthly Pay";
+      document.title = "Salary Tax Calculator Pakistan 2026-27 | CalculationHub";
     }
   }, [taxYear]);
 

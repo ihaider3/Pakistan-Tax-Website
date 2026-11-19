@@ -1,43 +1,45 @@
 import React from "react";
 import type { Metadata } from "next";
+import Breadcrumb from "@/components/Breadcrumb";
 import { siteConfig } from "@/content/pages";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Disclaimer | CalculationHub",
+  title: "CalculationHub Disclaimer | Legal & Religious Guidance",
   description:
-    "Review our official legal and religious disclaimer for CalculationHub. All calculation estimates are provided for general guidance only.",
+    "Review the CalculationHub disclaimer for tax, legal, and religious calculations. Estimates are provided for general guidance only. Consult licensed experts.",
   alternates: {
     canonical: `${siteUrl}/disclaimer`,
   },
   openGraph: {
-    title: "Disclaimer | CalculationHub",
+    title: "CalculationHub Disclaimer | Legal & Religious Guidance",
     description:
-      "Review our official legal and religious disclaimer for CalculationHub. All calculation estimates are provided for general guidance only.",
+      "Review the CalculationHub disclaimer for tax, legal, and religious calculations. Estimates are provided for general guidance only. Consult licensed experts.",
     url: `${siteUrl}/disclaimer`,
     type: "website",
     siteName: "CalculationHub",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Disclaimer | CalculationHub",
+    title: "CalculationHub Disclaimer | Legal & Religious Guidance",
     description:
-      "Review our official legal and religious disclaimer for CalculationHub. All calculation estimates are provided for general guidance only.",
+      "Review the CalculationHub disclaimer for tax, legal, and religious calculations. Estimates are provided for general guidance only. Consult licensed experts.",
   },
 };
 
 export default function DisclaimerPage() {
   return (
     <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-8">
+      <Breadcrumb items={[{ label: "Platform Disclaimer" }]} />
       <div>
         <span className="text-xs font-bold text-accent uppercase tracking-widest bg-accent-soft px-2.5 py-1 rounded-full border border-accent/20">
           Legal &amp; Religious Disclaimer
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight mt-2">
-          Platform Disclaimer &amp; Terms
+          CalculationHub Platform Disclaimer
         </h1>
         <p className="text-base text-appText-muted mt-2">
-          Effective Date: Tax Year 2026–27 / Ramadan 2026.
+          Effective Date: Tax Year 2026–27 / Ramadan 2026. General guidance and terms of use.
         </p>
       </div>
 
@@ -57,9 +59,9 @@ export default function DisclaimerPage() {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-xl font-bold text-primary">2. Islamic Obligations (Zakat &amp; Fitrana)</h2>
+          <h2 className="text-xl font-bold text-primary">2. Islamic Obligations (Zakat, Fitrana &amp; Ushr)</h2>
           <p>
-            Our Zakat and Fitrana calculators reflect standard rulings under Hanafi Islamic jurisprudence and official scholarly announcements in Pakistan (including Mufti Muneeb-ur-Rehman and the Council of Islamic Ideology). However, individual circumstances—such as non-standard business arrangements, mixed debt structures, disputed assets, or alternative school of thought rulings (Shafi&apos;i, Maliki, Hanbali, Ja&apos;fari)—require consultation with a qualified Islamic scholar or Mufti.
+            Our Zakat, Fitrana, and Ushr calculators reflect standard rulings under Hanafi Islamic jurisprudence and official scholarly announcements in Pakistan (including Mufti Muneeb-ur-Rehman and the Council of Islamic Ideology). However, individual circumstances—such as non-standard business arrangements, mixed debt structures, disputed agricultural tenures, or alternative school of thought rulings (Shafi&apos;i, Maliki, Hanbali, Ja&apos;fari)—require consultation with a qualified Islamic scholar or Mufti.
           </p>
         </section>
 

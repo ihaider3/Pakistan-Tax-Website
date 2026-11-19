@@ -1,29 +1,30 @@
 import React from "react";
 import type { Metadata } from "next";
+import Breadcrumb from "@/components/Breadcrumb";
 import { siteConfig } from "@/content/pages";
 import { siteUrl } from "@/config/site";
 import { getSiteContent } from "@/lib/content/contentServer";
 
 export const metadata: Metadata = {
-  title: "Contact Us | CalculationHub",
+  title: "Contact CalculationHub | Support & Official Rate Tips",
   description:
-    "Get in touch with the CalculationHub team to report statutory rate updates, submit feedback, or request new financial calculation tools.",
+    "Need to contact CalculationHub? Send statutory rate updates, report bugs, or submit tool feedback directly to our verification team. We respond within 48h.",
   alternates: {
     canonical: `${siteUrl}/contact`,
   },
   openGraph: {
-    title: "Contact Us | CalculationHub",
+    title: "Contact CalculationHub | Support & Official Rate Tips",
     description:
-      "Get in touch with the CalculationHub team to report statutory rate updates, submit feedback, or request new financial calculation tools.",
+      "Need to contact CalculationHub? Send statutory rate updates, report bugs, or submit tool feedback directly to our verification team. We respond within 48h.",
     url: `${siteUrl}/contact`,
     type: "website",
     siteName: "CalculationHub",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact Us | CalculationHub",
+    title: "Contact CalculationHub | Support & Official Rate Tips",
     description:
-      "Get in touch with the CalculationHub team to report statutory rate updates, submit feedback, or request new financial calculation tools.",
+      "Need to contact CalculationHub? Send statutory rate updates, report bugs, or submit tool feedback directly to our verification team. We respond within 48h.",
   },
 };
 
@@ -32,12 +33,13 @@ export default async function ContactPage() {
 
   return (
     <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-8">
+      <Breadcrumb items={[{ label: "Contact CalculationHub" }]} />
       <div>
         <span className="text-xs font-bold text-accent uppercase tracking-widest bg-accent-soft px-2.5 py-1 rounded-full border border-accent/20">
           Get in Touch
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight mt-2">
-          Contact &amp; Feedback
+          Contact CalculationHub
         </h1>
         <p data-content-key="contact_intro" className="text-base text-appText-muted mt-2">
           {content.contact_intro ||

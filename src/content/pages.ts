@@ -40,9 +40,9 @@ export const siteConfig = {
 export const calculatorPages: Record<string, CalculatorPageContent> = {
   salary: {
     slug: "salary-tax-calculator",
-    title: "Pakistan Salary Tax Calculator 2026-27 — FBR Slabs, Monthly Tax & Take-Home Pay",
+    title: "Salary Tax Calculator Pakistan 2026-27 | CalculationHub",
     metaDescription:
-      "Calculate your Pakistan salary tax for 2026-27 with FBR slabs. Enter monthly salary and see monthly tax, annual tax and take-home pay instantly, with slab breakdown.",
+      "Calculate your salary tax calculator Pakistan 2026-27 with official FBR slabs. See monthly tax, annual deductions & take-home pay instantly. Calculate now!",
     h1: "Salary Tax Calculator Pakistan 2026-27",
     keywords: [
       "salary tax calculator pakistan 2026-27",
@@ -116,10 +116,10 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
 
   zakat: {
     slug: "zakat-calculator",
-    title: "Zakat Calculator Pakistan 2026 — Gold, Silver, Cash & Business Zakat (2.5%)",
+    title: "Zakat Calculator Pakistan 2026 | Nisab | CalculationHub",
     metaDescription:
-      "Calculate your Zakat in PKR on cash, gold, silver and business assets with nisab check. 2.5% rate, Hanafi silver nisab, government bank nisab explained.",
-    h1: "Zakat Calculator Pakistan",
+      "Use our zakat calculator Pakistan to calculate 2.5% Zakat on cash, gold, silver & assets with live 2026 Nisab verification and debt deductions. Calculate now!",
+    h1: "Zakat Calculator Pakistan 2026",
     keywords: [
       "zakat calculator pakistan",
       "zakat nisab pakistan",
@@ -194,10 +194,10 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
 
   property: {
     slug: "property-tax-calculator",
-    title: "Property Tax Calculator Pakistan 2026-27 — 236C & 236K Filer / Non-Filer",
+    title: "Property Tax Calculator Pakistan 236C 236K | CalculationHub",
     metaDescription:
-      "Work out FBR advance tax on buying and selling property in Pakistan — 236K buyer 1.25% filer, 236C seller 2.75% filer. Compare filer vs non-filer instantly.",
-    h1: "Property Transfer Tax Calculator (236C + 236K)",
+      "Accurate property tax calculator Pakistan for buyers (236K) and sellers (236C). Compare Filer vs Non-Filer tax rates and calculate your savings in seconds!",
+    h1: "Property Tax Calculator Pakistan (236C & 236K)",
     keywords: [
       "property tax calculator pakistan",
       "236c 236k tax",
@@ -271,10 +271,10 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
 
   gst: {
     slug: "gst-calculator",
-    title: "GST Calculator Pakistan — Add & Remove 18% Sales Tax",
+    title: "GST Calculator Pakistan 18% Sales Tax | CalculationHub",
     metaDescription:
-      "Add or remove 18% GST from any amount in PKR. See base price, GST amount and total instantly. Custom rate supported.",
-    h1: "GST Calculator Pakistan (18%)",
+      "Fast GST calculator Pakistan for 18% standard sales tax. Add or remove GST from invoice totals with exact paisa precision and clear line-by-line breakdown.",
+    h1: "GST Calculator Pakistan (18% Sales Tax)",
     keywords: [
       "gst calculator pakistan",
       "sales tax calculator pakistan",
@@ -345,10 +345,10 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
 
   fitrana: {
     slug: "fitrana-calculator",
-    title: "Fitrana Calculator Pakistan 2026 — Per Person Fitrana Amount",
+    title: "Fitrana 2026 Pakistan | Per Person Rates | CalculationHub",
     metaDescription:
-      "Calculate Fitrana for your family in Pakistan for 2026. Wheat Rs 300 per person (minimum). Choose wheat, barley, dates or raisins, Mufti Muneeb or CII rates.",
-    h1: "Fitrana Calculator Pakistan 2026",
+      "Calculate fitrana 2026 Pakistan for your family with verified per person rates for wheat, barley, dates & raisins from official scholarly announcements.",
+    h1: "Fitrana Calculator 2026 Pakistan",
     keywords: [
       "fitrana calculator pakistan",
       "fitrana amount 2026",
@@ -418,10 +418,10 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
   },
   ushr: {
     slug: "ushr-calculator",
-    title: "Ushr Calculator 2026 | CalculationHub",
+    title: "Ushr Calculator Pakistan 2026 on Crops | CalculationHub",
     metaDescription:
-      "Calculate Ushr (Zakat on crops) in Pakistan — 10% for rain-fed, 5% for tube-well irrigated, 7.5% for mixed irrigation. Enter your harvest in kg or maund and get the Ushr in kind and in rupees.",
-    h1: "Ushr Calculator Pakistan (Zakat on Crops)",
+      "Accurate ushr calculator Pakistan for agricultural produce. Calculate 5% to 10% Ushr on wheat, rice & crops in kg, maund and cash value. Calculate online!",
+    h1: "Ushr Calculator Pakistan 2026 (Zakat on Crops)",
     keywords: [
       "ushr calculator",
       "oshar calculator pakistan",

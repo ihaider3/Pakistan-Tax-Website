@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import { siteUrl, siteName } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Ushr Calculator 2026 | CalculationHub",
+  title: "Ushr Calculator Pakistan 2026 on Crops | CalculationHub",
   description:
-    "Calculate Ushr (Zakat on crops) in Pakistan — 10% for rain-fed, 5% for tube-well irrigated, 7.5% for mixed irrigation. Enter your harvest in kg or maund and get the Ushr in kind and in rupees.",
+    "Accurate ushr calculator Pakistan for agricultural produce. Calculate 5% to 10% Ushr on wheat, rice & crops in kg, maund and cash value. Calculate online!",
   alternates: {
     canonical: `${siteUrl}/ushr-calculator`,
   },
   openGraph: {
-    title: "Ushr Calculator 2026 | CalculationHub",
+    title: "Ushr Calculator Pakistan 2026 on Crops | CalculationHub",
     description:
-      "Calculate Ushr (Zakat on crops) in Pakistan — 10% for rain-fed, 5% for tube-well irrigated, 7.5% for mixed irrigation. Enter your harvest in kg or maund and get the Ushr in kind and in rupees.",
+      "Accurate ushr calculator Pakistan for agricultural produce. Calculate 5% to 10% Ushr on wheat, rice & crops in kg, maund and cash value. Calculate online!",
     url: `${siteUrl}/ushr-calculator`,
     type: "website",
     siteName,
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ushr Calculator 2026 | CalculationHub",
+    title: "Ushr Calculator Pakistan 2026 on Crops | CalculationHub",
     description:
-      "Calculate Ushr (Zakat on crops) in Pakistan — 10% for rain-fed, 5% for tube-well irrigated, 7.5% for mixed irrigation. Enter your harvest in kg or maund and get the Ushr in kind and in rupees.",
+      "Accurate ushr calculator Pakistan for agricultural produce. Calculate 5% to 10% Ushr on wheat, rice & crops in kg, maund and cash value. Calculate online!",
     images: ["/images/og-share-1200x630.png"],
   },
 };

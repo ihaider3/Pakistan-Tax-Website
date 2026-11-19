@@ -1,43 +1,45 @@
 import React from "react";
 import type { Metadata } from "next";
+import Breadcrumb from "@/components/Breadcrumb";
 import { siteConfig } from "@/content/pages";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | CalculationHub",
+  title: "CalculationHub Privacy Policy | Client-Side Security",
   description:
-    "Read our 100% client-side privacy policy. Your financial numbers never leave your phone or browser. Zero server storage, no database, and no cookies.",
+    "Read the official CalculationHub privacy policy. Your financial numbers never leave your device. Zero server storage, no database, no cookies, 100% private.",
   alternates: {
     canonical: `${siteUrl}/privacy-policy`,
   },
   openGraph: {
-    title: "Privacy Policy | CalculationHub",
+    title: "CalculationHub Privacy Policy | Client-Side Security",
     description:
-      "Read our 100% client-side privacy policy. Your financial numbers never leave your phone or browser. Zero server storage, no database, and no cookies.",
+      "Read the official CalculationHub privacy policy. Your financial numbers never leave your device. Zero server storage, no database, no cookies, 100% private.",
     url: `${siteUrl}/privacy-policy`,
     type: "website",
     siteName: "CalculationHub",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Privacy Policy | CalculationHub",
+    title: "CalculationHub Privacy Policy | Client-Side Security",
     description:
-      "Read our 100% client-side privacy policy. Your financial numbers never leave your phone or browser. Zero server storage, no database, and no cookies.",
+      "Read the official CalculationHub privacy policy. Your financial numbers never leave your device. Zero server storage, no database, no cookies, 100% private.",
   },
 };
 
 export default function PrivacyPolicyPage() {
   return (
     <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-8">
+      <Breadcrumb items={[{ label: "Privacy Policy" }]} />
       <div>
         <span className="text-xs font-bold text-accent uppercase tracking-widest bg-accent-soft px-2.5 py-1 rounded-full border border-accent/20">
           Privacy Policy
         </span>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight mt-2">
-          Your Numbers Never Leave Your Device
+          CalculationHub Privacy Policy
         </h1>
         <p className="text-base text-appText-muted mt-2">
-          Last updated: 14 Nov 2026. Read how we protect your personal financial privacy.
+          Your numbers never leave your device. Read how we protect your personal financial privacy.
         </p>
       </div>
 

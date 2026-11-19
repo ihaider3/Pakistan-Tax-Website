@@ -1,35 +1,37 @@
 import React from "react";
 import Link from "next/link";
 import type { Metadata } from "next";
+import Breadcrumb from "@/components/Breadcrumb";
 import { siteConfig } from "@/content/pages";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "About Us | CalculationHub",
+  title: "About CalculationHub | Free Pakistan Tax & Islamic Tools",
   description:
-    "Learn about CalculationHub. Providing free, transparent, and completely private calculation tools with zero server tracking.",
+    "Learn about CalculationHub: 100% free, private Pakistan financial and Islamic calculation tools. Zero server storage, no login and completely private code.",
   alternates: {
     canonical: `${siteUrl}/about`,
   },
   openGraph: {
-    title: "About Us | CalculationHub",
+    title: "About CalculationHub | Free Pakistan Tax & Islamic Tools",
     description:
-      "Learn about CalculationHub. Providing free, transparent, and completely private calculation tools with zero server tracking.",
+      "Learn about CalculationHub: 100% free, private Pakistan financial and Islamic calculation tools. Zero server storage, no login and completely private code.",
     url: `${siteUrl}/about`,
     type: "website",
     siteName: "CalculationHub",
   },
   twitter: {
     card: "summary_large_image",
-    title: "About Us | CalculationHub",
+    title: "About CalculationHub | Free Pakistan Tax & Islamic Tools",
     description:
-      "Learn about CalculationHub. Providing free, transparent, and completely private calculation tools with zero server tracking.",
+      "Learn about CalculationHub: 100% free, private Pakistan financial and Islamic calculation tools. Zero server storage, no login and completely private code.",
   },
 };
 
 export default function AboutPage() {
   return (
     <div className="max-w-[800px] mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-8">
+      <Breadcrumb items={[{ label: "About CalculationHub" }]} />
       <div>
         <span className="text-xs font-bold text-accent uppercase tracking-widest bg-accent-soft px-2.5 py-1 rounded-full border border-accent/20">
           About Platform
@@ -54,9 +56,9 @@ export default function AboutPage() {
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-xl font-bold text-primary">The 5 MVP Calculators</h2>
+          <h2 className="text-xl font-bold text-primary">The 6 Essential Calculators</h2>
           <p>
-            Rather than building 50 untested tools, our initial release focuses strictly on 5 essential calculations verified against primary legal documents and scholarly announcements:
+            Rather than building untested tools, our platform focuses strictly on 6 essential calculations verified against primary legal documents and scholarly announcements:
           </p>
           <ul className="list-disc pl-5 space-y-1.5 text-appText-muted">
             <li>
@@ -74,6 +76,9 @@ export default function AboutPage() {
             <li>
               <strong>Fitrana Calculator (2026):</strong> Household Sadqat-ul-Fitr based on Mufti Muneeb-ur-Rehman and Council of Islamic Ideology verified rates.
             </li>
+            <li>
+              <strong>Ushr Calculator (Zakat on Crops 2026):</strong> Agricultural produce Zakat (10% rain-fed, 5% tube-well, 7.5% mixed) in kg, maund, and rupee valuation.
+            </li>
           </ul>
         </section>
 
@@ -82,12 +87,18 @@ export default function AboutPage() {
           <p>
             Every single calculator page displays the primary source document, legal section, and last-verified date. We do not invent or guess any tax rates; we round to whole rupees and show our working.
           </p>
-          <div className="pt-2">
+          <div className="pt-2 flex flex-wrap gap-4">
             <Link
               href="/methodology"
               className="inline-flex items-center gap-1 text-accent font-semibold hover:underline"
             >
               Read our full verification methodology &rarr;
+            </Link>
+            <Link
+              href="/disclaimer"
+              className="inline-flex items-center gap-1 text-slate-600 hover:text-accent font-semibold hover:underline"
+            >
+              View legal &amp; religious disclaimer &rarr;
             </Link>
           </div>
         </section>

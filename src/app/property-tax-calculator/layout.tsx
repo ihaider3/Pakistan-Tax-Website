@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Property Tax Calculator Pakistan | CalculationHub",
+  title: "Property Tax Calculator Pakistan 236C 236K | CalculationHub",
   description:
-    "Calculate Pakistan property advance tax under Sections 236C and 236K for buyers and sellers. Compare active Filer vs Non-Filer tax savings instantly.",
+    "Accurate property tax calculator Pakistan for buyers (236K) and sellers (236C). Compare Filer vs Non-Filer tax rates and calculate your savings in seconds!",
   alternates: {
     canonical: `${siteUrl}/property-tax-calculator`,
   },
   openGraph: {
-    title: "Property Tax Calculator Pakistan | CalculationHub",
+    title: "Property Tax Calculator Pakistan 236C 236K | CalculationHub",
     description:
-      "Calculate Pakistan property advance tax under Sections 236C and 236K for buyers and sellers. Compare active Filer vs Non-Filer tax savings instantly.",
+      "Accurate property tax calculator Pakistan for buyers (236K) and sellers (236C). Compare Filer vs Non-Filer tax rates and calculate your savings in seconds!",
     url: `${siteUrl}/property-tax-calculator`,
     type: "website",
     siteName: "CalculationHub",
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Property Tax Calculator Pakistan | CalculationHub",
+    title: "Property Tax Calculator Pakistan 236C 236K | CalculationHub",
     description:
-      "Calculate Pakistan property advance tax under Sections 236C and 236K for buyers and sellers. Compare active Filer vs Non-Filer tax savings instantly.",
+      "Accurate property tax calculator Pakistan for buyers (236K) and sellers (236C). Compare Filer vs Non-Filer tax rates and calculate your savings in seconds!",
     images: ["/images/og-share-1200x630.png"],
   },
 };
