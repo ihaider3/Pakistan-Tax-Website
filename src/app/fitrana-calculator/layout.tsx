@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Fitrana 2026 Pakistan | Per Person Rates | CalculationHub",
+  title: "Fitrana Calculator 2026 — Wheat Rs 300 | CalculationHub",
   description:
-    "Calculate fitrana 2026 Pakistan for your family with verified per person rates for wheat, barley, dates & raisins from official scholarly announcements.",
+    "Calculate household Fitrana for Ramadan 2026 in Pakistan. Compare Mufti Muneeb and CII per-person rates for wheat, barley, dates and raisins instantly.",
   alternates: {
     canonical: `${siteUrl}/fitrana-calculator`,
   },
   openGraph: {
-    title: "Fitrana 2026 Pakistan | Per Person Rates | CalculationHub",
+    title: "Fitrana Calculator 2026 — Wheat Rs 300 | CalculationHub",
     description:
-      "Calculate fitrana 2026 Pakistan for your family with verified per person rates for wheat, barley, dates & raisins from official scholarly announcements.",
+      "Calculate household Fitrana for Ramadan 2026 in Pakistan. Compare Mufti Muneeb and CII per-person rates for wheat, barley, dates and raisins instantly.",
     url: `${siteUrl}/fitrana-calculator`,
     type: "website",
     siteName: "CalculationHub",
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fitrana 2026 Pakistan | Per Person Rates | CalculationHub",
+    title: "Fitrana Calculator 2026 — Wheat Rs 300 | CalculationHub",
     description:
-      "Calculate fitrana 2026 Pakistan for your family with verified per person rates for wheat, barley, dates & raisins from official scholarly announcements.",
+      "Calculate household Fitrana for Ramadan 2026 in Pakistan. Compare Mufti Muneeb and CII per-person rates for wheat, barley, dates and raisins instantly.",
     images: ["/images/og-share-1200x630.png"],
   },
 };

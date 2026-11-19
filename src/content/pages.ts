@@ -346,11 +346,13 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
 
   fitrana: {
     slug: "fitrana-calculator",
-    title: "Fitrana 2026 Pakistan | Per Person Rates | CalculationHub",
+    title: "Fitrana Calculator 2026 — Wheat Rs 300 | CalculationHub",
     metaDescription:
-      "Calculate fitrana 2026 Pakistan for your family with verified per person rates for wheat, barley, dates & raisins from official scholarly announcements.",
+      "Calculate household Fitrana for Ramadan 2026 in Pakistan. Compare Mufti Muneeb and CII per-person rates for wheat, barley, dates and raisins instantly.",
     h1: "Fitrana Calculator 2026 Pakistan",
     keywords: [
+      "fitrana 2026 pakistan",
+      "fitrana amount per person",
       "fitrana calculator pakistan",
       "fitrana amount 2026",
       "sadqa e fitr per person",
@@ -358,7 +360,7 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
       "fitrana per person 2026",
     ],
     intro:
-      "Calculate obligatory Sadqat-ul-Fitr (Fitrana) for your household in Pakistan for Ramadan / Eid-ul-Fitr 2026. Features the agreed consensus minimum rate of Rs 300 (Wheat) with side-by-side comparison between Mufti Muneeb-ur-Rehman and the Council of Islamic Ideology (CII).",
+      "Use our fitrana 2026 Pakistan calculator to calculate household Sadqat-ul-Fitr with verified fitrana amount per person for wheat (Rs 300), barley, dates, and raisins. Compare Mufti Muneeb and CII rates instantly.",
     romanUrduIntro:
       "Ye calculator Sadqa-e-Fitr (Fitrana) ka hisab karta hai. Gandum ke hisab se kam se kam Rs 300 per shakhs banta hai. Ye raqam Mufti Muneeb-ur-Rehman aur Council of Islamic Ideology (CII) ke elan ke mutabiq hai. Jo log sahab-e-istetaat hain, wo zyada raqam se bhi ada kar sakte hain.",
     englishIntro:

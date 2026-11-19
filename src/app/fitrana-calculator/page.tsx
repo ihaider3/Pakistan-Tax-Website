@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import CalculatorShell from "@/components/CalculatorShell";
 import Toggle, { ToggleOption } from "@/components/Toggle";
 import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
@@ -307,6 +308,16 @@ export default function FitranaCalculatorPage() {
         <p>
           Both scholars unanimously agree on <strong>Rs 300 per person</strong> for standard 2 kg Wheat (Gandum). Rates for barley, dates, and raisins vary based on quality grading and regional market surveys.
         </p>
+        <p className="pt-1 text-[11px] text-slate-500">
+          Also calculate your annual wealth obligation with our{" "}
+          <Link href="/zakat-calculator" className="text-accent underline font-semibold hover:text-teal-700">
+            Zakat calculator
+          </Link>{" "}
+          or read the full{" "}
+          <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+            Fitrana methodology &amp; Hadith rulings
+          </Link>.
+        </p>
       </div>
     </div>
   );
@@ -373,9 +384,25 @@ export default function FitranaCalculatorPage() {
           <p>
             <strong>Hadith:</strong> &ldquo;Allah&apos;s Messenger (ﷺ) enjoined the payment of one Sa&apos; of dates or one Sa&apos; of barley as Zakat-ul-Fitr on every Muslim, slave or free, male or female, young or old, and he ordered that it be paid before the people went out to offer the &apos;Id prayer.&rdquo; — Sahih al-Bukhari 1503; Sahih Muslim 984.
           </p>
-          <div className="pt-1.5 border-t border-[#C9A227]/30 text-xs">
+          <div className="pt-1.5 border-t border-[#C9A227]/30 text-xs space-y-1">
             <p className="text-slate-700">
               <strong>Note:</strong> Wheat Rs 300 per person is the agreed minimum (Mufti Muneeb + CII both). Barley, dates and raisins rates differ by source — the calculator already shows both.
+            </p>
+            <p className="text-slate-700">
+              • <strong>Methodology:</strong> Read our complete{" "}
+              <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+                Fitrana methodology &amp; Hadith references
+              </Link>.
+            </p>
+            <p className="text-slate-700">
+              • <strong>Related Dues:</strong> Also calculate your annual{" "}
+              <Link href="/zakat-calculator" className="text-accent underline font-semibold hover:text-teal-700">
+                Zakat
+              </Link>{" "}
+              or return to the{" "}
+              <Link href="/" className="text-accent underline font-semibold hover:text-teal-700">
+                CalculationHub homepage
+              </Link>.
             </p>
           </div>
         </div>
@@ -385,9 +412,27 @@ export default function FitranaCalculatorPage() {
           <p>
             <strong>Hadith:</strong> Hazrat Abdullah bin Umar (R.A) se riwayat hai ke Rasool Allah (ﷺ) ne Sadqa-e-Fitr har ghulam, azaad, mard, aurat, chhotay aur baray Musalman par khajoor ya jau ka ek saa farz farmaya, aur logon ke namaz ke liye nikalne se pehle ada karne ka hukm diya. — Sahih al-Bukhari 1503; Sahih Muslim 984.
           </p>
-          <div className="pt-1.5 border-t border-[#C9A227]/30 text-xs">
+          <div className="pt-1.5 border-t border-[#C9A227]/30 text-xs space-y-1">
             <p className="text-slate-700">
               <strong>Note:</strong> Gandum Rs 300 fi shakhs متفقہ (agreed) kam az kam raqam hai (Mufti Muneeb aur CII dono). Jau, khajoor aur kishmish ke rates mein dono ka thoda farq hai jo calculator mein wazeh dikhaya gaya hai.
+            </p>
+            <p className="text-slate-700">
+              • <strong>Tariqa-e-Kaar:</strong> Mukammal ahkam ke liye hamari{" "}
+              <Link href="/methodology" className="text-accent underline font-semibold hover:text-teal-700">
+                Fitrana methodology
+              </Link>{" "}
+              parhein.
+            </p>
+            <p className="text-slate-700">
+              • <strong>Deegar Faraiz:</strong> Salana daulat par{" "}
+              <Link href="/zakat-calculator" className="text-accent underline font-semibold hover:text-teal-700">
+                Zakat calculator
+              </Link>{" "}
+              ya tamam calculators ke liye{" "}
+              <Link href="/" className="text-accent underline font-semibold hover:text-teal-700">
+                CalculationHub homepage
+              </Link>{" "}
+              par jayein.
             </p>
           </div>
         </div>
