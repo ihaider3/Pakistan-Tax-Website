@@ -125,6 +125,13 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`overflow-x-clip ${inter.variable} ${notoNastaliq.variable}`}>
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9434774796732008"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="min-h-screen flex flex-col bg-white text-appText font-sans selection:bg-accent-soft selection:text-accent overflow-x-clip w-full">
         <SiteContentProvider initialContent={initialContent}>
           <LanguageProvider>
