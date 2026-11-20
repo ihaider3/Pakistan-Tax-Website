@@ -430,12 +430,22 @@ export default function ZakatCalculatorPage() {
           STEP 1: CASH & BANK (OPEN BY DEFAULT)
          ========================================================================= */}
       <div className="bg-slate-50/70 p-4 sm:p-5 rounded-2xl border border-slate-200/90 space-y-4">
-        <div className="flex items-center justify-between pb-2 border-b border-slate-200/80">
-          <h3 className="text-sm font-extrabold uppercase tracking-wider text-primary flex items-center gap-2">
-            <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold">1</span>
-            <span>Step 1: Cash &amp; Bank</span>
-          </h3>
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2.5 border-b border-slate-200/80">
+          <div className="flex items-center justify-between w-full sm:w-auto gap-2">
+            <h3 className="text-sm font-extrabold uppercase tracking-wider text-primary flex items-center gap-2">
+              <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold shrink-0">1</span>
+              <span className="whitespace-nowrap">Step 1: Cash &amp; Bank</span>
+            </h3>
+            <button
+              type="button"
+              onClick={() => setStep1Open(!step1Open)}
+              className="sm:hidden text-xs font-bold text-accent hover:text-accent-dark px-2.5 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0"
+            >
+              <span>{step1Open ? "Collapse" : "Expand"}</span>
+              <span>{step1Open ? "▲" : "▼"}</span>
+            </button>
+          </div>
+          <div className="flex items-center justify-end gap-2 w-full sm:w-auto">
             <button
               type="button"
               onClick={handleExample}
@@ -447,7 +457,7 @@ export default function ZakatCalculatorPage() {
             <button
               type="button"
               onClick={() => setStep1Open(!step1Open)}
-              className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors"
+              className="hidden sm:flex text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer items-center gap-1 transition-colors shrink-0"
             >
               <span>{step1Open ? "Collapse" : "Expand"}</span>
               <span>{step1Open ? "▲" : "▼"}</span>
@@ -484,15 +494,15 @@ export default function ZakatCalculatorPage() {
           STEP 2: GOLD & SILVER (COLLAPSED BY DEFAULT, EXPANDABLE)
          ========================================================================= */}
       <div className="bg-slate-50/70 p-4 sm:p-5 rounded-2xl border border-slate-200/90 space-y-4">
-        <div className="flex items-center justify-between pb-2 border-b border-slate-200/80">
-          <h3 className="text-sm font-extrabold uppercase tracking-wider text-primary flex items-center gap-2">
-            <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold">2</span>
-            <span>Step 2: Gold &amp; Silver</span>
+        <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 gap-2">
+          <h3 className="text-sm font-extrabold uppercase tracking-wider text-primary flex items-center gap-2 min-w-0">
+            <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold shrink-0">2</span>
+            <span className="truncate sm:overflow-visible">Step 2: Gold &amp; Silver</span>
           </h3>
           <button
             type="button"
             onClick={() => setStep2Open(!step2Open)}
-            className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors"
+            className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0"
           >
             <span>{step2Open ? "Collapse" : "Expand"}</span>
             <span>{step2Open ? "▲" : "▼"}</span>
@@ -781,15 +791,15 @@ export default function ZakatCalculatorPage() {
           STEP 3: BUSINESS, INVESTMENTS & DEBTS (COLLAPSED BY DEFAULT, EXPANDABLE)
          ========================================================================= */}
       <div className="bg-slate-50/70 p-4 sm:p-5 rounded-2xl border border-slate-200/90 space-y-4">
-        <div className="flex items-center justify-between pb-2 border-b border-slate-200/80">
-          <h3 className="text-sm font-extrabold uppercase tracking-wider text-primary flex items-center gap-2">
-            <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold">3</span>
-            <span>Step 3: Business, Investments &amp; Debts</span>
+        <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 gap-2">
+          <h3 className="text-sm font-extrabold uppercase tracking-wider text-primary flex items-center gap-2 min-w-0">
+            <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold shrink-0">3</span>
+            <span className="text-xs sm:text-sm">Step 3: Business, Investments &amp; Debts</span>
           </h3>
           <button
             type="button"
             onClick={() => setStep3Open(!step3Open)}
-            className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors"
+            className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0"
           >
             <span>{step3Open ? "Collapse" : "Expand"}</span>
             <span>{step3Open ? "▲" : "▼"}</span>
