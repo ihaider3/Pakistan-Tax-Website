@@ -1026,6 +1026,7 @@ export default function ZakatCalculatorPage() {
   const exampleGrossVal = roundToPaisa(500000 + exampleGoldVal);
   const exampleNetVal = roundToPaisa(exampleGrossVal - 100000);
   const exampleNisabVal = Math.round(52.5 * silverRateNum);
+  const exampleGoldNisabVal = Math.round(7.5 * goldRateNum);
   const exampleZakatVal = roundToPaisa(exampleNetVal * 0.025);
 
   const dynamicContent = {
@@ -1053,10 +1054,24 @@ export default function ZakatCalculatorPage() {
         "Less Debts to Deduct = Rs 100,000",
         `Net Zakatable Wealth = Rs ${formatRupees(exampleNetVal, { prefix: false })}`,
         `Silver Nisab Threshold (52.5 tola @ Rs ${silverRateNum.toFixed(2)}/tola) = Rs ${formatRupees(exampleNisabVal, { prefix: false })}`,
+        `Gold Nisab (7.5 tola) = Rs ${formatRupees(exampleGoldNisabVal, { prefix: false })} — ${lang === "roman" ? "Sona nisab sirf us waqt lagta hai jab aap ke paas sirf sona ho." : "Gold nisab applies if you hold only gold."}`,
         `Status: Zakat Due (Net Wealth Rs ${formatRupees(exampleNetVal, { prefix: false })} exceeds Nisab Rs ${formatRupees(exampleNisabVal, { prefix: false })})`,
         `Zakat Due (2.5%) = Rs ${formatRupees(exampleNetVal, { prefix: false })} × 0.025 = Rs ${formatRupees(exampleZakatVal, { prefix: false })}`,
       ],
     },
+    faqs: [
+      ...content.faqs,
+      {
+        question:
+          lang === "roman"
+            ? "Pakistan mein sonay par Zakat ka nisab kya hai?"
+            : "What is the Zakat nisab on gold in Pakistan?",
+        answer:
+          lang === "roman"
+            ? `Sonay ka nisab 7.5 tola hai. Aaj ke live gold rate par yeh Rs ${formatRupees(exampleGoldNisabVal, { prefix: false })} banta hai — upar dikhaya gaya figure market ke saath khud update hota hai. Agar aap ke paas sirf sona hai to is value par pohanchne aur ek lunar saal (hawl) guzarne par 2.5% Zakat wajib hoti hai.`
+            : `The gold nisab is 7.5 tola of gold. At today's live gold rate it is Rs ${formatRupees(exampleGoldNisabVal, { prefix: false })} — the figure shown above updates automatically with the market. If you hold only gold, Zakat is due at 2.5% once your gold reaches this value and one lunar year (hawl) has passed.`,
+      },
+    ],
   };
 
   return (
