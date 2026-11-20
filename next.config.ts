@@ -83,6 +83,16 @@ const nextConfig: NextConfig = {
       destination: "/ushr-calculator",
       permanent: true,
     },
+    {
+      source: "/salary-calculator",
+      destination: "/salary-tax-calculator",
+      permanent: true,
+    },
+    {
+      source: "/property-calculator",
+      destination: "/property-tax-calculator",
+      permanent: true,
+    },
   ],
   headers: async () => [
     {
