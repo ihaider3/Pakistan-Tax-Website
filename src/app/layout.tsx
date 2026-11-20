@@ -9,6 +9,7 @@ import { LanguageProvider } from "@/components/LanguageContext";
 import { SiteContentProvider } from "@/components/SiteContentContext";
 import { PwaProvider } from "@/components/PwaInstallPrompt";
 import { getSiteContent } from "@/lib/content/contentServer";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -141,6 +142,7 @@ export default async function RootLayout({
               <main className="flex-1">{children}</main>
               <Footer />
               <FloatingFeedbackButton />
+              <SpeedInsights />
             </PwaProvider>
           </LanguageProvider>
         </SiteContentProvider>
