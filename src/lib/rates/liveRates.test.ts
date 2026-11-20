@@ -124,5 +124,33 @@ describe("Prompt 30 — Live Rates & Fallback System", () => {
     expect(silverNisab).toBe(248434);
     expect(goldNisab).toBe(2930233);
   });
+
+  it("Prompt 56: Fallback status is never marked 'live' and expired cache is properly identified", () => {
+    // 1. Fresh cache -> status live
+    const freshData: LiveRatesData = {
+      ...ratesData,
+      goldPerTolaPKR: 370000,
+      silverPerTolaPKR: 4400,
+    };
+    saveCachedRates(freshData);
+    const freshInit = getInitialRates();
+    expect(freshInit.status).toBe("live");
+
+    // 2. Expired cache (e.g. 2 hours old) -> status cached, NOT live
+    const twoHoursAgo = Date.now() - 2 * 3600 * 1000;
+    window.localStorage.setItem(
+      RATES_CACHE_KEY,
+      JSON.stringify({ data: freshData, cachedAt: twoHoursAgo })
+    );
+    const expiredInit = getInitialRates();
+    expect(expiredInit.status).toBe("cached");
+    expect(expiredInit.status).not.toBe("live");
+
+    // 3. Clear cache -> status fallback
+    window.localStorage.clear();
+    const fallbackInit = getInitialRates();
+    expect(fallbackInit.status).toBe("fallback");
+    expect(fallbackInit.status).not.toBe("live");
+  });
 });
 

@@ -14,8 +14,14 @@ export function useLiveRates() {
   // 1. Synchronous initial state from fresh cache or fallback bundled rates.json
   const [rates, setRates] = useState<LiveRatesData>(() => getInitialRates().data);
   const [status, setStatus] = useState<RatesStatus>(() => getInitialRates().status);
-  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    const cached = getCachedRates();
+    return !cached || !cached.isFresh;
+  });
   const fetchedRef = useRef<boolean>(false);
+  const ratesRef = useRef<LiveRatesData>(rates);
+  ratesRef.current = rates;
 
   const fetchRates = useCallback(async (force: boolean = false) => {
     if (typeof window === "undefined") return;
@@ -26,13 +32,14 @@ export function useLiveRates() {
       if (cached && cached.isFresh) {
         setRates(cached.data);
         setStatus("live");
+        setIsFetching(false);
         return;
       }
     }
 
     setIsFetching(true);
     try {
-      const result = await fetchLiveRates(rates);
+      const result = await fetchLiveRates(ratesRef.current);
       if (result && result.data) {
         setRates(result.data);
         setStatus("live");
@@ -51,7 +58,7 @@ export function useLiveRates() {
     } finally {
       setIsFetching(false);
     }
-  }, [rates]);
+  }, []);
 
   useEffect(() => {
     if (fetchedRef.current) return;
@@ -61,6 +68,8 @@ export function useLiveRates() {
     const cached = getCachedRates();
     if (!cached || !cached.isFresh) {
       fetchRates(false);
+    } else {
+      setIsFetching(false);
     }
   }, [fetchRates]);
 

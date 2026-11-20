@@ -643,6 +643,10 @@ export default function ZakatCalculatorPage() {
                       : `Manual rate: Rs ${goldRateNum.toFixed(2)}/tola. Entered by user.`)
                     : !isOnline
                     ? `Offline — rates from ${rates.lastUpdatedLabel}. Gold: Rs ${rates.goldPerTolaPKR.toFixed(2)}/tola. Stored locally on device.`
+                    : isFetching
+                    ? (lang === "roman"
+                      ? `Taaza rates load ho rahe hain… (Pichli rate: Rs ${rates.goldPerTolaPKR.toFixed(2)}/tola — ${rates.lastUpdatedLabel})`
+                      : `Loading live rates… (Previous rate: Rs ${rates.goldPerTolaPKR.toFixed(2)}/tola — ${rates.lastUpdatedLabel})`)
                     : status === "live"
                     ? (lang === "roman"
                       ? `Live rate — updated ${rates.lastUpdatedLabel}. Gold: Rs ${rates.goldPerTolaPKR.toFixed(2)}/tola. Ye international spot price se hisab hai.`
@@ -751,6 +755,10 @@ export default function ZakatCalculatorPage() {
                       : `Manual rate: Rs ${silverRateNum.toFixed(2)}/tola. Entered by user.`)
                     : !isOnline
                     ? `Offline — rates from ${rates.lastUpdatedLabel}. Silver: Rs ${rates.silverPerTolaPKR.toFixed(2)}/tola. Stored locally on device.`
+                    : isFetching
+                    ? (lang === "roman"
+                      ? `Taaza rates load ho rahe hain… (Pichli rate: Rs ${rates.silverPerTolaPKR.toFixed(2)}/tola — ${rates.lastUpdatedLabel})`
+                      : `Loading live rates… (Previous rate: Rs ${rates.silverPerTolaPKR.toFixed(2)}/tola — ${rates.lastUpdatedLabel})`)
                     : status === "live"
                     ? (lang === "roman"
                       ? `Live rate — updated ${rates.lastUpdatedLabel}. Silver: Rs ${rates.silverPerTolaPKR.toFixed(2)}/tola. Ye international spot price se hisab hai.`
@@ -890,6 +898,28 @@ export default function ZakatCalculatorPage() {
           </span>
           <span className="text-[11px] text-amber-700 font-medium">
             Cached copy
+          </span>
+        </div>
+      ) : isFetching ? (
+        <div className="px-3.5 py-2 rounded-xl bg-sky-50 border border-sky-200 text-xs text-sky-900 flex flex-wrap items-center justify-between gap-2 shadow-2xs">
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-sky-500 animate-ping"></span>
+            <span>
+              <strong className="text-sky-950">
+                {lang === "roman" ? "Taaza market rates load ho rahe hain…" : "Fetching live market rates…"}
+              </strong>
+              {rates.lastUpdatedLabel && (
+                <>
+                  <span className="mx-1.5 text-sky-400">•</span>
+                  <span className="text-sky-800 text-[11px]">
+                    {lang === "roman" ? `Pichli rates: ${rates.lastUpdatedLabel}` : `Previous: ${rates.lastUpdatedLabel}`}
+                  </span>
+                </>
+              )}
+            </span>
+          </span>
+          <span className="text-[11px] text-sky-700 font-medium">
+            gold-api.com + open.er-api.com
           </span>
         </div>
       ) : status === "live" ? (
