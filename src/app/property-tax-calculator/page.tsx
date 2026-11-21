@@ -381,6 +381,30 @@ export default function PropertyTaxCalculatorPage() {
     />
   ) : null;
 
+  const filerSubsection = (
+    <section className="bg-white rounded-2xl border border-slate-200/90 shadow-[0_8px_25px_-5px_rgba(11,42,74,0.05)] p-5 sm:p-7 space-y-3.5 print:hidden">
+      <div>
+        <span className="text-xs font-bold text-accent uppercase tracking-wider block">Filer Advantage</span>
+        <h2 className="text-xl sm:text-2xl font-extrabold text-primary tracking-tight mt-0.5">
+          Property Tax for Filers in Pakistan
+        </h2>
+      </div>
+      <p className="text-slate-700 leading-relaxed text-xs sm:text-sm font-medium">
+        A property tax filer pays much less advance tax than a non-filer on the same deal — the calculator below shows both side by side. Active taxpayers on the FBR Active Taxpayer List (ATL) qualify for substantial advance withholding tax savings on both purchase and sale transactions under the Income Tax Ordinance 2001 (Finance Act 2026).
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-xs sm:text-sm">
+        <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+          <span className="font-semibold text-primary">Buyer Advance Tax (Section 236K):</span>
+          <span className="text-emerald-700 font-extrabold">1.25% flat</span>
+        </div>
+        <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+          <span className="font-semibold text-primary">Seller Advance Tax (Section 236C):</span>
+          <span className="text-emerald-700 font-extrabold">2.75% flat</span>
+        </div>
+      </div>
+    </section>
+  );
+
   return (
     <CalculatorShell
       content={content}
@@ -394,6 +418,7 @@ export default function PropertyTaxCalculatorPage() {
           onClear={clearAll}
         />
       }
+      extraSection={filerSubsection}
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
       printReport={<PrintReport data={summaryData} language={lang} />}

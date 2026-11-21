@@ -257,6 +257,11 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
           "Finance Act 2026 mein late-filer ka alag rate khatam kar diya gaya hai. Ab sirf do wazeh categories hain: Active Taxpayer List (ATL) Filer aur Non-Filer.",
       },
       {
+        question: "How much property tax does a filer pay in Pakistan?",
+        answer:
+          "A filer buyer pays 1.25% under Section 236K and a filer seller pays 2.75% under Section 236C, on the higher of the agreed price and the FBR/DC value. For example, on a property valued at Rs 10,000,000, a filer buyer pays Rs 125,000 and a filer seller pays Rs 275,000.",
+      },
+      {
         question: "Kia yeh advance tax adjustable hai?",
         answer:
           "Jee haan, filers ke liye Section 236C aur 236K ke teht kata gaya tax unke annual income tax return mein unki kul tax liability ke muqablay mein adjust ya refund ho sakta hai.",

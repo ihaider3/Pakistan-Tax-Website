@@ -40,6 +40,7 @@ interface CalculatorShellProps {
   explanationBox?: React.ReactNode;
   breakdownTable?: React.ReactNode;
   customTopSection?: React.ReactNode;
+  extraSection?: React.ReactNode;
   printReport?: React.ReactNode;
 }
 
@@ -51,6 +52,7 @@ export default function CalculatorShell({
   explanationBox,
   breakdownTable,
   customTopSection,
+  extraSection,
   printReport,
 }: CalculatorShellProps) {
   const { lang } = useExplanationLang();
@@ -207,6 +209,13 @@ export default function CalculatorShell({
           {customTopSection}
         </div>
       </section>
+
+      {/* Optional Extra Explainer Section (Rendered above calculator) */}
+      {extraSection && (
+        <div className="print:hidden">
+          {extraSection}
+        </div>
+      )}
 
       {/* =========================================================================
           INTERACTIVE CALCULATOR: Inputs (Left) & ResultPanel (Right)
