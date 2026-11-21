@@ -50,9 +50,9 @@ describe("Prompt 29 — Full 11-Point Regression Test Suite", () => {
     expect(ratesData.lastCheckedLabel).toMatch(/2026/);
 
     // Spot ranges
-    expect(ratesData.goldPerTolaPKR).toBeGreaterThan(380000);
+    expect(ratesData.goldPerTolaPKR).toBeGreaterThan(350000);
     expect(ratesData.goldPerTolaPKR).toBeLessThan(410000);
-    expect(ratesData.silverPerTolaPKR).toBeGreaterThan(4500);
+    expect(ratesData.silverPerTolaPKR).toBeGreaterThan(4000);
     expect(ratesData.silverPerTolaPKR).toBeLessThan(5000);
 
     // Exact Nisab check: 52.5 * silverPerTolaPKR

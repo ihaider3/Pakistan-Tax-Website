@@ -29,6 +29,6 @@ jobs:
         run: |
           git config user.name "rates-bot"
           git config user.email "rates-bot@users.noreply.github.com"
-          git add src/data/rates.json
+          git add src/data/rates.json public/data/rates.json
           git diff --cached --quiet || git commit -m "chore: update gold/silver rates $(date -u +%F)"
           git push

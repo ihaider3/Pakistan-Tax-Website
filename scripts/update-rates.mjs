@@ -180,6 +180,13 @@ async function updateRates() {
 
   fs.writeFileSync(RATES_FILE, JSON.stringify(newRates, null, 2) + '\n', 'utf8');
   console.log(`[Success] Written new rates to ${RATES_FILE}`);
+
+  // Also write to public/data/rates.json so https://calculationhubs.com/data/rates.json is always in sync
+  const PUBLIC_RATES_FILE = path.resolve(__dirname, '../public/data/rates.json');
+  if (fs.existsSync(path.dirname(PUBLIC_RATES_FILE))) {
+    fs.writeFileSync(PUBLIC_RATES_FILE, JSON.stringify(newRates, null, 2) + '\n', 'utf8');
+    console.log(`[Success] Written new rates to ${PUBLIC_RATES_FILE}`);
+  }
   console.log(`[Timestamp] ${lastUpdatedLabel} (${lastUpdated})`);
 }
 

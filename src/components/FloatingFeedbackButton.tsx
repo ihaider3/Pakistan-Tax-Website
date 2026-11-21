@@ -36,15 +36,15 @@ export default function FloatingFeedbackButton() {
         </button>
       </div>
 
-      {/* MOBILE BUTTON: Fixed bottom-right circular button (56px), bottom: 20px; right: 16px */}
-      <div className="sm:hidden fixed bottom-5 right-4 z-40 print:hidden">
+      {/* MOBILE BUTTON: Sleek floating pill, compact (32px), tucked into bottom-right corner */}
+      <div className="sm:hidden fixed bottom-3 right-3 z-40 print:hidden">
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="w-14 h-14 rounded-full bg-[#0B2A4A] hover:bg-[#0F766E] active:bg-[#071B30] text-white shadow-elevated flex flex-col items-center justify-center border border-white/20 transition-all select-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0F766E]/50"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0B2A4A]/95 hover:bg-[#0F766E] active:bg-[#071B30] text-white rounded-full shadow-lg border border-white/20 transition-all select-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0F766E]/50 active:scale-95 backdrop-blur-xs"
           aria-label="Open feedback modal"
         >
-          <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -52,7 +52,7 @@ export default function FloatingFeedbackButton() {
               d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
             />
           </svg>
-          <span className="text-[9px] font-bold tracking-tight uppercase mt-0.5 leading-none">
+          <span className="text-xs font-bold tracking-wide">
             Feedback
           </span>
         </button>

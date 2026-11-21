@@ -430,24 +430,25 @@ export default function ZakatCalculatorPage() {
           STEP 1: CASH & BANK (OPEN BY DEFAULT)
          ========================================================================= */}
       <div className="bg-slate-50/70 p-4 sm:p-5 rounded-2xl border border-slate-200/90 space-y-4">
-        <div className="flex items-center justify-between pb-2 border-b border-slate-200/80">
-          <h3 className="text-sm font-extrabold uppercase tracking-wider text-primary flex items-center gap-2">
-            <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold">1</span>
-            <span>Step 1: Cash &amp; Bank</span>
+        <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 gap-1.5 sm:gap-2">
+          <h3 className="text-xs sm:text-sm font-extrabold uppercase tracking-tight sm:tracking-wider text-primary flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold shrink-0">1</span>
+            <span className="whitespace-nowrap">Step 1: Cash &amp; Bank</span>
           </h3>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               type="button"
               onClick={handleExample}
-              className="text-xs font-bold text-accent hover:text-accent-dark px-2.5 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors active:scale-98"
+              className="text-xs font-bold text-accent hover:text-accent-dark px-2 sm:px-2.5 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors active:scale-98 shrink-0"
             >
               <span>💡</span>
-              <span>{lang === "roman" ? "Example try karein" : "Try an example"}</span>
+              <span className="hidden sm:inline">{lang === "roman" ? "Example try karein" : "Try an example"}</span>
+              <span className="sm:hidden">{lang === "roman" ? "Example" : "Example"}</span>
             </button>
             <button
               type="button"
               onClick={() => setStep1Open(!step1Open)}
-              className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors"
+              className="text-xs font-bold text-accent hover:text-accent-dark px-2 sm:px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0"
             >
               <span>{step1Open ? "Collapse" : "Expand"}</span>
               <span>{step1Open ? "▲" : "▼"}</span>
@@ -484,20 +485,25 @@ export default function ZakatCalculatorPage() {
           STEP 2: GOLD & SILVER (COLLAPSED BY DEFAULT, EXPANDABLE)
          ========================================================================= */}
       <div className="bg-slate-50/70 p-4 sm:p-5 rounded-2xl border border-slate-200/90 space-y-4">
-        <div className="flex items-center justify-between pb-2 border-b border-slate-200/80">
-          <h3 className="text-sm font-extrabold uppercase tracking-wider text-primary flex items-center gap-2">
-            <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold">2</span>
-            <span>Step 2: Gold &amp; Silver</span>
+        <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 gap-1.5 sm:gap-2">
+          <h3 className="text-xs sm:text-sm font-extrabold uppercase tracking-tight sm:tracking-wider text-primary flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold shrink-0">2</span>
+            <span className="whitespace-nowrap sm:whitespace-normal">Step 2: Gold &amp; Silver</span>
           </h3>
           <button
             type="button"
             onClick={() => setStep2Open(!step2Open)}
-            className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors"
+            className="text-xs font-bold text-accent hover:text-accent-dark px-2 sm:px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0"
           >
             <span>{step2Open ? "Collapse" : "Expand"}</span>
             <span>{step2Open ? "▲" : "▼"}</span>
           </button>
         </div>
+        <p className="text-xs text-slate-600 font-medium">
+          {lang === "roman"
+            ? "Apna sona darj karein taake aaj ke live rate par zakat on gold ka hisab ho sake."
+            : "Enter your gold to work out zakat on gold at today's live rate."}
+        </p>
 
         {step2Open ? (
           <div className="bg-white p-4 rounded-xl border border-slate-200 space-y-5 animate-in fade-in duration-200">
@@ -781,15 +787,15 @@ export default function ZakatCalculatorPage() {
           STEP 3: BUSINESS, INVESTMENTS & DEBTS (COLLAPSED BY DEFAULT, EXPANDABLE)
          ========================================================================= */}
       <div className="bg-slate-50/70 p-4 sm:p-5 rounded-2xl border border-slate-200/90 space-y-4">
-        <div className="flex items-center justify-between pb-2 border-b border-slate-200/80">
-          <h3 className="text-sm font-extrabold uppercase tracking-wider text-primary flex items-center gap-2">
-            <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold">3</span>
-            <span>Step 3: Business, Investments &amp; Debts</span>
+        <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 gap-1.5 sm:gap-2">
+          <h3 className="text-xs sm:text-sm font-extrabold uppercase tracking-tight sm:tracking-wider text-primary flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold shrink-0">3</span>
+            <span className="text-xs sm:text-sm truncate sm:overflow-visible">Step 3: Business, Investments &amp; Debts</span>
           </h3>
           <button
             type="button"
             onClick={() => setStep3Open(!step3Open)}
-            className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors"
+            className="text-xs font-bold text-accent hover:text-accent-dark px-2 sm:px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0"
           >
             <span>{step3Open ? "Collapse" : "Expand"}</span>
             <span>{step3Open ? "▲" : "▼"}</span>
@@ -1058,6 +1064,7 @@ export default function ZakatCalculatorPage() {
   const exampleNisabVal = Math.round(52.5 * silverRateNum);
   const exampleGoldNisabVal = Math.round(7.5 * goldRateNum);
   const exampleZakatVal = roundToPaisa(exampleNetVal * 0.025);
+  const zakatOn1TolaVal = roundToPaisa(goldRateNum * 0.025);
 
   const dynamicContent = {
     ...content,
@@ -1100,6 +1107,16 @@ export default function ZakatCalculatorPage() {
           lang === "roman"
             ? `Sonay ka nisab 7.5 tola hai. Aaj ke live gold rate par yeh Rs ${formatRupees(exampleGoldNisabVal, { prefix: false })} banta hai — upar dikhaya gaya figure market ke saath khud update hota hai. Agar aap ke paas sirf sona hai to is value par pohanchne aur ek lunar saal (hawl) guzarne par 2.5% Zakat wajib hoti hai.`
             : `The gold nisab is 7.5 tola of gold. At today's live gold rate it is Rs ${formatRupees(exampleGoldNisabVal, { prefix: false })} — the figure shown above updates automatically with the market. If you hold only gold, Zakat is due at 2.5% once your gold reaches this value and one lunar year (hawl) has passed.`,
+      },
+      {
+        question:
+          lang === "roman"
+            ? "Pakistan mein 1 tola sonay par kitni Zakat wajib hai?"
+            : "How much Zakat is due on 1 tola of gold in Pakistan?",
+        answer:
+          lang === "roman"
+            ? `Sonay par Zakat (zakat on gold) uski mojooda maliyat ka 2.5% hoti hai. 1 tola sonay par Zakat aaj ke fi tola rate ka 2.5% banti hai, bashart-e-ke kul daulat nisab tak pohanch jaye aur ek qamri saal (hawl) guzar chuka ho. Aaj ka sonay ka rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → 1 tola par Zakat = 2.5% × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}. Yeh hisab aaj ke live gold rate in Pakistan par mabni hai jo market ke mutabiq khud update hota hai.`
+            : `Zakat on gold is 2.5% of the gold's current value. 1 tola of gold is Zakat-able at 2.5% of today's gold price per tola, once total wealth reaches nisab and one lunar year (hawl) has passed. Today's gold rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → Zakat on 1 tola = 2.5% × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}. The rate used is today's live gold rate in Pakistan, updated automatically.`,
       },
     ],
   };
