@@ -1065,6 +1065,8 @@ export default function ZakatCalculatorPage() {
   const exampleGoldNisabVal = Math.round(7.5 * goldRateNum);
   const exampleZakatVal = roundToPaisa(exampleNetVal * 0.025);
   const zakatOn1TolaVal = roundToPaisa(goldRateNum * 0.025);
+  const gold10TolaVal = Math.round(10 * goldRateNum);
+  const zakatOn10TolaVal = roundToPaisa(10 * goldRateNum * 0.025);
 
   const dynamicContent = {
     ...content,
@@ -1117,6 +1119,16 @@ export default function ZakatCalculatorPage() {
           lang === "roman"
             ? `Sonay par Zakat (zakat on gold) uski mojooda maliyat ka 2.5% hoti hai. 1 tola sonay par Zakat aaj ke fi tola rate ka 2.5% banti hai, bashart-e-ke kul daulat nisab tak pohanch jaye aur ek qamri saal (hawl) guzar chuka ho. Aaj ka sonay ka rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → 1 tola par Zakat = 2.5% × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}. Yeh hisab aaj ke live gold rate in Pakistan par mabni hai jo market ke mutabiq khud update hota hai.`
             : `Zakat on gold is 2.5% of the gold's current value. 1 tola of gold is Zakat-able at 2.5% of today's gold price per tola, once total wealth reaches nisab and one lunar year (hawl) has passed. Today's gold rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → Zakat on 1 tola = 2.5% × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}. The rate used is today's live gold rate in Pakistan, updated automatically.`,
+      },
+      {
+        question:
+          lang === "roman"
+            ? "Pakistan mein 10 tola sonay par kitni Zakat wajib hai?"
+            : "How much Zakat on 10 tola gold is due in Pakistan?",
+        answer:
+          lang === "roman"
+            ? `Sonay par Zakat uski mojooda maliyat ka 2.5% hoti hai. 10 tola sonay ki qeemat 10 × aaj ka fi tola rate hoti hai, aur is par Zakat us raqam ka 2.5% banti hai, bashart-e-ke kul daulat nisab tak pohanch jaye aur ek qamri saal (hawl) guzar chuka ho. Yaad rahe ke 10 tola sonay ke nisab (7.5 tola) se zyada hai, is liye sirf sona hone ki soorat mein bhi yeh nisab pura karta hai (hawl ka asool laagu rahega). Aaj ka sonay ka rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → 10 tola ki qeemat = 10 × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(gold10TolaVal, { prefix: false })} → 10 tola par Zakat = 2.5% × Rs ${formatRupees(gold10TolaVal, { prefix: false })} = Rs ${formatRupees(zakatOn10TolaVal, { prefix: false, showPaisaIfDecimal: true })}.`
+            : `Zakat on gold is 2.5% of the gold's current value. 10 tola of gold is worth 10 × today's gold price per tola, and Zakat on it is 2.5% of that value, once total wealth reaches nisab and one lunar year (hawl) has passed. Note that 10 tola is above the gold nisab of 7.5 tola, so gold-only holdings of 10 tola meet nisab (hawl still applies). Today's gold rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → 10 tola value = 10 × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(gold10TolaVal, { prefix: false })} → Zakat on 10 tola = 2.5% × Rs ${formatRupees(gold10TolaVal, { prefix: false })} = Rs ${formatRupees(zakatOn10TolaVal, { prefix: false, showPaisaIfDecimal: true })}.`,
       },
     ],
   };
