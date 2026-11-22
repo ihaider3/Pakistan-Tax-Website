@@ -11,6 +11,7 @@ import { useExplanationLang } from "./LanguageContext";
 import ExplanationLangToggle from "./ExplanationLangToggle";
 import { useSiteContent } from "./SiteContentContext";
 import { trackToolUse } from "@/lib/analytics/beacon";
+import { trackMetaViewContent } from "@/lib/analytics/metaPixel";
 import { CalculatorType } from "@/lib/analytics/types";
 
 function getCalculatorKey(slug: string): CalculatorType {
@@ -168,6 +169,7 @@ export default function CalculatorShell({
               e.preventDefault();
               const calcKey = getCalculatorKey(content.slug);
               trackToolUse(calcKey);
+              trackMetaViewContent(breadcrumbLabels[content.slug] || content.h1);
               const el = document.getElementById("calculator");
               if (el) {
                 el.scrollIntoView({ behavior: "smooth" });

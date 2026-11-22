@@ -8,6 +8,16 @@ import {
   deleteHistoryEntry,
   clearHistory,
 } from "./storage";
+import { trackMetaViewContent } from "@/lib/analytics/metaPixel";
+
+const CALCULATOR_TITLES: Record<CalculatorId, string> = {
+  salary: "Salary Tax Calculator",
+  zakat: "Zakat Calculator",
+  property: "Property Tax Calculator",
+  gst: "GST Calculator",
+  fitrana: "Fitrana Calculator",
+  ushr: "Ushr Calculator",
+};
 
 export function useCalculatorHistory<TInputs = Record<string, unknown>>(
   calculatorId: CalculatorId
@@ -64,6 +74,10 @@ export function useCalculatorHistory<TInputs = Record<string, unknown>>(
           inputs: params.inputs,
         });
         setHistory([...updated]);
+        const calcTitle = CALCULATOR_TITLES[calculatorId];
+        if (calcTitle) {
+          trackMetaViewContent(calcTitle);
+        }
       };
 
       if (params.immediate) {
