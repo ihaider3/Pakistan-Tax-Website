@@ -431,32 +431,59 @@ export default function ZakatCalculatorPage() {
          ========================================================================= */}
       <div className="bg-slate-50/70 p-4 sm:p-5 rounded-2xl border border-slate-200/90 space-y-4">
         <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 gap-1.5 sm:gap-2">
-          <h3 className="text-xs sm:text-sm font-extrabold uppercase tracking-tight sm:tracking-wider text-primary flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <h3 className="text-xs sm:text-sm font-extrabold uppercase tracking-tight sm:tracking-wider text-primary flex items-center gap-1.5 sm:gap-2 min-w-0">
             <span className="w-5 h-5 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold shrink-0">1</span>
-            <span className="whitespace-nowrap">Step 1: Cash &amp; Bank</span>
+            <span className="whitespace-nowrap sm:whitespace-normal">Step 1: Cash &amp; Bank</span>
           </h3>
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+
+          {/* Desktop action buttons */}
+          <div className="hidden sm:flex items-center gap-2 shrink-0">
             <button
               type="button"
               onClick={handleExample}
-              className="text-xs font-bold text-accent hover:text-accent-dark px-2 sm:px-2.5 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors active:scale-98 shrink-0"
+              className="text-xs font-bold text-accent hover:text-accent-dark px-2.5 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors active:scale-98 shrink-0"
             >
               <span>💡</span>
-              <span className="hidden sm:inline">{lang === "roman" ? "Example try karein" : "Try an example"}</span>
-              <span className="sm:hidden">{lang === "roman" ? "Example" : "Example"}</span>
+              <span>{lang === "roman" ? "Example try karein" : "Try an example"}</span>
             </button>
             <button
               type="button"
               onClick={() => setStep1Open(!step1Open)}
-              className="text-xs font-bold text-accent hover:text-accent-dark px-2 sm:px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0"
+              className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0"
+            >
+              <span>{step1Open ? "Collapse" : "Expand"}</span>
+              <span>{step1Open ? "▲" : "▼"}</span>
+            </button>
+          </div>
+
+          {/* Mobile Collapse/Expand button — fits comfortably without overflow */}
+          <div className="sm:hidden flex items-center shrink-0">
+            <button
+              type="button"
+              onClick={() => setStep1Open(!step1Open)}
+              className="text-xs font-bold text-accent hover:text-accent-dark px-2.5 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0"
             >
               <span>{step1Open ? "Collapse" : "Expand"}</span>
               <span>{step1Open ? "▲" : "▼"}</span>
             </button>
           </div>
         </div>
+
         {step1Open && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in fade-in duration-200">
+          <div className="space-y-3 animate-in fade-in duration-200">
+            {/* Mobile-only Try an example button placed cleanly inside Step 1 */}
+            <div className="sm:hidden flex justify-end">
+              <button
+                type="button"
+                onClick={handleExample}
+                className="text-xs font-bold text-accent hover:text-accent-dark px-2.5 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1.5 transition-colors active:scale-98"
+              >
+                <span>💡</span>
+                <span>{lang === "roman" ? "Example try karein" : "Try an example"}</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <MoneyInput
               id="cash-input"
               label="Cash in Hand — Naqad raqam"
@@ -467,16 +494,17 @@ export default function ZakatCalculatorPage() {
               }}
               placeholder="e.g. 500,000"
             />
-            <MoneyInput
-              id="bank-input"
-              label="Bank Savings / Deposits — Bank balance"
-              value={bankRaw}
-              onChange={(r, v) => {
-                setBankRaw(r);
-                setBankNum(v);
-              }}
-              placeholder="e.g. 200,000"
-            />
+              <MoneyInput
+                id="bank-input"
+                label="Bank Savings / Deposits — Bank balance"
+                value={bankRaw}
+                onChange={(r, v) => {
+                  setBankRaw(r);
+                  setBankNum(v);
+                }}
+                placeholder="e.g. 200,000"
+              />
+            </div>
           </div>
         )}
       </div>
