@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Inter, Noto_Nastaliq_Urdu } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -126,14 +127,13 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={`overflow-x-clip ${inter.variable} ${notoNastaliq.variable}`}>
-      <head>
-        <script
+      <body className="min-h-screen flex flex-col bg-white text-appText font-sans selection:bg-accent-soft selection:text-accent overflow-x-clip w-full">
+        <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9434774796732008"
           crossOrigin="anonymous"
+          strategy="afterInteractive"
         />
-      </head>
-      <body className="min-h-screen flex flex-col bg-white text-appText font-sans selection:bg-accent-soft selection:text-accent overflow-x-clip w-full">
         <SiteContentProvider initialContent={initialContent}>
           <LanguageProvider>
             <PwaProvider>
