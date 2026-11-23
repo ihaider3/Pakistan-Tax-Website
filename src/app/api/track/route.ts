@@ -40,6 +40,9 @@ export async function POST(request: NextRequest) {
       request.headers.get("x-real-ip") ||
       "127.0.0.1";
 
+    const country = request.headers.get("x-vercel-ip-country") || null;
+    const city = request.headers.get("x-vercel-ip-city") || null;
+
     const visitorHash = hashVisitor(ip, userAgent);
 
     // 3. Sliding rate limit (max 60 events/hour per visitor)
@@ -80,7 +83,7 @@ export async function POST(request: NextRequest) {
       const cleanReferrer = sanitizeReferrer(referrer, host);
       const device = detectDevice(userAgent);
 
-      await recordPageView(page, visitorHash, cleanReferrer, device);
+      await recordPageView(page, visitorHash, cleanReferrer, device, country, city);
       return NextResponse.json({ success: true });
     }
 
@@ -90,7 +93,8 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Invalid calculator" }, { status: 400 });
       }
 
-      await recordToolUse(calculator as CalculatorType, visitorHash);
+      const { tool_name } = body;
+      await recordToolUse(calculator as CalculatorType, visitorHash, tool_name);
       return NextResponse.json({ success: true });
     }
 

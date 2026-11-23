@@ -42,7 +42,8 @@ interface ContentFieldItem {
 }
 
 interface AnalyticsData {
-  range: "today" | "7d" | "30d" | "all";
+  range: "7d" | "15d" | "30d" | "all";
+  recordingStartDate: string;
   statCards: {
     visitorsToday: number;
     visitors7d: number;
@@ -50,12 +51,24 @@ interface AnalyticsData {
     totalPageViews: number;
     totalToolUses: number;
     activeLast30Min: number;
+    allTimeVisitors: number;
+    allTimePageViews: number;
+    allTimeToolUses: number;
   };
   dailyTrend: Array<{
     date: string;
     label: string;
     visitors: number;
     pageViews: number;
+    calculatorUses?: number;
+  }>;
+  dailySummaryTable: Array<{
+    date: string;
+    label: string;
+    uniqueVisitors: number;
+    pageViews: number;
+    calculatorUses: number;
+    isPriorToRecording: boolean;
   }>;
   mostUsedTools: Array<{
     calculator: string;
@@ -76,6 +89,11 @@ interface AnalyticsData {
     tablet: { count: number; percent: number };
     desktop: { count: number; percent: number };
   }>;
+  countrySplit: Array<{
+    country: string;
+    count: number;
+    percent: number;
+  }>;
   topReferrers: Array<{
     referrer: string;
     count: number;
@@ -86,6 +104,12 @@ interface AnalyticsData {
     target: string;
     device: string;
     createdAt: string;
+  }>;
+  monthlyTotals: Array<{
+    month: string;
+    visitors: number;
+    pageViews: number;
+    toolUses: number;
   }>;
   security?: {
     failedLogins7d: number;
@@ -167,7 +191,7 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
   // Analytics State
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null);
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
-  const [analyticsRange, setAnalyticsRange] = useState<"today" | "7d" | "30d" | "all">("all");
+  const [analyticsRange, setAnalyticsRange] = useState<"7d" | "15d" | "30d" | "all">("30d");
 
   // Verify initial session
   useEffect(() => {
@@ -1187,19 +1211,25 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
         <div className="space-y-8">
           {/* Header filter & Live Now Indicator */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-slate-600">Filter Range:</span>
-              {(["today", "7d", "30d", "all"] as const).map((r) => (
+            <div className="flex items-center gap-1.5 bg-white p-1 rounded-2xl border border-slate-200 shadow-2xs">
+              <span className="text-xs font-bold text-slate-600 px-2">Date Range:</span>
+              {(["7d", "15d", "30d", "all"] as const).map((r) => (
                 <button
                   key={r}
                   onClick={() => setAnalyticsRange(r)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                     analyticsRange === r
-                      ? "bg-primary text-white"
+                      ? "bg-primary text-white shadow-xs"
                       : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                   }`}
                 >
-                  {r === "today" ? "Today" : r === "7d" ? "7 Days" : r === "30d" ? "30 Days" : "All Time"}
+                  {r === "7d"
+                    ? "7 Days"
+                    : r === "15d"
+                    ? "15 Days"
+                    : r === "30d"
+                    ? "30 Days (Default)"
+                    : "All Time (Lifetime)"}
                 </button>
               ))}
             </div>
@@ -1254,13 +1284,16 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
             </div>
           </div>
 
-          {/* Daily Trend Chart (Last 30 Days) - Pure CSS Bar Chart */}
+          {/* Daily Trend Chart - Pure CSS Bar Chart */}
           <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-bold text-primary">Daily Unique Visitors (Last 30 Days)</h3>
+                <h3 className="text-sm font-bold text-primary">Daily Unique Visitors ({analyticsRange === "7d" ? "7 Days" : analyticsRange === "15d" ? "15 Days" : analyticsRange === "30d" ? "30 Days" : "All Time"})</h3>
                 <span className="text-[11px] text-slate-400">Hover on each bar to view exact counts</span>
               </div>
+              <span className="text-[11px] font-semibold text-slate-500 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-md">
+                Recording started: {analyticsData?.recordingStartDate || "23 Nov 2026"}
+              </span>
             </div>
 
             {analyticsData && analyticsData.dailyTrend.length > 0 ? (
@@ -1281,7 +1314,7 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
                           {/* Tooltip on hover */}
                           <div className="opacity-0 group-hover:opacity-100 pointer-events-none absolute bottom-full mb-2 bg-slate-900 text-white text-[10px] px-2 py-1 rounded shadow-lg whitespace-nowrap z-20 transition-opacity">
                             <span className="font-bold block">{pt.label}</span>
-                            <span>{pt.visitors} visitors · {pt.pageViews} views</span>
+                            <span>{pt.visitors} visitors · {pt.pageViews} views · {pt.calculatorUses || 0} calcs</span>
                           </div>
 
                           <div
@@ -1303,6 +1336,73 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
                 No trend data recorded yet.
               </div>
             )}
+          </div>
+
+          {/* Daily Table (Date, Unique Visitors, Total Page Views, Calculator Uses) */}
+          <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h3 className="text-sm font-bold text-primary">Daily Visitor &amp; Calculator Record</h3>
+                <p className="text-xs text-slate-500">
+                  Real anonymous visitor counts and calculations executed each day.
+                </p>
+              </div>
+              <div className="text-[11px] font-semibold text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1 rounded-lg">
+                <span>Recording started on {analyticsData?.recordingStartDate || "23 Nov 2026"}</span>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-slate-200 text-slate-500 uppercase tracking-wider font-bold">
+                    <th className="py-2.5 px-3">Date</th>
+                    <th className="py-2.5 px-3 text-right">Unique Visitors</th>
+                    <th className="py-2.5 px-3 text-right">Total Page Views</th>
+                    <th className="py-2.5 px-3 text-right">Calculator Uses</th>
+                    <th className="py-2.5 px-3 text-left">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 font-mono">
+                  {analyticsData?.dailySummaryTable && analyticsData.dailySummaryTable.length > 0 ? (
+                    analyticsData.dailySummaryTable.map((row) => (
+                      <tr key={row.date} className="hover:bg-slate-50/50">
+                        <td className="py-2.5 px-3 font-semibold text-primary font-sans">
+                          {row.label} <span className="text-[10px] text-slate-400 font-mono">({row.date})</span>
+                        </td>
+                        <td className="py-2.5 px-3 text-right text-slate-700 font-bold">
+                          {row.uniqueVisitors}
+                        </td>
+                        <td className="py-2.5 px-3 text-right text-slate-700">
+                          {row.pageViews}
+                        </td>
+                        <td className="py-2.5 px-3 text-right font-black text-emerald-700">
+                          {row.calculatorUses}
+                        </td>
+                        <td className="py-2.5 px-3 text-left font-sans">
+                          {row.isPriorToRecording ? (
+                            <span className="text-[10px] text-slate-400 italic">
+                              Recording started on 23 Nov 2026
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                              Active
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={5} className="py-6 text-center text-slate-400 font-sans">
+                        No daily records found.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {/* Ranked Table: Most-Used Tools (kitne logo ne kon sa tool use kiya) */}
@@ -1465,6 +1565,77 @@ export default function AdminDashboardClient({ initialAuth }: AdminDashboardClie
                   Direct visits (no external referrer recorded yet).
                 </div>
               )}
+            </div>
+          </div>
+
+          {/* Geographic Distribution (Coarse Country from Edge Headers) */}
+          <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs space-y-4">
+            <div>
+              <h3 className="text-sm font-bold text-primary">Visitor Geographic Distribution</h3>
+              <p className="text-xs text-slate-500">Coarse country data derived from Edge network headers (zero IP logging).</p>
+            </div>
+            {analyticsData && analyticsData.countrySplit.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {analyticsData.countrySplit.map((c) => (
+                  <div key={c.country} className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                    <span className="font-semibold text-xs text-primary">{c.country}</span>
+                    <div className="text-right">
+                      <span className="text-xs font-bold text-slate-800">{c.count} views</span>
+                      <span className="text-[10px] text-slate-400 block">({c.percent}%)</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-xs text-slate-400">No country data recorded yet.</div>
+            )}
+          </div>
+
+          {/* Monthly & Lifetime Summary (Permanent Retention) */}
+          <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h3 className="text-sm font-bold text-primary">Lifetime &amp; Monthly Summary (Permanent Retention)</h3>
+                <p className="text-xs text-slate-500">Aggregated monthly summaries preserved permanently without expiration.</p>
+              </div>
+              <div className="flex items-center gap-3 text-xs bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 font-mono">
+                <span>Lifetime Visitors: <strong className="text-primary">{analyticsData?.statCards.allTimeVisitors || 0}</strong></span>
+                <span>•</span>
+                <span>Lifetime Views: <strong className="text-primary">{analyticsData?.statCards.allTimePageViews || 0}</strong></span>
+                <span>•</span>
+                <span>Lifetime Calcs: <strong className="text-emerald-700">{analyticsData?.statCards.allTimeToolUses || 0}</strong></span>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-slate-200 text-slate-500 uppercase tracking-wider font-bold">
+                    <th className="py-2.5 px-3">Month</th>
+                    <th className="py-2.5 px-3 text-right">Unique Visitors</th>
+                    <th className="py-2.5 px-3 text-right">Page Views</th>
+                    <th className="py-2.5 px-3 text-right">Calculator Uses</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 font-mono">
+                  {analyticsData?.monthlyTotals && analyticsData.monthlyTotals.length > 0 ? (
+                    analyticsData.monthlyTotals.map((m) => (
+                      <tr key={m.month} className="hover:bg-slate-50/50">
+                        <td className="py-2.5 px-3 font-semibold text-primary font-sans">{m.month}</td>
+                        <td className="py-2.5 px-3 text-right text-slate-700 font-bold">{m.visitors}</td>
+                        <td className="py-2.5 px-3 text-right text-slate-700">{m.pageViews}</td>
+                        <td className="py-2.5 px-3 text-right font-black text-emerald-700">{m.toolUses}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="py-4 text-center text-slate-400 font-sans">
+                        No monthly records yet.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
 

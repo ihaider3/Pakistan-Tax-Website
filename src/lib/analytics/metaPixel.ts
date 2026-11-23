@@ -38,3 +38,4 @@ export function trackMetaViewContent(contentName: string): void {
     // Non-blocking
   }
 }
+

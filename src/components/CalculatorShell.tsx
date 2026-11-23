@@ -75,31 +75,8 @@ export default function CalculatorShell({
   const [guideOpen, setGuideOpen] = useState(false);
   const [formulaOpen, setFormulaOpen] = useState(false);
   const [caseStudyOpen, setCaseStudyOpen] = useState(false);
-  const hasTrackedFormUse = React.useRef(false);
-
-  const handleFormInteraction = () => {
-    if (!hasTrackedFormUse.current) {
-      hasTrackedFormUse.current = true;
-      trackToolUse(getCalculatorKey(content.slug));
-      if (typeof window !== "undefined") {
-        window.dispatchEvent(new Event("pfc_tool_used"));
-      }
-    }
-  };
-
-  // Automatically record tool use when calculator is viewed/interacted with
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!hasTrackedFormUse.current) {
-        hasTrackedFormUse.current = true;
-        trackToolUse(getCalculatorKey(content.slug));
-        if (typeof window !== "undefined") {
-          window.dispatchEvent(new Event("pfc_tool_used"));
-        }
-      }
-    }, 1200);
-    return () => clearTimeout(timer);
-  }, [content.slug]);
+  // Calculation events are tracked upon completed calculation (useCalculatorHistory) and "Calculate Now" click
+  const handleFormInteraction = () => {};
 
   const webAppSchema = {
     "@context": "https://schema.org",
@@ -231,7 +208,7 @@ export default function CalculatorShell({
         aria-label="Calculator workspace"
       >
         {/* Left Column: Inputs in an Elevated Card */}
-        <div className="lg:col-span-7 bg-white p-5 sm:p-8 rounded-2xl border border-slate-200/90 shadow-[0_12px_30px_-5px_rgba(11,42,74,0.07),0_4px_10px_-2px_rgba(11,42,74,0.03)] space-y-6 print:hidden">
+        <div className="lg:col-span-7 bg-white p-4 sm:p-8 rounded-2xl border border-slate-200/90 shadow-[0_12px_30px_-5px_rgba(11,42,74,0.07),0_4px_10px_-2px_rgba(11,42,74,0.03)] space-y-6 print:hidden">
           <div className="border-b border-slate-100 pb-3.5">
             <h2 className="text-xl font-extrabold text-primary tracking-tight">Enter Your Details</h2>
             <p className="text-xs text-appText-muted mt-0.5">

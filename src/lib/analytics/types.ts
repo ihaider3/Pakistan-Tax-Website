@@ -2,10 +2,13 @@ export type DeviceType = "mobile" | "tablet" | "desktop";
 
 export type CalculatorType = "salary" | "zakat" | "property" | "gst" | "fitrana" | "ushr";
 
+export type AnalyticsRange = "7d" | "15d" | "30d" | "all" | "today";
+
 export interface TrackPayload {
   type: "page_view" | "tool_use";
   page?: string;
   calculator?: CalculatorType;
+  tool_name?: string;
   referrer?: string;
 }
 
@@ -16,13 +19,25 @@ export interface PageViewRecord {
   visitor_hash: string;
   referrer: string | null;
   device: DeviceType;
+  country?: string | null;
+  city?: string | null;
 }
 
 export interface ToolUseRecord {
   id: string;
   created_at: string;
   calculator: CalculatorType;
+  tool_name?: string;
   visitor_hash: string;
+}
+
+export interface DailySummaryRow {
+  date: string; // YYYY-MM-DD
+  label: string; // e.g. "23 Nov"
+  uniqueVisitors: number;
+  pageViews: number;
+  calculatorUses: number;
+  isPriorToRecording: boolean;
 }
 
 export interface DailyTrendPoint {
@@ -30,6 +45,7 @@ export interface DailyTrendPoint {
   label: string;
   visitors: number;
   pageViews: number;
+  calculatorUses?: number;
 }
 
 export interface ToolUsageStat {
@@ -54,6 +70,12 @@ export interface DeviceSplitStat {
   desktop: { count: number; percent: number };
 }
 
+export interface CountrySplitStat {
+  country: string;
+  count: number;
+  percent: number;
+}
+
 export interface TopReferrerStat {
   referrer: string;
   count: number;
@@ -67,8 +89,16 @@ export interface RecentActivityItem {
   createdAt: string;
 }
 
+export interface MonthlyTotalItem {
+  month: string; // e.g. "Nov 2026"
+  visitors: number;
+  pageViews: number;
+  toolUses: number;
+}
+
 export interface AnalyticsMetrics {
-  range: "today" | "7d" | "30d" | "all";
+  range: "7d" | "15d" | "30d" | "all";
+  recordingStartDate: string;
   statCards: {
     visitorsToday: number;
     visitors7d: number;
@@ -76,12 +106,17 @@ export interface AnalyticsMetrics {
     totalPageViews: number;
     totalToolUses: number;
     activeLast30Min: number;
+    allTimeVisitors: number;
+    allTimePageViews: number;
+    allTimeToolUses: number;
   };
   dailyTrend: DailyTrendPoint[];
+  dailySummaryTable: DailySummaryRow[];
   mostUsedTools: ToolUsageStat[];
   pageViewsTable: PageViewStat[];
   deviceSplit: DeviceSplitStat[];
+  countrySplit: CountrySplitStat[];
   topReferrers: TopReferrerStat[];
   recentActivity: RecentActivityItem[];
+  monthlyTotals: MonthlyTotalItem[];
 }
-

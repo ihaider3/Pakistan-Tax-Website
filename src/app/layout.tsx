@@ -126,10 +126,10 @@ export default async function RootLayout({
   const initialContent = await getSiteContent();
 
   return (
-    <html lang="en" className={`overflow-x-clip ${inter.variable} ${notoNastaliq.variable}`}>
-      <body className="min-h-screen flex flex-col bg-white text-appText font-sans selection:bg-accent-soft selection:text-accent overflow-x-clip w-full">
+    <html lang="en" suppressHydrationWarning className={`overflow-x-clip ${inter.variable} ${notoNastaliq.variable}`}>
+      <body suppressHydrationWarning className="min-h-screen flex flex-col bg-white text-appText font-sans selection:bg-accent-soft selection:text-accent overflow-x-clip w-full">
         <Script
-          async
+          id="google-adsense"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9434774796732008"
           crossOrigin="anonymous"
           strategy="afterInteractive"
@@ -150,15 +150,11 @@ fbq('init', '1774525983843690');
 fbq('track', 'PageView');`,
           }}
         />
-        <noscript>
-          <img
-            height="1"
-            width="1"
-            style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=1774525983843690&ev=PageView&noscript=1"
-            alt=""
-          />
-        </noscript>
+        <noscript
+          dangerouslySetInnerHTML={{
+            __html: `<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1774525983843690&ev=PageView&noscript=1" alt="" />`,
+          }}
+        />
         <SiteContentProvider initialContent={initialContent}>
           <LanguageProvider>
             <PwaProvider>

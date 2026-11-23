@@ -9,6 +9,7 @@ import {
   clearHistory,
 } from "./storage";
 import { trackMetaViewContent } from "@/lib/analytics/metaPixel";
+import { trackToolUse } from "@/lib/analytics/beacon";
 
 const CALCULATOR_TITLES: Record<CalculatorId, string> = {
   salary: "Salary Tax Calculator",
@@ -78,6 +79,7 @@ export function useCalculatorHistory<TInputs = Record<string, unknown>>(
         if (calcTitle) {
           trackMetaViewContent(calcTitle);
         }
+        trackToolUse(calculatorId);
       };
 
       if (params.immediate) {

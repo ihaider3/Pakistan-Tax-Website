@@ -21,10 +21,10 @@ export async function GET(request: NextRequest) {
 
   try {
     const { searchParams } = new URL(request.url);
-    const rangeParam = searchParams.get("range") || "all";
-    const range = ["today", "7d", "30d", "all"].includes(rangeParam)
-      ? (rangeParam as "today" | "7d" | "30d" | "all")
-      : "all";
+    const rangeParam = searchParams.get("range") || "30d";
+    const range = ["7d", "15d", "30d", "all"].includes(rangeParam)
+      ? (rangeParam as "7d" | "15d" | "30d" | "all")
+      : "30d";
 
     const metrics = await getAnalyticsMetrics(range);
     const failedLogins7d = getFailedLoginCount7Days();
