@@ -57,6 +57,44 @@ const structuredData = {
       url: siteUrl,
       logo: `${siteUrl}/images/CalculationHub_Logo_Full.png`,
     },
+    {
+      "@type": "FAQPage",
+      "@id": `${siteUrl}/#faq`,
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "Is salary up to Rs 50,000 exempt from tax?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. Under FBR Tax Year 2026-27 slabs, the first Rs 600,000 of annual taxable salary (Rs 50,000/month) is taxed at exactly 0%.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Should I use Gold or Silver Nisab?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Under Hanafi jurisprudence in Pakistan, if you own mixed assets (cash + gold/silver), the Silver Nisab (52.5 tola) is applied as a precaution to assist the needy.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How much does a Filer save on property?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "On a 1 Crore property, an active Filer pays 1.25% (Rs 125,000) while a Non-Filer pays 10.5% (Rs 1,050,000), saving Rs 925,000.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Is CalculationHub an income tax calculator for Pakistan?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes — the Salary Tax Calculator on this site calculates income tax on salary in Pakistan using the TY2027 slabs (Finance Act 2026), and the site also offers Zakat, Property Tax, GST, Fitrana and Ushr calculators. No login, 100% private.",
+          },
+        },
+      ],
+    },
   ],
 };
 
@@ -574,7 +612,7 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {/* FAQ Card 1 */}
           <div className="group relative bg-white rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-7 sm:p-8 space-y-4 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-600 to-primary group-hover:h-2 transition-all duration-300" />
@@ -645,6 +683,38 @@ export default async function HomePage() {
                 className="w-full py-2.5 px-3 rounded-xl bg-slate-50 group-hover:bg-primary text-primary group-hover:text-white font-extrabold text-xs transition-all duration-200 flex items-center justify-between shadow-xs group-hover:shadow-md"
               >
                 <span>Compare 236C &amp; 236K</span>
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* FAQ Card 4 */}
+          <div className="group relative bg-white rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-7 sm:p-8 space-y-4 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-teal-600 via-primary to-accent group-hover:h-2 transition-all duration-300" />
+            <div>
+              <span className="text-[11px] font-black text-teal-950 uppercase tracking-wider bg-teal-50 px-3 py-1 rounded-full border border-teal-200 inline-block shadow-2xs">
+                Income Tax • Tools
+              </span>
+              <h3 className="font-black text-lg sm:text-xl text-primary group-hover:text-accent transition-colors mt-3 mb-2 leading-snug">
+                Is CalculationHub an income tax calculator for Pakistan?
+              </h3>
+              <p className="text-sm text-slate-800 font-medium leading-relaxed">
+                Yes — the{" "}
+                <Link
+                  href="/salary-tax-calculator"
+                  className="text-primary font-black underline hover:text-accent transition-colors"
+                >
+                  Salary Tax Calculator
+                </Link>{" "}
+                on this site calculates income tax on salary in Pakistan using the TY2027 slabs (Finance Act 2026), and the site also offers Zakat, Property Tax, GST, Fitrana and Ushr calculators. No login, 100% private.
+              </p>
+            </div>
+            <div className="pt-4 border-t border-slate-100">
+              <Link
+                href="/salary-tax-calculator"
+                className="w-full py-2.5 px-3 rounded-xl bg-slate-50 group-hover:bg-primary text-primary group-hover:text-white font-extrabold text-xs transition-all duration-200 flex items-center justify-between shadow-xs group-hover:shadow-md"
+              >
+                <span>Calculate Salary Tax</span>
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
               </Link>
             </div>

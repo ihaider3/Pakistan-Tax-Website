@@ -106,6 +106,11 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
         answer:
           "Nahi. Yeh calculator sirf salaried individuals (Section 149) ke liye hai jinki aamdani ka kam az kam 75% hissa salary se aata hai. Business aur freelancers par alag slabs lagu hotay hain.",
       },
+      {
+        question: "Is salary tax the same as income tax in Pakistan?",
+        answer:
+          "Yes — salary tax is income tax charged on salary income. It is deducted at source by the employer under section 149 of the Income Tax Ordinance 2001, using the TY2027 slabs shown on this page. Enter your monthly salary above and the calculator shows your monthly and annual income tax. No figure may be hardcoded in the answer — the calculator on this page already computes it live.",
+      },
     ],
     source: "Federal Board of Revenue (FBR)",
     sourceDocument: "Finance Act 2026, FBR Withholding Tax Rate Card TY2027, Section 149",
@@ -340,6 +345,11 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
         question: "Input tax credit kya hota hai?",
         answer:
           "Registered karobar jo raw material khareedte waqt GST ada karte hain woh sales ke waqt collect kiye gaye tax ke muqablay mein is ada shuda tax ka credit claim kar saktay hain.",
+      },
+      {
+        question: "How is GST credit calculated in Pakistan?",
+        answer:
+          "A GST-registered business pays GST on its purchases (input tax) and charges GST on its sales (output tax); the input tax paid can be adjusted against the output tax charged, and the balance is paid to FBR with the monthly sales tax return under the Sales Tax Act 1990. This calculator itself works on the 18% goods rate (add GST / remove GST from an inclusive price).",
       },
     ],
     source: "Federal Board of Revenue (FBR)",

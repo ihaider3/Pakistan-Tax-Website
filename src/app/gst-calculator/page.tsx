@@ -477,9 +477,25 @@ export default function GstCalculatorPage() {
     />
   ) : null;
 
+  const dynamicContent = {
+    ...content,
+    faqs: content.faqs.map((faq) => {
+      if (faq.question === "How is GST credit calculated in Pakistan?") {
+        return {
+          question: "How is GST credit calculated in Pakistan?",
+          answer:
+            lang === "roman"
+              ? "Pakistan mein GST-registered karobar apni khareedari par GST ada karta hai (input tax) aur apni bikri par GST wasool karta hai (output tax); ada shuda input tax ko wasool shuda output tax ke samne adjust kiya jata hai, aur baqaya raqam Sales Tax Act 1990 ke teht mahana sales tax return ke sath FBR ko jama karwai jati hai. Yeh calculator 18% goods rate (GST shamil karein / GST alag karein) par kaam karta hai."
+              : "A GST-registered business pays GST on its purchases (input tax) and charges GST on its sales (output tax); the input tax paid can be adjusted against the output tax charged, and the balance is paid to FBR with the monthly sales tax return under the Sales Tax Act 1990. This calculator itself works on the 18% goods rate (add GST / remove GST from an inclusive price).",
+        };
+      }
+      return faq;
+    }),
+  };
+
   return (
     <CalculatorShell
-      content={content}
+      content={dynamicContent}
       calculatorInputs={calculatorInputs}
       resultPanel={resultPanel}
       calculatorHistory={

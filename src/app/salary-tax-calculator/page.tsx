@@ -416,6 +416,18 @@ export default function SalaryTaxCalculatorPage() {
           : "Worked Example: Monthly Salary of Rs 150,000 (Annual: Rs 1,800,000)",
       description: `How FBR computes your tax slab by slab for Tax Year ${taxYear}:`,
     },
+    faqs: content.faqs.map((faq) => {
+      if (faq.question === "Is salary tax the same as income tax in Pakistan?") {
+        return {
+          question: "Is salary tax the same as income tax in Pakistan?",
+          answer:
+            lang === "roman"
+              ? "Jee haan — salary tax dar-asl tanhwah ki aamdani par lagne wala income tax hi hai. Yeh Income Tax Ordinance 2001 ke Section 149 ke teht employer (idara) tanhwah dete waqt kaat-ta hai, jiske liye is page par diye gaye TY2027 slabs istemal hotay hain. Upar apni mahana tankhwah darj karein to calculator aap ka mahana aur salana income tax khud dikha deta hai."
+              : "Yes — salary tax is income tax charged on salary income. It is deducted at source by the employer under section 149 of the Income Tax Ordinance 2001, using the TY2027 slabs shown on this page. Enter your monthly salary above and the calculator shows your monthly and annual income tax. No figure may be hardcoded in the answer — the calculator on this page already computes it live.",
+        };
+      }
+      return faq;
+    }),
   };
 
   return (
