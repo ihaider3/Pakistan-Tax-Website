@@ -94,6 +94,16 @@ const nextConfig: NextConfig = {
       destination: "/property-tax-calculator",
       permanent: true,
     },
+    {
+      source: "/income-tax-calculator",
+      destination: "/salary-tax-calculator",
+      permanent: true,
+    },
+    {
+      source: "/income-tax-calculator-2025-26",
+      destination: "/salary-tax-calculator",
+      permanent: true,
+    },
   ],
   headers: async () => [
     {
