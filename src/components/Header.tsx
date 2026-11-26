@@ -87,8 +87,12 @@ export default function Header() {
             aria-label="CalculationHub Homepage"
           >
             <img
-              src="/images/CalculationHub_Logo_Full.png"
+              src="/images/CalculationHub_Logo_Full.webp"
               alt="CalculationHub"
+              width={2126}
+              height={521}
+              fetchPriority="high"
+              decoding="async"
               className="h-8 sm:h-9 md:h-12 w-auto object-contain group-hover:opacity-95 transition-all duration-200"
             />
           </Link>

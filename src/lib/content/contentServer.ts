@@ -23,17 +23,20 @@ const inMemoryHistory: Array<{
   changed_at: string;
 }> = [];
 
-export async function getSiteContent(): Promise<Record<string, string>> {
-  const contentMap = getDefaultContentMap();
+/**
+ * Return ONLY non-default custom overrides (in-memory or Supabase) so RootLayout
+ * does not serialize all default site copy into every SSR RSC payload.
+ */
+export async function getSiteContentOverrides(): Promise<Record<string, string>> {
+  const overrides: Record<string, string> = {};
 
-  // Merge in-memory content first
   for (const [key, entry] of inMemorySiteContent.entries()) {
-    contentMap[key] = entry.value;
+    overrides[key] = entry.value;
   }
 
   const supabase = getSupabaseAdmin();
   if (!supabase) {
-    return contentMap;
+    return overrides;
   }
 
   try {
@@ -45,15 +48,21 @@ export async function getSiteContent(): Promise<Record<string, string>> {
     if (!error && data) {
       for (const row of data) {
         if (typeof row.value === "string") {
-          contentMap[row.key] = row.value;
+          overrides[row.key] = row.value;
         }
       }
     }
   } catch (err) {
-    console.warn("[Content Server] Fallback to defaults:", err);
+    console.warn("[Content Server] Fallback overrides:", err);
   }
 
-  return contentMap;
+  return overrides;
+}
+
+export async function getSiteContent(): Promise<Record<string, string>> {
+  const contentMap = getDefaultContentMap();
+  const overrides = await getSiteContentOverrides();
+  return { ...contentMap, ...overrides };
 }
 
 export async function getContentListForAdmin(): Promise<AdminContentItem[]> {

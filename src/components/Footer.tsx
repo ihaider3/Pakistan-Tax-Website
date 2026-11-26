@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { siteConfig } from "@/content/pages";
+import { siteConfig } from "@/config/site";
 import { useSiteContent } from "./SiteContentContext";
 
 export default function Footer() {
@@ -66,8 +66,12 @@ export default function Footer() {
               <Link href="/" className="inline-block group" aria-label="CalculationHub Homepage">
                 <div className="bg-white rounded-2xl px-4 py-2.5 shadow-lg shadow-black/20 ring-1 ring-white/30 inline-flex items-center">
                   <img
-                    src="/images/CalculationHub_Logo_Full.png"
+                    src="/images/CalculationHub_Logo_Full.webp"
                     alt="CalculationHub"
+                    width={2126}
+                    height={521}
+                    loading="lazy"
+                    decoding="async"
                     className="h-9 sm:h-10 w-auto object-contain group-hover:opacity-95 transition-opacity"
                   />
                 </div>

@@ -55,7 +55,7 @@ const structuredData = {
       "@id": `${siteUrl}/#organization`,
       name: "CalculationHub",
       url: siteUrl,
-      logo: `${siteUrl}/images/CalculationHub_Logo_Full.png`,
+      logo: `${siteUrl}/images/CalculationHub_Logo_Full.webp`,
     },
     {
       "@type": "FAQPage",

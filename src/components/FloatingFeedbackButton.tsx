@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import FeedbackModal from "./FeedbackModal";
+import dynamic from "next/dynamic";
+
+const FeedbackModal = dynamic(() => import("./FeedbackModal"), { ssr: false });
 
 export default function FloatingFeedbackButton() {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,8 +60,8 @@ export default function FloatingFeedbackButton() {
         </button>
       </div>
 
-      {/* Modal */}
-      <FeedbackModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      {/* Modal (loaded on demand when opened) */}
+      {isOpen && <FeedbackModal isOpen={isOpen} onClose={() => setIsOpen(false)} />}
     </>
   );
 }

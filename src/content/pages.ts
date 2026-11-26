@@ -27,15 +27,9 @@ export interface CalculatorPageContent {
   disclaimer: string;
 }
 
-import { siteUrl } from "@/config/site";
+import { siteConfig } from "@/config/site";
 
-export const siteConfig = {
-  brandName: "CalculationHub",
-  tagline: "Free, Accurate, No Login — Financial & Islamic Calculators for Pakistan",
-  privacyClaim: "Your numbers never leave your phone.",
-  baseUrl: siteUrl,
-  copyrightYear: "2026",
-};
+export { siteConfig };
 
 export const calculatorPages: Record<string, CalculatorPageContent> = {
   salary: {

@@ -9,8 +9,8 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { LanguageProvider } from "@/components/LanguageContext";
 import { SiteContentProvider } from "@/components/SiteContentContext";
 import { PwaProvider } from "@/components/PwaInstallPrompt";
-import { getSiteContent } from "@/lib/content/contentServer";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import { getSiteContentOverrides } from "@/lib/content/contentServer";
+import DeferredSpeedInsights from "@/components/DeferredSpeedInsights";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -123,7 +123,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const initialContent = await getSiteContent();
+  const initialContent = await getSiteContentOverrides();
 
   return (
     <html lang="en" suppressHydrationWarning className={`overflow-x-clip ${inter.variable} ${notoNastaliq.variable}`}>
@@ -132,11 +132,11 @@ export default async function RootLayout({
           id="google-adsense"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9434774796732008"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
         <Script
           id="meta-pixel"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `!function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -163,7 +163,7 @@ fbq('track', 'PageView');`,
               <main className="flex-1">{children}</main>
               <Footer />
               <FloatingFeedbackButton />
-              <SpeedInsights />
+              <DeferredSpeedInsights />
             </PwaProvider>
           </LanguageProvider>
         </SiteContentProvider>

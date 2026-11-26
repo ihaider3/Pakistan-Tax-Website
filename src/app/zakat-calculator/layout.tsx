@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { preconnect } from "react-dom";
 import { siteUrl } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -34,6 +35,9 @@ export const metadata: Metadata = {
 };
 
 export default function ZakatLayout({ children }: { children: React.ReactNode }) {
+  preconnect("https://api.gold-api.com");
+  preconnect("https://open.er-api.com");
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

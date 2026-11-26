@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import ratesData from "@/data/rates.json";
 import {
   LiveRatesData,
-  getInitialRates,
   getCachedRates,
   fetchLiveRates,
 } from "./liveRates";
@@ -11,14 +11,13 @@ import {
 export type RatesStatus = "live" | "cached" | "fallback";
 
 export function useLiveRates() {
-  // 1. Synchronous initial state from fresh cache or fallback bundled rates.json
-  const [rates, setRates] = useState<LiveRatesData>(() => getInitialRates().data);
-  const [status, setStatus] = useState<RatesStatus>(() => getInitialRates().status);
-  const [isFetching, setIsFetching] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    const cached = getCachedRates();
-    return !cached || !cached.isFresh;
-  });
+  // Initialize synchronously from bundled rates.json so SSR & first paint match with 0ms block and zero hydration mismatch
+  const [rates, setRates] = useState<LiveRatesData>(() => ({
+    ...ratesData,
+    isFallback: true,
+  }));
+  const [status, setStatus] = useState<RatesStatus>("fallback");
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const fetchedRef = useRef<boolean>(false);
   const ratesRef = useRef<LiveRatesData>(rates);
   ratesRef.current = rates;
@@ -64,8 +63,12 @@ export function useLiveRates() {
     if (fetchedRef.current) return;
     fetchedRef.current = true;
 
-    // Check if initial cache is fresh; if not, fetch in background without blocking
+    // Apply any cached rates immediately, then background-refresh if stale or missing
     const cached = getCachedRates();
+    if (cached) {
+      setRates(cached.data);
+      setStatus(cached.isFresh ? "live" : "cached");
+    }
     if (!cached || !cached.isFresh) {
       fetchRates(false);
     } else {

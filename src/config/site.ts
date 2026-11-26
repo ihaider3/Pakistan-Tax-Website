@@ -12,12 +12,25 @@ export const siteDescription =
 export const themeColor = "#0B2A4A";
 export const backgroundColor = "#0B2A4A";
 
-export const logoFull = "/images/CalculationHub_Logo_Full.png";
-export const logoIcon = "/images/CalculationHub_App_Icon.png";
+export const tagline =
+  "Free, Accurate, No Login — Financial & Islamic Calculators for Pakistan";
+export const privacyClaim = "Your numbers never leave your phone.";
+export const copyrightYear = "2026";
+
+export const logoFull = "/images/CalculationHub_Logo_Full.webp";
+export const logoIcon = "/images/CalculationHub_App_Icon.webp";
 export const ogImage = "/images/og-share-1200x630.png";
 
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://calculationhubs.com";
+
+export const siteConfig = {
+  brandName,
+  tagline,
+  privacyClaim,
+  baseUrl: siteUrl,
+  copyrightYear,
+};
 
 // Host part of siteUrl with protocol and trailing slash removed (e.g. pak-tax-cal.vercel.app)
 export const siteDomain = siteUrl

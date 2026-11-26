@@ -174,7 +174,7 @@ export function getInitialRates(): { data: LiveRatesData; status: "live" | "cach
 /**
  * Fetch a JSON URL with timeout and max 1 retry.
  */
-async function fetchEndpointWithRetry(url: string, timeoutMs: number = 9000): Promise<any> {
+async function fetchEndpointWithRetry(url: string, timeoutMs: number = 5000): Promise<any> {
   let lastError: Error | null = null;
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
@@ -194,7 +194,7 @@ async function fetchEndpointWithRetry(url: string, timeoutMs: number = 9000): Pr
     } catch (err: any) {
       lastError = err;
       if (attempt < 2) {
-        await new Promise((r) => setTimeout(r, 1000));
+        await new Promise((r) => setTimeout(r, 400));
       }
     }
   }
@@ -210,9 +210,9 @@ export async function fetchLiveRates(
 ): Promise<{ data: LiveRatesData; status: "live" } | null> {
   try {
     const [goldRes, silverRes, fxRes] = await Promise.all([
-      fetchEndpointWithRetry(GOLD_API_URL, 9000),
-      fetchEndpointWithRetry(SILVER_API_URL, 9000),
-      fetchEndpointWithRetry(CURRENCY_API_URL, 9000),
+      fetchEndpointWithRetry(GOLD_API_URL, 5000),
+      fetchEndpointWithRetry(SILVER_API_URL, 5000),
+      fetchEndpointWithRetry(CURRENCY_API_URL, 5000),
     ]);
 
     const xauUsd = Number(Number(goldRes?.price).toFixed(2));

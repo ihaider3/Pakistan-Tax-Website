@@ -1,4 +1,4 @@
-const CACHE_NAME = "calc-hub-cache-v3";
+const CACHE_NAME = "calc-hub-cache-v4";
 
 const PRECACHE_URLS = [
   "/",
@@ -20,8 +20,8 @@ const PRECACHE_URLS = [
   "/icon-512x512.png",
   "/icon-512x512-maskable.png",
   "/apple-touch-icon.png",
-  "/images/CalculationHub_Logo_Full.png",
-  "/images/CalculationHub_App_Icon.png",
+  "/images/CalculationHub_Logo_Full.webp",
+  "/images/CalculationHub_App_Icon.webp",
   "/images/og-share-1200x630.png",
   "/data/rates.json",
 ];
@@ -122,6 +122,7 @@ self.addEventListener("fetch", (event) => {
   if (
     url.pathname.startsWith("/_next/static/") ||
     url.pathname.startsWith("/images/") ||
+    url.pathname.endsWith(".webp") ||
     url.pathname.endsWith(".png") ||
     url.pathname.endsWith(".svg") ||
     url.pathname.endsWith(".ico")

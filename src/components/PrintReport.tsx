@@ -56,8 +56,10 @@ export default function PrintReport({
               <div className="flex items-center justify-between border-b-2 border-[#D4AF37] pb-2.5">
                 <div className="flex items-center gap-3.5">
                   <img
-                    src="/images/CalculationHub_Logo_Full.png"
+                    src="/images/CalculationHub_Logo_Full.webp"
                     alt="CalculationHub"
+                    width={2126}
+                    height={521}
                     className="h-10 w-auto object-contain"
                     style={{ printColorAdjust: "exact", WebkitPrintColorAdjust: "exact" }}
                   />
