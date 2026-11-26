@@ -275,6 +275,11 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
         answer:
           "Jee haan, filers ke liye Section 236C aur 236K ke teht kata gaya tax unke annual income tax return mein unki kul tax liability ke muqablay mein adjust ya refund ho sakta hai.",
       },
+      {
+        question: "How much property tax does a non-filer pay in Pakistan?",
+        answer:
+          "A non-filer pays much more than a filer. On a property worth Rs 10,000,000, a non-filer buyer pays 10.5% under Section 236K — Rs 1,050,000 — on properties up to Rs 50,000,000 (rising to 14.5% between Rs 50–100 million and 18.5% above Rs 100 million), while a filer buyer pays only 1.25%, Rs 125,000. A non-filer seller pays 11.5% under Section 236C — Rs 1,150,000 on Rs 10,000,000 — while a filer seller pays 2.75%, Rs 275,000. Use the calculator above to compare filer vs non-filer for your exact amount.",
+      },
     ],
     source: "Federal Board of Revenue (FBR)",
     sourceDocument: "Finance Act 2026, FBR Withholding Tax Rate Card TY2027, Sections 236C & 236K",
