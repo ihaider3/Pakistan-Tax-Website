@@ -441,6 +441,11 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
         answer:
           "Nahi, yeh tool sirf Sadqa-e-Fitr (Fitrana) ke liye hai. Rozon ke Fidya aur Kaffara ke rules alag hain jo mustaqbil mein shamil kiye jayenge.",
       },
+      {
+        question: "How much Fitrana should a family of 5 pay?",
+        answer:
+          "At the wheat rate of Rs 300 per person (Mufti Muneeb-ur-Rehman, 2026), a family of 5 pays Rs 1,500 in total. If you follow the other categories, the same family pays Rs 5,800 for barley (5 × Rs 1,160), Rs 14,000 for dates (5 × Rs 2,800), or Rs 36,000 for raisins (5 × Rs 7,200). Enter your family size in the calculator above for your exact amount.",
+      },
     ],
     source: "Mufti Muneeb-ur-Rehman & Council of Islamic Ideology (CII)",
     sourceDocument: "Official Ramadan 2026 Fitrana / Sadqat-ul-Fitr Public Announcements",
