@@ -92,6 +92,7 @@ export default function Header() {
               alt="CalculationHub"
               width={2126}
               height={521}
+              draggable={false}
               fetchPriority="high"
               decoding="async"
               className="h-8 sm:h-9 md:h-12 w-auto object-contain group-hover:opacity-95 transition-all duration-200"

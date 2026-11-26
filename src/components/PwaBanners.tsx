@@ -39,6 +39,7 @@ export default function PwaBanners({
                 alt="CalculationHub"
                 width={1536}
                 height={1024}
+                draggable={false}
                 className="w-full h-full object-contain"
               />
             </div>
@@ -120,6 +121,7 @@ export default function PwaBanners({
                     alt="CalculationHub"
                     width={1536}
                     height={1024}
+                    draggable={false}
                     className="w-full h-full object-contain"
                   />
                 </div>

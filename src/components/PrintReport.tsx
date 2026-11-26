@@ -60,6 +60,7 @@ export default function PrintReport({
                     alt="CalculationHub"
                     width={2126}
                     height={521}
+                    draggable={false}
                     className="h-10 w-auto object-contain"
                     style={{ printColorAdjust: "exact", WebkitPrintColorAdjust: "exact" }}
                   />

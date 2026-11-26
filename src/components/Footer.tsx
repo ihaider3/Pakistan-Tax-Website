@@ -70,6 +70,7 @@ export default function Footer() {
                     alt="CalculationHub"
                     width={2126}
                     height={521}
+                    draggable={false}
                     loading="lazy"
                     decoding="async"
                     className="h-9 sm:h-10 w-auto object-contain group-hover:opacity-95 transition-opacity"

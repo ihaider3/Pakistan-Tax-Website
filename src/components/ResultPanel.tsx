@@ -185,7 +185,7 @@ export default function ResultPanel({
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                 {mainLabel}
               </span>
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white drop-shadow-xs">
+              <div data-allow-select="true" className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white drop-shadow-xs">
                 {mainValue}
               </div>
               {mainSubtext && (
@@ -209,7 +209,7 @@ export default function ResultPanel({
                   <span className="block text-[11px] font-bold text-appText-muted uppercase tracking-wider mb-0.5">
                     {item.label}
                   </span>
-                  <span className="text-lg font-black text-primary block tracking-tight">
+                  <span data-allow-select="true" className="text-lg font-black text-primary block tracking-tight">
                     {item.value}
                   </span>
                   {item.subtext && (

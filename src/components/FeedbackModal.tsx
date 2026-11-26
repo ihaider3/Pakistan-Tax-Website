@@ -548,6 +548,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                       <img
                         src={screenshotPreview}
                         alt="Screenshot preview"
+                        draggable={false}
                         className="w-10 h-10 object-cover rounded-md border border-appBorder"
                       />
                       <span className="text-xs font-medium text-appText truncate max-w-[200px]">
