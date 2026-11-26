@@ -10,6 +10,7 @@ import { zakatRates } from "@/lib/rates/zakat";
 import { fitranaRates2026 } from "@/lib/rates/fitrana-2026";
 import { useExplanationLang } from "@/components/LanguageContext";
 import ExplanationLangToggle from "@/components/ExplanationLangToggle";
+import { AdsterraNativeBanner } from "@/components/AdsterraSlot";
 
 export default function MethodologyClient() {
   const { lang } = useExplanationLang();
@@ -323,6 +324,8 @@ export default function MethodologyClient() {
           </Link>
         </div>
       </div>
+
+      <AdsterraNativeBanner className="px-0 mt-8" />
     </div>
   );
 }

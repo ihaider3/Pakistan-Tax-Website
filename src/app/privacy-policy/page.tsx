@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Breadcrumb from "@/components/Breadcrumb";
 import { siteConfig } from "@/content/pages";
 import { siteUrl } from "@/config/site";
+import { AdsterraNativeBanner } from "@/components/AdsterraSlot";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — CalculationHub | 100% Client-Side",
@@ -111,6 +112,8 @@ export default function PrivacyPolicyPage() {
             <strong>Roman Urdu:</strong> Aapka feedback, suggestion ya screenshot sirf website ko behtar banane aur masail hal karne ke liye istemal hota hai, kabhi public nahi kiya jata, aur aap contact@calculationhubs.com par email kar ke apna data delete karwa sakte hain.
           </p>
         </section>
+
+        <AdsterraNativeBanner className="px-0 mt-4" />
       </div>
     </div>
   );

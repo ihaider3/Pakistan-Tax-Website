@@ -7,6 +7,7 @@ import { HeroInstallButton } from "@/components/PwaInstallPrompt";
 import { siteUrl } from "@/config/site";
 import HomeHowItWorks from "@/components/HomeHowItWorks";
 import HomeFaqAccordion, { HomeFaqCardItem } from "@/components/HomeFaqAccordion";
+import { AdsterraBanner, AdsterraNativeBanner } from "@/components/AdsterraSlot";
 
 const homepageTitle =
   "CalculationHub | Pakistan Tax Calculator 2026-27 — Salary Tax, Zakat, Property & GST";
@@ -430,6 +431,8 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <AdsterraBanner variant="leaderboard-desktop" />
+
       {/* =========================================================================
           THE 6 CALCULATOR CARDS (COMPACT MOBILE SPACING, IDENTICAL DESKTOP CARDS)
          ========================================================================= */}
@@ -540,6 +543,8 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      <AdsterraBanner variant="mobile-strip" />
 
       {/* =========================================================================
           HOW IT WORKS (COLLAPSED ON MOBILE ACCORDION, OPEN 3-STEP ENGINE ON DESKTOP)
@@ -724,6 +729,8 @@ export default async function HomePage() {
           }
         />
       </section>
+
+      <AdsterraNativeBanner />
     </div>
   </>
 );

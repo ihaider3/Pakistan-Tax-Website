@@ -4,6 +4,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import { siteConfig } from "@/content/pages";
 import { siteUrl } from "@/config/site";
 import { getSiteContent } from "@/lib/content/contentServer";
+import { AdsterraNativeBanner } from "@/components/AdsterraSlot";
 
 export const metadata: Metadata = {
   title: "Contact CalculationHub — Feedback & New Tool Requests",
@@ -94,6 +95,8 @@ export default async function ContactPage() {
           Please note that {siteConfig.brandName} is an independent digital tool platform. We do not provide one-on-one tax filing services, IRIS submission assistance, or religious issuing of fatwas. Please contact a licensed member of ICAP/ICMAP or your local Dar-ul-Ifta.
         </p>
       </div>
+
+      <AdsterraNativeBanner className="px-0 mt-8" />
     </div>
   );
 }

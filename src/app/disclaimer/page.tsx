@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Breadcrumb from "@/components/Breadcrumb";
 import { siteConfig } from "@/content/pages";
 import { siteUrl } from "@/config/site";
+import { AdsterraNativeBanner } from "@/components/AdsterraSlot";
 
 export const metadata: Metadata = {
   title: "Disclaimer & Terms — CalculationHub Tax Calculators",
@@ -123,6 +124,8 @@ export default function DisclaimerPage() {
             </p>
           </div>
         </section>
+
+        <AdsterraNativeBanner className="px-0 mt-4" />
       </div>
     </div>
   );
