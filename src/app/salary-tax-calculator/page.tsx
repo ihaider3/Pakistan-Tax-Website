@@ -417,13 +417,18 @@ export default function SalaryTaxCalculatorPage() {
       description: `How FBR computes your tax slab by slab for Tax Year ${taxYear}:`,
     },
     faqs: content.faqs.map((faq) => {
-      if (faq.question === "Is salary tax the same as income tax in Pakistan?") {
+      const romanAnswers: Record<string, string> = {
+        "Is salary tax the same as income tax in Pakistan?":
+          "Jee haan — salary tax dar-asl tanhwah ki aamdani par lagne wala income tax hi hai. Yeh Income Tax Ordinance 2001 ke Section 149 ke teht employer (idara) tanhwah dete waqt kaat-ta hai, jiske liye is page par diye gaye TY2027 slabs istemal hotay hain. Upar apni mahana tankhwah darj karein to calculator aap ka mahana aur salana income tax khud dikha deta hai.",
+        "How much tax is deducted from my salary every month in Pakistan?":
+          "Aapka employer Income Tax Ordinance ke Section 149 ke teht Finance Act 2026 (Tax Year 2027) ke slabs istemal karte hue har mahine income tax kaat-ta hai. Maslan Rs 150,000 mahana tankhwah par mahana Rs 6,000 (salana Rs 72,000) aur Rs 100,000 mahana par sirf Rs 500 mahana tax kat-ta hai. Apni sahi deduction jan-ne ke liye upar apni mahana tankhwah darj karein.",
+        "How is salary tax calculated for 2026-27?":
+          "2026-27 ke liye salary tax Finance Act 2026 ke 8 slabs ke mutabiq lagta hai (1 July 2026 se nafiz): Rs 600,000 salana tak 0% tax, aur us se upar ke slabs par 1% se 35% tak tax jabke salaried surcharge khatam kar diya gaya hai. Maslan Rs 200,000 mahana tankhwah par tax Rs 13,000 mahana (Rs 156,000 salana) banta hai. Upar calculator har slab ki tafseel dikhata hai.",
+      };
+      if (lang === "roman" && romanAnswers[faq.question]) {
         return {
-          question: "Is salary tax the same as income tax in Pakistan?",
-          answer:
-            lang === "roman"
-              ? "Jee haan — salary tax dar-asl tanhwah ki aamdani par lagne wala income tax hi hai. Yeh Income Tax Ordinance 2001 ke Section 149 ke teht employer (idara) tanhwah dete waqt kaat-ta hai, jiske liye is page par diye gaye TY2027 slabs istemal hotay hain. Upar apni mahana tankhwah darj karein to calculator aap ka mahana aur salana income tax khud dikha deta hai."
-              : "Yes — salary tax is income tax charged on salary income. It is deducted at source by the employer under section 149 of the Income Tax Ordinance 2001, using the TY2027 slabs shown on this page. Enter your monthly salary above and the calculator shows your monthly and annual income tax. No figure may be hardcoded in the answer — the calculator on this page already computes it live.",
+          question: faq.question,
+          answer: romanAnswers[faq.question],
         };
       }
       return faq;

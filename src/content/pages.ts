@@ -36,7 +36,7 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
     slug: "salary-tax-calculator",
     title: "Salary Tax Calculator Pakistan 2026-27 | CalculationHub",
     metaDescription:
-      "Calculate your Pakistan salary tax for 2026-27 with official FBR slabs. See monthly tax, annual tax and take-home pay instantly, with full slab breakdown.",
+      "Calculate Pakistan salary tax 2026-27 with official FBR slabs — monthly tax deduction, annual tax & take-home pay, with full slab breakdown.",
     h1: "Salary Tax Calculator Pakistan 2026-27",
     keywords: [
       "salary tax calculator pakistan 2026-27",
@@ -104,6 +104,16 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
         question: "Is salary tax the same as income tax in Pakistan?",
         answer:
           "Yes — salary tax is income tax charged on salary income. It is deducted at source by the employer under section 149 of the Income Tax Ordinance 2001, using the TY2027 slabs shown on this page. Enter your monthly salary above and the calculator shows your monthly and annual income tax. No figure may be hardcoded in the answer — the calculator on this page already computes it live.",
+      },
+      {
+        question: "How much tax is deducted from my salary every month in Pakistan?",
+        answer:
+          "Your employer deducts income tax every month under Section 149 of the Income Tax Ordinance, using the Finance Act 2026 slabs for Tax Year 2027. For example, on a salary of Rs 150,000 per month, Rs 6,000 per month is deducted (Rs 72,000 per year); on Rs 100,000 per month, only Rs 500 per month is deducted. Enter your exact salary in the calculator above for your monthly deduction.",
+      },
+      {
+        question: "How is salary tax calculated for 2026-27?",
+        answer:
+          "Salary tax for 2026-27 uses 8 slabs under the Finance Act 2026 (in force from 1 July 2026): no tax up to Rs 600,000 per year, then 1% to 35% across the higher slabs, with the salaried surcharge abolished. For example, on Rs 200,000 per month the tax is Rs 13,000 per month (Rs 156,000 per year). The calculator above shows your full slab-by-slab breakdown.",
       },
     ],
     source: "Federal Board of Revenue (FBR)",

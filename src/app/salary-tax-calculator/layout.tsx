@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import { siteUrl } from "@/config/site";
 
+const salaryDescription =
+  "Calculate Pakistan salary tax 2026-27 with official FBR slabs — monthly tax deduction, annual tax & take-home pay, with full slab breakdown.";
+
 export const metadata: Metadata = {
   title: "Salary Tax Calculator Pakistan 2026-27 | CalculationHub",
-  description:
-    "Calculate your Pakistan salary tax for 2026-27 with official FBR slabs. See monthly tax, annual tax and take-home pay instantly, with full slab breakdown.",
+  description: salaryDescription,
   alternates: {
     canonical: `${siteUrl}/salary-tax-calculator`,
   },
   openGraph: {
     title: "Salary Tax Calculator Pakistan 2026-27 | CalculationHub",
-    description:
-      "Calculate your Pakistan salary tax for 2026-27 with official FBR slabs. See monthly tax, annual tax and take-home pay instantly, with full slab breakdown.",
+    description: salaryDescription,
     url: `${siteUrl}/salary-tax-calculator`,
     type: "website",
     siteName: "CalculationHub",
@@ -27,8 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Salary Tax Calculator Pakistan 2026-27 | CalculationHub",
-    description:
-      "Calculate your Pakistan salary tax for 2026-27 with official FBR slabs. See monthly tax, annual tax and take-home pay instantly, with full slab breakdown.",
+    description: salaryDescription,
     images: ["/images/og-share-1200x630.png"],
   },
 };
