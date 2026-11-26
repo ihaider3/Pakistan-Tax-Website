@@ -1165,6 +1165,16 @@ export default function ZakatCalculatorPage() {
             ? `Aaj Pakistan mein 24-karat sonay ka live rate is page par dikhaya ja raha hai (fi tola, jo bain-ul-aqwami spot price ke mutabiq live update hota hai). Din ke doran rate tabdeel hota rehta hai, is liye is page par mojood figure hamesha aaj ka live rate hota hai — aur sonay par Zakat uski mojooda maliyat ka 2.5% banti hai, bashart-e-ke kul daulat nisab tak pohanch jaye aur ek qamri saal (hawl) guzar chuka ho. Today's 24k gold rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → Zakat on 1 tola = 2.5% × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}.`
             : `The 24-karat gold rate in Pakistan today is shown live on this page (per tola, updated from the international spot price). The rate changes through the day, so the figure on this page is always today's live rate — and Zakat on gold is 2.5% of the gold's current value once wealth reaches nisab and one lunar year (hawl) has passed. Today's 24k gold rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → Zakat on 1 tola = 2.5% × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}.`,
       },
+      {
+        question:
+          lang === "roman"
+            ? "Pakistan mein chandi par kitni Zakat wajib hai?"
+            : "How much Zakat is due on silver in Pakistan?",
+        answer:
+          lang === "roman"
+            ? `Chandi par Zakat uski qeemat ka 2.5% hoti hai jab aapki chandi 52.5 tola (612.36 grams) ke nisab tak pohanch jaye aur ek qamri saal (hawl) guzar chuka ho. Misal ke tor par, 1 tola chandi par Zakat fi tola live silver rate ka 2.5% banti hai — upar diya gaya calculator live chandi rate istemal karta hai, is liye hisab hamesha taza hota hai. Pakistan mein Hanafi fiqh ke mutabiq silver nisab by default istemal hota hai kyunki yeh sone ke nisab se kam hai aur zyada logon ko shamil karta hai. Today's live silver rate: Rs ${formatRupees(silverRateNum, { prefix: false })}/tola → Zakat on 1 tola silver = 2.5% × Rs ${formatRupees(silverRateNum, { prefix: false })} = Rs ${formatRupees(roundToPaisa(silverRateNum * 0.025), { prefix: false, showPaisaIfDecimal: true })} → Silver nisab (52.5 tola) = Rs ${formatRupees(Math.round(52.5 * silverRateNum), { prefix: false })}.`
+            : `Zakat on silver is 2.5% of its value once your silver reaches the nisab of 52.5 tola (612.36 grams) and one lunar year has passed. For example, Zakat on 1 tola of silver is 2.5% of the live silver rate per tola — the calculator above uses the live silver rate, so the figure is always current. In Pakistan the silver nisab is used by default (Hanafi), because it is lower than the gold nisab and covers more people. Today's live silver rate: Rs ${formatRupees(silverRateNum, { prefix: false })}/tola → Zakat on 1 tola silver = 2.5% × Rs ${formatRupees(silverRateNum, { prefix: false })} = Rs ${formatRupees(roundToPaisa(silverRateNum * 0.025), { prefix: false, showPaisaIfDecimal: true })} → Silver nisab (52.5 tola) = Rs ${formatRupees(Math.round(52.5 * silverRateNum), { prefix: false })}.`,
+      },
     ],
   };
 
