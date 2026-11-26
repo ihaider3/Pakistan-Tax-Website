@@ -6,17 +6,20 @@ import { getSiteContent } from "@/lib/content/contentServer";
 import { HeroInstallButton } from "@/components/PwaInstallPrompt";
 import { siteUrl } from "@/config/site";
 
+const homepageTitle =
+  "CalculationHub | Pakistan Tax Calculator 2026-27 — Salary Tax, Zakat, Property & GST";
+const homepageDescription =
+  "Free Pakistan tax calculator 2026-27 — salary tax, income tax, Zakat, property tax & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private.";
+
 export const metadata: Metadata = {
-  title: "CalculationHub | Tax, Zakat & Financial Calculators",
-  description:
-    "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
+  title: homepageTitle,
+  description: homepageDescription,
   alternates: {
     canonical: siteUrl,
   },
   openGraph: {
-    title: "CalculationHub | Tax, Zakat & Financial Calculators",
-    description:
-      "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
+    title: homepageTitle,
+    description: homepageDescription,
     url: siteUrl,
     type: "website",
     siteName: "CalculationHub",
@@ -31,12 +34,44 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "CalculationHub | Tax, Zakat & Financial Calculators",
-    description:
-      "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
+    title: homepageTitle,
+    description: homepageDescription,
     images: ["/images/og-share-1200x630.png"],
   },
 };
+
+const additionalHomepageFaqs = [
+  {
+    badge: "Salary Tax • TY2027",
+    badgeClass: "text-blue-950 bg-blue-50 border-blue-200",
+    topBarClass: "from-blue-600 to-teal-600",
+    question: "What is the salary tax on Rs 150,000 per month in Pakistan?",
+    answer:
+      "On a monthly salary of Rs 150,000 (Rs 1,800,000 per year), the income tax is Rs 6,000 per month (Rs 72,000 per year) under the Finance Act 2026 slabs for Tax Year 2027 — Rs 6,000 fixed on income up to Rs 2,200,000 plus 11% on the amount above Rs 1,200,000. Take-home pay is Rs 144,000 per month. Use the Salary Tax Calculator on this site for any other salary.",
+    href: "/salary-tax-calculator",
+    cta: "Calculate Any Salary",
+  },
+  {
+    badge: "FBR Slabs • Independent",
+    badgeClass: "text-teal-950 bg-teal-50 border-teal-200",
+    topBarClass: "from-teal-500 to-primary",
+    question: "What is the FBR tax calculator, and how is CalculationHub different?",
+    answer:
+      "The FBR (Federal Board of Revenue) publishes the official income-tax slabs in the Finance Act each year. CalculationHub applies those same official FBR slabs (Section 149, Tax Year 2027) in its Salary Tax Calculator, with a full slab-by-slab breakdown, in English and Roman Urdu, with no login and no data stored on any server. It is an independent calculator built on the official slabs — not the FBR's own website.",
+    href: "/salary-tax-calculator",
+    cta: "Open FBR Slab Calculator",
+  },
+  {
+    badge: "TY2027 • Guide",
+    badgeClass: "text-indigo-950 bg-indigo-50 border-indigo-200",
+    topBarClass: "from-indigo-600 to-teal-500",
+    question: "Which tax calculator should I use for 2026-27?",
+    answer:
+      "For Tax Year 2026-27, use a calculator built on the Finance Act 2026 slabs (in force from 1 July 2026). On CalculationHub, the Salary Tax Calculator covers salaried income, the Property Tax Calculator covers buying/selling tax (Sections 236C and 236K), and the GST Calculator covers 18% GST — all free, with a breakdown for every figure.",
+    href: "/salary-tax-calculator",
+    cta: "Explore 2026-27 Calculators",
+  },
+];
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -46,8 +81,7 @@ const structuredData = {
       "@id": `${siteUrl}/#website`,
       name: "CalculationHub",
       url: siteUrl,
-      description:
-        "Free Pakistan tax, Zakat, property & GST calculators. Instant results with slab breakdown in English and Roman Urdu. No login, 100% private client-side.",
+      description: homepageDescription,
       inLanguage: "en-PK",
     },
     {
@@ -93,6 +127,14 @@ const structuredData = {
             text: "Yes — the Salary Tax Calculator on this site calculates income tax on salary in Pakistan using the TY2027 slabs (Finance Act 2026), and the site also offers Zakat, Property Tax, GST, Fitrana and Ushr calculators. No login, 100% private.",
           },
         },
+        ...additionalHomepageFaqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
       ],
     },
   ],
@@ -728,6 +770,36 @@ export default async function HomePage() {
               </Link>
             </div>
           </div>
+
+          {additionalHomepageFaqs.map((faq, fIdx) => (
+            <div
+              key={fIdx}
+              className="group relative bg-white rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-7 sm:p-8 space-y-4 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+            >
+              <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${faq.topBarClass} group-hover:h-2 transition-all duration-300`} />
+              <div>
+                <span className={`text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full border inline-block shadow-2xs ${faq.badgeClass}`}>
+                  {faq.badge}
+                </span>
+                <h3 className="font-black text-lg sm:text-xl text-primary group-hover:text-accent transition-colors mt-3 mb-2 leading-snug">
+                  {faq.question}
+                </h3>
+                <p className="text-sm text-slate-800 font-medium leading-relaxed">
+                  {faq.answer}
+                </p>
+              </div>
+              <div className="pt-4 border-t border-slate-100">
+                <Link
+                  href={faq.href}
+                  prefetch={false}
+                  className="w-full py-2.5 px-3 rounded-xl bg-slate-50 group-hover:bg-primary text-primary group-hover:text-white font-extrabold text-xs transition-all duration-200 flex items-center justify-between shadow-xs group-hover:shadow-md"
+                >
+                  <span>{faq.cta}</span>
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     </div>
