@@ -520,6 +520,11 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
         answer:
           "Hanafi fiqh ke mutabiq Ushr har miqdaar ki paidawar par wajib hai — is ke liye koi kam az kam nisab nahi hai. Jumhoor fuqaha (Shafi'i, Maliki, Hanbali) ke mutabiq 5 wasq (taqreeban 653 kg ya 16.3 maund) nisab hai, jis se kam par Ushr wajib nahi hota.",
       },
+      {
+        question: "How much Ushr is due on 100 maund of wheat?",
+        answer:
+          "100 maund equals 4,000 kg (1 maund = 40 kg). If the wheat was rain-fed, Ushr is 10% — 400 kg. If it was irrigated by tube-well, Ushr is 5% — 200 kg. If both methods were used equally, Ushr is 7.5% — 300 kg. Ushr is due at harvest time, and no seed or fertiliser cost is deducted. Enter your harvest in the calculator above for your exact figure.",
+      },
     ],
     source: "Quran 6:141 & Sahih al-Bukhari 1483",
     sourceDocument: "Hanafi Fiqh Standard & Sahih Hadith Injunctions",
