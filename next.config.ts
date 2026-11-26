@@ -55,7 +55,23 @@ const nextConfig: NextConfig = {
     deviceSizes: [390, 640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
+  rewrites: async () => ({
+    beforeFiles: [],
+    afterFiles: [],
+    fallback: [],
+  }),
   redirects: async () => [
+    // Suppress legacy oversized root PNGs (deleted from repo; redirect to optimised /images/ versions)
+    {
+      source: "/CalculationHub_Logo_Full.png",
+      destination: "/images/CalculationHub_Logo_Full.webp",
+      permanent: true,
+    },
+    {
+      source: "/CalculationHub_App_Icon.png",
+      destination: "/images/CalculationHub_App_Icon.webp",
+      permanent: true,
+    },
     {
       source: "/privacy",
       destination: "/privacy-policy",
