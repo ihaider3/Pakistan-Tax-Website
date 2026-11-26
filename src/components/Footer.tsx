@@ -118,6 +118,7 @@ export default function Footer() {
                 <li key={idx}>
                   <Link
                     href={item.href}
+                    prefetch={false}
                     className="group flex items-center justify-between p-2 rounded-xl hover:bg-white/5 transition-all duration-200 border border-transparent hover:border-white/10"
                   >
                     <span className="text-sm font-semibold text-slate-200 group-hover:text-white group-hover:translate-x-1 transition-all">
@@ -147,6 +148,7 @@ export default function Footer() {
                 <li key={idx}>
                   <Link
                     href={item.href}
+                    prefetch={false}
                     className="group flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-white p-2 rounded-xl hover:bg-white/5 transition-all duration-200 border border-transparent hover:border-white/10"
                   >
                     <span className="text-accent-light font-black group-hover:translate-x-1 transition-transform">

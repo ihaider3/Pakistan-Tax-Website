@@ -129,25 +129,10 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning className={`overflow-x-clip ${inter.variable} ${notoNastaliq.variable}`}>
       <body suppressHydrationWarning className="min-h-screen flex flex-col bg-white text-appText font-sans selection:bg-accent-soft selection:text-accent overflow-x-clip w-full">
         <Script
-          id="google-adsense"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9434774796732008"
-          crossOrigin="anonymous"
-          strategy="lazyOnload"
-        />
-        <Script
-          id="meta-pixel"
+          id="meta-pixel-and-ads"
           strategy="lazyOnload"
           dangerouslySetInnerHTML={{
-            __html: `!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1774525983843690');
-fbq('track', 'PageView');`,
+            __html: `!function(f,n){if(!f.fbq){n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}fbq('init', '1774525983843690');fbq('track', 'PageView');var loaded=false;function load3p(){if(loaded)return;loaded=true;['pointerdown','touchstart','keydown','scroll'].forEach(function(ev){window.removeEventListener(ev,load3p)});var b=document,t=b.createElement('script');t.async=true;t.src='https://connect.facebook.net/en_US/fbevents.js';b.head.appendChild(t);var a=b.createElement('script');a.async=true;a.crossOrigin='anonymous';a.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9434774796732008';b.head.appendChild(a);}['pointerdown','touchstart','keydown','scroll'].forEach(function(ev){window.addEventListener(ev,load3p,{passive:true,once:true})});setTimeout(load3p,6000);}(window);`,
           }}
         />
         <noscript

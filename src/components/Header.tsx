@@ -105,6 +105,7 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  prefetch={false}
                   className={`px-3 py-2 text-sm font-semibold rounded-lg transition-all duration-200 whitespace-nowrap ${
                     isActive
                       ? "bg-primary text-white shadow-xs font-bold"
@@ -165,6 +166,7 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  prefetch={false}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`px-4 py-3 text-base font-semibold rounded-xl min-h-[44px] flex items-center justify-between transition-all ${
                     isActive
@@ -186,6 +188,7 @@ export default function Header() {
             <div className="pt-3 mt-2 border-t border-slate-200 grid grid-cols-2 gap-2 text-xs">
               <Link
                 href="/about"
+                prefetch={false}
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-2.5 rounded-lg bg-slate-50 text-center font-semibold text-slate-700 hover:bg-slate-100 transition-colors border border-slate-200/80"
               >
@@ -193,6 +196,7 @@ export default function Header() {
               </Link>
               <Link
                 href="/methodology"
+                prefetch={false}
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-2.5 rounded-lg bg-slate-50 text-center font-semibold text-slate-700 hover:bg-slate-100 transition-colors border border-slate-200/80"
               >

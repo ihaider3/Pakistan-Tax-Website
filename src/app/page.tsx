@@ -328,6 +328,7 @@ export default async function HomePage() {
                 <Link
                   key={idx}
                   href={item.href}
+                  prefetch={false}
                   className="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200/90 text-primary hover:border-accent hover:text-accent hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 font-bold shadow-xs"
                 >
                   {item.label}
@@ -346,7 +347,7 @@ export default async function HomePage() {
             ELEVATED HARDCOOKED TRUST STRIP (FLOATING CAPSULE WITH DEEP SHADOWS)
            ========================================================================= */}
         <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 -mt-6 sm:-mt-8 relative z-20">
-        <div className="backdrop-blur-2xl bg-white rounded-3xl p-4 sm:p-6 lg:p-7 border-2 border-slate-200/95 shadow-[0_22px_50px_-12px_rgba(11,42,74,0.14),0_6px_20px_rgba(0,0,0,0.04)] grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 sm:divide-x sm:divide-slate-100">
+        <div className="bg-white rounded-3xl p-4 sm:p-6 lg:p-7 border-2 border-slate-200/95 shadow-[0_22px_50px_-12px_rgba(11,42,74,0.14),0_6px_20px_rgba(0,0,0,0.04)] grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 sm:divide-x sm:divide-slate-100">
           <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none sm:px-4">
             <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/25 ring-2 ring-emerald-100">
               <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -405,6 +406,7 @@ export default async function HomePage() {
 
           <Link
             href="/methodology"
+            prefetch={false}
             className="px-4 py-2 rounded-xl bg-surface hover:bg-slate-200 border border-slate-300 text-xs font-black text-primary flex items-center gap-2 group self-start sm:self-auto shadow-xs hover:shadow-md transition-all duration-200"
           >
             <span>View All Verification Tables</span>
@@ -481,6 +483,7 @@ export default async function HomePage() {
               <div className="pt-6 border-t-2 border-slate-100 mt-6">
                 <Link
                   href={calc.href}
+                  prefetch={false}
                   className="w-full min-h-[48px] py-3 px-4 rounded-xl bg-gradient-to-r from-primary via-[#0E355D] to-primary group-hover:from-accent group-hover:via-teal-600 group-hover:to-accent text-white font-extrabold text-sm transition-all duration-300 flex items-center justify-between shadow-md shadow-primary/20 group-hover:shadow-xl group-hover:shadow-accent/25"
                 >
                   <span className="tracking-tight">{calc.buttonText}</span>
@@ -605,6 +608,7 @@ export default async function HomePage() {
 
           <Link
             href="/methodology"
+            prefetch={false}
             className="px-4 py-2.5 rounded-xl bg-surface hover:bg-slate-200 border-2 border-slate-200/90 text-xs font-black text-primary flex items-center gap-2 group self-start sm:self-auto shadow-xs hover:shadow-md transition-all duration-200"
           >
             <span>Read Full Methodology</span>
@@ -630,6 +634,7 @@ export default async function HomePage() {
             <div className="pt-4 border-t border-slate-100">
               <Link
                 href="/salary-tax-calculator"
+                prefetch={false}
                 className="w-full py-2.5 px-3 rounded-xl bg-slate-50 group-hover:bg-primary text-primary group-hover:text-white font-extrabold text-xs transition-all duration-200 flex items-center justify-between shadow-xs group-hover:shadow-md"
               >
                 <span>View Salary Slabs</span>
@@ -655,6 +660,7 @@ export default async function HomePage() {
             <div className="pt-4 border-t border-slate-100">
               <Link
                 href="/zakat-calculator"
+                prefetch={false}
                 className="w-full py-2.5 px-3 rounded-xl bg-slate-50 group-hover:bg-primary text-primary group-hover:text-white font-extrabold text-xs transition-all duration-200 flex items-center justify-between shadow-xs group-hover:shadow-md"
               >
                 <span>Calculate Zakat</span>
@@ -680,6 +686,7 @@ export default async function HomePage() {
             <div className="pt-4 border-t border-slate-100">
               <Link
                 href="/property-tax-calculator"
+                prefetch={false}
                 className="w-full py-2.5 px-3 rounded-xl bg-slate-50 group-hover:bg-primary text-primary group-hover:text-white font-extrabold text-xs transition-all duration-200 flex items-center justify-between shadow-xs group-hover:shadow-md"
               >
                 <span>Compare 236C &amp; 236K</span>
@@ -702,6 +709,7 @@ export default async function HomePage() {
                 Yes — the{" "}
                 <Link
                   href="/salary-tax-calculator"
+                  prefetch={false}
                   className="text-primary font-black underline hover:text-accent transition-colors"
                 >
                   Salary Tax Calculator
@@ -712,6 +720,7 @@ export default async function HomePage() {
             <div className="pt-4 border-t border-slate-100">
               <Link
                 href="/salary-tax-calculator"
+                prefetch={false}
                 className="w-full py-2.5 px-3 rounded-xl bg-slate-50 group-hover:bg-primary text-primary group-hover:text-white font-extrabold text-xs transition-all duration-200 flex items-center justify-between shadow-xs group-hover:shadow-md"
               >
                 <span>Calculate Salary Tax</span>
