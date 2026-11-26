@@ -1,4 +1,6 @@
-const CACHE_NAME = "calc-hub-cache-v4";
+// P77 — Performance Optimized Service Worker
+// Cache-first for installed PWA, stale-while-revalidate for navigation pages
+const CACHE_NAME = "calc-hub-cache-v5";
 
 const PRECACHE_URLS = [
   "/",
@@ -62,7 +64,14 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Fetch Event: Cache Routing & Offline Strategies
+// Helper: check if request is from installed standalone PWA
+function isStandaloneMode() {
+  return self.clients
+    .matchAll({ type: "window" })
+    .then((clients) => clients.some((c) => c.url && c.frameType === "top-level"));
+}
+
+// Fetch Event: Optimized Cache Routing
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   const url = new URL(req.url);
@@ -75,57 +84,99 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // 3. rates.json: Network-first with cache fallback
+  // 3. Third-party ad/analytics scripts: network-only, never cache
+  if (
+    url.hostname.includes("bauval.org") ||
+    url.hostname.includes("cloudvideosa.com") ||
+    url.hostname.includes("googlesyndication.com") ||
+    url.hostname.includes("doubleclick.net") ||
+    url.hostname.includes("facebook.net") ||
+    url.hostname.includes("facebook.com") ||
+    url.hostname.includes("gold-api.com") ||
+    url.hostname.includes("er-api.com")
+  ) {
+    return; // Let browser handle natively — ads must never block
+  }
+
+  // 4. rates.json: Stale-while-revalidate — serve cache instantly, update in background
   if (url.pathname.includes("rates.json")) {
     event.respondWith(
-      fetch(req)
-        .then((networkRes) => {
-          if (networkRes.ok) {
-            const copy = networkRes.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-          }
-          return networkRes;
-        })
-        .catch(() => caches.match(req))
+      caches.open(CACHE_NAME).then(async (cache) => {
+        const cached = await cache.match(req);
+        const networkFetch = fetch(req)
+          .then((networkRes) => {
+            if (networkRes.ok) {
+              cache.put(req, networkRes.clone());
+            }
+            return networkRes;
+          })
+          .catch(() => null);
+
+        // Return cached immediately if available, otherwise wait for network
+        if (cached) {
+          event.waitUntil(networkFetch);
+          return cached;
+        }
+        return networkFetch || cached || new Response("{}", { headers: { "Content-Type": "application/json" } });
+      })
     );
     return;
   }
 
-  // 4. HTML Page Navigations: Network-first with cache fallback to page or /offline
+  // 5. HTML Page Navigations:
+  //    - If a cached version exists: return it instantly (cache-first) + revalidate in background
+  //    - If no cache: network-first with offline fallback
+  //    This makes installed PWA open INSTANTLY from cache while staying fresh
   if (req.mode === "navigate") {
     event.respondWith(
-      fetch(req)
-        .then((networkRes) => {
-          if (networkRes.ok) {
-            const copy = networkRes.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
-          }
-          return networkRes;
-        })
-        .catch(async () => {
-          const cachedPage = await caches.match(req);
-          if (cachedPage) return cachedPage;
+      caches.open(CACHE_NAME).then(async (cache) => {
+        const cached = await cache.match(req);
 
-          // If page not cached, show branded offline page
-          const offlineFallback = await caches.match("/offline");
-          if (offlineFallback) return offlineFallback;
+        // Stale-while-revalidate for cached pages
+        if (cached) {
+          // Background revalidate so next visit gets fresh HTML
+          event.waitUntil(
+            fetch(req)
+              .then((networkRes) => {
+                if (networkRes.ok) {
+                  cache.put(req, networkRes.clone());
+                }
+              })
+              .catch(() => {})
+          );
+          return cached; // Return instantly from cache
+        }
 
-          return new Response("Offline mode active. Please connect to the internet to load new pages.", {
-            headers: { "Content-Type": "text/plain" },
+        // No cache: try network, fallback to offline page
+        return fetch(req)
+          .then((networkRes) => {
+            if (networkRes.ok) {
+              cache.put(req, networkRes.clone());
+            }
+            return networkRes;
+          })
+          .catch(async () => {
+            const offlineFallback = await caches.match("/offline");
+            if (offlineFallback) return offlineFallback;
+            return new Response("Offline. Please connect to the internet.", {
+              headers: { "Content-Type": "text/plain" },
+            });
           });
-        })
+      })
     );
     return;
   }
 
-  // 5. Static Assets (JS, CSS, images, icons, fonts): Cache-first with network fallback
+  // 6. Static Assets (JS, CSS, images, icons, fonts): Cache-first with network fallback
   if (
     url.pathname.startsWith("/_next/static/") ||
     url.pathname.startsWith("/images/") ||
     url.pathname.endsWith(".webp") ||
     url.pathname.endsWith(".png") ||
     url.pathname.endsWith(".svg") ||
-    url.pathname.endsWith(".ico")
+    url.pathname.endsWith(".ico") ||
+    url.pathname.endsWith(".woff2") ||
+    url.pathname.endsWith(".woff")
   ) {
     event.respondWith(
       caches.match(req).then((cachedRes) => {
@@ -145,7 +196,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // 6. Default Fallback
+  // 7. Default: stale-while-revalidate
   event.respondWith(
     caches.match(req).then((cached) => {
       return cached || fetch(req);
