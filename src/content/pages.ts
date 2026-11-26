@@ -360,6 +360,11 @@ export const calculatorPages: Record<string, CalculatorPageContent> = {
         answer:
           "A GST-registered business pays GST on its purchases (input tax) and charges GST on its sales (output tax); the input tax paid can be adjusted against the output tax charged, and the balance is paid to FBR with the monthly sales tax return under the Sales Tax Act 1990. This calculator itself works on the 18% goods rate (add GST / remove GST from an inclusive price).",
       },
+      {
+        question: "Is GST 18% on everything in Pakistan?",
+        answer:
+          "No. 18% is the standard GST rate on most goods in Pakistan, but some goods are exempt or zero-rated, and services are taxed separately by the provinces at different rates. This calculator applies the 18% standard rate on goods, and also lets you enter a custom rate for any special case. Always check the current SRO or your invoice for the exact rate on a specific item.",
+      },
     ],
     source: "Federal Board of Revenue (FBR)",
     sourceDocument: "Sales Tax Act 1990, as amended to 30 June 2026",
