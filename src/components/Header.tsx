@@ -60,6 +60,7 @@ export default function Header() {
             <span className="text-slate-500">•</span>
             <Link
               href="/methodology"
+              prefetch={false}
               className="hover:text-emerald-300 transition-colors font-medium"
             >
               TY2027 Verified Rates →

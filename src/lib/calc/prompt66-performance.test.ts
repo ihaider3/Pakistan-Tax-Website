@@ -61,7 +61,8 @@ describe("Prompt 66 — Performance Optimization & Full Regression Suite", () =>
     expect(TOLA_TO_TROY_OUNCES).toBe(0.374878);
   });
 
-  it("Fix 5: next.config.ts sets long immutable Cache-Control for /images/ and /_next/static/", async () => {
+  it("Fix 4 & 5: next.config.ts enables inlineCss (no render-blocking external CSS) and immutable Cache-Control for /images/ and /_next/static/", async () => {
+    expect(nextConfig.experimental?.inlineCss).toBe(true);
     const headersFn = nextConfig.headers;
     expect(headersFn).toBeDefined();
     const rules = await headersFn!();
