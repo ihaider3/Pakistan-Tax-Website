@@ -5,6 +5,8 @@ import SearchBox from "@/components/SearchBox";
 import { getSiteContent } from "@/lib/content/contentServer";
 import { HeroInstallButton } from "@/components/PwaInstallPrompt";
 import { siteUrl } from "@/config/site";
+import HomeHowItWorks from "@/components/HomeHowItWorks";
+import HomeFaqAccordion, { HomeFaqCardItem } from "@/components/HomeFaqAccordion";
 
 const homepageTitle =
   "CalculationHub | Pakistan Tax Calculator 2026-27 — Salary Tax, Zakat, Property & GST";
@@ -311,37 +313,37 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <div className="pb-12 sm:pb-16">
+      <div className="pb-6 md:pb-16">
         {/* =========================================================================
             HERO SECTION WITH AMBIENT ILLUMINATION & CINEMATIC DEPTH
            ========================================================================= */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-[#F2F6FA] via-white to-white border-b border-slate-200/90 pt-10 pb-10 sm:pt-14 sm:pb-14 px-4 sm:px-6">
+        <section className="relative overflow-hidden bg-gradient-to-b from-[#F2F6FA] via-white to-white border-b border-slate-200/90 pt-4 pb-6 md:pt-14 md:pb-14 px-4 sm:px-6">
           {/* Subtle Ambient Radial Lighting Background */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-96 bg-[radial-gradient(ellipse_at_top,_rgba(15,118,110,0.14),transparent_70%)] pointer-events-none" />
           <div className="absolute inset-0 bg-dot-mesh pointer-events-none opacity-60" />
 
-          <div className="relative max-w-[1150px] mx-auto text-center space-y-6 sm:space-y-8">
+          <div className="relative max-w-[1150px] mx-auto text-center space-y-3 md:space-y-8">
             {/* Glowing Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-accent text-xs font-black uppercase tracking-widest border border-accent/30 shadow-[0_4px_16px_rgba(15,118,110,0.18)] hover:scale-105 transition-all duration-300">
-              <span className="relative flex h-2.5 w-2.5">
+            <div className="inline-flex items-center gap-1.5 md:gap-2 px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-white text-accent text-[11px] md:text-xs font-black uppercase tracking-widest border border-accent/30 shadow-[0_4px_16px_rgba(15,118,110,0.18)] hover:scale-105 transition-all duration-300">
+              <span className="relative flex h-2 w-2 md:h-2.5 md:w-2.5 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 md:h-2.5 md:w-2.5 bg-accent"></span>
               </span>
               <span data-content-key="home_hero_badge">{content.home_hero_badge || "VERIFIED AGAINST OFFICIAL 2026–27 NOTIFICATIONS"}</span>
             </div>
 
             {/* High-Impact Main Heading */}
-            <div className="space-y-3">
+            <div className="space-y-1.5 md:space-y-3">
               <h1
                 data-content-key="home_hero_title"
-                className="text-[26px] sm:text-4xl lg:text-5xl font-black text-primary tracking-tight max-w-4xl mx-auto leading-[1.2] sm:leading-[1.25]"
+                className="text-[22px] sm:text-4xl lg:text-5xl font-black text-primary tracking-tight max-w-4xl mx-auto leading-[1.18] sm:leading-[1.25]"
               >
                 {content.home_hero_title && content.home_hero_title !== "CalculationHub — Free, Accurate, No Login" ? (
                   content.home_hero_title
                 ) : (
                   <>
                     Free Pakistan Tax, Zakat{" "}
-                    <span className="block mt-1 sm:mt-2 pb-2 sm:pb-3 leading-normal bg-gradient-to-r from-primary via-[#0F5A9E] to-accent bg-clip-text text-transparent">
+                    <span className="block mt-0.5 md:mt-2 pb-0.5 md:pb-3 leading-normal bg-gradient-to-r from-primary via-[#0F5A9E] to-accent bg-clip-text text-transparent">
                       &amp; Financial Calculators
                     </span>
                   </>
@@ -350,7 +352,7 @@ export default async function HomePage() {
 
               <p
                 data-content-key="home_hero_subtitle"
-                className="text-[15px] sm:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed font-medium pt-1"
+                className="text-[13px] md:text-lg text-slate-700 max-w-2xl mx-auto leading-snug md:leading-relaxed font-medium md:pt-1 line-clamp-2 md:line-clamp-none"
               >
                 {content.home_hero_subtitle && !content.home_hero_subtitle.startsWith("Instant, private calculations for salary tax")
                   ? content.home_hero_subtitle
@@ -359,19 +361,19 @@ export default async function HomePage() {
             </div>
 
             {/* Search Box with Deep Shadow */}
-            <div className="pt-2 max-w-2xl mx-auto">
+            <div className="pt-0.5 md:pt-2 max-w-2xl mx-auto">
               <SearchBox />
             </div>
 
             {/* Most Searched Quick Links with Micro-Shadows */}
-            <div className="pt-1 flex flex-wrap items-center justify-center gap-2 text-xs">
+            <div className="pt-0.5 md:pt-1 flex flex-wrap items-center justify-center gap-1.5 md:gap-2 text-[11px] md:text-xs">
               <span className="font-extrabold text-primary mr-1">Most Searched:</span>
               {mostSearched.map((item, idx) => (
                 <Link
                   key={idx}
                   href={item.href}
                   prefetch={false}
-                  className="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200/90 text-primary hover:border-accent hover:text-accent hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 font-bold shadow-xs"
+                  className="px-2.5 py-1 md:px-3.5 md:py-1.5 rounded-xl bg-white border border-slate-200/90 text-primary hover:border-accent hover:text-accent hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 font-bold shadow-xs"
                 >
                   {item.label}
                 </Link>
@@ -388,40 +390,40 @@ export default async function HomePage() {
         {/* =========================================================================
             ELEVATED HARDCOOKED TRUST STRIP (FLOATING CAPSULE WITH DEEP SHADOWS)
            ========================================================================= */}
-        <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 -mt-6 sm:-mt-8 relative z-20">
-        <div className="bg-white rounded-3xl p-4 sm:p-6 lg:p-7 border-2 border-slate-200/95 shadow-[0_22px_50px_-12px_rgba(11,42,74,0.14),0_6px_20px_rgba(0,0,0,0.04)] grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 sm:divide-x sm:divide-slate-100">
-          <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none sm:px-4">
-            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/25 ring-2 ring-emerald-100">
-              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 -mt-3 md:-mt-8 relative z-20">
+        <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-7 border-2 border-slate-200/95 shadow-[0_22px_50px_-12px_rgba(11,42,74,0.14),0_6px_20px_rgba(0,0,0,0.04)] grid grid-cols-1 sm:grid-cols-3 gap-2.5 md:gap-6 sm:divide-x sm:divide-slate-100">
+          <div className="flex items-center gap-3 md:gap-3.5 p-2.5 md:p-3 rounded-xl md:rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none sm:px-4">
+            <div className="w-9 h-9 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/25 ring-2 ring-emerald-100">
+              <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
             <div className="min-w-0 flex-1">
-              <span className="block font-black text-sm sm:text-base text-primary tracking-tight">No Login Required</span>
+              <span className="block font-black text-sm md:text-base text-primary tracking-tight">No Login Required</span>
               <span className="text-xs font-semibold text-slate-600">Open access, no signups</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none sm:px-4">
-            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-teal-500 to-teal-800 text-white flex items-center justify-center shrink-0 shadow-md shadow-teal-600/25 ring-2 ring-teal-100">
-              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="flex items-center gap-3 md:gap-3.5 p-2.5 md:p-3 rounded-xl md:rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none sm:px-4">
+            <div className="w-9 h-9 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br from-teal-500 to-teal-800 text-white flex items-center justify-center shrink-0 shadow-md shadow-teal-600/25 ring-2 ring-teal-100">
+              <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
             </div>
             <div className="min-w-0 flex-1">
-              <span className="block font-black text-sm sm:text-base text-primary tracking-tight">100% Client-Side</span>
+              <span className="block font-black text-sm md:text-base text-primary tracking-tight">100% Client-Side</span>
               <span className="text-xs font-semibold text-slate-600">Numbers never leave phone</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none sm:px-4">
-            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-800 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-600/25 ring-2 ring-blue-100">
-              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="flex items-center gap-3 md:gap-3.5 p-2.5 md:p-3 rounded-xl md:rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none sm:px-4">
+            <div className="w-9 h-9 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-800 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-600/25 ring-2 ring-blue-100">
+              <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
             <div className="min-w-0 flex-1">
-              <span className="block font-black text-sm sm:text-base text-primary tracking-tight">FBR &amp; SBP Checked</span>
+              <span className="block font-black text-sm md:text-base text-primary tracking-tight">FBR &amp; SBP Checked</span>
               <span className="text-xs font-semibold text-slate-600">Finance Act 2026 Tables</span>
             </div>
           </div>
@@ -429,19 +431,19 @@ export default async function HomePage() {
       </section>
 
       {/* =========================================================================
-          THE 5 CALCULATOR CARDS (HARDCOOKED WITH TOP ACCENTS, PROMINENT TEXT & SHADOWS)
+          THE 6 CALCULATOR CARDS (COMPACT MOBILE SPACING, IDENTICAL DESKTOP CARDS)
          ========================================================================= */}
-      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 mt-12 sm:mt-16 space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-slate-200/90 pb-5">
+      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 mt-5 md:mt-16 space-y-4 md:space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 md:gap-4 border-b-2 border-slate-200/90 pb-3 md:pb-5">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-black text-accent uppercase tracking-widest bg-accent-soft px-3 py-1 rounded-full border border-accent/25 mb-1.5 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
               Free Pakistan Calculators
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-primary tracking-tight">
+            <h2 className="text-[22px] sm:text-4xl font-black text-primary tracking-tight">
               Choose a Calculator
             </h2>
-            <p className="text-sm sm:text-base text-slate-700 font-medium mt-1">
+            <p className="text-[13px] md:text-base text-slate-700 font-medium mt-1">
               Choose a calculator below to view instant results and full line-by-line breakdown tables.
             </p>
           </div>
@@ -449,34 +451,34 @@ export default async function HomePage() {
           <Link
             href="/methodology"
             prefetch={false}
-            className="px-4 py-2 rounded-xl bg-surface hover:bg-slate-200 border border-slate-300 text-xs font-black text-primary flex items-center gap-2 group self-start sm:self-auto shadow-xs hover:shadow-md transition-all duration-200"
+            className="min-h-[44px] md:min-h-0 px-4 py-2 rounded-xl bg-surface hover:bg-slate-200 border border-slate-300 text-xs font-black text-primary flex items-center gap-2 group self-start sm:self-auto shadow-xs hover:shadow-md transition-all duration-200"
           >
             <span>View All Verification Tables</span>
             <span className="group-hover:translate-x-1 transition-transform text-accent font-black">→</span>
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 md:gap-8">
           {dynamicCalculators.map((calc, idx) => (
             <div
               key={idx}
-              className="group relative bg-white rounded-3xl border-2 border-slate-200/90 hover:border-accent/60 p-6 sm:p-7 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2 transition-all duration-300 ease-out flex flex-col justify-between overflow-hidden"
+              className="group relative bg-white rounded-2xl md:rounded-3xl border-2 border-slate-200/90 hover:border-accent/60 p-4 md:p-7 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2 transition-all duration-300 ease-out flex flex-col justify-between overflow-hidden"
             >
               {/* Permanent Sleek Top Accent Gradient Line with Vibrant Glow on Hover */}
               <div
-                className={`absolute top-0 left-0 right-0 h-2 bg-gradient-to-r ${calc.topGradient} opacity-90 group-hover:h-2.5 transition-all duration-300`}
+                className={`absolute top-0 left-0 right-0 h-1.5 md:h-2 bg-gradient-to-r ${calc.topGradient} opacity-90 md:group-hover:h-2.5 transition-all duration-300`}
               />
 
               <div>
                 {/* Top Row: Icon Container + Prominent Badge */}
-                <div className="flex items-center justify-between mb-5 mt-1">
+                <div className="flex items-center justify-between mb-2.5 md:mb-5 mt-1">
                   <div
-                    className={`w-14 h-14 rounded-2xl ${calc.iconBg} flex items-center justify-center transition-all duration-300 shadow-md ring-2 ring-white group-hover:scale-110 group-hover:shadow-lg`}
+                    className={`w-10 h-10 md:w-14 md:h-14 [&>svg]:w-5 [&>svg]:h-5 md:[&>svg]:w-7 md:[&>svg]:h-7 rounded-xl md:rounded-2xl ${calc.iconBg} flex items-center justify-center transition-all duration-300 shadow-md ring-2 ring-white md:group-hover:scale-110 group-hover:shadow-lg`}
                   >
                     {calc.icon}
                   </div>
                   <span
-                    className={`text-[11px] font-black tracking-wider px-3 py-1 rounded-full border-2 shadow-xs flex items-center gap-1.5 ${calc.badgeColor}`}
+                    className={`text-[10px] md:text-[11px] font-black tracking-wider px-2.5 py-0.5 md:px-3 md:py-1 rounded-full border-2 shadow-xs flex items-center gap-1.5 ${calc.badgeColor}`}
                   >
                     <span className={`w-2 h-2 rounded-full ${calc.dotColor} animate-pulse`}></span>
                     {calc.badge}
@@ -486,34 +488,34 @@ export default async function HomePage() {
                 {/* Card Title & Subtitle */}
                 <h3
                   data-content-key={cardContentKeys[calc.href]?.titleKey}
-                  className="text-xl sm:text-2xl font-black text-primary group-hover:text-accent transition-colors duration-200 mb-1 leading-snug"
+                  className="text-lg md:text-2xl font-black text-primary group-hover:text-accent transition-colors duration-200 mb-0.5 md:mb-1 leading-snug"
                 >
                   {calc.title}
                 </h3>
-                <span className="text-xs font-extrabold text-accent uppercase tracking-wider block mb-3">
+                <span className="text-[11px] md:text-xs font-extrabold text-accent uppercase tracking-wider block mb-1.5 md:mb-3">
                   {calc.subtitle}
                 </span>
 
-                {/* Prominent High-Contrast Description */}
+                {/* Prominent High-Contrast Description (no truncation) */}
                 <p
                   data-content-key={cardContentKeys[calc.href]?.descKey}
-                  className="text-sm text-slate-800 leading-relaxed font-medium"
+                  className="text-[13px] md:text-sm text-slate-800 leading-snug md:leading-relaxed font-medium"
                 >
                   {calc.description}
                 </p>
 
                 {calc.href === "/fitrana-calculator" && (
-                  <p className="mt-2.5 text-xs text-appText-muted font-medium bg-slate-50 border border-slate-200/90 rounded-xl p-2.5 shadow-2xs">
+                  <p className="mt-2 md:mt-2.5 text-[11px] md:text-xs text-appText-muted font-medium bg-slate-50 border border-slate-200/90 rounded-xl p-2 md:p-2.5 shadow-2xs">
                     Rates announced for Ramadan 2026 — new rates will be published when announced for Ramadan 2027.
                   </p>
                 )}
 
                 {/* Micro-Features Chip Row */}
-                <div className="mt-4 pt-3.5 border-t border-slate-100 flex flex-wrap gap-1.5">
+                <div className="mt-2.5 pt-2.5 md:mt-4 md:pt-3.5 border-t border-slate-100 flex flex-wrap gap-1 md:gap-1.5">
                   {calc.features.map((feature, fIdx) => (
                     <span
                       key={fIdx}
-                      className="text-[11px] font-bold text-slate-700 bg-slate-100/90 px-2.5 py-1 rounded-lg border border-slate-200/80 group-hover:bg-slate-100 transition-colors"
+                      className="text-[10px] md:text-[11px] font-bold text-slate-700 bg-slate-100/90 px-2 py-0.5 md:px-2.5 md:py-1 rounded-lg border border-slate-200/80 group-hover:bg-slate-100 transition-colors"
                     >
                       ✓ {feature}
                     </span>
@@ -522,11 +524,11 @@ export default async function HomePage() {
               </div>
 
               {/* Hardcooked Action Button at Bottom */}
-              <div className="pt-6 border-t-2 border-slate-100 mt-6">
+              <div className="pt-3 mt-3 md:pt-6 border-t-2 border-slate-100 md:mt-6">
                 <Link
                   href={calc.href}
                   prefetch={false}
-                  className="w-full min-h-[48px] py-3 px-4 rounded-xl bg-gradient-to-r from-primary via-[#0E355D] to-primary group-hover:from-accent group-hover:via-teal-600 group-hover:to-accent text-white font-extrabold text-sm transition-all duration-300 flex items-center justify-between shadow-md shadow-primary/20 group-hover:shadow-xl group-hover:shadow-accent/25"
+                  className="w-full min-h-[44px] md:min-h-[48px] py-2.5 px-3.5 md:py-3 md:px-4 rounded-xl bg-gradient-to-r from-primary via-[#0E355D] to-primary group-hover:from-accent group-hover:via-teal-600 group-hover:to-accent text-white font-extrabold text-sm transition-all duration-300 flex items-center justify-between shadow-md shadow-primary/20 group-hover:shadow-xl group-hover:shadow-accent/25"
                 >
                   <span className="tracking-tight">{calc.buttonText}</span>
                   <span className="w-7 h-7 rounded-lg bg-white/20 backdrop-blur-xs flex items-center justify-center font-black group-hover:translate-x-1 group-hover:bg-white group-hover:text-accent transition-all duration-300">
@@ -540,45 +542,27 @@ export default async function HomePage() {
       </section>
 
       {/* =========================================================================
-          HOW IT WORKS (HARDCOOKED 3-STEP ENGINE WITH CINEMATIC DEPTH & GLOW)
+          HOW IT WORKS (COLLAPSED ON MOBILE ACCORDION, OPEN 3-STEP ENGINE ON DESKTOP)
          ========================================================================= */}
-      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 mt-12 sm:mt-16">
-        <div className="relative overflow-hidden bg-gradient-to-br from-[#F4F7FB] via-white to-[#EEF4F9] rounded-3xl p-6 sm:p-12 border-2 border-slate-200/95 shadow-[0_25px_60px_-15px_rgba(11,42,74,0.12),0_4px_20px_rgba(0,0,0,0.03)] space-y-10 ring-1 ring-slate-900/5">
-          {/* Ambient Radial Spotlight inside container */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-[radial-gradient(ellipse_at_top,_rgba(15,118,110,0.12),transparent_70%)] pointer-events-none" />
-          <div className="absolute inset-0 bg-dot-mesh pointer-events-none opacity-40" />
-
-          {/* Header Block */}
-          <div className="relative text-center max-w-2xl mx-auto space-y-2.5">
-            <div className="inline-flex items-center gap-2 text-xs font-black text-accent uppercase tracking-widest bg-white px-4 py-1.5 rounded-full border-2 border-accent/30 shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-              How It Works — 3 Easy Steps
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-primary tracking-tight">
-              How It Works
-            </h2>
-            <p className="text-base sm:text-lg font-semibold text-slate-700 max-w-xl mx-auto">
-              Three simple steps to calculate your financial obligations with zero friction, zero signups, and 100% privacy.
-            </p>
-          </div>
-
+      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 mt-6 md:mt-16">
+        <HomeHowItWorks>
           {/* 3 Hardcooked Cards Grid */}
-          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-3.5 md:gap-8">
             {/* Step 1 */}
-            <div className="group relative bg-white rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-7 sm:p-8 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2.5 transition-all duration-300 ease-out flex flex-col justify-between text-center overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-600 via-primary to-indigo-600 opacity-90 group-hover:h-2.5 transition-all duration-300" />
+            <div className="group relative bg-white rounded-2xl md:rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-4 md:p-7 lg:p-8 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] md:hover:-translate-y-2.5 transition-all duration-300 ease-out flex flex-col justify-between text-center overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1.5 md:h-2 bg-gradient-to-r from-blue-600 via-primary to-indigo-600 opacity-90 md:group-hover:h-2.5 transition-all duration-300" />
               <div>
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 via-primary to-indigo-900 text-white font-black text-2xl flex items-center justify-center mx-auto shadow-lg shadow-blue-600/30 ring-4 ring-blue-50 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 mb-4">
+                <div className="w-11 h-11 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-gradient-to-br from-blue-600 via-primary to-indigo-900 text-white font-black text-lg md:text-2xl flex items-center justify-center mx-auto shadow-lg shadow-blue-600/30 ring-4 ring-blue-50 md:group-hover:scale-110 md:group-hover:rotate-3 transition-all duration-300 mb-2.5 md:mb-4">
                   1
                 </div>
-                <h3 className="font-black text-xl text-primary group-hover:text-accent transition-colors mb-2">
+                <h3 className="font-black text-lg md:text-xl text-primary group-hover:text-accent transition-colors mb-1.5 md:mb-2">
                   Enter Your Amount
                 </h3>
-                <p className="text-sm text-slate-800 font-medium leading-relaxed">
+                <p className="text-[13px] md:text-sm text-slate-800 font-medium leading-relaxed">
                   Type your salary, property value, asset balances, or family size. Number formatting handles commas and ignores spaces automatically.
                 </p>
               </div>
-              <div className="mt-5 pt-4 border-t border-slate-100">
+              <div className="mt-3 pt-3 md:mt-5 md:pt-4 border-t border-slate-100">
                 <span className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-900 bg-blue-50 px-3 py-1 rounded-xl border border-blue-200">
                   ✦ Automatic comma &amp; space parser
                 </span>
@@ -586,20 +570,20 @@ export default async function HomePage() {
             </div>
 
             {/* Step 2 */}
-            <div className="group relative bg-white rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-7 sm:p-8 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2.5 transition-all duration-300 ease-out flex flex-col justify-between text-center overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-teal-500 via-accent to-emerald-600 opacity-90 group-hover:h-2.5 transition-all duration-300" />
+            <div className="group relative bg-white rounded-2xl md:rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-4 md:p-7 lg:p-8 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] md:hover:-translate-y-2.5 transition-all duration-300 ease-out flex flex-col justify-between text-center overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1.5 md:h-2 bg-gradient-to-r from-teal-500 via-accent to-emerald-600 opacity-90 md:group-hover:h-2.5 transition-all duration-300" />
               <div>
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 via-accent to-emerald-800 text-white font-black text-2xl flex items-center justify-center mx-auto shadow-lg shadow-teal-600/30 ring-4 ring-teal-50 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 mb-4">
+                <div className="w-11 h-11 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-gradient-to-br from-teal-500 via-accent to-emerald-800 text-white font-black text-lg md:text-2xl flex items-center justify-center mx-auto shadow-lg shadow-teal-600/30 ring-4 ring-teal-50 md:group-hover:scale-110 md:group-hover:-rotate-3 transition-all duration-300 mb-2.5 md:mb-4">
                   2
                 </div>
-                <h3 className="font-black text-xl text-primary group-hover:text-accent transition-colors mb-2">
+                <h3 className="font-black text-lg md:text-xl text-primary group-hover:text-accent transition-colors mb-1.5 md:mb-2">
                   Instant Result &amp; Breakdown
                 </h3>
-                <p className="text-sm text-slate-800 font-medium leading-relaxed">
+                <p className="text-[13px] md:text-sm text-slate-800 font-medium leading-relaxed">
                   Results calculate live in your browser as you type. Review the detailed slab-by-slab breakdown table to verify every single rupee.
                 </p>
               </div>
-              <div className="mt-5 pt-4 border-t border-slate-100">
+              <div className="mt-3 pt-3 md:mt-5 md:pt-4 border-t border-slate-100">
                 <span className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-900 bg-teal-50 px-3 py-1 rounded-xl border border-teal-200">
                   ✦ 100% Client-side live math engine
                 </span>
@@ -607,43 +591,43 @@ export default async function HomePage() {
             </div>
 
             {/* Step 3 */}
-            <div className="group relative bg-white rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-7 sm:p-8 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2.5 transition-all duration-300 ease-out flex flex-col justify-between text-center overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-emerald-600 via-teal-700 to-primary opacity-90 group-hover:h-2.5 transition-all duration-300" />
+            <div className="group relative bg-white rounded-2xl md:rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-4 md:p-7 lg:p-8 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] md:hover:-translate-y-2.5 transition-all duration-300 ease-out flex flex-col justify-between text-center overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1.5 md:h-2 bg-gradient-to-r from-emerald-600 via-teal-700 to-primary opacity-90 md:group-hover:h-2.5 transition-all duration-300" />
               <div>
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-700 to-primary text-white font-black text-2xl flex items-center justify-center mx-auto shadow-lg shadow-emerald-600/30 ring-4 ring-emerald-50 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 mb-4">
+                <div className="w-11 h-11 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-gradient-to-br from-emerald-600 via-teal-700 to-primary text-white font-black text-lg md:text-2xl flex items-center justify-center mx-auto shadow-lg shadow-emerald-600/30 ring-4 ring-emerald-50 md:group-hover:scale-110 md:group-hover:rotate-3 transition-all duration-300 mb-2.5 md:mb-4">
                   3
                 </div>
-                <h3 className="font-black text-xl text-primary group-hover:text-accent transition-colors mb-2">
+                <h3 className="font-black text-lg md:text-xl text-primary group-hover:text-accent transition-colors mb-1.5 md:mb-2">
                   Copy or Print to PDF
                 </h3>
-                <p className="text-sm text-slate-800 font-medium leading-relaxed">
+                <p className="text-[13px] md:text-sm text-slate-800 font-medium leading-relaxed">
                   Copy a clean two-line summary for WhatsApp/email or use Print to save a clean PDF of your calculation summary.
                 </p>
               </div>
-              <div className="mt-5 pt-4 border-t border-slate-100">
+              <div className="mt-3 pt-3 md:mt-5 md:pt-4 border-t border-slate-100">
                 <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-900 bg-emerald-50 px-3 py-1 rounded-xl border border-emerald-200">
                   ✦ WhatsApp copy &amp; Clean Print to PDF
                 </span>
               </div>
             </div>
           </div>
-        </div>
+        </HomeHowItWorks>
       </section>
 
       {/* =========================================================================
-          FAQ TEASER SECTION (HARDCOOKED CARDS WITH TOP ACCENTS & SHADOWS)
+          FAQ TEASER SECTION (MOBILE ACCORDION COLLAPSED BY DEFAULT, DESKTOP GRID INTACT)
          ========================================================================= */}
-      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 mt-12 sm:mt-16 space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-slate-200/90 pb-5">
+      <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 mt-6 md:mt-16 space-y-4 md:space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 md:gap-4 border-b-2 border-slate-200/90 pb-3 md:pb-5">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-black text-accent uppercase tracking-widest bg-accent-soft px-3 py-1 rounded-full border border-accent/25 mb-1.5 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
               Common Questions
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-primary tracking-tight">
+            <h2 className="text-[22px] sm:text-4xl font-black text-primary tracking-tight">
               Common Questions
             </h2>
-            <p className="text-sm sm:text-base text-slate-700 font-medium mt-1">
+            <p className="text-[13px] md:text-base text-slate-700 font-medium mt-1">
               Quick answers to frequent tax and Islamic calculation queries.
             </p>
           </div>
@@ -651,156 +635,94 @@ export default async function HomePage() {
           <Link
             href="/methodology"
             prefetch={false}
-            className="px-4 py-2.5 rounded-xl bg-surface hover:bg-slate-200 border-2 border-slate-200/90 text-xs font-black text-primary flex items-center gap-2 group self-start sm:self-auto shadow-xs hover:shadow-md transition-all duration-200"
+            className="min-h-[44px] md:min-h-0 px-4 py-2.5 rounded-xl bg-surface hover:bg-slate-200 border-2 border-slate-200/90 text-xs font-black text-primary flex items-center gap-2 group self-start sm:self-auto shadow-xs hover:shadow-md transition-all duration-200"
           >
             <span>Read Full Methodology</span>
             <span className="group-hover:translate-x-1 transition-transform text-accent font-black">→</span>
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-          {/* FAQ Card 1 */}
-          <div className="group relative bg-white rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-7 sm:p-8 space-y-4 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-600 to-primary group-hover:h-2 transition-all duration-300" />
-            <div>
-              <span className="text-[11px] font-black text-blue-950 uppercase tracking-wider bg-blue-50 px-3 py-1 rounded-full border border-blue-200 inline-block shadow-2xs">
-                Salary Tax • FBR Rules
-              </span>
-              <h3 className="font-black text-lg sm:text-xl text-primary group-hover:text-accent transition-colors mt-3 mb-2 leading-snug">
-                Is salary up to Rs 50,000 exempt from tax?
-              </h3>
-              <p className="text-sm text-slate-800 font-medium leading-relaxed">
-                Yes. Under FBR Tax Year 2026-27 slabs, the first <strong className="text-primary font-black">Rs 600,000</strong> of annual taxable salary (<strong className="text-primary font-black">Rs 50,000/month</strong>) is taxed at exactly 0%.
-              </p>
-            </div>
-            <div className="pt-4 border-t border-slate-100">
-              <Link
-                href="/salary-tax-calculator"
-                prefetch={false}
-                className="w-full py-2.5 px-3 rounded-xl bg-slate-50 group-hover:bg-primary text-primary group-hover:text-white font-extrabold text-xs transition-all duration-200 flex items-center justify-between shadow-xs group-hover:shadow-md"
-              >
-                <span>View Salary Slabs</span>
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* FAQ Card 2 */}
-          <div className="group relative bg-white rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-7 sm:p-8 space-y-4 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-teal-500 to-emerald-600 group-hover:h-2 transition-all duration-300" />
-            <div>
-              <span className="text-[11px] font-black text-teal-950 uppercase tracking-wider bg-teal-50 px-3 py-1 rounded-full border border-teal-200 inline-block shadow-2xs">
-                Zakat Nisab • Hanafi Law
-              </span>
-              <h3 className="font-black text-lg sm:text-xl text-primary group-hover:text-accent transition-colors mt-3 mb-2 leading-snug">
-                Should I use Gold or Silver Nisab?
-              </h3>
-              <p className="text-sm text-slate-800 font-medium leading-relaxed">
-                Under Hanafi jurisprudence in Pakistan, if you own mixed assets (cash + gold/silver), the <strong className="text-primary font-black">Silver Nisab (52.5 tola)</strong> is applied as a precaution to assist the needy.
-              </p>
-            </div>
-            <div className="pt-4 border-t border-slate-100">
-              <Link
-                href="/zakat-calculator"
-                prefetch={false}
-                className="w-full py-2.5 px-3 rounded-xl bg-slate-50 group-hover:bg-primary text-primary group-hover:text-white font-extrabold text-xs transition-all duration-200 flex items-center justify-between shadow-xs group-hover:shadow-md"
-              >
-                <span>Calculate Zakat</span>
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* FAQ Card 3 */}
-          <div className="group relative bg-white rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-7 sm:p-8 space-y-4 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-600 to-blue-700 group-hover:h-2 transition-all duration-300" />
-            <div>
-              <span className="text-[11px] font-black text-indigo-950 uppercase tracking-wider bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200 inline-block shadow-2xs">
-                Property Tax • Section 236C/K
-              </span>
-              <h3 className="font-black text-lg sm:text-xl text-primary group-hover:text-accent transition-colors mt-3 mb-2 leading-snug">
-                How much does a Filer save on property?
-              </h3>
-              <p className="text-sm text-slate-800 font-medium leading-relaxed">
-                On a 1 Crore property, an active Filer pays <strong className="text-primary font-black">1.25% (Rs 125,000)</strong> while a Non-Filer pays <strong className="text-red-700 font-black">10.5% (Rs 1,050,000)</strong>, saving <strong className="text-emerald-700 font-black">Rs 925,000</strong>.
-              </p>
-            </div>
-            <div className="pt-4 border-t border-slate-100">
-              <Link
-                href="/property-tax-calculator"
-                prefetch={false}
-                className="w-full py-2.5 px-3 rounded-xl bg-slate-50 group-hover:bg-primary text-primary group-hover:text-white font-extrabold text-xs transition-all duration-200 flex items-center justify-between shadow-xs group-hover:shadow-md"
-              >
-                <span>Compare 236C &amp; 236K</span>
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* FAQ Card 4 */}
-          <div className="group relative bg-white rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-7 sm:p-8 space-y-4 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-teal-600 via-primary to-accent group-hover:h-2 transition-all duration-300" />
-            <div>
-              <span className="text-[11px] font-black text-teal-950 uppercase tracking-wider bg-teal-50 px-3 py-1 rounded-full border border-teal-200 inline-block shadow-2xs">
-                Income Tax • Tools
-              </span>
-              <h3 className="font-black text-lg sm:text-xl text-primary group-hover:text-accent transition-colors mt-3 mb-2 leading-snug">
-                Is CalculationHub an income tax calculator for Pakistan?
-              </h3>
-              <p className="text-sm text-slate-800 font-medium leading-relaxed">
-                Yes — the{" "}
-                <Link
-                  href="/salary-tax-calculator"
-                  prefetch={false}
-                  className="text-primary font-black underline hover:text-accent transition-colors"
-                >
-                  Salary Tax Calculator
-                </Link>{" "}
-                on this site calculates income tax on salary in Pakistan using the TY2027 slabs (Finance Act 2026), and the site also offers Zakat, Property Tax, GST, Fitrana and Ushr calculators. No login, 100% private.
-              </p>
-            </div>
-            <div className="pt-4 border-t border-slate-100">
-              <Link
-                href="/salary-tax-calculator"
-                prefetch={false}
-                className="w-full py-2.5 px-3 rounded-xl bg-slate-50 group-hover:bg-primary text-primary group-hover:text-white font-extrabold text-xs transition-all duration-200 flex items-center justify-between shadow-xs group-hover:shadow-md"
-              >
-                <span>Calculate Salary Tax</span>
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
-              </Link>
-            </div>
-          </div>
-
-          {additionalHomepageFaqs.map((faq, fIdx) => (
-            <div
-              key={fIdx}
-              className="group relative bg-white rounded-3xl border-2 border-slate-200/95 hover:border-accent/60 p-7 sm:p-8 space-y-4 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between overflow-hidden"
-            >
-              <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${faq.topBarClass} group-hover:h-2 transition-all duration-300`} />
-              <div>
-                <span className={`text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full border inline-block shadow-2xs ${faq.badgeClass}`}>
-                  {faq.badge}
-                </span>
-                <h3 className="font-black text-lg sm:text-xl text-primary group-hover:text-accent transition-colors mt-3 mb-2 leading-snug">
-                  {faq.question}
-                </h3>
-                <p className="text-sm text-slate-800 font-medium leading-relaxed">
-                  {faq.answer}
-                </p>
-              </div>
-              <div className="pt-4 border-t border-slate-100">
-                <Link
-                  href={faq.href}
-                  prefetch={false}
-                  className="w-full py-2.5 px-3 rounded-xl bg-slate-50 group-hover:bg-primary text-primary group-hover:text-white font-extrabold text-xs transition-all duration-200 flex items-center justify-between shadow-xs group-hover:shadow-md"
-                >
-                  <span>{faq.cta}</span>
-                  <span className="group-hover:translate-x-1 transition-transform">→</span>
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
+        <HomeFaqAccordion
+          items={
+            [
+              {
+                badge: "Salary Tax • FBR Rules",
+                badgeClass: "text-blue-950 bg-blue-50 border-blue-200",
+                topBarClass: "from-blue-600 to-primary",
+                question: "Is salary up to Rs 50,000 exempt from tax?",
+                answerNode: (
+                  <>
+                    Yes. Under FBR Tax Year 2026-27 slabs, the first{" "}
+                    <strong className="text-primary font-black">Rs 600,000</strong> of annual taxable salary (
+                    <strong className="text-primary font-black">Rs 50,000/month</strong>) is taxed at exactly 0%.
+                  </>
+                ),
+                href: "/salary-tax-calculator",
+                cta: "View Salary Slabs",
+              },
+              {
+                badge: "Zakat Nisab • Hanafi Law",
+                badgeClass: "text-teal-950 bg-teal-50 border-teal-200",
+                topBarClass: "from-teal-500 to-emerald-600",
+                question: "Should I use Gold or Silver Nisab?",
+                answerNode: (
+                  <>
+                    Under Hanafi jurisprudence in Pakistan, if you own mixed assets (cash + gold/silver), the{" "}
+                    <strong className="text-primary font-black">Silver Nisab (52.5 tola)</strong> is applied as a precaution to assist the needy.
+                  </>
+                ),
+                href: "/zakat-calculator",
+                cta: "Calculate Zakat",
+              },
+              {
+                badge: "Property Tax • Section 236C/K",
+                badgeClass: "text-indigo-950 bg-indigo-50 border-indigo-200",
+                topBarClass: "from-indigo-600 to-blue-700",
+                question: "How much does a Filer save on property?",
+                answerNode: (
+                  <>
+                    On a 1 Crore property, an active Filer pays{" "}
+                    <strong className="text-primary font-black">1.25% (Rs 125,000)</strong> while a Non-Filer pays{" "}
+                    <strong className="text-red-700 font-black">10.5% (Rs 1,050,000)</strong>, saving{" "}
+                    <strong className="text-emerald-700 font-black">Rs 925,000</strong>.
+                  </>
+                ),
+                href: "/property-tax-calculator",
+                cta: "Compare 236C & 236K",
+              },
+              {
+                badge: "Income Tax • Tools",
+                badgeClass: "text-teal-950 bg-teal-50 border-teal-200",
+                topBarClass: "from-teal-600 via-primary to-accent",
+                question: "Is CalculationHub an income tax calculator for Pakistan?",
+                answerNode: (
+                  <>
+                    Yes — the{" "}
+                    <Link
+                      href="/salary-tax-calculator"
+                      prefetch={false}
+                      className="text-primary font-black underline hover:text-accent transition-colors"
+                    >
+                      Salary Tax Calculator
+                    </Link>{" "}
+                    on this site calculates income tax on salary in Pakistan using the TY2027 slabs (Finance Act 2026), and the site also offers Zakat, Property Tax, GST, Fitrana and Ushr calculators. No login, 100% private.
+                  </>
+                ),
+                href: "/salary-tax-calculator",
+                cta: "Calculate Salary Tax",
+              },
+              ...additionalHomepageFaqs.map((faq) => ({
+                badge: faq.badge,
+                badgeClass: faq.badgeClass,
+                topBarClass: faq.topBarClass,
+                question: faq.question,
+                answerNode: faq.answer,
+                href: faq.href,
+                cta: faq.cta,
+              })),
+            ] as HomeFaqCardItem[]
+          }
+        />
       </section>
     </div>
   </>

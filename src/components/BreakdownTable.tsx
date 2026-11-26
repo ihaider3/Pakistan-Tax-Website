@@ -57,14 +57,14 @@ export default function BreakdownTable({
               MOBILE VIEW (< sm / 360px): Stacked Cards (Option A Preferred)
               Converts each row into an easy-to-read vertical card. No horizontal squeeze.
              ========================================================================= */}
-          <div className="block sm:hidden space-y-3" aria-label="Mobile calculation breakdown">
+          <div className="block sm:hidden space-y-2.5" aria-label="Mobile calculation breakdown">
             {rows.map((row, rIdx) => {
               const firstCol = columns[0];
               const remainingCols = columns.slice(1);
               return (
                 <div
                   key={row.id || rIdx}
-                  className={`p-4 rounded-xl border transition-all ${
+                  className={`p-3.5 rounded-xl border transition-all ${
                     row.isHighlighted
                       ? "bg-teal-50/70 border-accent/40 shadow-xs ring-1 ring-accent/20"
                       : "bg-white border-slate-200/90 shadow-2xs"
@@ -72,7 +72,7 @@ export default function BreakdownTable({
                 >
                   {/* First column as card title / subject */}
                   {firstCol && (
-                    <div className="pb-2.5 mb-2.5 border-b border-slate-100 flex items-center justify-between gap-2">
+                    <div className="pb-2 mb-2 border-b border-slate-100 flex items-center justify-between gap-2">
                       <div className="font-bold text-primary text-sm leading-snug">
                         {row.cells[firstCol.key]}
                       </div>
@@ -85,7 +85,7 @@ export default function BreakdownTable({
                   )}
 
                   {/* Remaining columns as key-value pairs */}
-                  <div className="space-y-2 text-xs">
+                  <div className="space-y-1.5 text-xs">
                     {remainingCols.map((col) => (
                       <div
                         key={col.key}
@@ -110,7 +110,7 @@ export default function BreakdownTable({
 
             {/* Mobile Total Card */}
             {totalValue && (
-              <div className="p-4 rounded-xl bg-gradient-to-r from-slate-50 via-teal-50/40 to-slate-50 border-2 border-[#0B2A4A] flex items-center justify-between gap-3 shadow-xs">
+              <div className="p-3.5 rounded-xl bg-gradient-to-r from-slate-50 via-teal-50/40 to-slate-50 border-2 border-[#0B2A4A] flex items-center justify-between gap-3 shadow-xs">
                 <span className="font-extrabold text-xs uppercase tracking-wider text-primary">
                   {totalLabel || "Total"}
                 </span>

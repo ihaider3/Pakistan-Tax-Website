@@ -79,40 +79,40 @@ export default function RelatedTools({ currentSlug, className = "" }: RelatedToo
   const tools = allTools.filter((t) => t.slug !== currentSlug);
 
   return (
-    <section className={`space-y-5 ${className}`} aria-labelledby="related-tools-heading">
-      <div className="border-b border-slate-200/80 pb-3 flex items-center justify-between">
+    <section className={`space-y-3 md:space-y-5 ${className}`} aria-labelledby="related-tools-heading">
+      <div className="border-b border-slate-200/80 pb-2.5 md:pb-3 flex items-center justify-between">
         <div>
           <span className="text-xs font-bold text-accent uppercase tracking-wider">Explore More</span>
-          <h2 id="related-tools-heading" className="text-xl font-extrabold text-primary tracking-tight">
+          <h2 id="related-tools-heading" className="text-lg md:text-xl font-extrabold text-primary tracking-tight">
             Other Pakistan Calculators
           </h2>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
         {tools.map((tool) => (
           <Link
             key={tool.slug}
             href={`/${tool.slug}`}
-            className="group p-5 bg-white rounded-2xl border border-slate-200/90 hover:border-accent/50 shadow-[0_4px_16px_-2px_rgba(11,42,74,0.04)] hover:shadow-[0_15px_30px_-5px_rgba(11,42,74,0.12)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
+            className="group p-4 md:p-5 bg-white rounded-2xl border border-slate-200/90 hover:border-accent/50 shadow-[0_4px_16px_-2px_rgba(11,42,74,0.04)] hover:shadow-[0_15px_30px_-5px_rgba(11,42,74,0.12)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between"
           >
             <div>
-              <div className="flex items-center justify-between mb-3.5">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-surface to-slate-100 text-primary group-hover:from-accent-soft group-hover:to-teal-100/60 group-hover:text-accent flex items-center justify-center transition-all duration-300 shadow-xs ring-1 ring-slate-200/70 group-hover:scale-105">
+              <div className="flex items-center justify-between mb-2.5 md:mb-3.5">
+                <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-gradient-to-br from-surface to-slate-100 text-primary group-hover:from-accent-soft group-hover:to-teal-100/60 group-hover:text-accent flex items-center justify-center transition-all duration-300 shadow-xs ring-1 ring-slate-200/70 group-hover:scale-105">
                   {tool.icon}
                 </div>
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-appText-muted group-hover:bg-accent-soft group-hover:text-accent transition-colors">
                   {tool.badge}
                 </span>
               </div>
-              <h3 className="font-extrabold text-base text-primary group-hover:text-accent transition-colors mb-1.5">
+              <h3 className="font-extrabold text-sm md:text-base text-primary group-hover:text-accent transition-colors mb-1">
                 {tool.name}
               </h3>
               <p className="text-xs text-appText-muted line-clamp-2 leading-relaxed">
                 {tool.description}
               </p>
             </div>
-            <span className="text-xs font-bold text-accent mt-4 inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+            <span className="text-xs font-bold text-accent mt-2.5 md:mt-4 min-h-[44px] md:min-h-0 inline-flex items-center gap-1 group-hover:gap-2 transition-all">
               <span>Calculate now</span>
               <span>→</span>
             </span>

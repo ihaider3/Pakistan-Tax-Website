@@ -251,7 +251,7 @@ export default function UshrCalculatorPage() {
         <button
           type="button"
           onClick={handleExample}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold text-accent bg-accent-soft hover:bg-teal-100/80 border border-accent/30 rounded-lg transition-all cursor-pointer shadow-2xs active:scale-98"
+          className="inline-flex items-center gap-1.5 min-h-[44px] sm:min-h-0 px-3 py-2 sm:px-2.5 sm:py-1 text-xs font-bold text-accent bg-accent-soft hover:bg-teal-100/80 border border-accent/30 rounded-lg transition-all cursor-pointer shadow-2xs active:scale-98"
         >
           <span>💡</span>
           <span>{lang === "roman" ? "Example try karein" : "Try an example"}</span>
@@ -267,7 +267,7 @@ export default function UshrCalculatorPage() {
           id="ushr-crop-select"
           value={crop}
           onChange={(e) => setCrop(e.target.value)}
-          className="w-full px-3.5 py-2.5 text-sm sm:text-base font-semibold text-slate-800 bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/40 shadow-2xs"
+          className="w-full min-h-[44px] px-3.5 py-2.5 text-sm sm:text-base font-semibold text-slate-800 bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/40 shadow-2xs"
         >
           {USHR_CROPS.map((c) => (
             <option key={c.id} value={c.id}>
@@ -307,7 +307,7 @@ export default function UshrCalculatorPage() {
               value={quantityRaw}
               onChange={handleQuantityChange}
               placeholder={unit === "kg" ? "e.g. 1,000" : "e.g. 25"}
-              className="w-full px-3.5 py-2.5 pr-16 text-base sm:text-lg font-bold text-slate-900 bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/40 shadow-2xs"
+              className="w-full min-h-[44px] px-3.5 py-2.5 pr-16 text-base sm:text-lg font-bold text-slate-900 bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/40 shadow-2xs"
             />
             <div className="absolute right-3 top-1/2 -translate-y-1/2 px-2 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-600 uppercase">
               {unit}
@@ -341,7 +341,7 @@ export default function UshrCalculatorPage() {
             value={priceRaw}
             onChange={handlePriceChange}
             placeholder={unit === "kg" ? "e.g. 130" : "e.g. 5,200"}
-            className="w-full pl-10 pr-20 py-2.5 text-base sm:text-lg font-bold text-slate-900 bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/40 shadow-2xs"
+            className="w-full min-h-[44px] pl-10 pr-20 py-2.5 text-base sm:text-lg font-bold text-slate-900 bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/40 shadow-2xs"
           />
           <div className="absolute right-3 top-1/2 -translate-y-1/2 px-2 py-1 bg-slate-100 rounded-md text-xs font-bold text-slate-600">
             /{unit}

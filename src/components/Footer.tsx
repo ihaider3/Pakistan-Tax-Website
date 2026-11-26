@@ -43,7 +43,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative mt-24 print:hidden overflow-hidden bg-gradient-to-b from-[#071B30] via-[#0B2A4A] to-[#040E1A] text-white shadow-[0_-20px_50px_rgba(11,42,74,0.25)] border-t border-slate-700/60">
+    <footer className="relative mt-10 md:mt-24 print:hidden overflow-hidden bg-gradient-to-b from-[#071B30] via-[#0B2A4A] to-[#040E1A] text-white shadow-[0_-20px_50px_rgba(11,42,74,0.25)] border-t border-slate-700/60">
       {/* =========================================================================
           TOP ILLUMINATED AMBIENT GLOW BORDER (CINEMATIC HARDCOOKED EFFECT)
          ========================================================================= */}
@@ -54,11 +54,11 @@ export default function Footer() {
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-[radial-gradient(circle,_rgba(15,118,110,0.18),transparent_70%)] pointer-events-none" />
       <div className="absolute bottom-0 left-10 w-96 h-96 bg-[radial-gradient(circle,_rgba(20,61,105,0.25),transparent_70%)] pointer-events-none" />
 
-      <div className="relative max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 pt-16 pb-12">
+      <div className="relative max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 pt-8 pb-20 md:pt-16 md:pb-12">
         {/* =========================================================================
             MAIN 3-COLUMN HARDCOOKED GRID
            ========================================================================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 pb-14 border-b border-white/10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10 lg:gap-12 pb-8 md:pb-14 border-b border-white/10">
           {/* Column 1: Brand & High-Security Privacy Card (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
             {/* Brand Logo & Title */}
@@ -114,13 +114,13 @@ export default function Footer() {
                 Official Calculators
               </h4>
             </div>
-            <ul className="space-y-2.5">
+            <ul className="space-y-1.5 md:space-y-2.5">
               {calculatorLinks.map((item, idx) => (
                 <li key={idx}>
                   <Link
                     href={item.href}
                     prefetch={false}
-                    className="group flex items-center justify-between p-2 rounded-xl hover:bg-white/5 transition-all duration-200 border border-transparent hover:border-white/10"
+                    className="group min-h-[44px] md:min-h-0 flex items-center justify-between p-2 rounded-xl hover:bg-white/5 transition-all duration-200 border border-transparent hover:border-white/10"
                   >
                     <span className="text-sm font-semibold text-slate-200 group-hover:text-white group-hover:translate-x-1 transition-all">
                       {item.name}
@@ -144,13 +144,13 @@ export default function Footer() {
                 Platform &amp; Legal
               </h4>
             </div>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5 md:space-y-2">
               {legalLinks.map((item, idx) => (
                 <li key={idx}>
                   <Link
                     href={item.href}
                     prefetch={false}
-                    className="group flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-white p-2 rounded-xl hover:bg-white/5 transition-all duration-200 border border-transparent hover:border-white/10"
+                    className="group min-h-[44px] md:min-h-0 flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-white p-2 rounded-xl hover:bg-white/5 transition-all duration-200 border border-transparent hover:border-white/10"
                   >
                     <span className="text-accent-light font-black group-hover:translate-x-1 transition-transform">
                       →
@@ -168,7 +168,7 @@ export default function Footer() {
               <button
                 type="button"
                 onClick={scrollToTop}
-                className="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-accent text-white font-extrabold text-xs transition-all duration-200 border border-white/20 shadow-md hover:shadow-lg flex items-center justify-center gap-2 group cursor-pointer"
+                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-white/10 hover:bg-accent text-white font-extrabold text-xs transition-all duration-200 border border-white/20 shadow-md hover:shadow-lg flex items-center justify-center gap-2 group cursor-pointer"
               >
                 <span>Back to Top</span>
                 <span className="group-hover:-translate-y-1 transition-transform">↑</span>

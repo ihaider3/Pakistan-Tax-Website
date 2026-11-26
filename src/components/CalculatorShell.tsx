@@ -13,6 +13,7 @@ import { useSiteContent } from "./SiteContentContext";
 import { trackToolUse } from "@/lib/analytics/beacon";
 import { trackMetaViewContent } from "@/lib/analytics/metaPixel";
 import { CalculatorType } from "@/lib/analytics/types";
+import BackToCalculatorButton from "./BackToCalculatorButton";
 
 function getCalculatorKey(slug: string): CalculatorType {
   if (slug.includes("salary")) return "salary";
@@ -98,11 +99,11 @@ export default function CalculatorShell({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
       />
-      <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 pt-6 pb-28 sm:py-10 space-y-8 sm:space-y-12 print:hidden">
+      <div className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 pt-3 pb-20 md:py-10 space-y-4 md:space-y-12 print:hidden">
       {/* =========================================================================
           HERO & HEADER BLOCK: Breadcrumb, Badge, H1, Trimmed/Full Intro & "Calculate Now ↓"
          ========================================================================= */}
-      <section className="space-y-4 print:hidden">
+      <section className="space-y-2 md:space-y-4 print:hidden">
         <Breadcrumb
           items={[
             {
@@ -112,12 +113,12 @@ export default function CalculatorShell({
           ]}
           suppressSchema={true}
         />
-        <div className="space-y-2">
-          <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-accent uppercase tracking-widest bg-accent-soft px-3.5 py-1 rounded-full border border-accent/25 shadow-2xs">
+        <div className="space-y-1.5 md:space-y-2">
+          <span className="inline-flex items-center gap-1.5 text-[10px] md:text-xs font-extrabold text-accent uppercase tracking-widest bg-accent-soft px-2.5 py-0.5 md:px-3.5 md:py-1 rounded-full border border-accent/25 shadow-2xs">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
             Pakistan Official Calculator
           </span>
-          <h1 className="text-[24px] sm:text-[32px] lg:text-[36px] font-black text-primary tracking-tight leading-tight">
+          <h1 className="text-[22px] sm:text-[32px] lg:text-[36px] font-black text-primary tracking-tight leading-tight">
             {content.h1}
           </h1>
 
@@ -129,17 +130,17 @@ export default function CalculatorShell({
             {displayIntro}
           </p>
 
-          {/* Mobile full intro paragraph (no line-clamp) */}
+          {/* Mobile compact 2-line intro paragraph (full text stays in DOM) */}
           <p
             data-content-key={introKey}
-            className="md:hidden text-xs sm:text-sm text-appText-muted leading-relaxed font-normal"
+            className="md:hidden text-xs text-appText-muted leading-snug font-normal mobile-intro-2lines"
           >
             {displayIntro}
           </p>
         </div>
 
-        {/* "Calculate Now ↓" Button: Prominent Full-Width on Mobile, Brand Navy */}
-        <div>
+        {/* "Calculate Now ↓" Button: Desktop only (on mobile #calculator appears right below in first screen) */}
+        <div className="hidden md:block">
           <a
             href="#calculator"
             onClick={(e) => {
@@ -189,9 +190,9 @@ export default function CalculatorShell({
         </div>
       </section>
 
-      {/* Optional Extra Explainer Section (Rendered above calculator) */}
+      {/* Optional Extra Explainer Section (Above calculator on Desktop, below on Mobile) */}
       {extraSection && (
-        <div className="print:hidden">
+        <div className="hidden md:block print:hidden">
           {extraSection}
         </div>
       )}
@@ -204,13 +205,13 @@ export default function CalculatorShell({
         data-statutory="true"
         onInput={handleFormInteraction}
         onChange={handleFormInteraction}
-        className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start scroll-mt-20 sm:scroll-mt-24"
+        className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-10 items-start scroll-mt-20 sm:scroll-mt-24"
         aria-label="Calculator workspace"
       >
         {/* Left Column: Inputs in an Elevated Card */}
-        <div className="lg:col-span-7 bg-white p-4 sm:p-8 rounded-2xl border border-slate-200/90 shadow-[0_12px_30px_-5px_rgba(11,42,74,0.07),0_4px_10px_-2px_rgba(11,42,74,0.03)] space-y-6 print:hidden">
-          <div className="border-b border-slate-100 pb-3.5">
-            <h2 className="text-xl font-extrabold text-primary tracking-tight">Enter Your Details</h2>
+        <div className="lg:col-span-7 bg-white p-4 md:p-8 rounded-2xl border border-slate-200/90 shadow-[0_12px_30px_-5px_rgba(11,42,74,0.07),0_4px_10px_-2px_rgba(11,42,74,0.03)] space-y-4 md:space-y-6 print:hidden">
+          <div className="border-b border-slate-100 pb-2.5 md:pb-3.5">
+            <h2 className="text-lg md:text-xl font-extrabold text-primary tracking-tight">Enter Your Details</h2>
             <p className="text-xs text-appText-muted mt-0.5">
               Live calculation updates instantly with zero page reloads.
             </p>
@@ -219,11 +220,17 @@ export default function CalculatorShell({
         </div>
 
         {/* Right Column: Live Result Panel & Local History */}
-        <div className="lg:col-span-5 lg:sticky lg:top-24 space-y-4">
+        <div className="lg:col-span-5 lg:sticky lg:top-24 space-y-3 md:space-y-4">
           {resultPanel}
           {calculatorHistory}
         </div>
       </section>
+
+      {extraSection && (
+        <div className="md:hidden print:hidden">
+          {extraSection}
+        </div>
+      )}
 
       {/* =========================================================================
           FULL-WIDTH EXPLANATION BOX (Immediately under results & inputs)
@@ -237,7 +244,7 @@ export default function CalculatorShell({
       {/* =========================================================================
           MOBILE-ONLY: Wazahat Box + Verification Badge (Moved Below Calculator on Mobile)
          ========================================================================= */}
-      <div className="md:hidden print:hidden space-y-3">
+      <div className="md:hidden print:hidden space-y-2.5">
         <button
           type="button"
           onClick={() => setMobileContextOpen(!mobileContextOpen)}
@@ -251,42 +258,48 @@ export default function CalculatorShell({
           <span className="text-slate-500 font-bold">{mobileContextOpen ? "▲" : "▼"}</span>
         </button>
 
-        {mobileContextOpen && (
-          <div className="space-y-3 pt-1 animate-in fade-in duration-200">
-            {/* Wazahat Box */}
-            <div className="bg-gradient-to-r from-teal-50/70 via-white to-surface border-l-4 border-accent p-4 rounded-r-xl text-xs text-appText leading-relaxed shadow-xs border border-slate-200/60">
-              <div className="flex items-center justify-between gap-3 mb-2">
-                <span className="font-bold text-primary text-xs uppercase tracking-wider flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-accent"></span>
-                  {lang === "roman" ? "Wazahat:" : "Explanation:"}
-                </span>
-                <ExplanationLangToggle />
+        <div
+          className={`grid transition-[grid-template-rows] duration-200 ${
+            mobileContextOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          }`}
+        >
+          <div className="overflow-hidden min-h-0">
+            <div className="space-y-3 pt-1">
+              {/* Wazahat Box */}
+              <div className="bg-gradient-to-r from-teal-50/70 via-white to-surface border-l-4 border-accent p-4 rounded-r-xl text-xs text-appText leading-relaxed shadow-xs border border-slate-200/60">
+                <div className="flex items-center justify-between gap-3 mb-2">
+                  <span className="font-bold text-primary text-xs uppercase tracking-wider flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-accent"></span>
+                    {lang === "roman" ? "Wazahat:" : "Explanation:"}
+                  </span>
+                  <ExplanationLangToggle />
+                </div>
+                <p
+                  data-content-key={activeWazahatKey}
+                  className="text-slate-800 text-xs sm:text-sm leading-relaxed font-normal"
+                >
+                  {displayWazahat}
+                </p>
               </div>
-              <p
-                data-content-key={activeWazahatKey}
-                className="text-slate-800 text-xs sm:text-sm leading-relaxed font-normal"
-              >
-                {displayWazahat}
-              </p>
+
+              {/* Verification Badge */}
+              <VerificationBadge
+                source={content.source}
+                sourceDocument={content.sourceDocument}
+                lastVerified={content.lastVerified}
+              />
+
+              {customTopSection}
             </div>
-
-            {/* Verification Badge */}
-            <VerificationBadge
-              source={content.source}
-              sourceDocument={content.sourceDocument}
-              lastVerified={content.lastVerified}
-            />
-
-            {customTopSection}
           </div>
-        )}
+        </div>
       </div>
 
       {/* =========================================================================
           LINE-BY-LINE / SLAB BREAKDOWN TABLE
          ========================================================================= */}
       {breakdownTable && (
-        <section data-statutory="true" className="bg-white p-5 sm:p-8 rounded-2xl border border-slate-200/90 shadow-[0_12px_30px_-5px_rgba(11,42,74,0.07)] print:p-0 print:border-none print:shadow-none">
+        <section data-statutory="true" className="bg-white p-4 md:p-8 rounded-2xl border border-slate-200/90 shadow-[0_12px_30px_-5px_rgba(11,42,74,0.07)] print:p-0 print:border-none print:shadow-none">
           {breakdownTable}
         </section>
       )}
@@ -299,7 +312,7 @@ export default function CalculatorShell({
         <button
           type="button"
           onClick={() => setGuideOpen(!guideOpen)}
-          className="md:hidden w-full min-h-[48px] p-4 sm:p-5 flex items-center justify-between font-extrabold text-sm text-primary text-left cursor-pointer hover:bg-slate-100/60 transition-colors"
+          className="md:hidden w-full min-h-[48px] p-4 flex items-center justify-between font-extrabold text-sm text-primary text-left cursor-pointer hover:bg-slate-100/60 transition-colors"
           aria-expanded={guideOpen}
         >
           <div>
@@ -309,24 +322,32 @@ export default function CalculatorShell({
           <span className="text-slate-500 font-bold ml-2">{guideOpen ? "▲" : "▼"}</span>
         </button>
 
-        {/* Content: Visible when guideOpen on mobile, always visible on desktop */}
-        <div className={`${guideOpen ? "block" : "hidden"} md:block p-5 sm:p-8 space-y-4 pt-0 md:pt-8`}>
-          <div className="hidden md:block">
-            <span className="text-xs font-bold text-accent uppercase tracking-wider">Guide</span>
-            <h2 className="text-xl font-extrabold text-primary tracking-tight">How to Use This Calculator</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 text-sm text-appText">
-            {content.howToUseSteps.map((step, idx) => (
-              <div
-                key={idx}
-                className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-xs hover:shadow-sm hover:-translate-y-0.5 transition-all flex items-start gap-3.5"
-              >
-                <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-primary-light text-white flex items-center justify-center font-black text-xs shrink-0 mt-0.5 shadow-xs">
-                  {idx + 1}
-                </span>
-                <span className="leading-snug text-appText font-medium text-xs sm:text-sm">{step}</span>
+        {/* Content: Folded visually via CSS grid-rows on mobile (stays in DOM), always open on desktop */}
+        <div
+          className={`grid transition-[grid-template-rows] duration-200 ${
+            guideOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr] md:grid-rows-[1fr]"
+          }`}
+        >
+          <div className="overflow-hidden min-h-0">
+            <div className="p-4 md:p-8 space-y-3 md:space-y-4 pt-1 md:pt-8">
+              <div className="hidden md:block">
+                <span className="text-xs font-bold text-accent uppercase tracking-wider">Guide</span>
+                <h2 className="text-xl font-extrabold text-primary tracking-tight">How to Use This Calculator</h2>
               </div>
-            ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 md:gap-4 text-sm text-appText">
+                {content.howToUseSteps.map((step, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-white p-3.5 md:p-4 rounded-xl border border-slate-200/90 shadow-xs hover:shadow-sm hover:-translate-y-0.5 transition-all flex items-start gap-3"
+                  >
+                    <span className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary to-primary-light text-white flex items-center justify-center font-black text-xs shrink-0 mt-0.5 shadow-xs">
+                      {idx + 1}
+                    </span>
+                    <span className="leading-snug text-appText font-medium text-xs sm:text-sm">{step}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -338,7 +359,7 @@ export default function CalculatorShell({
         <button
           type="button"
           onClick={() => setFormulaOpen(!formulaOpen)}
-          className="md:hidden w-full min-h-[48px] p-4 sm:p-5 flex items-center justify-between font-extrabold text-sm text-primary text-left cursor-pointer hover:bg-slate-50 transition-colors"
+          className="md:hidden w-full min-h-[48px] p-4 flex items-center justify-between font-extrabold text-sm text-primary text-left cursor-pointer hover:bg-slate-50 transition-colors"
           aria-expanded={formulaOpen}
         >
           <div>
@@ -348,13 +369,21 @@ export default function CalculatorShell({
           <span className="text-slate-500 font-bold ml-2">{formulaOpen ? "▲" : "▼"}</span>
         </button>
 
-        <div className={`${formulaOpen ? "block" : "hidden"} md:block p-5 sm:p-8 space-y-3 pt-0 md:pt-8`}>
-          <div className="hidden md:block">
-            <span className="text-xs font-bold text-accent uppercase tracking-wider">Formula</span>
-            <h2 className="text-xl font-extrabold text-primary tracking-tight">{content.formulaTitle}</h2>
-          </div>
-          <div className="bg-slate-900 text-emerald-300 p-4 sm:p-5 rounded-xl border border-slate-800 font-mono text-xs sm:text-sm leading-relaxed shadow-inner">
-            {content.formulaDescription}
+        <div
+          className={`grid transition-[grid-template-rows] duration-200 ${
+            formulaOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr] md:grid-rows-[1fr]"
+          }`}
+        >
+          <div className="overflow-hidden min-h-0">
+            <div className="p-4 md:p-8 space-y-3 pt-1 md:pt-8">
+              <div className="hidden md:block">
+                <span className="text-xs font-bold text-accent uppercase tracking-wider">Formula</span>
+                <h2 className="text-xl font-extrabold text-primary tracking-tight">{content.formulaTitle}</h2>
+              </div>
+              <div className="bg-slate-900 text-emerald-300 p-4 md:p-5 rounded-xl border border-slate-800 font-mono text-xs sm:text-sm leading-relaxed shadow-inner">
+                {content.formulaDescription}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -366,7 +395,7 @@ export default function CalculatorShell({
         <button
           type="button"
           onClick={() => setCaseStudyOpen(!caseStudyOpen)}
-          className="md:hidden w-full min-h-[48px] p-4 sm:p-5 flex items-center justify-between font-extrabold text-sm text-primary text-left cursor-pointer hover:bg-slate-50 transition-colors"
+          className="md:hidden w-full min-h-[48px] p-4 flex items-center justify-between font-extrabold text-sm text-primary text-left cursor-pointer hover:bg-slate-50 transition-colors"
           aria-expanded={caseStudyOpen}
         >
           <div>
@@ -376,31 +405,39 @@ export default function CalculatorShell({
           <span className="text-slate-500 font-bold ml-2">{caseStudyOpen ? "▲" : "▼"}</span>
         </button>
 
-        <div className={`${caseStudyOpen ? "block" : "hidden"} md:block p-5 sm:p-8 space-y-3 pt-0 md:pt-8`}>
-          <div className="hidden md:block">
-            <span className="text-xs font-bold text-accent uppercase tracking-wider">Case Study</span>
-            <h2 className="text-xl font-extrabold text-primary tracking-tight">
-              {content.workedExample.title}
-            </h2>
-            <p className="text-sm text-appText-muted mt-1">
-              {content.workedExample.description}
-            </p>
+        <div
+          className={`grid transition-[grid-template-rows] duration-200 ${
+            caseStudyOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr] md:grid-rows-[1fr]"
+          }`}
+        >
+          <div className="overflow-hidden min-h-0">
+            <div className="p-4 md:p-8 space-y-3 pt-1 md:pt-8">
+              <div className="hidden md:block">
+                <span className="text-xs font-bold text-accent uppercase tracking-wider">Case Study</span>
+                <h2 className="text-xl font-extrabold text-primary tracking-tight">
+                  {content.workedExample.title}
+                </h2>
+                <p className="text-sm text-appText-muted mt-1">
+                  {content.workedExample.description}
+                </p>
+              </div>
+              <ul className="space-y-2 md:space-y-2.5 text-xs sm:text-sm text-appText bg-surface p-3.5 md:p-5 rounded-xl border border-slate-200/80">
+                {content.workedExample.bulletPoints.map((point, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0"></span>
+                    <span className="font-medium text-slate-800">{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <ul className="space-y-2.5 text-xs sm:text-sm text-appText bg-surface p-4 sm:p-5 rounded-xl border border-slate-200/80">
-            {content.workedExample.bulletPoints.map((point, idx) => (
-              <li key={idx} className="flex items-start gap-2.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0"></span>
-                <span className="font-medium text-slate-800">{point}</span>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
       {/* =========================================================================
           FAQS (ALWAYS VISIBLE & UNBURIED) → RELATED TOOLS → LEGAL NOTICE
          ========================================================================= */}
-      <section className="space-y-8 sm:space-y-10 print:hidden">
+      <section className="space-y-5 md:space-y-10 print:hidden">
         {/* FAQs Component */}
         <Faq items={content.faqs} />
 
@@ -408,7 +445,7 @@ export default function CalculatorShell({
         <RelatedTools currentSlug={content.slug} />
 
         {/* Disclaimer Callout Box */}
-        <div className="p-5 sm:p-6 bg-gradient-to-r from-amber-50/70 via-slate-50 to-amber-50/40 border-l-4 border-amber-500 rounded-r-2xl border border-slate-200/80 text-xs sm:text-sm text-appText-muted space-y-2 shadow-2xs">
+        <div className="p-4 md:p-6 bg-gradient-to-r from-amber-50/70 via-slate-50 to-amber-50/40 border-l-4 border-amber-500 rounded-r-2xl border border-slate-200/80 text-xs sm:text-sm text-appText-muted space-y-2 shadow-2xs">
           <div className="flex items-center gap-2 text-amber-900 font-bold uppercase tracking-wider text-xs">
             <svg className="w-4 h-4 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
@@ -421,6 +458,8 @@ export default function CalculatorShell({
         </div>
       </section>
     </div>
+
+    <BackToCalculatorButton />
 
     {printReport && (
       <div className="hidden print:block w-full">

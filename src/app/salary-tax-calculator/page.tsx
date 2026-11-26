@@ -222,26 +222,32 @@ export default function SalaryTaxCalculatorPage() {
       }))
     : [];
 
+  const scopeBanner = (
+    <div className="p-4 bg-gradient-to-r from-blue-50 via-slate-50 to-blue-50/50 border border-blue-200/80 rounded-xl text-xs text-blue-950 flex items-start gap-3 shadow-2xs">
+      <div className="p-1.5 rounded-lg bg-blue-100/80 text-blue-700 shrink-0 mt-0.5">
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <p className="leading-relaxed">
+        <strong className="font-bold text-blue-900">Salaried Individuals Scope:</strong> Applicable only to individuals where salary income exceeds 75% of total taxable income (Section 149). Not for freelancers, sole proprietors, or corporate directors. For statutory derivation details, see our{" "}
+        <Link href="/methodology" className="text-blue-700 font-semibold underline hover:text-blue-900">
+          salary tax methodology
+        </Link>
+        , or calculate your{" "}
+        <Link href="/zakat-calculator" className="text-blue-700 font-semibold underline hover:text-blue-900">
+          annual Zakat
+        </Link>
+        .
+      </p>
+    </div>
+  );
+
   const calculatorInputs = (
-    <div className="space-y-5">
-      {/* Scope Disclaimer Banner */}
-      <div className="p-4 bg-gradient-to-r from-blue-50 via-slate-50 to-blue-50/50 border border-blue-200/80 rounded-xl text-xs text-blue-950 flex items-start gap-3 shadow-2xs">
-        <div className="p-1.5 rounded-lg bg-blue-100/80 text-blue-700 shrink-0 mt-0.5">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <p className="leading-relaxed">
-          <strong className="font-bold text-blue-900">Salaried Individuals Scope:</strong> Applicable only to individuals where salary income exceeds 75% of total taxable income (Section 149). Not for freelancers, sole proprietors, or corporate directors. For statutory derivation details, see our{" "}
-          <Link href="/methodology" className="text-blue-700 font-semibold underline hover:text-blue-900">
-            salary tax methodology
-          </Link>
-          , or calculate your{" "}
-          <Link href="/zakat-calculator" className="text-blue-700 font-semibold underline hover:text-blue-900">
-            annual Zakat
-          </Link>
-          .
-        </p>
+    <div className="space-y-4 md:space-y-5">
+      {/* Scope Disclaimer Banner on desktop; moved into mobile context accordion below calculator on mobile */}
+      <div className="hidden md:block">
+        {scopeBanner}
       </div>
 
       {/* Frequency Toggle */}
@@ -258,7 +264,7 @@ export default function SalaryTaxCalculatorPage() {
         <button
           type="button"
           onClick={handleExample}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold text-accent bg-accent-soft hover:bg-teal-100/80 border border-accent/30 rounded-lg transition-all cursor-pointer shadow-2xs active:scale-98"
+          className="inline-flex items-center gap-1.5 min-h-[44px] md:min-h-0 px-3 py-2 md:px-2.5 md:py-1 text-xs font-bold text-accent bg-accent-soft hover:bg-teal-100/80 border border-accent/30 rounded-lg transition-all cursor-pointer shadow-2xs active:scale-98"
         >
           <span>💡</span>
           <span>{lang === "roman" ? "Example try karein" : "Try an example"}</span>
@@ -439,6 +445,7 @@ export default function SalaryTaxCalculatorPage() {
     <CalculatorShell
       content={dynamicContent}
       calculatorInputs={calculatorInputs}
+      customTopSection={<div className="md:hidden">{scopeBanner}</div>}
       resultPanel={resultPanel}
       calculatorHistory={
         <CalculatorHistory<SalaryInputs>

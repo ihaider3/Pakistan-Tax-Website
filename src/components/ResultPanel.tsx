@@ -110,12 +110,12 @@ export default function ResultPanel({
 
   return (
     <div
-      className={`bg-gradient-to-b from-white via-[#FAFBFD] to-surface border border-slate-200/90 rounded-2xl p-5 sm:p-7 shadow-[0_20px_50px_-12px_rgba(11,42,74,0.14),0_0_0_1px_rgba(11,42,74,0.03)] flex flex-col justify-between min-h-[420px] transition-all print:border-none print:p-0 print:shadow-none ${className}`}
+      className={`bg-gradient-to-b from-white via-[#FAFBFD] to-surface border border-slate-200/90 rounded-2xl p-4 md:p-7 shadow-[0_20px_50px_-12px_rgba(11,42,74,0.14),0_0_0_1px_rgba(11,42,74,0.03)] flex flex-col justify-between md:min-h-[420px] transition-all print:border-none print:p-0 print:shadow-none ${className}`}
       aria-live="polite"
     >
       <div>
         {/* Panel Header */}
-        <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-slate-200/80">
+        <div className="flex items-center justify-between pb-2.5 mb-3 md:pb-3.5 md:mb-4 border-b border-slate-200/80">
           <div className="flex items-center gap-2">
             <span className="relative flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
@@ -143,10 +143,10 @@ export default function ResultPanel({
 
         {/* Main Result Display */}
         {isEmpty ? (
-          <div className="py-14 text-center text-appText-muted flex flex-col items-center justify-center space-y-3">
-            <div className="w-14 h-14 rounded-2xl bg-surface flex items-center justify-center text-appText-subtle shadow-inner">
+          <div className="py-6 md:py-14 text-center text-appText-muted flex flex-col items-center justify-center space-y-2.5 md:space-y-3">
+            <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-surface flex items-center justify-center text-appText-subtle shadow-inner">
               <svg
-                className="w-7 h-7"
+                className="w-6 h-6 md:w-7 md:h-7"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -159,15 +159,15 @@ export default function ResultPanel({
                 />
               </svg>
             </div>
-            <p className="text-base font-bold text-primary max-w-sm px-4">
+            <p className="text-sm md:text-base font-bold text-primary max-w-sm px-4">
               {effectiveEmptyPrompt}
             </p>
             {onExample && (
-              <div className="pt-2">
+              <div className="pt-1 md:pt-2">
                 <button
                   type="button"
                   onClick={onExample}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-black text-accent bg-accent-soft hover:bg-teal-100/90 border border-accent/40 rounded-xl transition-all shadow-xs hover:shadow-md cursor-pointer active:scale-98"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[44px] text-xs font-black text-accent bg-accent-soft hover:bg-teal-100/90 border border-accent/40 rounded-xl transition-all shadow-xs hover:shadow-md cursor-pointer active:scale-98"
                 >
                   <span>💡</span>
                   <span>{isRoman ? "Example try karein" : "Try an example"}</span>
@@ -176,27 +176,27 @@ export default function ResultPanel({
             )}
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3 md:space-y-4">
             {/* Cinematic Main Result Hero Card */}
-            <div className="bg-gradient-to-br from-primary via-[#0E355E] to-primary-light text-white p-5 sm:p-6 rounded-xl shadow-xl shadow-primary/25 ring-1 ring-white/15 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-primary via-[#0E355E] to-primary-light text-white p-4 md:p-6 rounded-xl shadow-xl shadow-primary/25 ring-1 ring-white/15 relative overflow-hidden">
               <div className="absolute top-0 right-0 -mr-6 -mt-6 w-32 h-32 bg-accent/20 rounded-full blur-2xl pointer-events-none" />
               
-              <span className="block text-xs font-bold text-emerald-300 uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
+              <span className="block text-xs font-bold text-emerald-300 uppercase tracking-widest mb-1 md:mb-1.5 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                 {mainLabel}
               </span>
-              <div data-allow-select="true" className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white drop-shadow-xs">
+              <div data-allow-select="true" className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white drop-shadow-xs">
                 {mainValue}
               </div>
               {mainSubtext && (
-                <p className="text-xs sm:text-sm text-slate-200 mt-2 font-medium leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-200 mt-1.5 md:mt-2 font-medium leading-relaxed">
                   {mainSubtext}
                 </p>
               )}
             </div>
 
             {/* Secondary Results Grid with Soft Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 md:gap-3">
               {secondaryResults.map((item, idx) => (
                 <div
                   key={idx}

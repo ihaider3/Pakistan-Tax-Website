@@ -254,7 +254,7 @@ export default function FitranaCalculatorPage() {
           <button
             type="button"
             onClick={handleExample}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold text-accent bg-accent-soft hover:bg-teal-100/80 border border-accent/30 rounded-lg transition-all cursor-pointer shadow-2xs active:scale-98"
+            className="inline-flex items-center gap-1.5 min-h-[44px] sm:min-h-0 px-3 py-2 sm:px-2.5 sm:py-1 text-xs font-bold text-accent bg-accent-soft hover:bg-teal-100/80 border border-accent/30 rounded-lg transition-all cursor-pointer shadow-2xs active:scale-98"
           >
             <span>💡</span>
             <span>{lang === "roman" ? "Example try karein" : "Try an example"}</span>

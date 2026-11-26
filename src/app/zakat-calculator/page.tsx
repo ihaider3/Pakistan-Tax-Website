@@ -49,17 +49,10 @@ export default function ZakatCalculatorPage() {
   const content = calculatorPages.zakat;
   const { lang } = useExplanationLang();
 
-  // Step Collapsible visibility — Step 1 open by default; Step 2 & 3 open by default on mobile (<768px), collapsed on desktop
+  // Step Collapsible visibility — Step 1 open by default; Step 2 & 3 collapsed by default and expandable
   const [step1Open, setStep1Open] = useState<boolean>(true);
   const [step2Open, setStep2Open] = useState<boolean>(false);
   const [step3Open, setStep3Open] = useState<boolean>(false);
-
-  React.useEffect(() => {
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
-      setStep2Open(true);
-      setStep3Open(true);
-    }
-  }, []);
 
   // Asset inputs state — all empty by default per Prompt 22
   const [cashRaw, setCashRaw] = useState<string>("");
@@ -461,7 +454,7 @@ export default function ZakatCalculatorPage() {
             <button
               type="button"
               onClick={() => setStep1Open(!step1Open)}
-              className="text-[11px] font-bold text-accent hover:text-accent-dark px-2 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0 whitespace-nowrap"
+              className="text-[11px] font-bold text-accent hover:text-accent-dark px-3 py-2 min-h-[44px] rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0 whitespace-nowrap"
             >
               <span>{step1Open ? "Collapse" : "Expand"}</span>
               <span className="text-[10px]">{step1Open ? "▲" : "▼"}</span>
@@ -476,7 +469,7 @@ export default function ZakatCalculatorPage() {
               <button
                 type="button"
                 onClick={handleExample}
-                className="text-xs font-bold text-accent hover:text-accent-dark px-2.5 py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1.5 transition-colors active:scale-98"
+                className="text-xs font-bold text-accent hover:text-accent-dark px-3 py-2 min-h-[44px] rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1.5 transition-colors active:scale-98"
               >
                 <span>💡</span>
                 <span>{lang === "roman" ? "Example try karein" : "Try an example"}</span>
@@ -521,7 +514,7 @@ export default function ZakatCalculatorPage() {
           <button
             type="button"
             onClick={() => setStep2Open(!step2Open)}
-            className="text-[11px] sm:text-xs font-bold text-accent hover:text-accent-dark px-2 py-1 sm:px-3 sm:py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0 whitespace-nowrap"
+            className="text-[11px] sm:text-xs font-bold text-accent hover:text-accent-dark px-3 py-2 sm:py-1 min-h-[44px] sm:min-h-0 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0 whitespace-nowrap"
           >
             <span>{step2Open ? "Collapse" : "Expand"}</span>
             <span>{step2Open ? "▲" : "▼"}</span>
@@ -823,7 +816,7 @@ export default function ZakatCalculatorPage() {
           <button
             type="button"
             onClick={() => setStep3Open(!step3Open)}
-            className="text-[11px] sm:text-xs font-bold text-accent hover:text-accent-dark px-2 py-1 sm:px-3 sm:py-1 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0 whitespace-nowrap"
+            className="text-[11px] sm:text-xs font-bold text-accent hover:text-accent-dark px-3 py-2 sm:py-1 min-h-[44px] sm:min-h-0 rounded-lg bg-white border border-accent/30 shadow-2xs cursor-pointer flex items-center gap-1 transition-colors shrink-0 whitespace-nowrap"
           >
             <span>{step3Open ? "Collapse" : "Expand"}</span>
             <span>{step3Open ? "▲" : "▼"}</span>
