@@ -30,5 +30,22 @@ jobs:
           git config user.name "rates-bot"
           git config user.email "rates-bot@users.noreply.github.com"
           git add src/data/rates.json public/data/rates.json
-          git diff --cached --quiet || git commit -m "chore: update gold/silver rates $(date -u +%F)"
-          git push
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update gold/silver rates $(date -u +%F)"
+            for attempt in 1 2 3; do
+              if git push; then
+                exit 0
+              fi
+              echo "Push rejected (remote main updated); resetting, pulling latest main, and refreshing rates (attempt $attempt/3)..."
+              git reset --hard HEAD~1
+              git pull --ff-only origin main
+              node scripts/update-rates.mjs
+              git add src/data/rates.json public/data/rates.json
+              if git diff --cached --quiet; then
+                echo "No rate changes after pull."
+                exit 0
+              fi
+              git commit -m "chore: update gold/silver rates $(date -u +%F)"
+            done
+            git push
+          fi
