@@ -52,6 +52,10 @@ describe("P76 Adsterra Non-Disturbing Ads Integration", () => {
     expect(slotSrc).toContain("Advertisement");
     expect(slotSrc).not.toMatch(/\bfixed\b|\bsticky\b/);
     expect(slotSrc).toContain("bannerLoadQueue");
+
+    // P77: Banner containers must render on SSR (no "if (!matchesViewport) return null") so all keys appear in curl/HTML
+    expect(slotSrc).not.toContain("if (!matchesViewport)");
+    expect(slotSrc).toContain("data-ad-src={spec.src}");
   });
 
   it("never installs Social Bar, Popunder, or Smartlink anywhere in src/", () => {

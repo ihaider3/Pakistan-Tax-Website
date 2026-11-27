@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 export type AdsterraBannerVariant =
   | "rectangle-desktop"
@@ -68,18 +68,30 @@ declare global {
 // Serialize global window.atOptions writes so separate banner scripts never collide.
 let bannerLoadQueue: Promise<void> = Promise.resolve();
 
+/**
+ * Wait until first paint has settled so calculators and inputs always render and
+ * become interactive before any ad script is scheduled.
+ */
 function scheduleAfterFirstPaint(cb: () => void): () => void {
   if (typeof window === "undefined") return () => {};
-  const win = window as Window & {
-    requestIdleCallback?: (fn: () => void, opts?: { timeout: number }) => number;
-    cancelIdleCallback?: (id: number) => void;
+  let innerCancel: (() => void) | null = null;
+  const rafId = window.requestAnimationFrame(() => {
+    const win = window as Window & {
+      requestIdleCallback?: (fn: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (typeof win.requestIdleCallback === "function") {
+      const idleId = win.requestIdleCallback(cb, { timeout: 500 });
+      innerCancel = () => win.cancelIdleCallback?.(idleId);
+    } else {
+      const timerId = window.setTimeout(cb, 250);
+      innerCancel = () => window.clearTimeout(timerId);
+    }
+  });
+  return () => {
+    window.cancelAnimationFrame(rafId);
+    innerCancel?.();
   };
-  if (typeof win.requestIdleCallback === "function") {
-    const idleId = win.requestIdleCallback(cb, { timeout: 800 });
-    return () => win.cancelIdleCallback?.(idleId);
-  }
-  const timerId = window.setTimeout(cb, 200);
-  return () => window.clearTimeout(timerId);
 }
 
 interface AdsterraBannerProps {
@@ -88,40 +100,31 @@ interface AdsterraBannerProps {
 }
 
 /**
- * In-flow, lazily loaded Adsterra iframe Banner slot constrained strictly to its
- * responsive breakpoint (desktop >=769px or mobile <=768px) with an "Advertisement" label.
+ * In-flow Adsterra iframe Banner slot rendered in SSR HTML with strict responsive CSS
+ * breakpoint visibility (desktop >=769px or mobile <=768px) and an "Advertisement" label.
+ * Only the matching viewport's script executes after first paint.
  */
 export function AdsterraBanner({ variant, className = "" }: AdsterraBannerProps) {
   const spec = ADSTERRA_BANNERS[variant];
   const slotRef = useRef<HTMLDivElement>(null);
-  const [matchesViewport, setMatchesViewport] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const mq = window.matchMedia(spec.mediaQuery);
-    const sync = () => setMatchesViewport(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, [spec.mediaQuery]);
-
-  useEffect(() => {
-    if (!matchesViewport) return;
     const container = slotRef.current;
-    if (!container || container.dataset.adsterraInit === "1") return;
+    if (!container) return;
 
     let cancelled = false;
-    let observer: IntersectionObserver | null = null;
     let cancelIdle: (() => void) | null = null;
+    const mq = window.matchMedia(spec.mediaQuery);
 
     const injectBanner = () => {
-      if (cancelled || container.dataset.adsterraInit === "1") return;
+      if (cancelled || !mq.matches || container.dataset.adsterraInit === "1") return;
       container.dataset.adsterraInit = "1";
 
       bannerLoadQueue = bannerLoadQueue.then(
         () =>
           new Promise<void>((resolve) => {
-            if (cancelled || !slotRef.current) {
+            if (cancelled || !slotRef.current || !mq.matches) {
               resolve();
               return;
             }
@@ -136,7 +139,7 @@ export function AdsterraBanner({ variant, className = "" }: AdsterraBannerProps)
             script.setAttribute("data-cfasync", "false");
             script.src = spec.src;
             const done = () => resolve();
-            const fallbackTimer = window.setTimeout(done, 1500);
+            const fallbackTimer = window.setTimeout(done, 2000);
             script.onload = () => {
               window.clearTimeout(fallbackTimer);
               done();
@@ -150,36 +153,21 @@ export function AdsterraBanner({ variant, className = "" }: AdsterraBannerProps)
       );
     };
 
-    const startLazyLoad = () => {
-      if (typeof IntersectionObserver !== "undefined") {
-        observer = new IntersectionObserver(
-          (entries) => {
-            if (entries.some((e) => e.isIntersecting)) {
-              observer?.disconnect();
-              observer = null;
-              injectBanner();
-            }
-          },
-          { rootMargin: "350px 0px" }
-        );
-        observer.observe(container);
-      } else {
-        injectBanner();
-      }
+    const scheduleIfMatched = () => {
+      if (!mq.matches || container.dataset.adsterraInit === "1") return;
+      cancelIdle?.();
+      cancelIdle = scheduleAfterFirstPaint(injectBanner);
     };
 
-    cancelIdle = scheduleAfterFirstPaint(startLazyLoad);
+    scheduleIfMatched();
+    mq.addEventListener("change", scheduleIfMatched);
 
     return () => {
       cancelled = true;
       cancelIdle?.();
-      observer?.disconnect();
+      mq.removeEventListener("change", scheduleIfMatched);
     };
-  }, [matchesViewport, spec]);
-
-  if (!matchesViewport) {
-    return null;
-  }
+  }, [spec]);
 
   const paddingClass = /\bpx-/.test(className) ? "" : "px-4 sm:px-5 lg:px-6";
 
@@ -188,6 +176,8 @@ export function AdsterraBanner({ variant, className = "" }: AdsterraBannerProps)
       aria-label="Advertisement"
       data-ad-slot={variant}
       data-ad-key={spec.key}
+      data-ad-src={spec.src}
+      data-ad-size={`${spec.width}x${spec.height}`}
       className={`w-full max-w-[1150px] mx-auto ${paddingClass} my-4 md:my-6 print:hidden ${spec.visibilityClass} flex-col items-center justify-center overflow-hidden ${className}`}
     >
       <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1.5 select-none">
