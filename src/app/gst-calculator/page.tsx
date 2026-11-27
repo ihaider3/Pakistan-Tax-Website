@@ -8,7 +8,7 @@ import Toggle, { ToggleOption } from "@/components/Toggle";
 import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
 import BreakdownTable, { BreakdownColumn, BreakdownRow } from "@/components/BreakdownTable";
 import ExplanationBox from "@/components/ExplanationBox";
-import { calculatorPages } from "@/content/pages";
+import { gstPageContent } from "@/content/calc/gst";
 import { calculateGst, GstCalculationResult, GstMode } from "@/lib/calc/gst";
 import { formatRupees } from "@/lib/calc/money";
 import { gstRates } from "@/lib/rates/gst";
@@ -31,7 +31,7 @@ interface GstInputs {
 }
 
 export default function GstCalculatorPage() {
-  const content = calculatorPages.gst;
+  const content = gstPageContent;
   const { lang } = useExplanationLang();
 
   const [amountRaw, setAmountRaw] = useState<string>("");

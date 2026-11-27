@@ -95,8 +95,8 @@ export default function Header() {
             <img
               src="/images/CalculationHub_Logo_Full.webp"
               alt="CalculationHub"
-              width={520}
-              height={127}
+              width={400}
+              height={98}
               draggable={false}
               fetchPriority="high"
               decoding="async"

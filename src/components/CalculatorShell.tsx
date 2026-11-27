@@ -310,7 +310,7 @@ export default function CalculatorShell({
         {/* =========================================================================
           GUIDE / HOW TO USE (Collapsible Accordion on Mobile, Open on Desktop)
          ========================================================================= */}
-        <section className="bg-gradient-to-br from-surface to-slate-50 rounded-2xl border border-slate-200/90 shadow-xs print:hidden overflow-hidden">
+        <section className="cv-below-fold bg-gradient-to-br from-surface to-slate-50 rounded-2xl border border-slate-200/90 shadow-xs print:hidden overflow-hidden">
           {/* Accordion trigger on mobile (<768px) */}
           <button
             type="button"
@@ -357,7 +357,7 @@ export default function CalculatorShell({
         {/* =========================================================================
           FORMULA SECTION (Collapsible Accordion on Mobile, Open on Desktop)
          ========================================================================= */}
-        <section className="bg-white rounded-2xl border border-slate-200/90 shadow-[0_8px_25px_-5px_rgba(11,42,74,0.05)] print:hidden overflow-hidden">
+        <section className="cv-below-fold bg-white rounded-2xl border border-slate-200/90 shadow-[0_8px_25px_-5px_rgba(11,42,74,0.05)] print:hidden overflow-hidden">
           <button
             type="button"
             onClick={() => setFormulaOpen(!formulaOpen)}
@@ -392,7 +392,7 @@ export default function CalculatorShell({
         {/* =========================================================================
           WORKED EXAMPLE / CASE STUDY (Collapsible Accordion on Mobile, Open on Desktop)
          ========================================================================= */}
-        <section className="bg-white rounded-2xl border border-slate-200/90 shadow-[0_8px_25px_-5px_rgba(11,42,74,0.05)] print:hidden overflow-hidden">
+        <section className="cv-below-fold bg-white rounded-2xl border border-slate-200/90 shadow-[0_8px_25px_-5px_rgba(11,42,74,0.05)] print:hidden overflow-hidden">
           <button
             type="button"
             onClick={() => setCaseStudyOpen(!caseStudyOpen)}
@@ -437,7 +437,7 @@ export default function CalculatorShell({
         {/* =========================================================================
           FAQS (ALWAYS VISIBLE & UNBURIED) → RELATED TOOLS → LEGAL NOTICE
          ========================================================================= */}
-        <section className="space-y-5 md:space-y-10 print:hidden">
+        <section className="cv-below-fold space-y-5 md:space-y-10 print:hidden">
           {/* FAQs Component */}
           <Faq items={content.faqs} />
 

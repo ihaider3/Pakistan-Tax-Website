@@ -9,7 +9,7 @@ import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
 import ExplanationBox from "@/components/ExplanationBox";
 import BreakdownTable, { BreakdownColumn, BreakdownRow } from "@/components/BreakdownTable";
 import LazyPrintReport from "@/components/LazyPrintReport";
-import { calculatorPages } from "@/content/pages";
+import { salaryPageContent } from "@/content/calc/salary";
 import { calculateSalaryTax, SalaryTaxResult } from "@/lib/calc/salary";
 import { formatRupees, formatPercentage } from "@/lib/calc/money";
 import { useExplanationLang } from "@/components/LanguageContext";
@@ -29,7 +29,7 @@ interface SalaryInputs {
 }
 
 export default function SalaryTaxCalculatorPage() {
-  const content = calculatorPages.salary;
+  const content = salaryPageContent;
   const { lang } = useExplanationLang();
 
   const [frequency, setFrequency] = useState<SalaryFrequency>("monthly");

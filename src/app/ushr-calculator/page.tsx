@@ -8,7 +8,7 @@ import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
 import ExplanationBox from "@/components/ExplanationBox";
 import LazyPrintReport from "@/components/LazyPrintReport";
 import { useExplanationLang } from "@/components/LanguageContext";
-import { calculatorPages } from "@/content/pages";
+import { ushrPageContent } from "@/content/calc/ushr";
 import { calculateUshr, UshrCalculationResult } from "@/lib/calc/ushr";
 import {
   UshrIrrigationType,
@@ -33,7 +33,7 @@ interface UshrInputs {
 }
 
 export default function UshrCalculatorPage() {
-  const content = calculatorPages.ushr;
+  const content = ushrPageContent;
   const { lang } = useExplanationLang();
   const isRoman = lang === "roman";
 

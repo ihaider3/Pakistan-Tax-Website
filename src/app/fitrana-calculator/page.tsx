@@ -11,7 +11,7 @@ import LazyPrintReport from "@/components/LazyPrintReport";
 import { useExplanationLang } from "@/components/LanguageContext";
 import { buildWhatsAppText } from "@/lib/summary";
 import { buildFitranaSummaryData } from "@/lib/summary/builders";
-import { calculatorPages } from "@/content/pages";
+import { fitranaPageContent } from "@/content/calc/fitrana";
 import { calculateFitrana, FitranaCalculationResult } from "@/lib/calc/fitrana";
 import { formatRupees } from "@/lib/calc/money";
 import { fitranaRates2026, StapleType, FitranaSourceKey } from "@/lib/rates/fitrana-2026";
@@ -26,7 +26,7 @@ interface FitranaInputs {
 }
 
 export default function FitranaCalculatorPage() {
-  const content = calculatorPages.fitrana;
+  const content = fitranaPageContent;
 
   const [members, setMembers] = useState<number>(0);
   const [membersRaw, setMembersRaw] = useState<string>("");

@@ -58,8 +58,8 @@ export default function PrintReport({
                   <img
                     src="/images/CalculationHub_Logo_Full.webp"
                     alt="CalculationHub"
-                    width={520}
-                    height={127}
+                    width={400}
+                    height={98}
                     draggable={false}
                     className="h-10 w-auto object-contain"
                     style={{ printColorAdjust: "exact", WebkitPrintColorAdjust: "exact" }}

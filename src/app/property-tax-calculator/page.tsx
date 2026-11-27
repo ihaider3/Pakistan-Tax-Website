@@ -8,7 +8,7 @@ import Toggle, { ToggleOption } from "@/components/Toggle";
 import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
 import ExplanationBox from "@/components/ExplanationBox";
 import BreakdownTable, { BreakdownColumn, BreakdownRow } from "@/components/BreakdownTable";
-import { calculatorPages } from "@/content/pages";
+import { propertyPageContent } from "@/content/calc/property";
 import {
   calculatePropertyTax,
   PropertyTaxResult,
@@ -31,7 +31,7 @@ interface PropertyInputs {
 }
 
 export default function PropertyTaxCalculatorPage() {
-  const content = calculatorPages.property;
+  const content = propertyPageContent;
   const { lang } = useExplanationLang();
 
   const [propertyValRaw, setPropertyValRaw] = useState<string>("");
