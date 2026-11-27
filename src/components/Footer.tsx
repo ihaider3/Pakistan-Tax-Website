@@ -70,8 +70,8 @@ export default function Footer({
                   <img
                     src="/images/CalculationHub_Logo_Full.webp"
                     alt="CalculationHub"
-                    width={2126}
-                    height={521}
+                    width={520}
+                    height={127}
                     draggable={false}
                     loading="lazy"
                     decoding="async"
@@ -93,7 +93,7 @@ export default function Footer({
             <div className="bg-white/10 md:bg-white/5 md:backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-white/15 shadow-xl space-y-2.5">
               <div className="flex items-center gap-2.5 text-xs font-black uppercase tracking-wider text-emerald-300">
                 <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="hidden md:inline-flex md:animate-ping absolute h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
                 </span>
                 <span>Zero Server Storage Guarantee</span>

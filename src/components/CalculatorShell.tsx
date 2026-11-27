@@ -10,8 +10,6 @@ import { siteUrl } from "@/config/site";
 import { useExplanationLang } from "./LanguageContext";
 import ExplanationLangToggle from "./ExplanationLangToggle";
 import { useSiteContent } from "./SiteContentContext";
-import { trackToolUse } from "@/lib/analytics/beacon";
-import { trackMetaViewContent } from "@/lib/analytics/metaPixel";
 import { CalculatorType } from "@/lib/analytics/types";
 import BackToCalculatorButton from "./BackToCalculatorButton";
 import { AdsterraBanner, AdsterraNativeBanner } from "./AdsterraSlot";
@@ -116,7 +114,7 @@ export default function CalculatorShell({
           />
           <div className="space-y-1.5 md:space-y-2">
             <span className="inline-flex items-center gap-1.5 text-[10px] md:text-xs font-extrabold text-accent uppercase tracking-widest bg-accent-soft px-2.5 py-0.5 md:px-3.5 md:py-1 rounded-full border border-accent/25 shadow-2xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-accent md:animate-pulse"></span>
               Pakistan Official Calculator
             </span>
             <h1 className="text-[22px] sm:text-[32px] lg:text-[36px] font-black text-primary tracking-tight leading-tight">
@@ -147,8 +145,10 @@ export default function CalculatorShell({
               onClick={(e) => {
                 e.preventDefault();
                 const calcKey = getCalculatorKey(content.slug);
-                trackToolUse(calcKey);
-                trackMetaViewContent(breadcrumbLabels[content.slug] || content.h1);
+                void import("@/lib/analytics/beacon").then(({ trackToolUse }) => trackToolUse(calcKey));
+                void import("@/lib/analytics/metaPixel").then(({ trackMetaViewContent }) =>
+                  trackMetaViewContent(breadcrumbLabels[content.slug] || content.h1)
+                );
                 const el = document.getElementById("calculator");
                 if (el) {
                   el.scrollIntoView({ behavior: "smooth" });

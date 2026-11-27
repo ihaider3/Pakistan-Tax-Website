@@ -8,7 +8,7 @@ import Toggle, { ToggleOption } from "@/components/Toggle";
 import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
 import ExplanationBox from "@/components/ExplanationBox";
 import BreakdownTable, { BreakdownColumn, BreakdownRow } from "@/components/BreakdownTable";
-import PrintReport from "@/components/PrintReport";
+import LazyPrintReport from "@/components/LazyPrintReport";
 import { calculatorPages } from "@/content/pages";
 import { calculateSalaryTax, SalaryTaxResult } from "@/lib/calc/salary";
 import { formatRupees, formatPercentage } from "@/lib/calc/money";
@@ -457,7 +457,7 @@ export default function SalaryTaxCalculatorPage() {
       }
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
-      printReport={<PrintReport data={summaryData} language={lang} />}
+      printReport={<LazyPrintReport data={summaryData} language={lang} />}
     />
   );
 }

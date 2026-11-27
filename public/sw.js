@@ -29,21 +29,25 @@ const PRECACHE_URLS = [
   "/data/rates.json",
 ];
 
-// Install Event: Precache core app shell & pages
+// Install Event: Staggered precache so slow mobile networks stay responsive
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches
       .open(CACHE_NAME)
-      .then((cache) => {
-        return Promise.allSettled(
-          PRECACHE_URLS.map((url) =>
-            fetch(url)
-              .then((res) => {
-                if (res.ok) return cache.put(url, res);
-              })
-              .catch(() => { })
-          )
-        );
+      .then(async (cache) => {
+        const batchSize = 4;
+        for (let i = 0; i < PRECACHE_URLS.length; i += batchSize) {
+          const slice = PRECACHE_URLS.slice(i, i + batchSize);
+          await Promise.allSettled(
+            slice.map((url) =>
+              fetch(url)
+                .then((res) => {
+                  if (res.ok) return cache.put(url, res);
+                })
+                .catch(() => { })
+            )
+          );
+        }
       })
       .then(() => self.skipWaiting())
   );

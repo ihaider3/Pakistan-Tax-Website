@@ -31,19 +31,15 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Register Service Worker after load/idle so initial hydration yields cleanly
+    // Register Service Worker after load + idle grace period so first-paint bandwidth stays unobstructed
+    let swTimer: number | undefined;
     if ("serviceWorker" in navigator) {
       const registerSW = () => {
-        window.setTimeout(() => {
+        swTimer = window.setTimeout(() => {
           navigator.serviceWorker
             .register("/sw.js", { scope: "/" })
-            .then((reg) => {
-              console.log("[PWA] Service Worker registered with scope:", reg.scope);
-            })
-            .catch((err) => {
-              console.warn("[PWA] Service Worker registration failed:", err);
-            });
-        }, 0);
+            .catch(() => {});
+        }, 5000);
       };
 
       if (document.readyState === "complete") {
@@ -119,6 +115,7 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
     window.addEventListener("appinstalled", handleAppInstalled);
 
     return () => {
+      if (swTimer !== undefined) window.clearTimeout(swTimer);
       window.clearTimeout(initTimer);
       window.removeEventListener("pfc_tool_used", handleToolUsed);
       window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);

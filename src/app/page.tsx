@@ -327,7 +327,7 @@ export default async function HomePage() {
             {/* Glowing Pill Badge */}
             <div className="inline-flex items-center gap-1.5 md:gap-2 px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-white text-accent text-[11px] md:text-xs font-black uppercase tracking-widest border border-accent/30 shadow-[0_4px_16px_rgba(15,118,110,0.18)] hover:scale-105 transition-all duration-300">
               <span className="relative flex h-2 w-2 md:h-2.5 md:w-2.5 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="hidden md:inline-flex md:animate-ping absolute h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 md:h-2.5 md:w-2.5 bg-accent"></span>
               </span>
               <span data-content-key="home_hero_badge">{content.home_hero_badge || "VERIFIED AGAINST OFFICIAL 2026–27 NOTIFICATIONS"}</span>
@@ -392,7 +392,7 @@ export default async function HomePage() {
             ELEVATED HARDCOOKED TRUST STRIP (FLOATING CAPSULE WITH DEEP SHADOWS)
            ========================================================================= */}
         <section className="max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 -mt-3 md:-mt-8 relative z-20">
-        <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-7 border-2 border-slate-200/95 shadow-[0_22px_50px_-12px_rgba(11,42,74,0.14),0_6px_20px_rgba(0,0,0,0.04)] grid grid-cols-1 sm:grid-cols-3 gap-2.5 md:gap-6 sm:divide-x sm:divide-slate-100">
+        <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-7 border-2 border-slate-200/95 shadow-md md:shadow-[0_22px_50px_-12px_rgba(11,42,74,0.14),0_6px_20px_rgba(0,0,0,0.04)] grid grid-cols-1 sm:grid-cols-3 gap-2.5 md:gap-6 sm:divide-x sm:divide-slate-100">
           <div className="flex items-center gap-3 md:gap-3.5 p-2.5 md:p-3 rounded-xl md:rounded-2xl bg-slate-50/80 sm:bg-transparent border border-slate-100 sm:border-none sm:px-4">
             <div className="w-9 h-9 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/25 ring-2 ring-emerald-100">
               <svg className="w-4 h-4 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -440,7 +440,7 @@ export default async function HomePage() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 md:gap-4 border-b-2 border-slate-200/90 pb-3 md:pb-5">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-black text-accent uppercase tracking-widest bg-accent-soft px-3 py-1 rounded-full border border-accent/25 mb-1.5 shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+              <span className="w-2 h-2 rounded-full bg-accent md:animate-pulse"></span>
               Free Pakistan Calculators
             </div>
             <h2 className="text-[22px] sm:text-4xl font-black text-primary tracking-tight">
@@ -465,7 +465,7 @@ export default async function HomePage() {
           {dynamicCalculators.map((calc, idx) => (
             <div
               key={idx}
-              className="group relative bg-white rounded-2xl md:rounded-3xl border-2 border-slate-200/90 hover:border-accent/60 p-4 md:p-7 shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] hover:-translate-y-2 transition-all duration-300 ease-out flex flex-col justify-between overflow-hidden"
+              className="group relative bg-white rounded-2xl md:rounded-3xl border-2 border-slate-200/90 hover:border-accent/60 p-4 md:p-7 shadow-sm md:shadow-[0_12px_32px_-6px_rgba(11,42,74,0.08),0_4px_16px_rgba(0,0,0,0.02)] md:hover:shadow-[0_28px_60px_-12px_rgba(11,42,74,0.22),0_0_35px_rgba(15,118,110,0.18)] md:hover:-translate-y-2 transition-colors md:transition-all duration-200 md:duration-300 ease-out flex flex-col justify-between overflow-hidden"
             >
               {/* Permanent Sleek Top Accent Gradient Line with Vibrant Glow on Hover */}
               <div
@@ -483,7 +483,7 @@ export default async function HomePage() {
                   <span
                     className={`text-[10px] md:text-[11px] font-black tracking-wider px-2.5 py-0.5 md:px-3 md:py-1 rounded-full border-2 shadow-xs flex items-center gap-1.5 ${calc.badgeColor}`}
                   >
-                    <span className={`w-2 h-2 rounded-full ${calc.dotColor} animate-pulse`}></span>
+                    <span className={`w-2 h-2 rounded-full ${calc.dotColor} md:animate-pulse`}></span>
                     {calc.badge}
                   </span>
                 </div>
@@ -645,7 +645,7 @@ export default async function HomePage() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2.5 md:gap-4 border-b-2 border-slate-200/90 pb-3 md:pb-5">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-black text-accent uppercase tracking-widest bg-accent-soft px-3 py-1 rounded-full border border-accent/25 mb-1.5 shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+              <span className="w-2 h-2 rounded-full bg-accent md:animate-pulse"></span>
               Common Questions
             </div>
             <h2 className="text-[22px] sm:text-4xl font-black text-primary tracking-tight">

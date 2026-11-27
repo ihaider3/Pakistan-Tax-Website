@@ -6,7 +6,7 @@ import CalculatorShell from "@/components/CalculatorShell";
 import Toggle, { ToggleOption } from "@/components/Toggle";
 import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
 import ExplanationBox from "@/components/ExplanationBox";
-import PrintReport from "@/components/PrintReport";
+import LazyPrintReport from "@/components/LazyPrintReport";
 import { useExplanationLang } from "@/components/LanguageContext";
 import { calculatorPages } from "@/content/pages";
 import { calculateUshr, UshrCalculationResult } from "@/lib/calc/ushr";
@@ -685,7 +685,7 @@ export default function UshrCalculatorPage() {
         />
       }
       explanationBox={explanationBox}
-      printReport={<PrintReport data={summaryData} language={lang} />}
+      printReport={<LazyPrintReport data={summaryData} language={lang} />}
     />
   );
 }

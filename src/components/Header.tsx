@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const MobileNavDrawer = lazy(() => import("./MobileNavDrawer"));
 const preloadMobileDrawer = () => {
@@ -13,6 +13,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,7 +47,7 @@ export default function Header() {
         <div className="max-w-[1150px] w-full mx-auto flex items-center justify-between gap-3 min-w-0">
           <div className="flex items-center gap-2 min-w-0 flex-1">
             <span className="relative flex h-2 w-2 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="hidden md:inline-flex md:animate-ping absolute h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
             </span>
             <span className="font-semibold text-slate-100 text-[11px] sm:text-xs leading-tight min-w-0">
@@ -78,10 +79,10 @@ export default function Header() {
           Sticky on scroll across all pages. Modals (z-50/z-60) open above it.
          ========================================================================= */}
       <header
-        className={`sticky top-0 z-40 w-full print:hidden transition-all duration-200 border-b border-slate-200/80 ${
+        className={`sticky top-0 z-40 w-full print:hidden transition-shadow duration-200 border-b border-slate-200/80 py-2 sm:py-2.5 md:py-3 ${
           scrolled
-            ? "bg-white/90 md:bg-white/85 md:backdrop-blur-md shadow-sm py-1.5 sm:py-2 md:py-2.5"
-            : "bg-white/95 md:bg-white/80 md:backdrop-blur-md shadow-xs py-2 sm:py-2.5 md:py-3"
+            ? "bg-white/95 md:bg-white/85 md:backdrop-blur-md shadow-sm"
+            : "bg-white/95 md:bg-white/80 md:backdrop-blur-md shadow-xs"
         }`}
       >
         <div className="max-w-[1150px] mx-auto px-3 sm:px-5 lg:px-6 flex items-center justify-between gap-2 sm:gap-4">
@@ -94,12 +95,12 @@ export default function Header() {
             <img
               src="/images/CalculationHub_Logo_Full.webp"
               alt="CalculationHub"
-              width={2126}
-              height={521}
+              width={520}
+              height={127}
               draggable={false}
               fetchPriority="high"
               decoding="async"
-              className="h-8 sm:h-9 md:h-12 w-auto object-contain group-hover:opacity-95 transition-all duration-200"
+              className="h-8 sm:h-9 md:h-12 w-auto object-contain group-hover:opacity-95 transition-opacity duration-200"
             />
           </Link>
 
@@ -112,7 +113,9 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   prefetch={false}
-                  className={`px-3 py-2 text-sm font-semibold rounded-lg transition-all duration-200 whitespace-nowrap ${
+                  onPointerEnter={() => router.prefetch(link.href)}
+                  onTouchStart={() => router.prefetch(link.href)}
+                  className={`px-3 py-2 text-sm font-semibold rounded-lg transition-colors duration-150 whitespace-nowrap ${
                     isActive
                       ? "bg-primary text-white shadow-xs font-bold"
                       : "text-slate-700 hover:text-primary hover:bg-slate-100/90"

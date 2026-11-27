@@ -17,7 +17,7 @@ import {
 } from "@/lib/calc/property";
 import { formatRupees } from "@/lib/calc/money";
 import { useExplanationLang } from "@/components/LanguageContext";
-import PrintReport from "@/components/PrintReport";
+import LazyPrintReport from "@/components/LazyPrintReport";
 import { buildPropertySummaryData } from "@/lib/summary/builders";
 import { buildWhatsAppText } from "@/lib/summary";
 import CalculatorHistory from "@/components/CalculatorHistory";
@@ -421,7 +421,7 @@ export default function PropertyTaxCalculatorPage() {
       extraSection={filerSubsection}
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
-      printReport={<PrintReport data={summaryData} language={lang} />}
+      printReport={<LazyPrintReport data={summaryData} language={lang} />}
     />
   );
 }

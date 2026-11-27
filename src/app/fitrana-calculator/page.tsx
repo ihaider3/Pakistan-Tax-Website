@@ -7,7 +7,7 @@ import Toggle, { ToggleOption } from "@/components/Toggle";
 import ResultPanel, { SecondaryResult } from "@/components/ResultPanel";
 import BreakdownTable, { BreakdownColumn, BreakdownRow } from "@/components/BreakdownTable";
 import ExplanationBox from "@/components/ExplanationBox";
-import PrintReport from "@/components/PrintReport";
+import LazyPrintReport from "@/components/LazyPrintReport";
 import { useExplanationLang } from "@/components/LanguageContext";
 import { buildWhatsAppText } from "@/lib/summary";
 import { buildFitranaSummaryData } from "@/lib/summary/builders";
@@ -483,7 +483,7 @@ export default function FitranaCalculatorPage() {
       }
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
-      printReport={<PrintReport data={summaryData} language={lang} />}
+      printReport={<LazyPrintReport data={summaryData} language={lang} />}
     />
   );
 }

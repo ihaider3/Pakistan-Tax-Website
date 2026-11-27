@@ -13,7 +13,7 @@ import { calculateGst, GstCalculationResult, GstMode } from "@/lib/calc/gst";
 import { formatRupees } from "@/lib/calc/money";
 import { gstRates } from "@/lib/rates/gst";
 import { useExplanationLang } from "@/components/LanguageContext";
-import PrintReport from "@/components/PrintReport";
+import LazyPrintReport from "@/components/LazyPrintReport";
 import { buildGstSummaryData } from "@/lib/summary/builders";
 import { buildWhatsAppText } from "@/lib/summary";
 import CalculatorHistory from "@/components/CalculatorHistory";
@@ -508,7 +508,7 @@ export default function GstCalculatorPage() {
       }
       explanationBox={explanationBox}
       breakdownTable={breakdownSection}
-      printReport={<PrintReport data={summaryData} language={lang} />}
+      printReport={<LazyPrintReport data={summaryData} language={lang} />}
     />
   );
 }

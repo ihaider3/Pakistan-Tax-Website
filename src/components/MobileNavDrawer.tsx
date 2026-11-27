@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { MobileDrawerInstallButton } from "./MobileDrawerInstallButton";
 
 interface NavLinkItem {
@@ -17,6 +18,7 @@ interface MobileNavDrawerProps {
 
 /** Code-split mobile navigation drawer mounted only when the menu toggle is opened. */
 export default function MobileNavDrawer({ navLinks, pathname, onClose }: MobileNavDrawerProps) {
+  const router = useRouter();
   return (
     <div className="md:hidden border-t border-slate-200/80 backdrop-blur-xl bg-white/95 px-4 pt-3 pb-5 space-y-1.5 shadow-xl animate-in slide-in-from-top-2 duration-200 max-h-[calc(100vh-60px)] overflow-y-auto">
       <div className="text-[11px] font-bold uppercase tracking-wider text-accent px-3 py-1">
@@ -30,6 +32,7 @@ export default function MobileNavDrawer({ navLinks, pathname, onClose }: MobileN
             key={link.href}
             href={link.href}
             prefetch={false}
+            onTouchStart={() => router.prefetch(link.href)}
             onClick={onClose}
             className={`px-4 py-3 text-base font-semibold rounded-xl min-h-[44px] flex items-center justify-between transition-all ${
               isActive
