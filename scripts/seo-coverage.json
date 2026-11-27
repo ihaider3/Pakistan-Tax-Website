@@ -1,0 +1,105 @@
+{
+  "verifiedAt": "2026-11-27",
+  "verifiedSource": "Live HTTP curl check against https://calculationhubs.com/ (Step 0)",
+  "entries": [
+    {
+      "keyword": "pakistan tax calculator",
+      "aliases": ["pakistan tax calculator", "tax calculator 2026-27", "pakistan income tax calculator", "is calculationhub an income tax calculator for pakistan"],
+      "page": "Homepage",
+      "path": "/",
+      "status": "live",
+      "prompt": "P64 + P67",
+      "liveEvidence": "Homepage title 'CalculationHub | Pakistan Tax Calculator 2026-27' + FAQ 4 'Is CalculationHub an income tax calculator for Pakistan?' + FAQ 7 'Which tax calculator should I use for 2026-27?'"
+    },
+    {
+      "keyword": "salary tax on 150000",
+      "aliases": ["150000 salary tax", "tax on 150000", "salary tax on 150,000"],
+      "page": "Homepage",
+      "path": "/",
+      "status": "live",
+      "prompt": "P67",
+      "liveEvidence": "Homepage FAQ 5: 'What is the salary tax on Rs 150,000 per month in Pakistan?'"
+    },
+    {
+      "keyword": "fbr tax calculator",
+      "aliases": ["fbr tax calculator", "fbr calculator", "fbr income tax calculator"],
+      "page": "Homepage",
+      "path": "/",
+      "status": "live",
+      "prompt": "P67",
+      "liveEvidence": "Homepage FAQ 6: 'What is the FBR tax calculator, and how is CalculationHub different?'"
+    },
+    {
+      "keyword": "salary tax calculator pakistan 2026-27",
+      "aliases": ["salary tax calculator pakistan 2026-27", "salary tax calculator pakistan", "salary tax calculator 2026-27", "pakistan salary tax calculator", "income tax calculator pakistan"],
+      "page": "Salary Tax",
+      "path": "/salary-tax-calculator",
+      "status": "live",
+      "prompt": "P64 + P68",
+      "liveEvidence": "Salary title 'Salary Tax Calculator Pakistan 2026-27 | CalculationHub' + FAQ 6 'Is salary tax the same as income tax in Pakistan?' + FAQ 8 'How is salary tax calculated for 2026-27?'"
+    },
+    {
+      "keyword": "salary tax deduction",
+      "aliases": ["tax deduction", "salary tax deduction", "how much tax is deducted from salary"],
+      "page": "Salary Tax",
+      "path": "/salary-tax-calculator",
+      "status": "live",
+      "prompt": "P68",
+      "liveEvidence": "Salary FAQ 7: 'How much tax is deducted from my salary every month in Pakistan?'"
+    },
+    {
+      "keyword": "zakat calculator on gold",
+      "aliases": ["zakat calculator on gold", "zakat on gold", "1 tola gold zakat", "10 tola gold zakat", "24k gold rate in pakistan", "gold zakat nisab"],
+      "page": "Zakat",
+      "path": "/zakat-calculator",
+      "status": "live",
+      "prompt": "P58 + P60 + P64",
+      "liveEvidence": "Zakat FAQ 6 ('Zakat nisab on gold'), FAQ 7 ('1 tola of gold'), FAQ 8 ('10 tola gold'), FAQ 9 ('24k gold rate in Pakistan today')"
+    },
+    {
+      "keyword": "zakat calculator on silver",
+      "aliases": ["zakat calculator pakistan", "zakat nisab 2026", "zakat on silver", "silver zakat nisab"],
+      "page": "Zakat",
+      "path": "/zakat-calculator",
+      "status": "live",
+      "prompt": "P43 + P69",
+      "liveEvidence": "Zakat title 'Zakat Calculator Pakistan — Nisab 2026' + FAQ 10: 'How much Zakat is due on silver in Pakistan?'"
+    },
+    {
+      "keyword": "property tax calculator pakistan",
+      "aliases": ["property tax calculator pakistan", "property tax filer", "property tax non-filer"],
+      "page": "Property Tax",
+      "path": "/property-tax-calculator",
+      "status": "live",
+      "prompt": "P59 + P70",
+      "liveEvidence": "Property title 'Property Tax Calculator Pakistan 236C 236K' + FAQ 5 ('filer pay') + FAQ 7 ('non-filer pay')"
+    },
+    {
+      "keyword": "gst calculator pakistan",
+      "aliases": ["gst calculator pakistan", "how is gst credit calculated", "gst credit", "is gst 18% on everything"],
+      "page": "GST",
+      "path": "/gst-calculator",
+      "status": "live",
+      "prompt": "P64 + P71",
+      "liveEvidence": "GST title 'GST Calculator Pakistan — 18% Sales Tax' + FAQ 6 ('How is GST credit calculated in Pakistan?') + FAQ 7 ('Is GST 18% on everything in Pakistan?')"
+    },
+    {
+      "keyword": "fitrana 2026 pakistan",
+      "aliases": ["fitrana 2026 pakistan", "fitrana 2026", "fitrana family of 5"],
+      "page": "Fitrana",
+      "path": "/fitrana-calculator",
+      "status": "live",
+      "prompt": "P46 + P72",
+      "liveEvidence": "Fitrana title 'Fitrana Calculator 2026 — Wheat Rs 300' + FAQ 6: 'How much Fitrana should a family of 5 pay?'"
+    },
+    {
+      "keyword": "ushr calculator pakistan",
+      "aliases": ["ushr calculator pakistan", "ushr calculator", "ushr 100 maund"],
+      "page": "Ushr",
+      "path": "/ushr-calculator",
+      "status": "live",
+      "prompt": "P47 + P73",
+      "liveEvidence": "Ushr title 'Ushr Calculator Pakistan — Zakat on Crops' + FAQ 5: 'How much Ushr is due on 100 maund of wheat?'"
+    }
+  ]
+}

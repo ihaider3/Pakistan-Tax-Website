@@ -1,0 +1,179 @@
+{
+  "version": "2026-11-27",
+  "rules": {
+    "neverInventFigures": true,
+    "goldAndSilverRatesMustUseLiveVariables": true,
+    "ushrForbiddenFacts": [
+      "Never state Zakat & Ushr Ordinance 1980 rupee or weight exemption threshold (scholarly conflict)"
+    ]
+  },
+  "calculators": {
+    "/": {
+      "name": "Homepage",
+      "supportedTopics": [
+        "pakistan tax calculator",
+        "income tax calculator",
+        "fbr tax calculator",
+        "which tax calculator",
+        "salary tax 150000",
+        "zakat",
+        "property tax",
+        "gst",
+        "fitrana",
+        "ushr"
+      ],
+      "figures": [
+        "Covers 6 calculators for TY2027 / 2026: Salary Tax (Finance Act 2026, TY2027), Zakat (2.5% on live gold/silver nisab), Property Tax (Sections 236C & 236K), GST (18% federal goods), Fitrana 2026 (wheat Rs 300), and Ushr (10% / 5% / 7.5%).",
+        "Salary example (TY2027): Rs 150,000/month -> Rs 6,000/month tax, Rs 144,000/month take-home."
+      ]
+    },
+    "/salary-tax-calculator": {
+      "name": "Salary Tax",
+      "supportedTopics": [
+        "salary tax",
+        "income tax",
+        "fbr slab",
+        "tax slab",
+        "take-home",
+        "take home",
+        "tax deduction",
+        "surcharge",
+        "monthly tax",
+        "annual tax",
+        "100000",
+        "150000",
+        "200000",
+        "50000",
+        "600000",
+        "ty2027",
+        "2026-27"
+      ],
+      "slabs": [
+        "Up to Rs 600,000/year: 0%",
+        "Rs 600,001 to Rs 1,200,000/year: 1% of amount exceeding Rs 600,000",
+        "Rs 1,200,001 to Rs 2,200,000/year: Rs 6,000 + 11% of amount exceeding Rs 1,200,000",
+        "Rs 2,200,001 to Rs 3,200,000/year: Rs 116,000 + 20% of amount exceeding Rs 2,200,000",
+        "Rs 3,200,001 to Rs 4,100,000/year: Rs 316,000 + 25% of amount exceeding Rs 3,200,000",
+        "Rs 4,100,001 to Rs 5,600,000/year: Rs 541,000 + 29% of amount exceeding Rs 4,100,000",
+        "Rs 5,600,001 to Rs 7,000,000/year: Rs 976,000 + 32% of amount exceeding Rs 5,600,000",
+        "Above Rs 7,000,000/year: Rs 1,424,000 + 35% of amount exceeding Rs 7,000,000"
+      ],
+      "surcharge": "Salaried surcharge abolished in Finance Act 2026 for Tax Year 2027 (0%).",
+      "figures": [
+        "TY2027 (Finance Act 2026, Section 149) has 8 slabs starting with 0% up to Rs 600,000/year (Rs 50,000/month), and salaried surcharge is abolished (0%).",
+        "Example Rs 100,000/month (Rs 1,200,000/year): tax Rs 500/month (Rs 6,000/year), take-home Rs 99,500/month.",
+        "Example Rs 150,000/month (Rs 1,800,000/year): tax Rs 6,000/month (Rs 72,000/year), take-home Rs 144,000/month.",
+        "Example Rs 200,000/month (Rs 2,400,000/year): tax Rs 13,000/month (Rs 156,000/year), take-home Rs 187,000/month."
+      ]
+    },
+    "/zakat-calculator": {
+      "name": "Zakat",
+      "supportedTopics": [
+        "zakat",
+        "nisab",
+        "gold",
+        "silver",
+        "tola",
+        "gram",
+        "24k",
+        "hawl",
+        "cash",
+        "jewellery",
+        "jewelry",
+        "savings"
+      ],
+      "figures": [
+        "Zakat rate: 2.5% on net zakatable wealth held for one full lunar year (Hawl).",
+        "Gold Nisab: 7.5 tola = 87.48 grams; Silver Nisab: 52.5 tola = 612.36 grams.",
+        "Never hard-code rupee gold or silver prices; compute dynamically using live variables goldPerTola (7.5 * goldPerTola) and silverPerTola (52.5 * silverPerTola).",
+        "Example Rs 500,000 net zakatable cash (when above Nisab): Zakat Rs 12,500.",
+        "Example Rs 777,777 net zakatable cash (when above Nisab): exact Zakat Rs 19,444.43 (UI rounded headline Rs 19,444)."
+      ]
+    },
+    "/property-tax-calculator": {
+      "name": "Property Tax",
+      "supportedTopics": [
+        "property tax",
+        "236c",
+        "236k",
+        "filer",
+        "non-filer",
+        "buyer",
+        "seller",
+        "advance tax",
+        "plot",
+        "real estate"
+      ],
+      "figures": [
+        "Section 236C (Seller advance tax, TY2027): Filer 2.75%, Non-Filer 11.5% (late-filer tier removed in TY2027).",
+        "Section 236K (Buyer advance tax, TY2027): Filer 1.25% flat; Non-Filer tiered 10.5% (<= Rs 50M), 14.5% (Rs 50M–100M), 18.5% (> Rs 100M).",
+        "Example Rs 10,000,000 property purchase by a Filer (Section 236K @ 1.25%): buyer advance tax Rs 125,000."
+      ]
+    },
+    "/gst-calculator": {
+      "name": "GST",
+      "supportedTopics": [
+        "gst",
+        "sales tax",
+        "18%",
+        "tax credit",
+        "input tax",
+        "inclusive",
+        "exclusive",
+        "add gst",
+        "remove gst",
+        "invoice"
+      ],
+      "figures": [
+        "Federal Standard GST on Goods (Sales Tax Act 1990): 18% federal rate (provincial services vary by PRA/SRB/KPRA/BRA).",
+        "Example Add 18% GST on Rs 100,000: GST Rs 18,000, Total Rs 118,000.",
+        "Example Remove 18% GST from Rs 100,000 inclusive: Base Rs 84,745.76, GST Rs 15,254.24."
+      ]
+    },
+    "/fitrana-calculator": {
+      "name": "Fitrana",
+      "supportedTopics": [
+        "fitrana",
+        "fitrah",
+        "sadqa-tul-fitr",
+        "sadqat-ul-fitr",
+        "wheat",
+        "barley",
+        "dates",
+        "raisins",
+        "ramadan",
+        "eid"
+      ],
+      "figures": [
+        "Official Fitrana 2026 per-person rates (Mufti Muneeb-ur-Rehman, 21 Feb 2026): Wheat Rs 300, Barley Rs 1,160, Dates Rs 2,800, Raisins Rs 7,200.",
+        "Example family of 5 (Wheat @ Rs 300/person): Rs 1,500 total."
+      ]
+    },
+    "/ushr-calculator": {
+      "name": "Ushr",
+      "supportedTopics": [
+        "ushr",
+        "usher",
+        "crop",
+        "harvest",
+        "rain",
+        "barani",
+        "tubewell",
+        "tube-well",
+        "mixed",
+        "maund",
+        "wheat",
+        "rice",
+        "cotton",
+        "sugarcane",
+        "maize"
+      ],
+      "figures": [
+        "Ushr rates: Rain/River natural irrigation 10%, Tube-well/artificial irrigation 5%, Mixed equal irrigation 7.5%.",
+        "1 maund = 40 kg (costs of seed/fertilizer/harvesting are not deducted; do NOT state Ordinance exemption threshold due to scholarly conflict).",
+        "Example 2,000 kg tube-well crop (5%): Ushr 100 kg.",
+        "Example 100 maund = 4,000 kg crop: 400 kg (rain 10%), 200 kg (tube-well 5%), or 300 kg (mixed equal 7.5%)."
+      ]
+    }
+  }
+}

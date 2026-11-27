@@ -22,6 +22,35 @@ from typing import Any, Callable
 PKT_TZ = timezone(timedelta(hours=5))
 USER_AGENT = "CalculationHubSEOBot/1.0 (+https://calculationhubs.com/)"
 GSC_PROPERTY = "https://calculationhubs.com/"
+SCRIPT_DIR = Path(__file__).resolve().parent
+DEFAULT_VERIFIED_FIGURES_PATH = SCRIPT_DIR / "verified-figures.json"
+DEFAULT_SEO_COVERAGE_PATH = SCRIPT_DIR / "seo-coverage.json"
+
+UNSUPPORTED_FIGURE_TOPICS: tuple[str, ...] = (
+    "prize bond",
+    "capital gains",
+    "cgt",
+    "dividend",
+    "freelance",
+    "freelancer",
+    "it export",
+    "rental",
+    "token tax",
+    "vehicle",
+    "car tax",
+    "customs",
+    "import duty",
+    "corporate tax",
+    "pension",
+    "crypto",
+    "inheritance",
+    "wirasat",
+    "electricity bill",
+    "withholding on cash",
+    "bank profit",
+    "sukuk",
+    "mutual fund",
+)
 
 CORE_TARGETS: list[dict[str, str]] = [
     {"term": "Pakistan tax calculator", "page": "Homepage", "path": "/"},
@@ -665,6 +694,108 @@ def collect_competitor_sitemaps(
     return report_items
 
 
+def load_json_file(path: str | Path) -> dict[str, Any]:
+    """Load a UTF-8 JSON file safely."""
+    p = Path(path)
+    if not p.is_file():
+        return {}
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
+def slugify_keyword(keyword: str) -> str:
+    """Turn a keyword into a safe filename slug for prompt artifacts."""
+    slug = re.sub(r"[^a-z0-9]+", "-", keyword.lower()).strip("-")
+    return slug[:60] or "keyword"
+
+
+def find_live_coverage(keyword: str, coverage_data: dict[str, Any]) -> dict[str, Any] | None:
+    """Return live coverage entry if keyword is already covered on CalculationHub."""
+    norm = re.sub(r"\s+", " ", keyword.strip().lower())
+    if not norm:
+        return None
+    for entry in coverage_data.get("entries", []):
+        if str(entry.get("status", "")).lower() != "live":
+            continue
+        aliases = [str(entry.get("keyword", "")).lower()] + [
+            str(a).lower() for a in entry.get("aliases", [])
+        ]
+        for alias in aliases:
+            alias_norm = re.sub(r"\s+", " ", alias.strip())
+            if not alias_norm:
+                continue
+            if norm == alias_norm or (len(alias_norm.split()) >= 2 and alias_norm in norm):
+                return entry
+    return None
+
+
+def match_verified_figures(
+    keyword: str,
+    page_path: str,
+    figures_data: dict[str, Any],
+) -> tuple[bool, list[str]]:
+    """Return (True, verified_bullets) ONLY if keyword can be answered using verified-figures.json."""
+    lower = keyword.lower()
+    if any(bad in lower for bad in UNSUPPORTED_FIGURE_TOPICS):
+        return (False, [])
+
+    calc_entry = figures_data.get("calculators", {}).get(page_path)
+    if not isinstance(calc_entry, dict):
+        return (False, [])
+
+    supported = [str(t).lower() for t in calc_entry.get("supportedTopics", [])]
+    if not any(topic in lower for topic in supported):
+        return (False, [])
+
+    bullets: list[str] = []
+    for slab in calc_entry.get("slabs", []):
+        bullets.append(str(slab))
+    if calc_entry.get("surcharge"):
+        bullets.append(str(calc_entry["surcharge"]))
+    for fig in calc_entry.get("figures", []):
+        bullets.append(str(fig))
+    return (bool(bullets), bullets)
+
+
+def build_ready_made_prompt(
+    keyword: str,
+    page_name: str,
+    page_path: str,
+    signal: str,
+    sustained_runs: int,
+    verified_bullets: list[str],
+    report_date_str: str,
+) -> str:
+    """Build a ready-to-paste Antigravity prompt grounded strictly in verified-figures.json."""
+    live_url = f"https://calculationhubs.com{page_path}"
+    figures_block = "\n".join(f"- {item}" for item in verified_bullets)
+    return (
+        f"SEO Content Update — {page_name} ({page_path}) | Target Keyword: \"{keyword}\" ({report_date_str})\n"
+        f"Site: CalculationHub — https://calculationhubs.com/ (Repo: ihaider3/Pakistan-Tax-Website, Vercel project calculationhub, branch main)\n"
+        f"Trigger Context: Sustained {sustained_runs} runs ({signal}). Add 1 natural FAQ ONLY — do NOT edit titles, meta, or calculator math.\n\n"
+        f"Step 0 — Reconcile first (inspect live before editing, or STOP if anything is missing):\n"
+        f"1. Curl {live_url} and confirm HTTP 200, canonical tag, existing FAQs, and layout.\n"
+        f"2. Confirm all 4 P64 FAQs (Homepage income-tax, Salary income-tax, Zakat 24k gold rate, GST credit), both P65 308 redirects (/income-tax-calculator and /income-tax-calculator-2025-26 -> /salary-tax-calculator), Meta Pixel (1774525983843690), AdSense (ca-pub-9434774796732008), and Adsterra slots are intact.\n\n"
+        f"Required Change (EXACTLY 1 FAQ on {page_name} only):\n"
+        f"- Add exactly 1 concise, helpful FAQ + FAQPage JSON-LD item on {page_path} naturally answering \"{keyword}\" (no keyword stuffing).\n"
+        f"- Do NOT change <title>, <meta name=\"description\">, or <h1> in this prompt.\n\n"
+        f"Verified Figures ONLY (do NOT invent any number or example outside these):\n"
+        f"{figures_block}\n\n"
+        f"DO NOT:\n"
+        f"- Do NOT change calculator slabs, rates, nisab, Fitrana rates, Ushr rules, or any calculation formula/result.\n"
+        f"- Do NOT add any new calculator or modify any other page, P64 FAQs, P65 redirects, Pixel, AdSense, or Adsterra slots.\n\n"
+        f"Regression Tests (ALL must pass after deploy):\n"
+        f"- Salary: 150,000 -> Rs 6,000/mo tax, Rs 144,000/mo take-home\n"
+        f"- Zakat: 500,000 cash -> Rs 12,500; 777,777 cash -> Rs 19,444.43\n"
+        f"- Property: 10,000,000 filer buyer -> Rs 125,000\n"
+        f"- GST: 100,000 + 18% -> Rs 18,000 / Rs 118,000\n"
+        f"- Fitrana: 5 persons wheat -> Rs 1,500\n"
+        f"- Ushr: 2,000 kg tube-well -> 100 kg\n"
+        f"- P65 redirects: /income-tax-calculator and /income-tax-calculator-2025-26 return 308 -> /salary-tax-calculator\n"
+        f"- Pixel 1774525983843690 and AdSense ca-pub-9434774796732008 present in HTML\n\n"
+        f"Final Response: Report files changed, PASS/FAIL regression table with observed outputs, and anything not verified."
+    )
+
+
 def count_prior_keyword_appearances(
     prior_issues: list[dict[str, Any]],
     report_date_str: str,
@@ -678,8 +809,9 @@ def count_prior_keyword_appearances(
             continue
         date_match = re.search(r"\b(20\d{2}-\d{2}-\d{2})\b", title)
         date_key = date_match.group(1) if date_match else f"issue-{issue.get('number', len(counts))}"
-        body_lower = body.lower()
-        # Capture backticked candidate strings mentioned in prior Strong Candidates / Top Keywords tables
+        # Only inspect Sections 1 & 2 (keywords & candidates), ignoring prompt blocks
+        relevant_slice = body.split("## 3.")[0].split("## Ready-to-Paste")[0]
+        body_lower = relevant_slice.lower()
         for match in re.findall(r"`([^`\n]{4,90})`", body_lower):
             counts.setdefault(match.strip(), set()).add(date_key)
     return {k: len(v) for k, v in counts.items()}
@@ -689,9 +821,29 @@ def build_strong_candidates(
     trends_data: dict[str, Any],
     gsc_data: dict[str, Any],
     prior_counts: dict[str, int],
-) -> list[dict[str, Any]]:
-    """Classify Strong candidates (Breakout / +100%+ / GSC growing / 2-3 sustained runs)."""
+    figures_data: dict[str, Any] | None = None,
+    coverage_data: dict[str, Any] | None = None,
+    report_date_str: str = "",
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Classify Strong candidates, enforce coverage/verified-figure gates, and generate ready prompts."""
+    fig_data = figures_data if figures_data is not None else load_json_file(DEFAULT_VERIFIED_FIGURES_PATH)
+    cov_data = coverage_data if coverage_data is not None else load_json_file(DEFAULT_SEO_COVERAGE_PATH)
     candidates_map: dict[str, dict[str, Any]] = {}
+
+    def register_candidate(q: str, page_name: str, page_path: str, reason: str, total_runs: int) -> None:
+        key = q.lower()
+        if key in candidates_map:
+            candidates_map[key]["signal"] += f"; {reason}"
+            return
+        candidates_map[key] = {
+            "keyword": q,
+            "page_name": page_name,
+            "page_path": page_path,
+            "page": f"{page_name} (`{page_path}`)",
+            "signal": reason + (f", sustained {total_runs} runs" if total_runs >= 2 and "sustained" not in reason else ""),
+            "sustained_runs": total_runs,
+            "title_meta_ready": total_runs >= 3,
+        }
 
     for term_entry in trends_data.get("terms", []):
         default_page = term_entry["page"]
@@ -704,17 +856,10 @@ def build_strong_candidates(
             total_runs = prev_runs + 1
             if rq.get("strong") or prev_runs >= 1:
                 page_name, page_path = match_target_page(q, default_page, default_path)
-                reasons = [f"Trends rising ({rq['growth']})"]
+                reasons = f"Trends rising ({rq['growth']})"
                 if prev_runs >= 1:
-                    reasons.append(f"sustained {total_runs} runs")
-                key = q.lower()
-                candidates_map[key] = {
-                    "keyword": q,
-                    "page": f"{page_name} (`{page_path}`)",
-                    "signal": ", ".join(reasons),
-                    "sustained_runs": total_runs,
-                    "title_meta_ready": total_runs >= 2,
-                }
+                    reasons += f", sustained {total_runs} runs"
+                register_candidate(q, page_name, page_path, reasons, total_runs)
 
     for gq in gsc_data.get("queries", []):
         q = gq["query"]
@@ -724,20 +869,62 @@ def build_strong_candidates(
         total_runs = prev_runs + 1
         if gq.get("growing") or (gq.get("impressions", 0) >= 10 and prev_runs >= 1):
             page_name, page_path = match_target_page(q)
-            key = q.lower()
             reason = f"GSC growing ({gq.get('prev_impressions', '?')} -> {gq['impressions']} impr, pos {gq['position']})"
-            if key in candidates_map:
-                candidates_map[key]["signal"] += f"; {reason}"
-            else:
-                candidates_map[key] = {
-                    "keyword": q,
-                    "page": f"{page_name} (`{page_path}`)",
-                    "signal": f"{reason}" + (f", sustained {total_runs} runs" if prev_runs >= 1 else ""),
-                    "sustained_runs": total_runs,
-                    "title_meta_ready": total_runs >= 2,
-                }
+            register_candidate(q, page_name, page_path, reason, total_runs)
 
-    return sorted(candidates_map.values(), key=lambda c: (-c["sustained_runs"], c["keyword"]))
+    candidates = sorted(candidates_map.values(), key=lambda c: (-c["sustained_runs"], c["keyword"]))
+    generated_prompts: list[dict[str, Any]] = []
+
+    for c in candidates:
+        cov_entry = find_live_coverage(c["keyword"], cov_data)
+        if cov_entry is not None:
+            c["prompt_status"] = (
+                f"already covered live ({cov_entry.get('prompt', 'live')} on `{cov_entry.get('path', c['page_path'])}`)"
+            )
+            c["readiness"] = c["prompt_status"]
+            continue
+
+        if c["sustained_runs"] < 2:
+            c["prompt_status"] = "1st run observed — tracking only (wait for 2–3 sustained runs)"
+            c["readiness"] = c["prompt_status"]
+            continue
+
+        verified_ok, verified_bullets = match_verified_figures(c["keyword"], c["page_path"], fig_data)
+        if not verified_ok:
+            c["prompt_status"] = "STOP — figure not verified"
+            c["readiness"] = c["prompt_status"]
+            continue
+
+        title_note = (
+            " | title-change candidate, Muse/user decide karein"
+            if c["sustained_runs"] >= 3
+            else ""
+        )
+        c["prompt_status"] = f"Ready prompt generated (sustained {c['sustained_runs']} runs){title_note}"
+        c["readiness"] = c["prompt_status"]
+
+        prompt_text = build_ready_made_prompt(
+            keyword=c["keyword"],
+            page_name=c["page_name"],
+            page_path=c["page_path"],
+            signal=c["signal"],
+            sustained_runs=c["sustained_runs"],
+            verified_bullets=verified_bullets,
+            report_date_str=report_date_str or datetime.now(PKT_TZ).strftime("%Y-%m-%d"),
+        )
+        generated_prompts.append(
+            {
+                "keyword": c["keyword"],
+                "slug": slugify_keyword(c["keyword"]),
+                "page": c["page"],
+                "page_path": c["page_path"],
+                "sustained_runs": c["sustained_runs"],
+                "title_change_candidate": c["sustained_runs"] >= 3,
+                "prompt": prompt_text,
+            }
+        )
+
+    return candidates, generated_prompts
 
 
 def render_report_markdown(
@@ -747,6 +934,7 @@ def render_report_markdown(
     gsc_data: dict[str, Any],
     competitors_data: list[dict[str, Any]],
     candidates: list[dict[str, Any]],
+    generated_prompts: list[dict[str, Any]] | None = None,
 ) -> str:
     """Render structured DRAFT-ONLY GitHub Issue Markdown report."""
     lines: list[str] = [
@@ -845,17 +1033,45 @@ def render_report_markdown(
     )
 
     if candidates:
-        lines.append("| Candidate Keyword | Matching Page | Signal & Sustained Note | Title/Meta Readiness |")
+        lines.append("| Candidate Keyword | Matching Page | Signal & Sustained Note | Status / Prompt Readiness |")
         lines.append("|---|---|---|---|")
         for c in candidates:
-            readiness = (
-                "Sustained 2+ runs — review for Title/Meta/FAQ"
-                if c["title_meta_ready"]
-                else "1st run observed — wait for 2–3 sustained runs before changing Title/Meta"
+            readiness = c.get("readiness") or (
+                "1st run observed — wait for 2–3 sustained runs before changing Title/Meta"
             )
             lines.append(f"| `{c['keyword']}` | {c['page']} | {c['signal']} | {readiness} |")
     else:
         lines.append("- No new Strong (`Breakout` / `+100%+` / growing GSC) calculation candidates detected in today's run.")
+
+    lines.extend(
+        [
+            "",
+            "---",
+            "",
+            "## Ready-to-Paste Antigravity Prompt",
+            "",
+            "> **Rule (P79):** Prompts generate ONLY for uncovered Strong candidates sustained across **2–3 runs**, grounded strictly in `scripts/verified-figures.json`. Titles/meta are NEVER changed automatically.",
+            "",
+        ]
+    )
+
+    if generated_prompts:
+        for item in generated_prompts:
+            title_note = (
+                " _(title-change candidate, Muse/user decide karein)_"
+                if item.get("title_change_candidate")
+                else ""
+            )
+            lines.append(f"### Prompt: `{item['keyword']}` -> {item['page']}{title_note}")
+            lines.append("")
+            lines.append("```text")
+            lines.append(item["prompt"])
+            lines.append("```")
+            lines.append("")
+    else:
+        lines.append(
+            "- No Ready-to-Paste prompt generated today (candidates were either 1st-run tracking only, `already covered live`, `STOP — figure not verified`, or `PARKED`)."
+        )
 
     lines.extend(
         [
@@ -921,6 +1137,8 @@ def generate_and_write_report(
     inter_request_sleep: float | None = None,
     backoff_seconds: float | None = None,
     now_utc: datetime | None = None,
+    verified_figures_path: str | Path | None = None,
+    seo_coverage_path: str | Path | None = None,
 ) -> dict[str, Any]:
     """Run all 3 read-only collectors and write report.md, report.json, and report_date.txt."""
     ref_utc = now_utc or datetime.now(timezone.utc)
@@ -968,7 +1186,16 @@ def generate_and_write_report(
         now_utc=ref_utc,
         days=7,
     )
-    candidates = build_strong_candidates(trends_data, gsc_data, prior_counts)
+    figures_data = load_json_file(verified_figures_path or DEFAULT_VERIFIED_FIGURES_PATH)
+    coverage_data = load_json_file(seo_coverage_path or DEFAULT_SEO_COVERAGE_PATH)
+    candidates, generated_prompts = build_strong_candidates(
+        trends_data,
+        gsc_data,
+        prior_counts,
+        figures_data=figures_data,
+        coverage_data=coverage_data,
+        report_date_str=report_date_str,
+    )
     markdown = render_report_markdown(
         report_date_str=report_date_str,
         generated_at_pkt=generated_at_pkt,
@@ -976,10 +1203,24 @@ def generate_and_write_report(
         gsc_data=gsc_data,
         competitors_data=competitors_data,
         candidates=candidates,
+        generated_prompts=generated_prompts,
     )
 
     out_path = Path(output_dir or os.environ.get("SEO_OUTPUT_DIR", "tmp-seo-report"))
     out_path.mkdir(parents=True, exist_ok=True)
+    prompts_dir = out_path / "prompts"
+    prompts_dir.mkdir(parents=True, exist_ok=True)
+    if generated_prompts:
+        for item in generated_prompts:
+            prompt_file = prompts_dir / f"{report_date_str}-{item['slug']}.md"
+            prompt_file.write_text(item["prompt"] + "\n", encoding="utf-8")
+    else:
+        (prompts_dir / f"{report_date_str}-no-prompts.md").write_text(
+            f"# No Ready-to-Paste Prompt Generated on {report_date_str}\n\n"
+            "All detected candidates were 1st-run tracking only, already covered live, unverified figure, or parked.\n",
+            encoding="utf-8",
+        )
+
     (out_path / "report_date.txt").write_text(report_date_str, encoding="utf-8")
     (out_path / "report.md").write_text(markdown, encoding="utf-8")
 
@@ -990,6 +1231,7 @@ def generate_and_write_report(
         "gsc": gsc_data,
         "competitors": competitors_data,
         "strong_candidates": candidates,
+        "generated_prompts": generated_prompts,
         "parked": "PTA tax calculator (~17 Dec 2026)",
     }
     (out_path / "report.json").write_text(json.dumps(summary_payload, indent=2), encoding="utf-8")
