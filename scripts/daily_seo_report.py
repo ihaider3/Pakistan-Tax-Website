@@ -148,6 +148,7 @@ def collect_google_trends(
     sleep_fn: Callable[[float], None] = time.sleep,
     inter_request_sleep: float = 5.0,
     backoff_seconds: float = 60.0,
+    fetch_text_fn: Callable[[str], str] | None = None,
 ) -> dict[str, Any]:
     """Fetch 90-day Pakistan Google Trends data for the 7 core terms + PK daily searches."""
     targets = core_targets or CORE_TARGETS
@@ -284,8 +285,6 @@ def collect_google_trends(
         ts_df, ts_429, ts_err = run_with_429_retry(fetch_daily)
         if ts_429:
             trending_note = "Trends rate-limited today, retry tomorrow"
-        elif ts_err:
-            trending_note = ts_err
         elif ts_df is not None and hasattr(ts_df, "empty") and not ts_df.empty:
             col = ts_df.columns[0]
             for raw in ts_df[col].tolist():
@@ -296,6 +295,31 @@ def collect_google_trends(
                     trending_relevant.append(item)
                 else:
                     trending_ignored_count += 1
+        elif ts_err:
+            # Fallback to Google Trends official PK daily RSS feed when pytrends legacy hottrends endpoint returns ResponseError
+            try:
+                rss_fn = fetch_text_fn or default_fetch_text
+                rss_xml = rss_fn("https://trends.google.com/trending/rss?geo=PK")
+                root = ET.fromstring(rss_xml)
+                titles = [
+                    el.text.strip()
+                    for el in root.findall(".//item/title")
+                    if el.text and el.text.strip()
+                ]
+                if titles:
+                    for item in titles:
+                        if is_calculation_relevant(item):
+                            trending_relevant.append(item)
+                        else:
+                            trending_ignored_count += 1
+                else:
+                    trending_note = ts_err
+            except Exception as rss_exc:
+                trending_note = (
+                    "Trends rate-limited today, retry tomorrow"
+                    if is_rate_limit_error(rss_exc)
+                    else ts_err
+                )
 
     status = "rate_limited" if rate_limited_global else "ok"
     return {
@@ -932,6 +956,7 @@ def generate_and_write_report(
         sleep_fn=sleep_fn,
         inter_request_sleep=sleep_s,
         backoff_seconds=backoff_s,
+        fetch_text_fn=fetch_text_fn,
     )
     gsc_data = collect_gsc_data(
         service_builder=gsc_service_builder,

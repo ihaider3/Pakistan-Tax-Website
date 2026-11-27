@@ -200,6 +200,44 @@ class DailySeoReportTests(unittest.TestCase):
         self.assertNotIn(secret_marker, combined)
         self.assertNotIn(secret_email, combined)
 
+    def test_trending_searches_falls_back_to_rss_when_legacy_endpoint_errors(self):
+        class BrokenTrendingClient:
+            def build_payload(self, *args, **kwargs):
+                return None
+
+            def interest_over_time(self):
+                return _FakeDF()
+
+            def related_queries(self):
+                return {}
+
+            def trending_searches(self, pn="pakistan"):
+                raise RuntimeError("ResponseError 404")
+
+        def fetch_with_rss(url: str) -> str:
+            if "trends.google.com/trending/rss" in url:
+                return """<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+  <item><title>fbr income tax calculator</title></item>
+  <item><title>PSL cricket match today</title></item>
+</channel></rss>"""
+            return self._mock_fetch_sitemap(url)
+
+        with tempfile.TemporaryDirectory() as tmpdir, patch.dict(os.environ, {"GSC_SERVICE_ACCOUNT_JSON": ""}, clear=False):
+            seo.generate_and_write_report(
+                output_dir=tmpdir,
+                trend_client_factory=BrokenTrendingClient,
+                fetch_text_fn=fetch_with_rss,
+                sleep_fn=lambda _: None,
+                inter_request_sleep=0,
+                backoff_seconds=0,
+                now_utc=self.NOW,
+            )
+            md = (Path(tmpdir) / "report.md").read_text(encoding="utf-8")
+
+        self.assertIn("`fbr income tax calculator`", md)
+        self.assertNotIn("PSL cricket match", md)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

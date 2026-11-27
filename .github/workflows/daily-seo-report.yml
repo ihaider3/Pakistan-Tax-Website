@@ -30,7 +30,7 @@ jobs:
           cache-dependency-path: "scripts/requirements-seo.txt"
 
       - name: Install pinned SEO report dependencies
-        run: python -m pip install --no-cache-dir -r scripts/requirements-seo.txt
+        run: python -m pip install -r scripts/requirements-seo.txt
 
       - name: Fetch prior seo-report issues for sustained-trend context
         env:
