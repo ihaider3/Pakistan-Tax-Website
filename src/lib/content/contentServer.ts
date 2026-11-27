@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { getSupabaseAdmin } from "@/lib/feedback/supabaseServer";
 import {
   DEFAULT_SITE_CONTENT,
@@ -23,41 +24,46 @@ const inMemoryHistory: Array<{
   changed_at: string;
 }> = [];
 
+const requestCache: <T extends (...args: never[]) => unknown>(fn: T) => T =
+  typeof cache === "function" ? cache : (fn) => fn;
+
 /**
  * Return ONLY non-default custom overrides (in-memory or Supabase) so RootLayout
  * does not serialize all default site copy into every SSR RSC payload.
  */
-export async function getSiteContentOverrides(): Promise<Record<string, string>> {
-  const overrides: Record<string, string> = {};
+export const getSiteContentOverrides = requestCache(
+  async (): Promise<Record<string, string>> => {
+    const overrides: Record<string, string> = {};
 
-  for (const [key, entry] of inMemorySiteContent.entries()) {
-    overrides[key] = entry.value;
-  }
+    for (const [key, entry] of inMemorySiteContent.entries()) {
+      overrides[key] = entry.value;
+    }
 
-  const supabase = getSupabaseAdmin();
-  if (!supabase) {
-    return overrides;
-  }
+    const supabase = getSupabaseAdmin();
+    if (!supabase) {
+      return overrides;
+    }
 
-  try {
-    const { data, error } = await supabase
-      .from("site_content")
-      .select("key, value")
-      .limit(100);
+    try {
+      const { data, error } = await supabase
+        .from("site_content")
+        .select("key, value")
+        .limit(100);
 
-    if (!error && data) {
-      for (const row of data) {
-        if (typeof row.value === "string") {
-          overrides[row.key] = row.value;
+      if (!error && data) {
+        for (const row of data) {
+          if (typeof row.value === "string") {
+            overrides[row.key] = row.value;
+          }
         }
       }
+    } catch (err) {
+      console.warn("[Content Server] Fallback overrides:", err);
     }
-  } catch (err) {
-    console.warn("[Content Server] Fallback overrides:", err);
-  }
 
-  return overrides;
-}
+    return overrides;
+  }
+);
 
 export async function getSiteContent(): Promise<Record<string, string>> {
   const contentMap = getDefaultContentMap();

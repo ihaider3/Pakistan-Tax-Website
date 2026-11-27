@@ -69,29 +69,72 @@ declare global {
 let bannerLoadQueue: Promise<void> = Promise.resolve();
 
 /**
- * Wait until first paint has settled so calculators and inputs always render and
- * become interactive before any ad script is scheduled.
+ * Defer ad script execution cleanly after window load and first user intent
+ * (or idle timeout / viewport intersection) so calculators and first-paint UX
+ * are never blocked on mobile networks.
  */
-function scheduleAfterFirstPaint(cb: () => void): () => void {
+function scheduleAfterFirstPaint(cb: () => void, target?: Element | null, fallbackDelayMs: number = 6000): () => void {
   if (typeof window === "undefined") return () => {};
-  let innerCancel: (() => void) | null = null;
-  const rafId = window.requestAnimationFrame(() => {
-    const win = window as Window & {
-      requestIdleCallback?: (fn: () => void, opts?: { timeout: number }) => number;
-      cancelIdleCallback?: (id: number) => void;
+  let fired = false;
+  let timerId: number | undefined;
+  let idleId: number | undefined;
+  let observer: IntersectionObserver | null = null;
+  const win = window as Window & {
+    requestIdleCallback?: (fn: () => void, opts?: { timeout: number }) => number;
+    cancelIdleCallback?: (id: number) => void;
+  };
+  const interactionEvents = ["pointerdown", "touchstart", "keydown", "scroll"] as const;
+
+  const trigger = () => {
+    if (fired) return;
+    fired = true;
+    cleanupListeners();
+    cb();
+  };
+
+  const cleanupListeners = () => {
+    window.removeEventListener("load", armIdle);
+    interactionEvents.forEach((ev) => window.removeEventListener(ev, trigger));
+    observer?.disconnect();
+    observer = null;
+    if (timerId !== undefined) window.clearTimeout(timerId);
+    if (idleId !== undefined) win.cancelIdleCallback?.(idleId);
+  };
+
+  const armIdle = () => {
+    if (fired) return;
+    if (target && typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            window.requestAnimationFrame(trigger);
+          }
+        },
+        { rootMargin: "350px 0px" }
+      );
+      observer.observe(target);
+    }
+    const scheduleTimer = () => {
+      timerId = window.setTimeout(trigger, fallbackDelayMs);
     };
     if (typeof win.requestIdleCallback === "function") {
-      const idleId = win.requestIdleCallback(cb, { timeout: 500 });
-      innerCancel = () => win.cancelIdleCallback?.(idleId);
+      idleId = win.requestIdleCallback(scheduleTimer, { timeout: 2000 });
     } else {
-      const timerId = window.setTimeout(cb, 250);
-      innerCancel = () => window.clearTimeout(timerId);
+      scheduleTimer();
     }
-  });
-  return () => {
-    window.cancelAnimationFrame(rafId);
-    innerCancel?.();
   };
+
+  interactionEvents.forEach((ev) =>
+    window.addEventListener(ev, trigger, { passive: true, once: true })
+  );
+
+  if (document.readyState === "complete") {
+    armIdle();
+  } else {
+    window.addEventListener("load", armIdle, { once: true });
+  }
+
+  return cleanupListeners;
 }
 
 interface AdsterraBannerProps {
@@ -156,7 +199,7 @@ export function AdsterraBanner({ variant, className = "" }: AdsterraBannerProps)
     const scheduleIfMatched = () => {
       if (!mq.matches || container.dataset.adsterraInit === "1") return;
       cancelIdle?.();
-      cancelIdle = scheduleAfterFirstPaint(injectBanner);
+      cancelIdle = scheduleAfterFirstPaint(injectBanner, container);
     };
 
     scheduleIfMatched();
@@ -212,8 +255,6 @@ export function AdsterraNativeBanner({ className = "" }: AdsterraNativeBannerPro
     if (!wrapper || wrapper.dataset.adsterraInit === "1") return;
 
     let cancelled = false;
-    let observer: IntersectionObserver | null = null;
-    let cancelIdle: (() => void) | null = null;
 
     const injectNative = () => {
       if (cancelled || wrapper.dataset.adsterraInit === "1") return;
@@ -227,30 +268,11 @@ export function AdsterraNativeBanner({ className = "" }: AdsterraNativeBannerPro
       wrapper.appendChild(script);
     };
 
-    const startLazyLoad = () => {
-      if (typeof IntersectionObserver !== "undefined") {
-        observer = new IntersectionObserver(
-          (entries) => {
-            if (entries.some((e) => e.isIntersecting)) {
-              observer?.disconnect();
-              observer = null;
-              injectNative();
-            }
-          },
-          { rootMargin: "400px 0px" }
-        );
-        observer.observe(wrapper);
-      } else {
-        injectNative();
-      }
-    };
-
-    cancelIdle = scheduleAfterFirstPaint(startLazyLoad);
+    const cancelSchedule = scheduleAfterFirstPaint(injectNative, wrapper, 10000);
 
     return () => {
       cancelled = true;
-      cancelIdle?.();
-      observer?.disconnect();
+      cancelSchedule();
     };
   }, []);
 

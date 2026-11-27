@@ -1,5 +1,15 @@
 import type { Metadata } from "next";
+import { Noto_Nastaliq_Urdu } from "next/font/google";
 import { siteUrl, siteName } from "@/config/site";
+
+const notoNastaliq = Noto_Nastaliq_Urdu({
+  subsets: ["arabic"],
+  weight: ["400", "700"],
+  display: "swap",
+  variable: "--font-urdu",
+  preload: false,
+  fallback: ["Tahoma", "Arial", "sans-serif"],
+});
 
 export const metadata: Metadata = {
   title: "Ushr Calculator Pakistan — Zakat on Crops | CalculationHub",
@@ -54,13 +64,13 @@ export default function UshrLayout({ children }: { children: React.ReactNode }) 
   };
 
   return (
-    <>
+    <div className={notoNastaliq.variable}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {children}
-    </>
+    </div>
   );
 }
 

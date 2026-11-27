@@ -13,14 +13,19 @@ export default function AnalyticsTracker() {
     if (!pathname) return;
     if (pathname.startsWith("/admin") || pathname.startsWith("/api")) return;
 
-    if (lastTrackedPath.current === null) {
-      lastTrackedPath.current = pathname;
-      trackPageView(pathname);
-    } else if (lastTrackedPath.current !== pathname) {
-      lastTrackedPath.current = pathname;
-      trackPageView(pathname);
-      trackMetaPageView();
-    }
+    const send = () => {
+      if (lastTrackedPath.current === null) {
+        lastTrackedPath.current = pathname;
+        trackPageView(pathname);
+      } else if (lastTrackedPath.current !== pathname) {
+        lastTrackedPath.current = pathname;
+        trackPageView(pathname);
+        trackMetaPageView();
+      }
+    };
+
+    const timer = window.setTimeout(send, 150);
+    return () => window.clearTimeout(timer);
   }, [pathname]);
 
   return null;

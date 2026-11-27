@@ -53,23 +53,25 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Register Service Worker with robust readyState timing
+    // Register Service Worker after load/idle so initial hydration yields cleanly
     if ("serviceWorker" in navigator) {
       const registerSW = () => {
-        navigator.serviceWorker
-          .register("/sw.js", { scope: "/" })
-          .then((reg) => {
-            console.log("[PWA] Service Worker registered with scope:", reg.scope);
-          })
-          .catch((err) => {
-            console.warn("[PWA] Service Worker registration failed:", err);
-          });
+        window.setTimeout(() => {
+          navigator.serviceWorker
+            .register("/sw.js", { scope: "/" })
+            .then((reg) => {
+              console.log("[PWA] Service Worker registered with scope:", reg.scope);
+            })
+            .catch((err) => {
+              console.warn("[PWA] Service Worker registration failed:", err);
+            });
+        }, 0);
       };
 
       if (document.readyState === "complete") {
         registerSW();
       } else {
-        window.addEventListener("load", registerSW);
+        window.addEventListener("load", registerSW, { once: true });
       }
     }
 

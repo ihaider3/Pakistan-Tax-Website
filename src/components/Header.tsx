@@ -76,8 +76,8 @@ export default function Header() {
       <header
         className={`sticky top-0 z-40 w-full print:hidden transition-all duration-200 border-b border-slate-200/80 ${
           scrolled
-            ? "bg-white/85 backdrop-blur-md shadow-sm py-1.5 sm:py-2 md:py-2.5"
-            : "bg-white/80 backdrop-blur-md shadow-xs py-2 sm:py-2.5 md:py-3"
+            ? "bg-white/90 md:bg-white/85 md:backdrop-blur-md shadow-sm py-1.5 sm:py-2 md:py-2.5"
+            : "bg-white/95 md:bg-white/80 md:backdrop-blur-md shadow-xs py-2 sm:py-2.5 md:py-3"
         }`}
       >
         <div className="max-w-[1150px] mx-auto px-3 sm:px-5 lg:px-6 flex items-center justify-between gap-2 sm:gap-4">

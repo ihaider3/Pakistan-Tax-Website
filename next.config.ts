@@ -46,9 +46,6 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   productionBrowserSourceMaps: false,
-  experimental: {
-    inlineCss: true,
-  },
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 31536000,

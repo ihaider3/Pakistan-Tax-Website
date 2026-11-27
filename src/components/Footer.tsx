@@ -1,29 +1,31 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
-import { useSiteContent } from "./SiteContentContext";
+import BackToTopButton from "./BackToTopButton";
+import LiveContentText from "./LiveContentText";
 
-export default function Footer() {
-  const { getContent } = useSiteContent();
-  const footerMission = getContent(
+export default function Footer({
+  initialContent = {},
+}: {
+  initialContent?: Record<string, string>;
+} = {}) {
+  const getVal = (key: string, fallback: string) =>
+    initialContent[key] !== undefined && initialContent[key] !== ""
+      ? initialContent[key]
+      : fallback;
+
+  const footerMission = getVal(
     "footer_mission",
     "Free, official, and completely confidential calculation utilities for Pakistan. All tax slabs, Nisab rates, and withholding tables are verified against official notifications."
   );
-  const footerPrivacyNote = getContent(
+  const footerPrivacyNote = getVal(
     "footer_privacy_note",
     "Everything is computed client-side inside your browser sandbox. We do not store or transmit any input amounts."
   );
-  const footerCopyright = getContent(
+  const footerCopyright = getVal(
     "footer_copyright",
     `© ${siteConfig.copyrightYear} ${siteConfig.brandName}. All rights reserved. Content, design and text on this website may not be copied, reproduced or republished without written permission.`
   );
-  const scrollToTop = () => {
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
 
   const calculatorLinks = [
     { name: "Salary Tax Calculator", href: "/salary-tax-calculator", badge: "2026–27", badgeColor: "bg-blue-500/20 text-blue-300 border-blue-400/30" },
@@ -43,7 +45,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative mt-10 md:mt-24 print:hidden overflow-hidden bg-gradient-to-b from-[#071B30] via-[#0B2A4A] to-[#040E1A] text-white shadow-[0_-20px_50px_rgba(11,42,74,0.25)] border-t border-slate-700/60">
+    <footer className="cv-below-fold relative mt-10 md:mt-24 print:hidden overflow-hidden bg-gradient-to-b from-[#071B30] via-[#0B2A4A] to-[#040E1A] text-white shadow-[0_-20px_50px_rgba(11,42,74,0.25)] border-t border-slate-700/60">
       {/* =========================================================================
           TOP ILLUMINATED AMBIENT GLOW BORDER (CINEMATIC HARDCOOKED EFFECT)
          ========================================================================= */}
@@ -83,15 +85,12 @@ export default function Footer() {
             </div>
 
             {/* Platform Mission Statement */}
-            <p
-              data-content-key="footer_mission"
-              className="text-sm text-slate-300 leading-relaxed font-normal max-w-md"
-            >
-              {footerMission}
+            <p className="text-sm text-slate-300 leading-relaxed font-normal max-w-md">
+              <LiveContentText contentKey="footer_mission" fallback={footerMission} />
             </p>
 
             {/* Hardcooked Privacy & Client-Side Security Capsule */}
-            <div className="bg-white/5 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-white/15 shadow-xl space-y-2.5">
+            <div className="bg-white/10 md:bg-white/5 md:backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-white/15 shadow-xl space-y-2.5">
               <div className="flex items-center gap-2.5 text-xs font-black uppercase tracking-wider text-emerald-300">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -101,7 +100,7 @@ export default function Footer() {
               </div>
               <p className="text-xs text-slate-300 font-medium leading-relaxed">
                 <strong className="text-white font-extrabold">{siteConfig.privacyClaim}</strong>{" "}
-                <span data-content-key="footer_privacy_note">{footerPrivacyNote}</span>
+                <LiveContentText contentKey="footer_privacy_note" fallback={footerPrivacyNote} />
               </p>
             </div>
           </div>
@@ -165,14 +164,7 @@ export default function Footer() {
 
             {/* Back to Top Floating Action Button */}
             <div className="pt-2">
-              <button
-                type="button"
-                onClick={scrollToTop}
-                className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-white/10 hover:bg-accent text-white font-extrabold text-xs transition-all duration-200 border border-white/20 shadow-md hover:shadow-lg flex items-center justify-center gap-2 group cursor-pointer"
-              >
-                <span>Back to Top</span>
-                <span className="group-hover:-translate-y-1 transition-transform">↑</span>
-              </button>
+              <BackToTopButton />
             </div>
           </div>
         </div>
@@ -182,8 +174,8 @@ export default function Footer() {
            ========================================================================= */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-[13px] text-slate-300 gap-4">
           <div className="space-y-1 text-center md:text-left">
-            <p data-content-key="footer_copyright" className="font-semibold text-slate-200">
-              {footerCopyright}
+            <p className="font-semibold text-slate-200">
+              <LiveContentText contentKey="footer_copyright" fallback={footerCopyright} />
             </p>
             <p className="text-[13px] text-slate-400">
               Finance Act 2026 • FBR Withholding Tax Rate Card TY2027 • SBP Zakat Notifications

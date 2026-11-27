@@ -1,6 +1,6 @@
-// P77 — Performance Optimized Service Worker
+// P77 / P66 — Performance Optimized Service Worker
 // Cache-first for installed PWA, stale-while-revalidate for navigation pages
-const CACHE_NAME = "calc-hub-cache-v5";
+const CACHE_NAME = "calc-hub-cache-v6";
 
 const PRECACHE_URLS = [
   "/",
@@ -17,6 +17,7 @@ const PRECACHE_URLS = [
   "/contact",
   "/offline",
   "/manifest.json",
+  "/manifest.webmanifest",
   "/icon.svg",
   "/icon-192x192.png",
   "/icon-512x512.png",
@@ -40,7 +41,7 @@ self.addEventListener("install", (event) => {
               .then((res) => {
                 if (res.ok) return cache.put(url, res);
               })
-              .catch(() => {})
+              .catch(() => { })
           )
         );
       })
@@ -130,7 +131,7 @@ self.addEventListener("fetch", (event) => {
   if (req.mode === "navigate") {
     event.respondWith(
       caches.open(CACHE_NAME).then(async (cache) => {
-        const cached = await cache.match(req);
+        const cached = await cache.match(req, { ignoreSearch: true });
 
         // Stale-while-revalidate for cached pages
         if (cached) {
@@ -142,7 +143,7 @@ self.addEventListener("fetch", (event) => {
                   cache.put(req, networkRes.clone());
                 }
               })
-              .catch(() => {})
+              .catch(() => { })
           );
           return cached; // Return instantly from cache
         }
@@ -171,6 +172,7 @@ self.addEventListener("fetch", (event) => {
   if (
     url.pathname.startsWith("/_next/static/") ||
     url.pathname.startsWith("/images/") ||
+    url.pathname.endsWith(".css") ||
     url.pathname.endsWith(".webp") ||
     url.pathname.endsWith(".png") ||
     url.pathname.endsWith(".svg") ||

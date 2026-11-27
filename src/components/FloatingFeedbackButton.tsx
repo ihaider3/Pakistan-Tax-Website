@@ -43,7 +43,7 @@ export default function FloatingFeedbackButton() {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0B2A4A]/95 hover:bg-[#0F766E] active:bg-[#071B30] text-white rounded-full shadow-lg border border-white/20 transition-all select-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0F766E]/50 active:scale-95 backdrop-blur-xs"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0B2A4A]/95 hover:bg-[#0F766E] active:bg-[#071B30] text-white rounded-full shadow-lg border border-white/20 transition-all select-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0F766E]/50 active:scale-95"
           aria-label="Open feedback modal"
         >
           <svg className="w-4 h-4 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -3,14 +3,52 @@
 import React, { useState } from "react";
 import Link from "next/link";
 
+export interface HomeFaqSegment {
+  text: string;
+  tone?: "primary" | "danger" | "success";
+  href?: string;
+}
+
 export interface HomeFaqCardItem {
   badge: string;
   badgeClass: string;
   topBarClass: string;
   question: string;
-  answerNode: React.ReactNode;
+  answerNode?: React.ReactNode;
+  answerSegments?: HomeFaqSegment[];
   href: string;
   cta: string;
+}
+
+const TONE_CLASS: Record<"primary" | "danger" | "success", string> = {
+  primary: "text-primary font-black",
+  danger: "text-red-700 font-black",
+  success: "text-emerald-700 font-black",
+};
+
+function renderSegments(segments: HomeFaqSegment[]) {
+  return segments.map((seg, sIdx) => {
+    if (seg.href) {
+      return (
+        <Link
+          key={sIdx}
+          href={seg.href}
+          prefetch={false}
+          className="text-primary font-black underline hover:text-accent transition-colors"
+        >
+          {seg.text}
+        </Link>
+      );
+    }
+    if (seg.tone) {
+      return (
+        <strong key={sIdx} className={TONE_CLASS[seg.tone]}>
+          {seg.text}
+        </strong>
+      );
+    }
+    return <React.Fragment key={sIdx}>{seg.text}</React.Fragment>;
+  });
 }
 
 interface HomeFaqAccordionProps {
@@ -90,7 +128,7 @@ export default function HomeFaqAccordion({ items }: HomeFaqAccordionProps) {
               >
                 <div className="overflow-hidden min-h-0">
                   <p className="text-[13px] md:text-sm text-slate-800 font-medium leading-relaxed pt-2.5 md:pt-0">
-                    {faq.answerNode}
+                    {faq.answerSegments ? renderSegments(faq.answerSegments) : faq.answerNode}
                   </p>
                   <div className="md:hidden pt-3 mt-3 border-t border-slate-100">
                     <Link

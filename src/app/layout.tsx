@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
-import { Inter, Noto_Nastaliq_Urdu } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -18,15 +18,6 @@ const inter = Inter({
   display: "swap",
   variable: "--font-inter",
   fallback: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
-});
-
-const notoNastaliq = Noto_Nastaliq_Urdu({
-  subsets: ["arabic"],
-  weight: ["400", "700"],
-  display: "swap",
-  variable: "--font-urdu",
-  preload: false,
-  fallback: ["Tahoma", "Arial", "sans-serif"],
 });
 
 import { siteUrl } from "@/config/site";
@@ -127,13 +118,13 @@ export default async function RootLayout({
   const initialContent = await getSiteContentOverrides();
 
   return (
-    <html lang="en" suppressHydrationWarning className={`overflow-x-clip ${inter.variable} ${notoNastaliq.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`overflow-x-clip ${inter.variable}`}>
       <body suppressHydrationWarning className="min-h-screen flex flex-col bg-white text-appText font-sans selection:bg-accent-soft selection:text-accent overflow-x-clip w-full">
         <Script
           id="meta-pixel-and-ads"
           strategy="lazyOnload"
           dangerouslySetInnerHTML={{
-            __html: `!function(f,n){if(!f.fbq){n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}fbq('init', '1774525983843690');fbq('track', 'PageView');var loaded=false;function load3p(){if(loaded)return;loaded=true;['pointerdown','touchstart','keydown','scroll'].forEach(function(ev){window.removeEventListener(ev,load3p)});var b=document,t=b.createElement('script');t.async=true;t.src='https://connect.facebook.net/en_US/fbevents.js';b.head.appendChild(t);var a=b.createElement('script');a.async=true;a.crossOrigin='anonymous';a.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9434774796732008';b.head.appendChild(a);}['pointerdown','touchstart','keydown','scroll'].forEach(function(ev){window.addEventListener(ev,load3p,{passive:true,once:true})});setTimeout(load3p,6000);}(window);`,
+            __html: `!function(f,n){if(!f.fbq){n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[]}fbq('init', '1774525983843690');fbq('track', 'PageView');var loaded=false,tid;function load3p(){if(loaded)return;loaded=true;if(tid)clearTimeout(tid);['pointerdown','touchstart','keydown','scroll'].forEach(function(ev){window.removeEventListener(ev,load3p)});var b=document,t=b.createElement('script');t.async=true;t.src='https://connect.facebook.net/en_US/fbevents.js';b.head.appendChild(t);var a=b.createElement('script');a.async=true;a.crossOrigin='anonymous';a.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9434774796732008';b.head.appendChild(a);}['pointerdown','touchstart','keydown','scroll'].forEach(function(ev){window.addEventListener(ev,load3p,{passive:true,once:true})});function arm(){tid=setTimeout(load3p,9500);}if(document.readyState==='complete'){arm();}else{window.addEventListener('load',arm,{once:true});}}(window);`,
           }}
         />
         <noscript
@@ -148,7 +139,7 @@ export default async function RootLayout({
               <AnalyticsTracker />
               <Header />
               <main className="flex-1">{children}</main>
-              <Footer />
+              <Footer initialContent={initialContent} />
               <FloatingFeedbackButton />
               <DeferredSpeedInsights />
             </PwaProvider>

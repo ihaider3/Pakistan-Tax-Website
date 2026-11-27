@@ -61,8 +61,10 @@ describe("Prompt 66 — Performance Optimization & Full Regression Suite", () =>
     expect(TOLA_TO_TROY_OUNCES).toBe(0.374878);
   });
 
-  it("Fix 4 & 5: next.config.ts enables inlineCss (no render-blocking external CSS) and immutable Cache-Control for /images/ and /_next/static/", async () => {
-    expect(nextConfig.experimental?.inlineCss).toBe(true);
+  it("Fix 4, 5 & 7: next.config.ts disables HTML-doubling inlineCss (keeping HTML <= 200 KB) and preserves immutable Cache-Control for /images/ and /_next/static/", async () => {
+    expect((nextConfig.experimental as { inlineCss?: boolean } | undefined)?.inlineCss).not.toBe(true);
+    expect(nextConfig.productionBrowserSourceMaps).toBe(false);
+    expect(nextConfig.compress).toBe(true);
     const headersFn = nextConfig.headers;
     expect(headersFn).toBeDefined();
     const rules = await headersFn!();
