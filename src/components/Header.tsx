@@ -1,9 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MobileDrawerInstallButton } from "./PwaInstallPrompt";
+
+const MobileNavDrawer = lazy(() => import("./MobileNavDrawer"));
+const preloadMobileDrawer = () => {
+  void import("./MobileNavDrawer");
+};
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -124,7 +128,12 @@ export default function Header() {
           <div className="flex md:hidden items-center shrink-0">
             <button
               type="button"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => {
+                preloadMobileDrawer();
+                setMobileMenuOpen(!mobileMenuOpen);
+              }}
+              onPointerEnter={preloadMobileDrawer}
+              onTouchStart={preloadMobileDrawer}
               className="p-1.5 sm:p-2 min-h-[40px] min-w-[40px] inline-flex items-center justify-center rounded-xl bg-slate-100/90 text-primary hover:bg-slate-200 focus:outline-hidden focus:ring-2 focus:ring-accent transition-colors shadow-2xs border border-slate-200/80 cursor-pointer"
               aria-label="Toggle navigation menu"
               aria-expanded={mobileMenuOpen}
@@ -155,57 +164,15 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile menu drawer attached to sticky navbar */}
+        {/* Mobile menu drawer (code-split until opened) */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-slate-200/80 backdrop-blur-xl bg-white/95 px-4 pt-3 pb-5 space-y-1.5 shadow-xl animate-in slide-in-from-top-2 duration-200 max-h-[calc(100vh-60px)] overflow-y-auto">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-accent px-3 py-1">
-              Navigation &amp; Calculators
-            </div>
-
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  prefetch={false}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`px-4 py-3 text-base font-semibold rounded-xl min-h-[44px] flex items-center justify-between transition-all ${
-                    isActive
-                      ? "bg-primary text-white shadow-md shadow-primary/20 font-bold"
-                      : "text-slate-800 hover:bg-slate-100 hover:text-primary"
-                  }`}
-                >
-                  <span>{link.name}</span>
-                  <span className="text-xs text-slate-400">→</span>
-                </Link>
-              );
-            })}
-
-            {/* Mobile Drawer Install App (Free) Button */}
-            <div className="pt-2">
-              <MobileDrawerInstallButton onAfterClick={() => setMobileMenuOpen(false)} />
-            </div>
-
-            <div className="pt-3 mt-2 border-t border-slate-200 grid grid-cols-2 gap-2 text-xs">
-              <Link
-                href="/about"
-                prefetch={false}
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 rounded-lg bg-slate-50 text-center font-semibold text-slate-700 hover:bg-slate-100 transition-colors border border-slate-200/80"
-              >
-                About Platform
-              </Link>
-              <Link
-                href="/methodology"
-                prefetch={false}
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 rounded-lg bg-slate-50 text-center font-semibold text-slate-700 hover:bg-slate-100 transition-colors border border-slate-200/80"
-              >
-                Methodology
-              </Link>
-            </div>
-          </div>
+          <Suspense fallback={null}>
+            <MobileNavDrawer
+              navLinks={navLinks}
+              pathname={pathname}
+              onClose={() => setMobileMenuOpen(false)}
+            />
+          </Suspense>
         )}
       </header>
     </>

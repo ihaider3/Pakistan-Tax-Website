@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, createContext, useContext } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
-import { sendTrackBeacon } from "@/lib/analytics/beacon";
+import { PwaContext, usePwa } from "./PwaContext";
 
 const PwaBanners = dynamic(() => import("./PwaBanners"), { ssr: false });
 
@@ -15,29 +15,7 @@ interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
 }
 
-interface PwaContextType {
-  canInstall: boolean;
-  isInstalled: boolean;
-  isIos: boolean;
-  promptInstall: () => Promise<void>;
-  dismissBanner: () => void;
-  showIosHint: boolean;
-  dismissIosHint: () => void;
-}
-
-const PwaContext = createContext<PwaContextType>({
-  canInstall: false,
-  isInstalled: false,
-  isIos: false,
-  promptInstall: async () => {},
-  dismissBanner: () => {},
-  showIosHint: false,
-  dismissIosHint: () => {},
-});
-
-export function usePwa() {
-  return useContext(PwaContext);
-}
+export { usePwa };
 
 export function PwaProvider({ children }: { children: React.ReactNode }) {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
@@ -139,7 +117,9 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
       try {
         localStorage.setItem("pfc-pwa-installed", "true");
       } catch {}
-      sendTrackBeacon({ type: "tool_use", calculator: "salary" }); // safe trigger
+      void import("@/lib/analytics/beacon").then(({ sendTrackBeacon }) => {
+        sendTrackBeacon({ type: "tool_use", calculator: "salary" }); // safe trigger
+      });
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -226,59 +206,5 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
         />
       )}
     </PwaContext.Provider>
-  );
-}
-
-// Subcomponent: Hero Install Button for Homepage (Visible on Mobile & Desktop)
-export function HeroInstallButton() {
-  const { isInstalled, promptInstall } = usePwa();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Hide only if app is already running as installed standalone PWA
-  if (mounted && isInstalled) return null;
-
-  return (
-    <div className="pt-2 animate-in fade-in duration-300">
-      <button
-        type="button"
-        onClick={promptInstall}
-        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-primary via-[#0E355D] to-primary text-white border border-slate-700/60 shadow-md shadow-primary/25 hover:shadow-lg hover:scale-102 active:scale-98 transition-all cursor-pointer"
-        aria-label="Install CalculationHub App"
-      >
-        <span className="text-sm">📲</span>
-        <span>Install App (Free)</span>
-      </button>
-    </div>
-  );
-}
-
-// Subcomponent: Mobile Header Drawer Install Button
-export function MobileDrawerInstallButton({ onAfterClick }: { onAfterClick?: () => void }) {
-  const { isInstalled, promptInstall } = usePwa();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (mounted && isInstalled) return null;
-
-  return (
-    <button
-      type="button"
-      onClick={() => {
-        if (onAfterClick) onAfterClick();
-        promptInstall();
-      }}
-      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-black bg-gradient-to-r from-primary via-[#0E355D] to-primary text-white border border-slate-700/60 shadow-md shadow-primary/25 hover:shadow-lg active:scale-98 transition-all cursor-pointer"
-      aria-label="Install CalculationHub App on Mobile"
-    >
-      <span className="text-sm">📲</span>
-      <span>Install App (Free)</span>
-    </button>
   );
 }

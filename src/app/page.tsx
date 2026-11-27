@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import SearchBox from "@/components/SearchBox";
 import { getSiteContent } from "@/lib/content/contentServer";
-import { HeroInstallButton } from "@/components/PwaInstallPrompt";
+import { HeroInstallButton } from "@/components/HeroInstallButton";
 import { siteUrl } from "@/config/site";
 import HomeHowItWorks from "@/components/HomeHowItWorks";
 import HomeFaqAccordion, { HomeFaqCardItem } from "@/components/HomeFaqAccordion";
@@ -550,7 +550,26 @@ export default async function HomePage() {
           HOW IT WORKS (COLLAPSED ON MOBILE ACCORDION, OPEN 3-STEP ENGINE ON DESKTOP)
          ========================================================================= */}
       <section className="cv-below-fold max-w-[1150px] mx-auto px-4 sm:px-5 lg:px-6 mt-6 md:mt-16">
-        <HomeHowItWorks>
+        <HomeHowItWorks
+          desktopHeader={
+            <>
+              <div className="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-[radial-gradient(ellipse_at_top,_rgba(15,118,110,0.12),transparent_70%)] pointer-events-none" />
+              <div className="hidden md:block absolute inset-0 bg-dot-mesh pointer-events-none opacity-40" />
+              <div className="hidden md:block relative text-center max-w-2xl mx-auto space-y-2.5">
+                <div className="inline-flex items-center gap-2 text-xs font-black text-accent uppercase tracking-widest bg-white px-4 py-1.5 rounded-full border-2 border-accent/30 shadow-xs">
+                  <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+                  How It Works — 3 Easy Steps
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-black text-primary tracking-tight">
+                  How It Works
+                </h2>
+                <p className="text-base sm:text-lg font-semibold text-slate-700 max-w-xl mx-auto">
+                  Three simple steps to calculate your financial obligations with zero friction, zero signups, and 100% privacy.
+                </p>
+              </div>
+            </>
+          }
+        >
           {/* 3 Hardcooked Cards Grid */}
           <div className="relative grid grid-cols-1 md:grid-cols-3 gap-3.5 md:gap-8">
             {/* Step 1 */}
@@ -655,13 +674,13 @@ export default async function HomePage() {
                 badgeClass: "text-blue-950 bg-blue-50 border-blue-200",
                 topBarClass: "from-blue-600 to-primary",
                 question: "Is salary up to Rs 50,000 exempt from tax?",
-                answerSegments: [
-                  { text: "Yes. Under FBR Tax Year 2026-27 slabs, the first " },
-                  { text: "Rs 600,000", tone: "primary" },
-                  { text: " of annual taxable salary (" },
-                  { text: "Rs 50,000/month", tone: "primary" },
-                  { text: ") is taxed at exactly 0%." },
-                ],
+                answerNode: (
+                  <>
+                    Yes. Under FBR Tax Year 2026-27 slabs, the first{" "}
+                    <strong className="text-primary font-black">Rs 600,000</strong> of annual taxable salary (
+                    <strong className="text-primary font-black">Rs 50,000/month</strong>) is taxed at exactly 0%.
+                  </>
+                ),
                 href: "/salary-tax-calculator",
                 cta: "View Salary Slabs",
               },
@@ -670,11 +689,12 @@ export default async function HomePage() {
                 badgeClass: "text-teal-950 bg-teal-50 border-teal-200",
                 topBarClass: "from-teal-500 to-emerald-600",
                 question: "Should I use Gold or Silver Nisab?",
-                answerSegments: [
-                  { text: "Under Hanafi jurisprudence in Pakistan, if you own mixed assets (cash + gold/silver), the " },
-                  { text: "Silver Nisab (52.5 tola)", tone: "primary" },
-                  { text: " is applied as a precaution to assist the needy." },
-                ],
+                answerNode: (
+                  <>
+                    Under Hanafi jurisprudence in Pakistan, if you own mixed assets (cash + gold/silver), the{" "}
+                    <strong className="text-primary font-black">Silver Nisab (52.5 tola)</strong> is applied as a precaution to assist the needy.
+                  </>
+                ),
                 href: "/zakat-calculator",
                 cta: "Calculate Zakat",
               },
@@ -683,15 +703,14 @@ export default async function HomePage() {
                 badgeClass: "text-indigo-950 bg-indigo-50 border-indigo-200",
                 topBarClass: "from-indigo-600 to-blue-700",
                 question: "How much does a Filer save on property?",
-                answerSegments: [
-                  { text: "On a 1 Crore property, an active Filer pays " },
-                  { text: "1.25% (Rs 125,000)", tone: "primary" },
-                  { text: " while a Non-Filer pays " },
-                  { text: "10.5% (Rs 1,050,000)", tone: "danger" },
-                  { text: ", saving " },
-                  { text: "Rs 925,000", tone: "success" },
-                  { text: "." },
-                ],
+                answerNode: (
+                  <>
+                    On a 1 Crore property, an active Filer pays{" "}
+                    <strong className="text-primary font-black">1.25% (Rs 125,000)</strong> while a Non-Filer pays{" "}
+                    <strong className="text-red-700 font-black">10.5% (Rs 1,050,000)</strong>, saving{" "}
+                    <strong className="text-emerald-700 font-black">Rs 925,000</strong>.
+                  </>
+                ),
                 href: "/property-tax-calculator",
                 cta: "Compare 236C & 236K",
               },
@@ -700,13 +719,19 @@ export default async function HomePage() {
                 badgeClass: "text-teal-950 bg-teal-50 border-teal-200",
                 topBarClass: "from-teal-600 via-primary to-accent",
                 question: "Is CalculationHub an income tax calculator for Pakistan?",
-                answerSegments: [
-                  { text: "Yes — the " },
-                  { text: "Salary Tax Calculator", href: "/salary-tax-calculator" },
-                  {
-                    text: " on this site calculates income tax on salary in Pakistan using the TY2027 slabs (Finance Act 2026), and the site also offers Zakat, Property Tax, GST, Fitrana and Ushr calculators. No login, 100% private.",
-                  },
-                ],
+                answerNode: (
+                  <>
+                    Yes — the{" "}
+                    <Link
+                      href="/salary-tax-calculator"
+                      prefetch={false}
+                      className="text-primary font-black underline hover:text-accent transition-colors"
+                    >
+                      Salary Tax Calculator
+                    </Link>{" "}
+                    on this site calculates income tax on salary in Pakistan using the TY2027 slabs (Finance Act 2026), and the site also offers Zakat, Property Tax, GST, Fitrana and Ushr calculators. No login, 100% private.
+                  </>
+                ),
                 href: "/salary-tax-calculator",
                 cta: "Calculate Salary Tax",
               },
@@ -715,7 +740,7 @@ export default async function HomePage() {
                 badgeClass: faq.badgeClass,
                 topBarClass: faq.topBarClass,
                 question: faq.question,
-                answerSegments: [{ text: faq.answer }],
+                answerNode: faq.answer,
                 href: faq.href,
                 cta: faq.cta,
               })),

@@ -2,8 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { trackPageView } from "@/lib/analytics/beacon";
-import { trackMetaPageView } from "@/lib/analytics/metaPixel";
 
 export default function AnalyticsTracker() {
   const pathname = usePathname();
@@ -14,14 +12,18 @@ export default function AnalyticsTracker() {
     if (pathname.startsWith("/admin") || pathname.startsWith("/api")) return;
 
     const send = () => {
-      if (lastTrackedPath.current === null) {
-        lastTrackedPath.current = pathname;
-        trackPageView(pathname);
-      } else if (lastTrackedPath.current !== pathname) {
-        lastTrackedPath.current = pathname;
-        trackPageView(pathname);
-        trackMetaPageView();
-      }
+      void import("@/lib/analytics/beacon").then(({ trackPageView }) => {
+        if (lastTrackedPath.current === null) {
+          lastTrackedPath.current = pathname;
+          trackPageView(pathname);
+        } else if (lastTrackedPath.current !== pathname) {
+          lastTrackedPath.current = pathname;
+          trackPageView(pathname);
+          void import("@/lib/analytics/metaPixel").then(({ trackMetaPageView }) => {
+            trackMetaPageView();
+          });
+        }
+      });
     };
 
     const timer = window.setTimeout(send, 150);
