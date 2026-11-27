@@ -1079,15 +1079,26 @@ export default function ZakatCalculatorPage() {
     />
   ) : null;
 
+  const liveGoldRate = rates.goldPerTolaPKR > 0 ? rates.goldPerTolaPKR : goldRateNum;
+  const faqRateStatusNote = !isOnline
+    ? lang === "roman"
+      ? ` (Offline — ${rates.lastUpdatedLabel} ka aakhri mahfooz rate dikhaya ja raha hai; internet aane par live rate khud update ho jayega.)`
+      : ` (Offline — showing last saved rate from ${rates.lastUpdatedLabel}; live rate will update automatically once connected.)`
+    : isFetching || status !== "live"
+      ? lang === "roman"
+        ? ` (${rates.lastUpdatedLabel} ka aakhri mahfooz rate — taaza live rate update ho raha hai...)`
+        : ` (Showing last saved rate from ${rates.lastUpdatedLabel} — live rate is updating...)`
+      : "";
+
   const exampleGoldVal = roundToPaisa(2 * goldRateNum);
   const exampleGrossVal = roundToPaisa(500000 + exampleGoldVal);
   const exampleNetVal = roundToPaisa(exampleGrossVal - 100000);
   const exampleNisabVal = Math.round(52.5 * silverRateNum);
-  const exampleGoldNisabVal = Math.round(7.5 * goldRateNum);
+  const exampleGoldNisabVal = Math.round(7.5 * liveGoldRate);
   const exampleZakatVal = roundToPaisa(exampleNetVal * 0.025);
-  const zakatOn1TolaVal = roundToPaisa(goldRateNum * 0.025);
-  const gold10TolaVal = Math.round(10 * goldRateNum);
-  const zakatOn10TolaVal = roundToPaisa(10 * goldRateNum * 0.025);
+  const zakatOn1TolaVal = roundToPaisa(liveGoldRate * 0.025);
+  const gold10TolaVal = Math.round(10 * liveGoldRate);
+  const zakatOn10TolaVal = roundToPaisa(10 * liveGoldRate * 0.025);
 
   const dynamicContent = {
     ...content,
@@ -1109,7 +1120,7 @@ export default function ZakatCalculatorPage() {
       ...content.workedExample,
       bulletPoints: [
         "Cash in Hand + Bank: Rs 500,000",
-        `Gold: 2 tola @ market rate Rs ${goldRateNum.toFixed(2)}/tola = Rs ${formatRupees(exampleGoldVal, { prefix: false })}`,
+        `Gold: 2 tola @ market rate Rs ${goldRateNum.toFixed(2)}/tola = Rs ${formatRupees(exampleGoldVal, { prefix: false })}${faqRateStatusNote}`,
         `Gross Zakatable Assets = Rs ${formatRupees(exampleGrossVal, { prefix: false })}`,
         "Less Debts to Deduct = Rs 100,000",
         `Net Zakatable Wealth = Rs ${formatRupees(exampleNetVal, { prefix: false })}`,
@@ -1128,8 +1139,8 @@ export default function ZakatCalculatorPage() {
             : "What is the Zakat nisab on gold in Pakistan?",
         answer:
           lang === "roman"
-            ? `Sonay ka nisab 7.5 tola hai. Aaj ke live gold rate par yeh Rs ${formatRupees(exampleGoldNisabVal, { prefix: false })} banta hai — upar dikhaya gaya figure market ke saath khud update hota hai. Agar aap ke paas sirf sona hai to is value par pohanchne aur ek lunar saal (hawl) guzarne par 2.5% Zakat wajib hoti hai.`
-            : `The gold nisab is 7.5 tola of gold. At today's live gold rate it is Rs ${formatRupees(exampleGoldNisabVal, { prefix: false })} — the figure shown above updates automatically with the market. If you hold only gold, Zakat is due at 2.5% once your gold reaches this value and one lunar year (hawl) has passed.`,
+            ? `Sonay ka nisab 7.5 tola hai. Aaj ke live gold rate par yeh Rs ${formatRupees(exampleGoldNisabVal, { prefix: false })} banta hai — upar dikhaya gaya figure market ke saath khud update hota hai. Agar aap ke paas sirf sona hai to is value par pohanchne aur ek lunar saal (hawl) guzarne par 2.5% Zakat wajib hoti hai.${faqRateStatusNote}`
+            : `The gold nisab is 7.5 tola of gold. At today's live gold rate it is Rs ${formatRupees(exampleGoldNisabVal, { prefix: false })} — the figure shown above updates automatically with the market. If you hold only gold, Zakat is due at 2.5% once your gold reaches this value and one lunar year (hawl) has passed.${faqRateStatusNote}`,
       },
       {
         question:
@@ -1138,8 +1149,8 @@ export default function ZakatCalculatorPage() {
             : "How much Zakat is due on 1 tola of gold in Pakistan?",
         answer:
           lang === "roman"
-            ? `Sonay par Zakat (zakat on gold) uski mojooda maliyat ka 2.5% hoti hai. 1 tola sonay par Zakat aaj ke fi tola rate ka 2.5% banti hai, bashart-e-ke kul daulat nisab tak pohanch jaye aur ek qamri saal (hawl) guzar chuka ho. Aaj ka sonay ka rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → 1 tola par Zakat = 2.5% × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}. Yeh hisab aaj ke live gold rate in Pakistan par mabni hai jo market ke mutabiq khud update hota hai.`
-            : `Zakat on gold is 2.5% of the gold's current value. 1 tola of gold is Zakat-able at 2.5% of today's gold price per tola, once total wealth reaches nisab and one lunar year (hawl) has passed. Today's gold rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → Zakat on 1 tola = 2.5% × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}. The rate used is today's live gold rate in Pakistan, updated automatically.`,
+            ? `Sonay par Zakat (zakat on gold) uski mojooda maliyat ka 2.5% hoti hai. 1 tola sonay par Zakat aaj ke fi tola rate ka 2.5% banti hai, bashart-e-ke kul daulat nisab tak pohanch jaye aur ek qamri saal (hawl) guzar chuka ho. Aaj ka sonay ka rate: Rs ${formatRupees(liveGoldRate, { prefix: false })}/tola → 1 tola par Zakat = 2.5% × Rs ${formatRupees(liveGoldRate, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}. Yeh hisab aaj ke live gold rate in Pakistan par mabni hai jo market ke mutabiq khud update hota hai.${faqRateStatusNote}`
+            : `Zakat on gold is 2.5% of the gold's current value. 1 tola of gold is Zakat-able at 2.5% of today's gold price per tola, once total wealth reaches nisab and one lunar year (hawl) has passed. Today's gold rate: Rs ${formatRupees(liveGoldRate, { prefix: false })}/tola → Zakat on 1 tola = 2.5% × Rs ${formatRupees(liveGoldRate, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}. The rate used is today's live gold rate in Pakistan, updated automatically.${faqRateStatusNote}`,
       },
       {
         question:
@@ -1148,15 +1159,15 @@ export default function ZakatCalculatorPage() {
             : "How much Zakat on 10 tola gold is due in Pakistan?",
         answer:
           lang === "roman"
-            ? `Sonay par Zakat uski mojooda maliyat ka 2.5% hoti hai. 10 tola sonay ki qeemat 10 × aaj ka fi tola rate hoti hai, aur is par Zakat us raqam ka 2.5% banti hai, bashart-e-ke kul daulat nisab tak pohanch jaye aur ek qamri saal (hawl) guzar chuka ho. Yaad rahe ke 10 tola sonay ke nisab (7.5 tola) se zyada hai, is liye sirf sona hone ki soorat mein bhi yeh nisab pura karta hai (hawl ka asool laagu rahega). Aaj ka sonay ka rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → 10 tola ki qeemat = 10 × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(gold10TolaVal, { prefix: false })} → 10 tola par Zakat = 2.5% × Rs ${formatRupees(gold10TolaVal, { prefix: false })} = Rs ${formatRupees(zakatOn10TolaVal, { prefix: false, showPaisaIfDecimal: true })}.`
-            : `Zakat on gold is 2.5% of the gold's current value. 10 tola of gold is worth 10 × today's gold price per tola, and Zakat on it is 2.5% of that value, once total wealth reaches nisab and one lunar year (hawl) has passed. Note that 10 tola is above the gold nisab of 7.5 tola, so gold-only holdings of 10 tola meet nisab (hawl still applies). Today's gold rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → 10 tola value = 10 × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(gold10TolaVal, { prefix: false })} → Zakat on 10 tola = 2.5% × Rs ${formatRupees(gold10TolaVal, { prefix: false })} = Rs ${formatRupees(zakatOn10TolaVal, { prefix: false, showPaisaIfDecimal: true })}.`,
+            ? `Sonay par Zakat uski mojooda maliyat ka 2.5% hoti hai. 10 tola sonay ki qeemat 10 × aaj ka fi tola rate hoti hai, aur is par Zakat us raqam ka 2.5% banti hai, bashart-e-ke kul daulat nisab tak pohanch jaye aur ek qamri saal (hawl) guzar chuka ho. Yaad rahe ke 10 tola sonay ke nisab (7.5 tola) se zyada hai, is liye sirf sona hone ki soorat mein bhi yeh nisab pura karta hai (hawl ka asool laagu rahega). Aaj ka sonay ka rate: Rs ${formatRupees(liveGoldRate, { prefix: false })}/tola → 10 tola ki qeemat = 10 × Rs ${formatRupees(liveGoldRate, { prefix: false })} = Rs ${formatRupees(gold10TolaVal, { prefix: false })} → 10 tola par Zakat = 2.5% × Rs ${formatRupees(gold10TolaVal, { prefix: false })} = Rs ${formatRupees(zakatOn10TolaVal, { prefix: false, showPaisaIfDecimal: true })}.${faqRateStatusNote}`
+            : `Zakat on gold is 2.5% of the gold's current value. 10 tola of gold is worth 10 × today's gold price per tola, and Zakat on it is 2.5% of that value, once total wealth reaches nisab and one lunar year (hawl) has passed. Note that 10 tola is above the gold nisab of 7.5 tola, so gold-only holdings of 10 tola meet nisab (hawl still applies). Today's gold rate: Rs ${formatRupees(liveGoldRate, { prefix: false })}/tola → 10 tola value = 10 × Rs ${formatRupees(liveGoldRate, { prefix: false })} = Rs ${formatRupees(gold10TolaVal, { prefix: false })} → Zakat on 10 tola = 2.5% × Rs ${formatRupees(gold10TolaVal, { prefix: false })} = Rs ${formatRupees(zakatOn10TolaVal, { prefix: false, showPaisaIfDecimal: true })}.${faqRateStatusNote}`,
       },
       {
         question: "What is the 24k gold rate in Pakistan today?",
         answer:
           lang === "roman"
-            ? `Aaj Pakistan mein 24-karat sonay ka live rate is page par dikhaya ja raha hai (fi tola, jo bain-ul-aqwami spot price ke mutabiq live update hota hai). Din ke doran rate tabdeel hota rehta hai, is liye is page par mojood figure hamesha aaj ka live rate hota hai — aur sonay par Zakat uski mojooda maliyat ka 2.5% banti hai, bashart-e-ke kul daulat nisab tak pohanch jaye aur ek qamri saal (hawl) guzar chuka ho. Today's 24k gold rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → Zakat on 1 tola = 2.5% × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}.`
-            : `The 24-karat gold rate in Pakistan today is shown live on this page (per tola, updated from the international spot price). The rate changes through the day, so the figure on this page is always today's live rate — and Zakat on gold is 2.5% of the gold's current value once wealth reaches nisab and one lunar year (hawl) has passed. Today's 24k gold rate: Rs ${formatRupees(goldRateNum, { prefix: false })}/tola → Zakat on 1 tola = 2.5% × Rs ${formatRupees(goldRateNum, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}.`,
+            ? `Aaj Pakistan mein 24-karat sonay ka live rate is page par dikhaya ja raha hai (fi tola, jo bain-ul-aqwami spot price ke mutabiq live update hota hai). Din ke doran rate tabdeel hota rehta hai, is liye is page par mojood figure hamesha aaj ka live rate hota hai — aur sonay par Zakat uski mojooda maliyat ka 2.5% banti hai, bashart-e-ke kul daulat nisab tak pohanch jaye aur ek qamri saal (hawl) guzar chuka ho. Today's 24k gold rate: Rs ${formatRupees(liveGoldRate, { prefix: false })}/tola → Zakat on 1 tola = 2.5% × Rs ${formatRupees(liveGoldRate, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}.${faqRateStatusNote}`
+            : `The 24-karat gold rate in Pakistan today is shown live on this page (per tola, updated from the international spot price). The rate changes through the day, so the figure on this page is always today's live rate — and Zakat on gold is 2.5% of the gold's current value once wealth reaches nisab and one lunar year (hawl) has passed. Today's 24k gold rate: Rs ${formatRupees(liveGoldRate, { prefix: false })}/tola → Zakat on 1 tola = 2.5% × Rs ${formatRupees(liveGoldRate, { prefix: false })} = Rs ${formatRupees(zakatOn1TolaVal, { prefix: false, showPaisaIfDecimal: true })}.${faqRateStatusNote}`,
       },
       {
         question:
@@ -1165,8 +1176,8 @@ export default function ZakatCalculatorPage() {
             : "How much Zakat is due on silver in Pakistan?",
         answer:
           lang === "roman"
-            ? `Chandi par Zakat uski qeemat ka 2.5% hoti hai jab aapki chandi 52.5 tola (612.36 grams) ke nisab tak pohanch jaye aur ek qamri saal (hawl) guzar chuka ho. Misal ke tor par, 1 tola chandi par Zakat fi tola live silver rate ka 2.5% banti hai — upar diya gaya calculator live chandi rate istemal karta hai, is liye hisab hamesha taza hota hai. Pakistan mein Hanafi fiqh ke mutabiq silver nisab by default istemal hota hai kyunki yeh sone ke nisab se kam hai aur zyada logon ko shamil karta hai. Today's live silver rate: Rs ${formatRupees(silverRateNum, { prefix: false })}/tola → Zakat on 1 tola silver = 2.5% × Rs ${formatRupees(silverRateNum, { prefix: false })} = Rs ${formatRupees(roundToPaisa(silverRateNum * 0.025), { prefix: false, showPaisaIfDecimal: true })} → Silver nisab (52.5 tola) = Rs ${formatRupees(Math.round(52.5 * silverRateNum), { prefix: false })}.`
-            : `Zakat on silver is 2.5% of its value once your silver reaches the nisab of 52.5 tola (612.36 grams) and one lunar year has passed. For example, Zakat on 1 tola of silver is 2.5% of the live silver rate per tola — the calculator above uses the live silver rate, so the figure is always current. In Pakistan the silver nisab is used by default (Hanafi), because it is lower than the gold nisab and covers more people. Today's live silver rate: Rs ${formatRupees(silverRateNum, { prefix: false })}/tola → Zakat on 1 tola silver = 2.5% × Rs ${formatRupees(silverRateNum, { prefix: false })} = Rs ${formatRupees(roundToPaisa(silverRateNum * 0.025), { prefix: false, showPaisaIfDecimal: true })} → Silver nisab (52.5 tola) = Rs ${formatRupees(Math.round(52.5 * silverRateNum), { prefix: false })}.`,
+            ? `Chandi par Zakat uski qeemat ka 2.5% hoti hai jab aapki chandi 52.5 tola (612.36 grams) ke nisab tak pohanch jaye aur ek qamri saal (hawl) guzar chuka ho. Misal ke tor par, 1 tola chandi par Zakat fi tola live silver rate ka 2.5% banti hai — upar diya gaya calculator live chandi rate istemal karta hai, is liye hisab hamesha taza hota hai. Pakistan mein Hanafi fiqh ke mutabiq silver nisab by default istemal hota hai kyunki yeh sone ke nisab se kam hai aur zyada logon ko shamil karta hai. Today's live silver rate: Rs ${formatRupees(silverRateNum, { prefix: false })}/tola → Zakat on 1 tola silver = 2.5% × Rs ${formatRupees(silverRateNum, { prefix: false })} = Rs ${formatRupees(roundToPaisa(silverRateNum * 0.025), { prefix: false, showPaisaIfDecimal: true })} → Silver nisab (52.5 tola) = Rs ${formatRupees(Math.round(52.5 * silverRateNum), { prefix: false })}.${faqRateStatusNote}`
+            : `Zakat on silver is 2.5% of its value once your silver reaches the nisab of 52.5 tola (612.36 grams) and one lunar year has passed. For example, Zakat on 1 tola of silver is 2.5% of the live silver rate per tola — the calculator above uses the live silver rate, so the figure is always current. In Pakistan the silver nisab is used by default (Hanafi), because it is lower than the gold nisab and covers more people. Today's live silver rate: Rs ${formatRupees(silverRateNum, { prefix: false })}/tola → Zakat on 1 tola silver = 2.5% × Rs ${formatRupees(silverRateNum, { prefix: false })} = Rs ${formatRupees(roundToPaisa(silverRateNum * 0.025), { prefix: false, showPaisaIfDecimal: true })} → Silver nisab (52.5 tola) = Rs ${formatRupees(Math.round(52.5 * silverRateNum), { prefix: false })}.${faqRateStatusNote}`,
       },
     ],
   };
