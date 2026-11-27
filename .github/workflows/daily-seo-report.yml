@@ -1,0 +1,87 @@
+name: Daily SEO Draft Report
+
+on:
+  schedule:
+    - cron: "0 4 * * *"   # 04:00 UTC = 09:00 PKT, once daily
+  workflow_dispatch:      # manual "Run workflow" trigger
+
+permissions:
+  contents: read          # READ-ONLY: never commits or pushes to main
+  issues: write           # DRAFT ONLY: creates a seo-report GitHub Issue
+
+concurrency:
+  group: daily-seo-report
+  cancel-in-progress: false
+
+jobs:
+  seo-report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository (read-only)
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: "scripts/requirements-seo.txt"
+
+      - name: Install pinned SEO report dependencies
+        run: python -m pip install --no-cache-dir -r scripts/requirements-seo.txt
+
+      - name: Fetch prior seo-report issues for sustained-trend context
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "${{ runner.temp }}/seo-report"
+          gh issue list \
+            --repo "${{ github.repository }}" \
+            --label "seo-report" \
+            --state all \
+            --limit 5 \
+            --json number,title,body,createdAt \
+            > "${{ runner.temp }}/seo-report/prior_issues.json" || echo "[]" > "${{ runner.temp }}/seo-report/prior_issues.json"
+
+      - name: Generate draft SEO report (Trends + GSC + Competitor Sitemaps)
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          SEO_OUTPUT_DIR: "${{ runner.temp }}/seo-report"
+          SEO_PRIOR_ISSUES_PATH: "${{ runner.temp }}/seo-report/prior_issues.json"
+        run: python scripts/daily_seo_report.py
+
+      - name: Verify repository working tree is completely unchanged
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "ERROR: Workflow modified repository files unexpectedly!"
+            git status --short
+            exit 1
+          fi
+
+      - name: Ensure seo-report label exists and open draft Issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          REPORT_DATE=$(cat "${{ runner.temp }}/seo-report/report_date.txt")
+          gh label create "seo-report" \
+            --repo "${{ github.repository }}" \
+            --color "0F766E" \
+            --description "Semi-auto daily SEO draft report (never auto-edits site)" \
+            --force || true
+          gh issue create \
+            --repo "${{ github.repository }}" \
+            --title "SEO Report ${REPORT_DATE}" \
+            --label "seo-report" \
+            --body-file "${{ runner.temp }}/seo-report/report.md"
+
+      - name: Upload SEO draft report artifact (90 days retention)
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-seo-report-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/seo-report/report.md
+            ${{ runner.temp }}/seo-report/report.json
+          retention-days: 90
+          if-no-files-found: error
