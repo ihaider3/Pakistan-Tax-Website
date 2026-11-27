@@ -1,18 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { usePwa } from "./PwaContext";
 
 /** Mobile drawer CTA button for installing CalculationHub as a PWA. */
 export function MobileDrawerInstallButton({ onAfterClick }: { onAfterClick?: () => void }) {
   const { isInstalled, promptInstall } = usePwa();
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (mounted && isInstalled) return null;
+  if (isInstalled) return null;
 
   return (
     <button

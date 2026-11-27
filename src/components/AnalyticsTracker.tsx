@@ -26,7 +26,8 @@ export default function AnalyticsTracker() {
       });
     };
 
-    const timer = window.setTimeout(send, 150);
+    const isInitialMount = lastTrackedPath.current === null;
+    const timer = window.setTimeout(send, isInitialMount ? 1500 : 150);
     return () => window.clearTimeout(timer);
   }, [pathname]);
 

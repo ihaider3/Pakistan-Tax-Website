@@ -19,7 +19,7 @@ export default function DeferredSpeedInsights() {
     if (typeof window === "undefined") return;
     let timerId: number | undefined;
     const mount = () => {
-      timerId = window.setTimeout(() => setReady(true), 2500);
+      timerId = window.setTimeout(() => setReady(true), 4500);
     };
     if (document.readyState === "complete") {
       mount();

@@ -1,18 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { usePwa } from "./PwaContext";
 
 /** Lightweight homepage hero CTA that reads PWA context without bundling installer runtime. */
 export function HeroInstallButton() {
   const { isInstalled, promptInstall } = usePwa();
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (mounted && isInstalled) return null;
+  if (isInstalled) return null;
 
   return (
     <div className="pt-2 animate-in fade-in duration-300">

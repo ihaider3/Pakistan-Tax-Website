@@ -53,44 +53,37 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    // Detect if already installed / standalone
-    const isStandalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      (navigator as unknown as { standalone?: boolean }).standalone === true ||
-      localStorage.getItem("pfc-pwa-installed") === "true";
+    // Defer storage/UA reads cleanly off the synchronous hydration commit frame
+    const initTimer = window.setTimeout(() => {
+      try {
+        const isStandalone =
+          window.matchMedia("(display-mode: standalone)").matches ||
+          (navigator as unknown as { standalone?: boolean }).standalone === true ||
+          localStorage.getItem("pfc-pwa-installed") === "true";
+        if (isStandalone) setIsInstalled(true);
 
-    setIsInstalled(isStandalone);
+        const ua = navigator.userAgent;
+        const isIosDevice = /iPad|iPhone|iPod/.test(ua) && !(window as unknown as { MSStream?: unknown }).MSStream;
+        const isSafariBrowser =
+          /Safari/.test(ua) && !/Chrome|CriOS|FxiOS|EdgiOS/.test(ua);
+        const iosSafari = isIosDevice && isSafariBrowser;
+        if (iosSafari) setIsIos(true);
 
-    // Detect iOS
-    const ua = navigator.userAgent;
-    const isIosDevice = /iPad|iPhone|iPod/.test(ua) && !(window as unknown as { MSStream?: unknown }).MSStream;
-    const isSafariBrowser =
-      /Safari/.test(ua) && !/Chrome|CriOS|FxiOS|EdgiOS/.test(ua);
-    const iosSafari = isIosDevice && isSafariBrowser;
-    setIsIos(iosSafari);
+        const dismissedAt = localStorage.getItem("pfc-pwa-dismissed");
+        if (!dismissedAt || Date.now() - Number(dismissedAt) >= 30 * 24 * 60 * 60 * 1000) {
+          setIsDismissed(false);
+        }
 
-    // Check 30-day banner dismissal
-    const dismissedAt = localStorage.getItem("pfc-pwa-dismissed");
-    if (dismissedAt) {
-      const diffMs = Date.now() - Number(dismissedAt);
-      if (diffMs < 30 * 24 * 60 * 60 * 1000) {
-        setIsDismissed(true);
-      } else {
-        setIsDismissed(false);
-      }
-    } else {
-      setIsDismissed(false);
-    }
+        const iosDismissed = localStorage.getItem("pfc-pwa-ios-dismissed") === "true";
+        if (iosSafari && !isStandalone && !iosDismissed) {
+          setShowIosHint(true);
+        }
 
-    // Check iOS dismissed
-    const iosDismissed = localStorage.getItem("pfc-pwa-ios-dismissed") === "true";
-    if (iosSafari && !isStandalone && !iosDismissed) {
-      setShowIosHint(true);
-    }
-
-    // Check if user has used calculator before
-    const used = localStorage.getItem("pfc_has_used_calculator") === "true";
-    setHasUsedCalculator(used);
+        if (localStorage.getItem("pfc_has_used_calculator") === "true") {
+          setHasUsedCalculator(true);
+        }
+      } catch {}
+    }, 0);
 
     const handleToolUsed = () => {
       setHasUsedCalculator(true);
@@ -126,6 +119,7 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
     window.addEventListener("appinstalled", handleAppInstalled);
 
     return () => {
+      window.clearTimeout(initTimer);
       window.removeEventListener("pfc_tool_used", handleToolUsed);
       window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
       window.removeEventListener("appinstalled", handleAppInstalled);
