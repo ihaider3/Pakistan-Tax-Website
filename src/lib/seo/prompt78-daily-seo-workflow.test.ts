@@ -17,9 +17,15 @@ describe("P78 — Semi-Auto Daily SEO GitHub Actions Workflow", () => {
     expect(wf).toContain("issues: write");
     expect(wf).toContain("secrets.GSC_SERVICE_ACCOUNT_JSON");
     expect(wf).toContain('--label "seo-report"');
-    expect(wf).toContain('SEO Report ${REPORT_DATE}');
     expect(wf).toContain("retention-days: 90");
     expect(wf).toContain("scripts/daily_seo_report.py");
+    expect(wf).toContain("scripts/upsert_seo_issue.py");
+
+    const upsertPy = fs.readFileSync(path.join(rootDir, "scripts/upsert_seo_issue.py"), "utf8");
+    expect(upsertPy).toContain("SEO Report {report_date}");
+    expect(upsertPy).toContain("Updated by re-run at {hhmm_pkt} PKT, run {run_id}");
+    expect(upsertPy).toContain('"--state",');
+    expect(upsertPy).toContain('"open",');
 
     // Must NEVER auto-commit, push, or trigger deploy
     expect(wf).not.toMatch(/git\s+commit|git\s+push|vercel\s+deploy/i);

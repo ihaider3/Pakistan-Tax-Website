@@ -60,21 +60,19 @@ jobs:
             exit 1
           fi
 
-      - name: Ensure seo-report label exists and open draft Issue
+      - name: Ensure seo-report label exists and upsert draft Issue (same-day dedupe)
         env:
           GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          SEO_OUTPUT_DIR: "${{ runner.temp }}/seo-report"
         run: |
-          REPORT_DATE=$(cat "${{ runner.temp }}/seo-report/report_date.txt")
           gh label create "seo-report" \
             --repo "${{ github.repository }}" \
             --color "0F766E" \
             --description "Semi-auto daily SEO draft report (never auto-edits site)" \
             --force || true
-          gh issue create \
-            --repo "${{ github.repository }}" \
-            --title "SEO Report ${REPORT_DATE}" \
-            --label "seo-report" \
-            --body-file "${{ runner.temp }}/seo-report/report.md"
+          python scripts/upsert_seo_issue.py
 
       - name: Upload SEO draft report artifact (90 days retention)
         uses: actions/upload-artifact@v4
